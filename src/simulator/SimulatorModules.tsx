@@ -12,7 +12,6 @@ import { useIntl } from "react-intl";
 import ExpandCollapseIcon from "../common/ExpandCollapseIcon";
 import useRafState from "../common/use-raf-state";
 import {
-  RangeSensor as RangeSensorType,
   SensorStateKey,
   SimulatorState,
   StateChange,
@@ -269,7 +268,7 @@ const ModuleForId = ({
           icon={<ModuleIcon id={id} />}
           key={id}
           title={title}
-          sensor={state[id] as RangeSensorType}
+          sensor={state[id]}
           onSensorChange={onValueChange}
           minimised={minimised}
         />

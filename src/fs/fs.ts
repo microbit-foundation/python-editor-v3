@@ -371,7 +371,7 @@ export class FileSystem extends TypedEventTarget<EventMap> {
         overwrite: true,
         formatFirst: true,
       });
-    } catch (e) {
+    } catch {
       const code = getIntelHexAppendedScript(hex);
       if (!code) {
         throw new Error("No appended code found in the hex file");

@@ -32,7 +32,7 @@ export const renderDocumentation = (
     try {
       div.innerHTML = renderMarkdown(documentation.value, parts).__html;
       return div;
-    } catch (e) {
+    } catch {
       // Fall through to simple text below.
     }
   }
@@ -92,7 +92,7 @@ export const subsetMarkdown = (
   parts: DocSections
 ): string => {
   const split = splitDocString(markdown);
-  let sections = [];
+  const sections = [];
   if (parts & DocSections.Summary && split.summary) {
     sections.push(split.summary);
   }

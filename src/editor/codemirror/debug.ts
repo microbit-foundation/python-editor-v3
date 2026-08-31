@@ -22,7 +22,7 @@ export const debug = () =>
       update(_update: ViewUpdate) {
         this.view.requestMeasure({
           read: () => {
-            let tree = syntaxTree(this.view.state);
+            const tree = syntaxTree(this.view.state);
             let depth = 0;
             console.log("Syntax tree dump:");
             tree.iterate({
@@ -31,7 +31,7 @@ export const debug = () =>
               enter: (node) => {
                 if (isInteresting(node.type)) {
                   depth++;
-                  let indent = "  ".repeat(depth);
+                  const indent = "  ".repeat(depth);
                   console.log(`${indent} ${node.type.name} ${node.from}`);
                 }
               },

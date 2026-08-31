@@ -38,7 +38,7 @@ const FileInputButton = React.forwardRef(
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleChooseFile = useCallback(() => {
-      inputRef.current && inputRef.current.click();
+      inputRef.current?.click();
     }, []);
 
     const handleOpenFile = useCallback(

@@ -41,7 +41,7 @@ export class SimpleEventTarget<M> {
     const set = this.listeners.get(type);
     if (set) {
       for (const listener of set) {
-        listener(data as M[K]);
+        listener(data);
       }
     }
   }

@@ -48,8 +48,8 @@ export class VisualBlock {
     let parent: HTMLElement | undefined;
     let body: HTMLElement | undefined;
     let indent: HTMLElement | undefined;
-    let active = this.parent?.cursorActive || this.body?.cursorActive;
-    let activeClassname = active ? "cm-cs--active" : undefined;
+    const active = this.parent?.cursorActive || this.body?.cursorActive;
+    const activeClassname = active ? "cm-cs--active" : undefined;
     if (this.parent) {
       parent = blockWithClass("cm-cs--block cm-cs--parent", activeClassname);
     }

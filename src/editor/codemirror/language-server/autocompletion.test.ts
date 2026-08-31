@@ -34,7 +34,7 @@ const createLogging = (): Logging => ({
 
 const createClient = (
   items: CompletionItem[] = [],
-  capabilities: {} | undefined = {
+  capabilities: object | undefined = {
     completionProvider: { triggerCharacters: ["."] },
   }
 ): LanguageServerClient =>

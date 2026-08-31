@@ -55,7 +55,7 @@ export const fetchContent = async <T>(
     if (preferred) {
       return preferred;
     }
-  } catch (err) {
+  } catch {
     // Fall through to fallback without crashing if user is offline.
   }
   const fallback = adaptContent(await fetchContentInternal(query("en")));

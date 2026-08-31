@@ -83,7 +83,7 @@ export const flagsForParams = (stage: Stage, params: URLSearchParams) => {
       .getItem("flags")
       ?.split(",")
       ?.forEach((f) => enableFlags.add(f.trim()));
-  } catch (e) {
+  } catch {
     // Ignore if there are local storage security issues
   }
   const allFlagsDefault = enableFlags.has("none")

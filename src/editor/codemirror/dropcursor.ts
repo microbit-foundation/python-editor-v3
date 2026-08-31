@@ -84,7 +84,7 @@ const drawDropCursor = ViewPlugin.fromClass(
     }
 
     update(update: ViewUpdate) {
-      let cursorPos = update.state.field(dropCursorPos);
+      const cursorPos = update.state.field(dropCursorPos);
       if (cursorPos == null) {
         if (this.cursor != null) {
           this.cursor?.remove();
@@ -95,7 +95,7 @@ const drawDropCursor = ViewPlugin.fromClass(
           this.cursor = this.view.scrollDOM.appendChild(
             document.createElement("div")
           );
-          this.cursor!.className = "cm-dropCursor";
+          this.cursor.className = "cm-dropCursor";
         }
         if (
           update.startState.field(dropCursorPos) !== cursorPos ||
@@ -107,10 +107,10 @@ const drawDropCursor = ViewPlugin.fromClass(
     }
 
     readPos(): { left: number; top: number; height: number } | null {
-      let pos = this.view.state.field(dropCursorPos);
-      let rect = pos != null && this.view.coordsAtPos(pos);
+      const pos = this.view.state.field(dropCursorPos);
+      const rect = pos != null && this.view.coordsAtPos(pos);
       if (!rect) return null;
-      let outer = this.view.scrollDOM.getBoundingClientRect();
+      const outer = this.view.scrollDOM.getBoundingClientRect();
       return {
         left: rect.left - outer.left + this.view.scrollDOM.scrollLeft,
         top: rect.top - outer.top + this.view.scrollDOM.scrollTop,

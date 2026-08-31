@@ -111,7 +111,7 @@ export class SessionStorageFSStorage implements FSStorage {
     const sessionStorageIfPossible = () => {
       try {
         return window.sessionStorage;
-      } catch (e) {
+      } catch {
         // We see SecurityError here in some scenarios
         // https://github.com/microbit-foundation/python-editor-v3/issues/736
         return undefined;

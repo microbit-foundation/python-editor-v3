@@ -8,22 +8,16 @@ import { ClassifiedFileInput, FileOperation } from "./changes";
 import ChooseMainScriptQuestion, {
   summarizeChange,
 } from "./ChooseMainScriptQuestion";
-import { MainScriptChoice } from "./project-actions";
 import { stubIntl as intl } from "../messages/testing";
 import FixedTranslationProvider from "../messages/FixedTranslationProvider";
-import { InputValidationResult } from "../common/InputDialog";
-import { MockedFunction, vi } from "vitest";
+import { vi } from "vitest";
 
 describe("ChooseMainScriptQuestion", () => {
   const data = () => Promise.resolve(new Uint8Array([0]));
 
   describe("component", () => {
-    const setValue = vi.fn() as MockedFunction<
-      (x: MainScriptChoice | undefined) => void
-    >;
-    const setValidationResult = vi.fn() as MockedFunction<
-      (x: InputValidationResult) => void
-    >;
+    const setValue = vi.fn();
+    const setValidationResult = vi.fn();
     const currentFiles = new Set(["main.py", "magic.py"]);
 
     afterEach(() => {

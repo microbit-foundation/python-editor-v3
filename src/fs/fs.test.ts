@@ -21,17 +21,17 @@ import {
 import { DefaultHost } from "./host";
 import { defaultInitialProject } from "./initial-project";
 
-const hexes = Promise.all([
+const hexes = [
   fs.readFileSync("src/micropython/microbit-micropython-v1.hex", {
     encoding: "ascii",
   }),
   fs.readFileSync("src/micropython/main/microbit-micropython-v2.hex", {
     encoding: "ascii",
   }),
-]);
+];
 
 const fsMicroPythonSource: MicroPythonSource = async () => {
-  const [v1, v2] = await hexes;
+  const [v1, v2] = hexes;
   return [
     {
       boardId: 0x9900,

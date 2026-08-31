@@ -177,9 +177,8 @@ const ApiNodeSelf = ({
     params,
     showMore
   );
-  const docParts = useMemo(
-    () =>
-      docString ? splitDocString(docString) : ({} as Partial<DocSectionsSplit>),
+  const docParts = useMemo<Partial<DocSectionsSplit>>(
+    () => (docString ? splitDocString(docString) : {}),
     [docString]
   );
   const hasExample = docParts.example && docParts.example.length > 0;

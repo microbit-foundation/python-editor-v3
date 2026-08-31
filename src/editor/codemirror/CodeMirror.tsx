@@ -246,7 +246,7 @@ const CodeMirror = ({
       let line;
       try {
         line = view.state.doc.line(location.line);
-      } catch (e) {
+      } catch {
         // Document doesn't have that line, e.g. link from stale error
         // after a code edit.
         return;
