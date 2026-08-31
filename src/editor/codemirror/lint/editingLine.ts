@@ -12,58 +12,59 @@ import { ViewPlugin, ViewUpdate } from "@codemirror/view";
  */
 const editingTimeout = 5_000;
 
-/**
- * Plugin that maintains state tracking the line being edited.
- */
-export const editingLinePlugin = ViewPlugin.fromClass(
-  class {
-    timeout: any;
+// Exported for unit testing.
+export class EditingLineViewPlugin {
+  timeout: any;
 
-    update(update: ViewUpdate) {
-      if (!update.docChanged && !update.selectionSet) {
-        return;
-      }
-      const mainIndex = update.state.selection?.asSingle()?.ranges[0]?.from;
-      if (!mainIndex) {
-        return undefined;
-      }
-      const doc = update.state.doc;
-      const selectionLine = doc.lineAt(mainIndex).number;
-      let foundEditOnLine = false;
-      update.changes.iterChangedRanges((_fromA, _toA, fromB, _toB) => {
-        if (!foundEditOnLine && doc.lineAt(fromB).number === selectionLine) {
-          foundEditOnLine = true;
-          clearTimeout(this.timeout);
-          queueMicrotask(() => {
-            update.view.dispatch({
-              effects: [setEditingLineEffect.of(selectionLine)],
-            });
-          });
-          this.timeout = setTimeout(() => {
-            update.view.dispatch({
-              effects: [setEditingLineEffect.of(undefined)],
-            });
-          }, editingTimeout);
-        }
-      });
-      if (
-        !foundEditOnLine &&
-        update.state.field(editingLineState) !== selectionLine
-      ) {
+  update(update: ViewUpdate) {
+    if (!update.docChanged && !update.selectionSet) {
+      return;
+    }
+    const mainIndex = update.state.selection?.asSingle()?.ranges[0]?.from;
+    if (!mainIndex) {
+      return undefined;
+    }
+    const doc = update.state.doc;
+    const selectionLine = doc.lineAt(mainIndex).number;
+    let foundEditOnLine = false;
+    update.changes.iterChangedRanges((_fromA, _toA, fromB, _toB) => {
+      if (!foundEditOnLine && doc.lineAt(fromB).number === selectionLine) {
+        foundEditOnLine = true;
         clearTimeout(this.timeout);
         queueMicrotask(() => {
           update.view.dispatch({
-            effects: [setEditingLineEffect.of(undefined)],
+            effects: [setEditingLineEffect.of(selectionLine)],
           });
         });
+        this.timeout = setTimeout(() => {
+          update.view.dispatch({
+            effects: [setEditingLineEffect.of(undefined)],
+          });
+        }, editingTimeout);
       }
-    }
-
-    destroy() {
+    });
+    if (
+      !foundEditOnLine &&
+      update.state.field(editingLineState) !== selectionLine
+    ) {
       clearTimeout(this.timeout);
+      queueMicrotask(() => {
+        update.view.dispatch({
+          effects: [setEditingLineEffect.of(undefined)],
+        });
+      });
     }
   }
-);
+
+  destroy() {
+    clearTimeout(this.timeout);
+  }
+}
+
+/**
+ * Plugin that maintains state tracking the line being edited.
+ */
+export const editingLinePlugin = ViewPlugin.fromClass(EditingLineViewPlugin);
 
 /**
  * Effect when the currently edited line is changed.
