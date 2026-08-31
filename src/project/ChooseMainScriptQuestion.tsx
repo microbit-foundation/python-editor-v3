@@ -14,7 +14,7 @@ import {
   UnorderedList,
 } from "@microbit/ui";
 import { ReactNode } from "react";
-import sortBy from "lodash.sortby";
+import { sortBy } from "../common/sort-util";
 import { RiFileSettingsLine } from "react-icons/ri";
 import { IntlShape, useIntl } from "react-intl";
 import { HStack } from "styled-system/jsx";
