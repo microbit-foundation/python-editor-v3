@@ -92,7 +92,7 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
       <ModalBody>
         <VStack gap="8" pl="5" pr="5" pt="5">
           <HStack gap="4">
-            {deployment.horizontalLogo && (
+            {deployment.horizontalLogo ? (
               <Flex
                 alignItems="center"
                 justifyContent="flex-end"
@@ -101,7 +101,7 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
               >
                 {deployment.horizontalLogo}
               </Flex>
-            )}
+            ) : null}
             <Flex alignItems="center" justifyContent="flex-end">
               {/* No need to translate */}
               <Image src={micropythonLogo} alt="MicroPython" />
@@ -202,7 +202,11 @@ const AboutDialog = ({ isOpen, onClose, finalFocusRef }: AboutDialogProps) => {
                   ))}
                 </styled.tbody>
               </styled.table>
-              <Button startIcon={<RiFileCopy2Line />} onPress={onCopy} size="md">
+              <Button
+                startIcon={<RiFileCopy2Line />}
+                onPress={onCopy}
+                size="md"
+              >
                 <FormattedMessage id={hasCopied ? "copied" : "copy-action"} />
               </Button>
             </VStack>

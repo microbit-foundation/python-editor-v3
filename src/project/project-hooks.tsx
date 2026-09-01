@@ -82,7 +82,7 @@ export const useProject = (): DefaultedProject => {
   const fs = useFileSystem();
   const intl = useIntl();
   const isUnmounted = useIsUnmounted();
-  const [state, setState] = useState<DefaultedProject>(
+  const [state, setState] = useState<DefaultedProject>(() =>
     defaultedProject(fs, intl)
   );
   useEffect(() => {

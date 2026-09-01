@@ -237,6 +237,7 @@ export const DeviceContextProvider = ({
   value: MicrobitUSBConnection;
   children: ReactNode;
 }) => {
+  // eslint-disable-next-line @eslint-react/use-state -- the tuple is handed to context as-is
   const syncStatusState = useState<SyncStatus>(SyncStatus.OUT_OF_SYNC);
   const [, setSyncStatus] = syncStatusState;
   const fs = useFileSystem();

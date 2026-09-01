@@ -127,6 +127,7 @@ const DataLoggingModule = ({
                 </styled.tr>
               )}
               {truncatedDataLog.data.map((row, rowNum) => (
+                // eslint-disable-next-line @eslint-react/no-array-index-key -- position is the only identity here
                 <styled.tr key={rowNum}>
                   {row.data.map((cell, headingIndex) => {
                     return (

@@ -96,7 +96,7 @@ export const toUrl = (state: RouterState): string => {
 
 export const RouterProvider = ({ children }: { children: ReactNode }) => {
   const logging = useLogging();
-  const [state, setState] = useState(parse(window.location.pathname));
+  const [state, setState] = useState(() => parse(window.location.pathname));
   useEffect(() => {
     // This detects browser navigation but not our programatic changes,
     // so we need to update state there ourselves.

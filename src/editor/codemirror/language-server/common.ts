@@ -7,16 +7,16 @@ import { Facet } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { LanguageServerClient } from "../../../language-server/client";
 
-const useLast = <T>(values: readonly T[]) => values[values.length - 1] ?? null;
+const lastOf = <T>(values: readonly T[]) => values[values.length - 1] ?? null;
 // Used internally.
 export const uriFacet = Facet.define<string | null, string | null>({
-  combine: useLast,
+  combine: lastOf,
 });
 // Used internally.
 export const clientFacet = Facet.define<
   LanguageServerClient | null,
   LanguageServerClient | null
->({ combine: useLast });
+>({ combine: lastOf });
 
 export abstract class BaseLanguageServerView {
   constructor(protected view: EditorView) {}

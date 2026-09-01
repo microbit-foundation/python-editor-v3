@@ -59,7 +59,7 @@ export const InputDialog = <T,>({
 }: InputDialogProps<T>) => {
   const [value, setValue] = useState(initialValue);
   const [validationResult, setValidationResult] =
-    useState<InputValidationResult>(validate(initialValue));
+    useState<InputValidationResult>(() => validate(initialValue));
   const onCancel = useCallback(() => callback(undefined), [callback]);
   const submit = useCallback(() => {
     if (validationResult.ok) {

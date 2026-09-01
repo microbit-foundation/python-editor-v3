@@ -44,11 +44,11 @@ export const GenericDialog = ({
       contentCss={{ minWidth: "560px" }}
     >
       <ModalCloseButton />
-      {header && (
+      {header ? (
         <ModalHeader level={2} css={{ fontWeight: "bold" }}>
           {header}
         </ModalHeader>
-      )}
+      ) : null}
       <ModalBody>{body}</ModalBody>
       <ModalFooter>{footer}</ModalFooter>
     </Modal>

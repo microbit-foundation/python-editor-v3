@@ -50,6 +50,7 @@ export const useSelection = () => {
 };
 
 export const SelectionProvider = ({ children }: { children: ReactNode }) => {
+  // eslint-disable-next-line @eslint-react/use-state -- the tuple is handed to context as-is
   const state = useState<WorkbenchSelection>({
     file: MAIN_FILE,
     location: { line: undefined },

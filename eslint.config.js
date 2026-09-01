@@ -33,7 +33,6 @@ export default [
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/require-await": "off",
-      "react/display-name": "off",
       // Debt to be reviewed: React-compiler-era hooks rules with existing
       // violations too involved to fix as part of lint config unification.
       "react-hooks/immutability": "off",
