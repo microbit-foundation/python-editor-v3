@@ -47,7 +47,7 @@ const HeadedScrollablePanel = ({
       gap="0"
       role="document"
     >
-      {heading && (
+      {heading ? (
         <Box
           bg="gray.75"
           flex="0 0 auto"
@@ -59,7 +59,7 @@ const HeadedScrollablePanel = ({
           <styled.header>{heading}</styled.header>
           <Divider thickness="thick" />
         </Box>
-      )}
+      ) : null}
       {children}
     </VStack>
   </ScrollablePanel>

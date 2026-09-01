@@ -131,6 +131,7 @@ const Simulator = ({
                 frameBorder="no"
                 scrolling="no"
                 allow="autoplay;microphone"
+                // eslint-disable-next-line @eslint-react/dom-no-unsafe-iframe-sandbox -- the simulator is served from a separate origin
                 sandbox="allow-scripts allow-same-origin"
               />
             </AspectRatio>

@@ -23,6 +23,7 @@ export const useSimSerialTabControl = (): SimSerialTabControl => {
 };
 
 const SimSerialTabControlProvider = ({ children }: { children: ReactNode }) => {
+  // eslint-disable-next-line @eslint-react/use-state -- the tuple is handed to context as-is
   const value = useState<HTMLElement | null>(null);
   return (
     <SimSerialTabControlContext.Provider value={value}>

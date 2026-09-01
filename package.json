@@ -57,6 +57,7 @@
   "devDependencies": {
     "@csstools/postcss-cascade-layers": "^6.0.0",
     "@formatjs/cli": "^6.2.7",
+    "@microbit/eslint-config": "^0.2.1",
     "@pandacss/dev": "^1.11.4",
     "@playwright/test": "^1.58.2",
     "@testing-library/jest-dom": "^5.14.1",
@@ -67,15 +68,14 @@
     "@vitejs/plugin-react": "^5.1.4",
     "cross-env": "^7.0.3",
     "ejs": "^3.1.9",
+    "eslint": "^10.9.1",
     "jsdom": "^28.1.0",
     "playwright": "^1.58.2",
     "prettier": "2.3.2",
     "typescript": "^5.9.3",
     "vite-plugin-pwa": "^1.0.0",
     "vite-plugin-svgr": "^4.5.0",
-    "vitest": "^4.0.18",
-    "eslint": "^9.39.5",
-    "@microbit/eslint-config": "^0.1.0"
+    "vitest": "^4.0.18"
   },
   "engines": {
     "node": ">=24.0.0",

@@ -130,7 +130,7 @@ const DocumentationBreadcrumbHeading = ({
             >
               {title} {isV2Only && <V2Tag ml="2.5" />}
             </Text>
-            {subtitle && (
+            {subtitle ? (
               <Collapse
                 isOpen={!reduced}
                 unmountOnExit={true}
@@ -140,7 +140,7 @@ const DocumentationBreadcrumbHeading = ({
                   {subtitle}
                 </Text>
               </Collapse>
-            )}
+            ) : null}
           </VStack>
         </HStack>
       </Stack>

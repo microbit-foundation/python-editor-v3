@@ -102,6 +102,7 @@ const ActiveEditorStateContext = React.createContext<
 >(undefined);
 
 const ActiveEditorStateProvider = ({ children }: { children: ReactNode }) => {
+  // eslint-disable-next-line @eslint-react/use-state -- the tuple is handed to context as-is
   const value = useState<EditorInfo>(defaultEditorInfo);
   return (
     <ActiveEditorStateContext.Provider value={value}>
@@ -116,6 +117,7 @@ interface ActiveEditorProviderProps {
 export const ActiveEditorProvider = ({
   children,
 }: ActiveEditorProviderProps) => {
+  // eslint-disable-next-line @eslint-react/use-state -- the tuple is handed to context as-is
   const actions = useState<EditorActions>();
   return (
     <ActiveEditorActionsContext.Provider value={actions}>

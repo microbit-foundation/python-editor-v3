@@ -29,6 +29,7 @@ const DocString = React.memo(
     return (
       <Component
         className={cx("docs-spacing docs-code", underlineLinksClass)}
+        // eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml -- documentation HTML from our own content pipeline
         dangerouslySetInnerHTML={html}
         css={cssProp}
       />

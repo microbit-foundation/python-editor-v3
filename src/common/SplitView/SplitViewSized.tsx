@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Box } from "styled-system/jsx";
 import { dimensionPropName, useSplitViewContext } from "./context";
 
@@ -19,7 +19,7 @@ interface SizedPaneProps {
 const SplitViewSized = ({ children }: SizedPaneProps) => {
   const { direction, sizedPaneSize, compactSize, mode, dragging } =
     useSplitViewContext();
-  const ref = createRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (ref.current) {
       const size = (() => {

@@ -47,6 +47,7 @@ const Highlight = ({
       logging.log("Activating " + id);
       disclosure.onOpen();
       // Delay until after the opening animation so the full container height is known for the scroll.
+      // eslint-disable-next-line @eslint-react/web-api-no-leaked-timeout -- one-shot scroll and highlight sequence
       window.setTimeout(() => {
         if (ref.current && scrollable.current) {
           const stickyHeaderHeight = scrollable.current
@@ -58,8 +59,10 @@ const Highlight = ({
             behavior: prefersReducedMotion ? "auto" : "smooth",
           });
         }
+        // eslint-disable-next-line @eslint-react/web-api-no-leaked-timeout -- one-shot scroll and highlight sequence
         setTimeout(() => {
           setHighlighting(true);
+          // eslint-disable-next-line @eslint-react/web-api-no-leaked-timeout -- one-shot scroll and highlight sequence
           setTimeout(() => {
             setHighlighting(false);
           }, 3000);

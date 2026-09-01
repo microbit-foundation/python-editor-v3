@@ -177,7 +177,9 @@ const useManagedTermimal = (
     };
     coreTerminal._initGlobal = () => {
       // We don't need to remove these as we share a lifetime with this DOM.
+      // eslint-disable-next-line @eslint-react/web-api-no-leaked-event-listener -- shares its lifetime with the terminal DOM, as the note above says
       terminal.element!.addEventListener("paste", customPasteEventHandler);
+      // eslint-disable-next-line @eslint-react/web-api-no-leaked-event-listener -- shares its lifetime with the terminal DOM, as the note above says
       terminal.textarea!.addEventListener("paste", customPasteEventHandler);
       initGlobal();
     };
