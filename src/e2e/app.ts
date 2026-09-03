@@ -569,6 +569,7 @@ export class App {
 
   private dragDataTransfer: JSHandle<DataTransfer> | undefined;
   private dragSource: Locator | undefined;
+  private dragTarget: { clientX: number; clientY: number } | undefined;
 
   /**
    * Starts dragging a code example and hovers it over the target line
@@ -597,10 +598,13 @@ export class App {
       .locator("div")
       .filter({ hasText: targetLine.toString() });
     const target = (await editorLine.boundingBox())!;
-    await this.editorTextArea.dispatchEvent("dragover", {
-      dataTransfer: this.dragDataTransfer,
+    this.dragTarget = {
       clientX: target.x + target.width / 2,
       clientY: target.y + target.height / 2,
+    };
+    await this.editorTextArea.dispatchEvent("dragover", {
+      dataTransfer: this.dragDataTransfer,
+      ...this.dragTarget,
     });
   }
 
@@ -610,12 +614,24 @@ export class App {
     });
   }
 
+  /**
+   * Drops a drag started with startCodeEmbedDrag at the same position.
+   */
+  async dropCodeEmbed() {
+    await this.editorTextArea.dispatchEvent("drop", {
+      dataTransfer: this.dragDataTransfer,
+      ...this.dragTarget,
+    });
+    await this.endDrag();
+  }
+
   async endDrag() {
     await this.dragSource!.dispatchEvent("dragend", {
       dataTransfer: this.dragDataTransfer,
     });
     this.dragDataTransfer = undefined;
     this.dragSource = undefined;
+    this.dragTarget = undefined;
   }
 
   async search(searchText: string): Promise<void> {
