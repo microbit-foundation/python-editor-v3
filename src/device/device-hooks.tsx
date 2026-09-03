@@ -192,7 +192,7 @@ export const useDeviceTraceback = () => {
       setRuntimeError((current) => {
         if (!current && latest) {
           logging.event({
-            type: "serial-traceback",
+            type: "serial_traceback",
           });
         }
         return latest;

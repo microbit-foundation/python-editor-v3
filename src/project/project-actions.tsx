@@ -38,6 +38,13 @@ import {
   PythonProject,
 } from "../fs/initial-project";
 import { LanguageServerClient } from "../language-server/client";
+import {
+  AnalyticsTask,
+  deviceFailureCode,
+  importFormat,
+  markUserDisconnect,
+  transport,
+} from "../logging/analytics";
 import { Logging } from "../logging/logging";
 import { SessionSettings } from "../settings/session-settings";
 import { Settings } from "../settings/settings";
@@ -93,6 +100,18 @@ export enum ConnectionAction {
   DISCONNECT = "DISCONNECT",
 }
 
+const analyticsTask = (userAction: ConnectionAction): AnalyticsTask =>
+  userAction === ConnectionAction.FLASH ? "download" : "connect";
+
+const statsParams = (stats: ProjectStatistics) => ({
+  files: stats.files,
+  lines: stats.lines,
+  default_main: stats.defaultMain,
+  storage_used: stats.storageUsed,
+  errors: stats.errorCount,
+  modules: stats.magicModules,
+});
+
 /**
  * Key actions.
  *
@@ -131,17 +150,14 @@ export class ProjectActions {
     userAction: ConnectionAction,
     finalFocusRef: FinalFocusRef
   ): Promise<boolean | undefined> => {
-    this.logging.event({
-      type: "connect",
-    });
-
     const availability = await this.device.checkAvailability();
     if (availability !== "available") {
       this.webusbNotSupportedError(finalFocusRef);
       return false;
     }
 
-    if (await this.showConnectHelp(forceConnectHelp, finalFocusRef)) {
+    const task = analyticsTask(userAction);
+    if (await this.showConnectHelp(forceConnectHelp, task, finalFocusRef)) {
       return this.connectInternal(userAction, finalFocusRef);
     }
   };
@@ -154,6 +170,7 @@ export class ProjectActions {
    */
   private async showConnectHelp(
     force: boolean,
+    task: AnalyticsTask,
     finalFocusRef: FinalFocusRef
   ): Promise<boolean> {
     const showConnectHelpSetting = this.settings.values.showConnectHelp;
@@ -164,6 +181,10 @@ export class ProjectActions {
     ) {
       return true;
     }
+    this.logging.event({
+      type: "device_step",
+      detail: { task, step: "connect_help", transport },
+    });
     const choice = await this.dialogs.show<ConnectHelpChoice>((callback) => (
       <ConnectDialog
         finalFocusRef={finalFocusRef}
@@ -183,6 +204,10 @@ export class ProjectActions {
       case ConnectHelpChoice.Next:
         return true;
       case ConnectHelpChoice.Cancel:
+        this.logging.event({
+          type: "device_exit",
+          detail: { task, at_step: "connect_help", reason: "close", transport },
+        });
         return false;
     }
   }
@@ -194,11 +219,32 @@ export class ProjectActions {
     userAction: ConnectionAction,
     finalFocusRef: FinalFocusRef
   ) {
+    const task = analyticsTask(userAction);
+    this.logging.event({
+      type: "device_step",
+      detail: { task, step: "connecting", transport },
+    });
     try {
       await this.device.connect();
+      if (task === "connect") {
+        // For a download the terminal success is the flash itself.
+        this.logging.event({
+          type: "device_success",
+          detail: { task, transport },
+        });
+      }
       finalFocusRef?.current?.focus();
       return true;
     } catch (e) {
+      this.logging.event({
+        type: "device_failure",
+        detail: {
+          task,
+          at_step: "connecting",
+          code: deviceFailureCode(e),
+          transport,
+        },
+      });
       this.handleWebUSBError(e, userAction, finalFocusRef);
       return false;
     }
@@ -209,12 +255,16 @@ export class ProjectActions {
    */
   disconnect = async (finalFocusRef: FinalFocusRef) => {
     this.logging.event({
-      type: "disconnect",
+      type: "device_disconnect",
+      detail: { reason: "user", transport },
     });
-
+    // Only expect a Connected -> Disconnected status change if we were
+    // actually connected, otherwise the flag would linger.
+    markUserDisconnect(this.device.status === ConnectionStatus.Connected);
     try {
       await this.device.disconnect();
     } catch (e) {
+      markUserDisconnect(false);
       this.handleWebUSBError(e, ConnectionAction.DISCONNECT, finalFocusRef);
     }
   };
@@ -264,14 +314,16 @@ export class ProjectActions {
     files: File[],
     type: LoadType = "file-upload"
   ): Promise<void> => {
-    this.logging.event({
-      type,
-      detail: files,
-    });
-
     if (files.length === 0) {
       throw new Error("Expected to be called with at least one file");
     }
+    this.logging.event({
+      type: "project_import",
+      detail: {
+        source: type === "drop-load" ? "drop" : "file_picker",
+        format: importFormat(files),
+      },
+    });
 
     // Avoid lingering messages related to the previous project.
     // Also makes e2e testing easier.
@@ -389,8 +441,8 @@ export class ProjectActions {
 
   openIdea = async (slug: string | undefined, code: string, title: string) => {
     this.logging.event({
-      type: "idea-open",
-      message: slug,
+      type: "idea_open",
+      detail: { idea: slug },
     });
     const pythonProject: PythonProject = {
       files: projectFilesToBase64({
@@ -414,7 +466,7 @@ export class ProjectActions {
 
   reset = async () => {
     this.logging.event({
-      type: "reset-project",
+      type: "project_reset",
     });
     const confirmPrompt = this.intl.formatMessage({
       id: "confirm-replace-reset",
@@ -501,11 +553,6 @@ export class ProjectActions {
       throw new Error("Device connection doesn't support flash");
     }
 
-    this.logging.event({
-      type: "flash",
-      detail: await this.projectStats(),
-    });
-
     if (
       this.device.status === ConnectionStatus.NoAuthorizedDevice ||
       this.device.status === ConnectionStatus.Disconnected
@@ -520,6 +567,13 @@ export class ProjectActions {
       }
     }
 
+    const task: AnalyticsTask = "download";
+    const stats = await this.projectStats();
+    this.logging.event({
+      type: "device_step",
+      detail: { task, step: "flashing", transport },
+    });
+    const flashStart = Date.now();
     const flashingCode = this.intl.formatMessage({ id: "flashing-code" });
     try {
       const firstFlashNotice = (
@@ -544,7 +598,26 @@ export class ProjectActions {
         partial: true,
         progress,
       });
+      this.logging.event({
+        type: "device_success",
+        detail: {
+          task,
+          transport,
+          duration_ms: Date.now() - flashStart,
+          ...statsParams(stats),
+        },
+      });
     } catch (e) {
+      this.logging.event({
+        type: "device_failure",
+        detail: {
+          task,
+          at_step: "flashing",
+          code:
+            e instanceof FlashDataError ? "flash-data" : deviceFailureCode(e),
+          transport,
+        },
+      });
       if (e instanceof FlashDataError) {
         this.actionFeedback.expectedError({
           title: this.intl.formatMessage({ id: "failed-to-build-hex" }),
@@ -567,8 +640,8 @@ export class ProjectActions {
     saveViaWebUsbNotSupported?: boolean
   ) => {
     this.logging.event({
-      type: "save",
-      detail: await this.projectStats(),
+      type: "project_save",
+      detail: { format: "hex", ...statsParams(await this.projectStats()) },
     });
 
     if (!(await this.ensureProjectName(finalFocusRef))) {
@@ -605,7 +678,7 @@ export class ProjectActions {
    */
   saveFile = async (filename: string) => {
     this.logging.event({
-      type: "save-file",
+      type: "file_save",
     });
 
     try {
@@ -627,7 +700,8 @@ export class ProjectActions {
    */
   saveMainFile = async (finalFocusRef: React.RefObject<HTMLButtonElement>) => {
     this.logging.event({
-      type: "save-main-file",
+      type: "project_save",
+      detail: { format: "py", ...statsParams(await this.projectStats()) },
     });
 
     if (!(await this.ensureProjectName(finalFocusRef))) {
@@ -689,7 +763,7 @@ export class ProjectActions {
 
     if (filenameWithoutExtension) {
       this.logging.event({
-        type: "create-file",
+        type: "file_create",
       });
       try {
         const filename = ensurePythonExtension(filenameWithoutExtension);
@@ -714,7 +788,7 @@ export class ProjectActions {
    */
   deleteFile = async (filename: string) => {
     this.logging.event({
-      type: "delete-file",
+      type: "file_delete",
     });
 
     try {
@@ -792,7 +866,7 @@ export class ProjectActions {
    */
   setProjectName = async (name: string) => {
     this.logging.event({
-      type: "set-project-name",
+      type: "project_rename",
     });
 
     return this.fs.setProjectName(name);

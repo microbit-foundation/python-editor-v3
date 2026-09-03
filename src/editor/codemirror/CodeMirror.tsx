@@ -268,7 +268,7 @@ const CodeMirror = ({
           tab,
           slug: { id },
         },
-        "documentation-from-code"
+        "code"
       );
       const view = viewRef.current!;
       // Put the focus back in the text editor so the docs are immediately useful.
@@ -306,8 +306,8 @@ const logPastedLineCount = (logging: Logging, update: ViewUpdate) => {
             new TextEncoder().encode(inserted.toString().trim())
           );
           logging.event({
-            type: "paste",
-            value: lineCount,
+            type: "editor_paste",
+            detail: { lines: lineCount },
           });
         }
       )

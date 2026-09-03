@@ -118,7 +118,8 @@ const CodeEmbed = ({
       code,
       codeWithImports,
       "example",
-      `${toolkitType}-${parentSlug}`
+      parentSlug,
+      toolkitType
     );
   }, [actions, code, codeWithImports, onCopy, parentSlug, toolkitType]);
   const projectActions = useProjectActions();
@@ -269,15 +270,16 @@ const Code = React.forwardRef<HTMLDivElement, CodeProps>(
     const handleDragStart = useCallback(
       (event: React.DragEvent) => {
         logging.event({
-          type: "code-drag",
-          message: `${toolkitType}-${parentSlug}`,
+          type: "code_drag",
+          detail: { tab: toolkitType, id: parentSlug },
         });
         dndDebug("dragstart");
         event.dataTransfer.dropEffect = "copy";
         setDragContext({
           code: full,
           type: "example",
-          id: `${toolkitType}-${parentSlug}`,
+          tab: toolkitType,
+          id: parentSlug,
         });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
         if (dragImage.current) {

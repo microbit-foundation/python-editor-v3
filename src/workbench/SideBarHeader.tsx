@@ -65,8 +65,8 @@ const SideBarHeader = ({
 
   const handleCollapseBtnClick = useCallback(() => {
     logging.event({
-      type: "sidebar-toggle",
-      message: !sidebarShown ? "open" : "close",
+      type: "sidebar_toggle",
+      detail: { action: !sidebarShown ? "open" : "close" },
     });
     onSidebarToggled();
   }, [logging, onSidebarToggled, sidebarShown]);
@@ -111,7 +111,7 @@ const SideBarHeader = ({
       handleModalClosed();
       // Create new RouterState object to enforce navigation when clicking the same entry twice.
       const routerState: RouterState = JSON.parse(JSON.stringify(navigation));
-      setRouterState(routerState, "documentation-search");
+      setRouterState(routerState, "search");
     },
     [setViewedResults, viewedResults, setRouterState, handleModalClosed]
   );

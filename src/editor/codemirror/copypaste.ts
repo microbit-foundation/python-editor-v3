@@ -13,6 +13,10 @@ export interface PasteContext {
   code: string;
   codeWithImports: string;
   type: CodeInsertType;
+  /**
+   * Analytics identity of the snippet, as for DragContext.
+   */
+  tab?: string;
   id?: string;
 }
 
@@ -47,8 +51,8 @@ const copyPasteHandlers = () => [
       }
       event.preventDefault();
       deployment.logging.event({
-        type: "code-paste",
-        message: pasteContext.id,
+        type: "code_paste",
+        detail: { tab: pasteContext.tab, id: pasteContext.id },
       });
 
       const line = view.state.doc.lineAt(view.state.selection.ranges[0].from);

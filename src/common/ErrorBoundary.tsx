@@ -32,7 +32,7 @@ class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: any, _errorInfo: ErrorInfo) {
-    this.context?.error(error);
+    this.context?.error("Uncaught render error", error);
   }
 
   render() {

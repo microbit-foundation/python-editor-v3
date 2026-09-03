@@ -415,7 +415,8 @@ const getDragPasteData = (fullName: string, kind: string): PasteContext => {
     code,
     codeWithImports: full,
     type: kind === "function" ? "call" : "example",
-    id: `api-${fullName}`,
+    tab: "api",
+    id: fullName,
   };
 };
 
@@ -443,14 +444,14 @@ const DraggableSignature = ({
   docs,
   css: cssProp,
 }: DraggableSignatureProps) => {
-  const { fullName, kind, name, id } = docs;
+  const { fullName, kind, name } = docs;
   const logging = useLogging();
   const dragImage = useCodeDragImage();
   const handleDragStart = useCallback(
     (event: React.DragEvent) => {
       logging.event({
-        type: "code-drag",
-        message: `api-${id}`,
+        type: "code_drag",
+        detail: { tab: "api", id: fullName },
       });
       dndDebug("dragstart");
       event.dataTransfer.dropEffect = "copy";
@@ -461,7 +462,7 @@ const DraggableSignature = ({
         event.dataTransfer.setDragImage(dragImage.current, 0, 0);
       }
     },
-    [fullName, kind, id, dragImage, logging]
+    [fullName, kind, dragImage, logging]
   );
 
   const handleDragEnd = useCallback((_event: React.DragEvent) => {
@@ -477,8 +478,8 @@ const DraggableSignature = ({
   const { onCopy } = useClipboard(code);
   const handleCopyCode = useCallback(async () => {
     onCopy();
-    await actions?.copyCode(code, codeWithImports, type, id);
-  }, [actions, code, codeWithImports, onCopy, type, id]);
+    await actions?.copyCode(code, codeWithImports, type, fullName, "api");
+  }, [actions, code, codeWithImports, onCopy, type, fullName]);
   const hotKeysRef = useHotkeys(keyboardShortcuts.copyCode, handleCopyCode, {
     preventDefault: true,
   });

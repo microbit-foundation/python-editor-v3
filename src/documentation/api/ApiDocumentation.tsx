@@ -30,7 +30,7 @@ export const ApiDocumentation = ({ docs }: ApiDocumentationProps) => {
   const [anchor, setAnchor] = useRouterTabSlug("api");
   const handleNavigate = useCallback(
     (id: string | undefined) => {
-      setAnchor(id ? { id } : undefined, "documentation-user");
+      setAnchor(id ? { id } : undefined, "user");
     },
     [setAnchor]
   );

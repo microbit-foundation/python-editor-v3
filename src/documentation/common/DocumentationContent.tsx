@@ -104,7 +104,7 @@ const DocumentationInternalLinkMark = (
               id: props.mark.slug.current,
             },
           },
-          "documentation-user"
+          "user"
         );
       }}
     >

@@ -47,7 +47,8 @@ const SerialBar = ({
   const logging = useLogging();
   const handleExpandCollapseClick = useCallback(() => {
     logging.event({
-      type: compact ? "serial-expand" : "serial-collapse",
+      type: "serial_toggle",
+      detail: { action: compact ? "expand" : "collapse" },
     });
     onSizeChange(compact ? "open" : "compact");
   }, [compact, onSizeChange, logging]);
@@ -56,7 +57,7 @@ const SerialBar = ({
   const traceback = useDeviceTraceback();
   const syncStatus = useSyncStatus();
   const handleShowHintsAndTips = useCallback(() => {
-    logging.event({ type: "serial-info" });
+    logging.event({ type: "serial_help" });
     setHelpOpen(true);
   }, [logging]);
   const menuButtonRef = useRef<HTMLButtonElement>(null);

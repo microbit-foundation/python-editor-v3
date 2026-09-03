@@ -175,7 +175,7 @@ const CollapsibleModule = ({
         slug: { id: references[id] },
         focus: true,
       },
-      "documentation-from-simulator"
+      "simulator"
     );
   }, [id, setRouterState]);
   const module = (
