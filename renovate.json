@@ -1,4 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>microbit-foundation/renovate"]
+  "extends": ["github>microbit-foundation/renovate"],
+  "packageRules": [
+    {
+      "description": "@codemirror/state 6.7.2 crashes the editor when lint diagnostics are mapped through a change that collapses a widget and a mark onto the same position. Pinned to 6.7.1 until a fixed release lands. See PYTHON-EDITOR-NEXT-3SK.",
+      "matchPackageNames": ["@codemirror/state"],
+      "allowedVersions": "!/^6\\.7\\.2$/"
+    }
+  ]
 }
