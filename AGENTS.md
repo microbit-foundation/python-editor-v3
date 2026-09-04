@@ -19,6 +19,15 @@ its own copies of React and friends, so leave it in place either way.
 After bumping the pinned `@microbit/ui` version, follow "Upgrading in an app" in
 `../ui/packages/ui/README.md`.
 
+## Analytics
+
+Events go through `Logging` (`src/logging/`) and are documented in
+`docs/analytics-events.md`; update the doc when adding or changing an event.
+Names are snake_case with flat primitive params. gtag only exists on
+Foundation builds (`VITE_FOUNDATION_BUILD`, see `index.html`), so OSS and
+local dev log events to the console instead. The private theme package
+supplies brand config only, including the `product` analytics slug.
+
 ## Commands
 
 - Unit tests: `npm test` (vitest). E2e: run headlessly via

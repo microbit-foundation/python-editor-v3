@@ -165,7 +165,8 @@ const getControllerHost = (logging: Logging): Window | undefined => {
       return window.parent;
     }
     logging.error(
-      "Cannot detect valid host controller despite controller URL parameter."
+      "Cannot detect valid host controller despite controller URL parameter.",
+      new Error("No parent window")
     );
   }
 };

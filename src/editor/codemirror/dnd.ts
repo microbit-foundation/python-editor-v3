@@ -51,6 +51,11 @@ export type CodeInsertType =
 export interface DragContext {
   code: string;
   type: CodeInsertType;
+  /**
+   * Analytics identity of the snippet: the documentation tab it came from
+   * and its slug / API name. See code_drag / code_drop.
+   */
+  tab?: string;
   id?: string;
 }
 
@@ -242,8 +247,8 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) =>
           return;
         }
         deployment.logging.event({
-          type: "code-drop",
-          message: dragContext.id,
+          type: "code_drop",
+          detail: { surface: dragContext.tab, id: dragContext.id },
         });
         if (!sessionSettings.dragDropSuccess) {
           setSessionSettings({

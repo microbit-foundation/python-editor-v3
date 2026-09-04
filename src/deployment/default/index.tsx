@@ -3,31 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { ReactNode, createContext } from "react";
-import { CookieConsent, DeploymentConfigFactory } from "..";
-import { ConsoleLogging } from "./logging";
+import { BrandConfigFactory } from "..";
 
-const stubConsentValue: CookieConsent = {
-  analytics: false,
-  functional: true,
-};
-const stubConsentContext = createContext<CookieConsent | undefined>(
-  stubConsentValue
-);
-
-const defaultDeploymentFactory: DeploymentConfigFactory = () => ({
+const defaultBrandFactory: BrandConfigFactory = () => ({
+  product: "python-editor",
   // This isn't ideal as it's the branded version. You can just remove the field to remove the welcome dialog.
   welcomeVideoYouTubeId: "mREwMW69qKc",
-  logging: new ConsoleLogging(),
-  compliance: {
-    ConsentProvider: ({ children }: { children: ReactNode }) => (
-      <stubConsentContext.Provider value={stubConsentValue}>
-        {children}
-      </stubConsentContext.Provider>
-    ),
-    consentContext: stubConsentContext,
-    manageCookies: undefined,
-  },
 });
 
-export default defaultDeploymentFactory;
+export default defaultBrandFactory;

@@ -42,7 +42,7 @@ const IdeasDocumentation = ({ ideas }: IdeasDocumentationProps) => {
   const ideaId = anchor?.id;
   const handleNavigate = useCallback(
     (ideaId: string | undefined) => {
-      setAnchor(ideaId ? { id: ideaId } : undefined, "documentation-user");
+      setAnchor(ideaId ? { id: ideaId } : undefined, "user");
     },
     [setAnchor]
   );
