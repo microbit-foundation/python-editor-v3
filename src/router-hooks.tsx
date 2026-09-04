@@ -113,7 +113,7 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
       if (source) {
         logging.event({
           type: "docs_navigate",
-          detail: { via: source, tab: newState.tab, slug: newState.slug?.id },
+          detail: { via: source, surface: newState.tab, id: newState.slug?.id },
         });
       }
       const url = toUrl(newState);

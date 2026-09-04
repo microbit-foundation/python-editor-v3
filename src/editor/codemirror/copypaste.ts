@@ -52,7 +52,7 @@ const copyPasteHandlers = () => [
       event.preventDefault();
       deployment.logging.event({
         type: "code_paste",
-        detail: { tab: pasteContext.tab, id: pasteContext.id },
+        detail: { surface: pasteContext.tab, id: pasteContext.id },
       });
 
       const line = view.state.doc.lineAt(view.state.selection.ranges[0].from);

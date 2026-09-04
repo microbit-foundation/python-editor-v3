@@ -32,7 +32,7 @@ describe("Logger", () => {
   it("flattens primitive detail fields into params and injects product", () => {
     logger.event({
       type: "project_save",
-      detail: { format: "hex", files: 3, default_main: false },
+      detail: { format: "hex", files: 3, is_default: false },
     });
     expect(sink.events).toEqual([
       {
@@ -40,7 +40,7 @@ describe("Logger", () => {
         params: {
           format: "hex",
           files: 3,
-          default_main: false,
+          is_default: false,
           product: "python-editor",
         },
       },
@@ -50,11 +50,11 @@ describe("Logger", () => {
   it("drops non-primitive and undefined detail values", () => {
     logger.event({
       type: "docs_navigate",
-      detail: { via: "user", tab: "reference", slug: undefined, nested: {} },
+      detail: { via: "user", surface: "reference", id: undefined, nested: {} },
     });
     expect(sink.events[0].params).toEqual({
       via: "user",
-      tab: "reference",
+      surface: "reference",
       product: "python-editor",
     });
   });

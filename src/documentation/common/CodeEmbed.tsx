@@ -271,7 +271,7 @@ const Code = React.forwardRef<HTMLDivElement, CodeProps>(
       (event: React.DragEvent) => {
         logging.event({
           type: "code_drag",
-          detail: { tab: toolkitType, id: parentSlug },
+          detail: { surface: toolkitType, id: parentSlug },
         });
         dndDebug("dragstart");
         event.dataTransfer.dropEffect = "copy";

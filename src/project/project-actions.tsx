@@ -106,7 +106,7 @@ const analyticsTask = (userAction: ConnectionAction): AnalyticsTask =>
 const statsParams = (stats: ProjectStatistics) => ({
   files: stats.files,
   lines: stats.lines,
-  default_main: stats.defaultMain,
+  is_default: stats.defaultMain,
   storage_used: stats.storageUsed,
   errors: stats.errorCount,
   modules: stats.magicModules,
@@ -442,7 +442,7 @@ export class ProjectActions {
   openIdea = async (slug: string | undefined, code: string, title: string) => {
     this.logging.event({
       type: "idea_open",
-      detail: { idea: slug },
+      detail: { id: slug },
     });
     const pythonProject: PythonProject = {
       files: projectFilesToBase64({

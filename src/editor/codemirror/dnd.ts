@@ -189,7 +189,7 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) => {
         }
         deployment.logging.event({
           type: "code_drop",
-          detail: { tab: dragContext.tab, id: dragContext.id },
+          detail: { surface: dragContext.tab, id: dragContext.id },
         });
         if (!sessionSettings.dragDropSuccess) {
           setSessionSettings({

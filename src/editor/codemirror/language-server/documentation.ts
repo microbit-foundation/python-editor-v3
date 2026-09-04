@@ -146,7 +146,7 @@ export const wrapWithDocumentationButton = (
       document.dispatchEvent(
         new CustomEvent("cm/openDocs", {
           detail: {
-            tab: "reference",
+            surface: "reference",
             id: referenceLink,
           },
         })
@@ -166,7 +166,7 @@ export const wrapWithDocumentationButton = (
       document.dispatchEvent(
         new CustomEvent("cm/openDocs", {
           detail: {
-            tab: "api",
+            surface: "api",
             id,
           },
         })

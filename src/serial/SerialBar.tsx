@@ -48,7 +48,7 @@ const SerialBar = ({
   const handleExpandCollapseClick = useCallback(() => {
     logging.event({
       type: "serial_toggle",
-      detail: { action: compact ? "expand" : "collapse" },
+      detail: { state: compact ? "expand" : "collapse" },
     });
     onSizeChange(compact ? "open" : "compact");
   }, [compact, onSizeChange, logging]);

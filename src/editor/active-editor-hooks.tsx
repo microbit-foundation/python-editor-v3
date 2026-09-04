@@ -40,7 +40,7 @@ export class EditorActions {
   ): Promise<void> => {
     this.logging.event({
       type: "code_copy",
-      detail: { tab, id },
+      detail: { surface: tab, id },
     });
     copyCodeSnippet({
       code,

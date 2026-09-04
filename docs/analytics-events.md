@@ -29,9 +29,16 @@ at the end maps the previous UA-shaped events to their replacements.
   individual event tables. Lets dashboards split traffic by product when
   sibling apps share a GA4 property.
 - Numeric params (`files`, `lines`, `storage_used`, `errors`, `modules`,
-  `duration_ms`) are sent raw and should be registered as GA4 **custom
+  `duration_ms`, `count`) are sent raw and should be registered as GA4 **custom
   metrics**, not dimensions. The UA-era bucketing (`0-5`, `51-100`, …) is gone;
   bucket in the reporting layer if needed.
+- Param names are deliberately generic so one GA4 custom definition serves
+  both apps: `surface` is "which part of the UI" (ml-trainer: home / projects
+  / toolbar; here: the sidebar tab), `id` is "the content item this event is
+  about" (the event name says what kind), `state` is the resulting state of a
+  toggle, `count` is "how many things this event touched", `is_default` is
+  "still the unedited starter". Prefer reusing one of these over adding a
+  product-specific name.
 
 ## User properties
 
@@ -83,7 +90,7 @@ captures the segment.
 | `duration_ms`  | int — wall-clock flash time (download task only). Revives the dead `WebUSB-time` event as a raw metric.         |
 | `files`        | int — files in the project (download task only)                                                                 |
 | `lines`        | int — line count of `main.py` (download task only)                                                              |
-| `default_main` | boolean — `main.py` is still the unedited starter program (download task only)                                  |
+| `is_default`   | boolean — `main.py` is still the unedited starter program (download task only)                                  |
 | `storage_used` | int — bytes of micro:bit filesystem used (download task only)                                                   |
 | `errors`       | int — diagnostics the language server currently reports (download task only)                                    |
 | `modules`      | int — files carrying our module metadata header, i.e. modules added from Reference / Ideas (download task only) |
@@ -125,10 +132,10 @@ User pressed Cancel on the connect help dialog.
 User saved from the project Save menu. Both variants prompt for a project name
 first.
 
-| Param                                                                 | Values                                                                                       |
-| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `format`                                                              | `hex` (Save hex: whole project plus MicroPython) / `py` (Save Python script: `main.py` only) |
-| `files`, `lines`, `default_main`, `storage_used`, `errors`, `modules` | As on `device_success`.                                                                      |
+| Param                                                               | Values                                                                                       |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `format`                                                            | `hex` (Save hex: whole project plus MicroPython) / `py` (Save Python script: `main.py` only) |
+| `files`, `lines`, `is_default`, `storage_used`, `errors`, `modules` | As on `device_success`.                                                                      |
 
 No `destination` param: the editor only downloads. ml-trainer's
 `destination: download | share` distinguishes its native share sheet.
@@ -157,9 +164,9 @@ save. No params.
 
 User opened an idea into the editor.
 
-| Param  | Values                     |
-| ------ | -------------------------- |
-| `idea` | The idea slug, e.g. `dice` |
+| Param | Values                     |
+| ----- | -------------------------- |
+| `id`  | The idea slug, e.g. `dice` |
 
 ## File events
 
@@ -182,11 +189,11 @@ these events add the _how_.
 Fires on programmatic navigation into a documentation page. Browser
 back/forward and typed URLs don't fire it (they are `page_view` only).
 
-| Param  | Values                                                                                                                                     |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `via`  | `user` (clicked in the sidebar), `search` (picked a search result), `code` (from a code hover/help link), `simulator` (from the simulator) |
-| `tab`  | `reference` / `ideas` / `api`                                                                                                              |
-| `slug` | The page slug, e.g. `buttons`; absent when navigating to a tab root                                                                        |
+| Param     | Values                                                                                                                                     |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `via`     | `user` (clicked in the sidebar), `search` (picked a search result), `code` (from a code hover/help link), `simulator` (from the simulator) |
+| `surface` | `reference` / `ideas` / `api`                                                                                                              |
+| `id`      | The page slug, e.g. `buttons`; absent when navigating to a tab root                                                                        |
 
 ### `docs_search`
 
@@ -200,14 +207,14 @@ Moving code from the documentation into the editor. Drag and copy are the
 starts; drop and paste are the completions, so drop ÷ drag is the drag-and-drop
 success rate.
 
-| Event        | Params      | When fired                                                                  |
-| ------------ | ----------- | --------------------------------------------------------------------------- |
-| `code_drag`  | `tab`, `id` | User started dragging a snippet from the sidebar                            |
-| `code_drop`  | `tab`, `id` | The snippet landed in the editor                                            |
-| `code_copy`  | `tab`, `id` | User used the snippet's copy button                                         |
-| `code_paste` | `tab`, `id` | A copied snippet was pasted into the editor (via our own clipboard context) |
+| Event        | Params          | When fired                                                                  |
+| ------------ | --------------- | --------------------------------------------------------------------------- |
+| `code_drag`  | `surface`, `id` | User started dragging a snippet from the sidebar                            |
+| `code_drop`  | `surface`, `id` | The snippet landed in the editor                                            |
+| `code_copy`  | `surface`, `id` | User used the snippet's copy button                                         |
+| `code_paste` | `surface`, `id` | A copied snippet was pasted into the editor (via our own clipboard context) |
 
-- `tab` — `reference` / `ideas` / `api`.
+- `surface` — `reference` / `ideas` / `api`.
 - `id` — the documentation slug for Reference / Ideas, or the fully qualified
   name for API (e.g. `microbit.display.scroll`). Bounded cardinality, but
   large; expect `(other)` in standard reports and use Explorations.
@@ -218,7 +225,7 @@ The CodeMirror code editor.
 
 | Event                 | Params                 | When fired                                                                                |
 | --------------------- | ---------------------- | ----------------------------------------------------------------------------------------- |
-| `editor_paste`        | `lines:int`            | Text pasted from outside the app (not a snippet paste). `lines` is the pasted line count. |
+| `editor_paste`        | `count:int`            | Text pasted from outside the app (not a snippet paste). `count` is the pasted line count. |
 | `editor_undo`         | —                      | Undo via the toolbar (keyboard undo is not tracked)                                       |
 | `editor_redo`         | —                      | Redo via the toolbar                                                                      |
 | `editor_zoom`         | `direction: in \| out` | Font size changed via the zoom buttons                                                    |
@@ -228,30 +235,30 @@ The CodeMirror code editor.
 
 The serial / REPL panel.
 
-| Event              | Params                       | When fired                                                                            |
-| ------------------ | ---------------------------- | ------------------------------------------------------------------------------------- |
-| `serial_toggle`    | `action: expand \| collapse` | User expanded or collapsed the serial area                                            |
-| `serial_help`      | —                            | User opened the serial hints and tips                                                 |
-| `serial_interrupt` | —                            | User sent Ctrl-C                                                                      |
-| `serial_reset`     | —                            | User sent Ctrl-D                                                                      |
-| `serial_traceback` | —                            | A MicroPython traceback arrived from the device (first one per run; cleared on reset) |
+| Event              | Params                      | When fired                                                                            |
+| ------------------ | --------------------------- | ------------------------------------------------------------------------------------- |
+| `serial_toggle`    | `state: expand \| collapse` | User expanded or collapsed the serial area                                            |
+| `serial_help`      | —                           | User opened the serial hints and tips                                                 |
+| `serial_interrupt` | —                           | User sent Ctrl-C                                                                      |
+| `serial_reset`     | —                           | User sent Ctrl-D                                                                      |
+| `serial_traceback` | —                           | A MicroPython traceback arrived from the device (first one per run; cleared on reset) |
 
 ## Simulator events
 
-| Event          | Params                   | When fired                                                                                                                                                                                                                                      |
-| -------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sim_start`    | —                        | User ran the program in the simulator                                                                                                                                                                                                           |
-| `sim_stop`     | —                        | User pressed stop (stops caused by code changes are not counted)                                                                                                                                                                                |
-| `sim_reset`    | —                        | User pressed reset                                                                                                                                                                                                                              |
-| `sim_audio`    | `action: mute \| unmute` | User toggled simulator sound                                                                                                                                                                                                                    |
-| `sim_sensor`   | `sensor`                 | First time in the session the user changed a given input, e.g. `accelerometerX`, `gesture`, `compassHeading`, `pin0`, `pinLogo`, `temperature`, `lightLevel`, `soundLevel`, `buttonA`, `buttonB`, `radio_input`. Once per sensor per page load. |
-| `sim_log_save` | —                        | User downloaded the simulated data log as CSV                                                                                                                                                                                                   |
+| Event          | Params                  | When fired                                                                                                                                                                                                                                      |
+| -------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sim_start`    | —                       | User ran the program in the simulator                                                                                                                                                                                                           |
+| `sim_stop`     | —                       | User pressed stop (stops caused by code changes are not counted)                                                                                                                                                                                |
+| `sim_reset`    | —                       | User pressed reset                                                                                                                                                                                                                              |
+| `sim_audio`    | `state: mute \| unmute` | User toggled simulator sound                                                                                                                                                                                                                    |
+| `sim_sensor`   | `id`                    | First time in the session the user changed a given input, e.g. `accelerometerX`, `gesture`, `compassHeading`, `pin0`, `pinLogo`, `temperature`, `lightLevel`, `soundLevel`, `buttonA`, `buttonB`, `radio_input`. Once per sensor per page load. |
+| `sim_log_save` | —                       | User downloaded the simulated data log as CSV                                                                                                                                                                                                   |
 
 ## Layout events
 
-| Event            | Params                  | When fired                             |
-| ---------------- | ----------------------- | -------------------------------------- |
-| `sidebar_toggle` | `action: open \| close` | User collapsed or expanded the sidebar |
+| Event            | Params                 | When fired                             |
+| ---------------- | ---------------------- | -------------------------------------- |
+| `sidebar_toggle` | `state: open \| close` | User collapsed or expanded the sidebar |
 
 ## Removed / migrated events
 
@@ -272,21 +279,21 @@ reading old dashboards.
 | `create-file` / `delete-file`                                                                      | Renamed `file_create` / `file_delete`.                                                                                                |
 | `set-project-name`                                                                                 | Renamed `project_rename`.                                                                                                             |
 | `reset-project`                                                                                    | Renamed `project_reset`.                                                                                                              |
-| `idea-open`                                                                                        | Renamed `idea_open`; slug moved from label to the `idea` param.                                                                       |
+| `idea-open`                                                                                        | Renamed `idea_open`; slug moved from label to the `id` param.                                                                         |
 | `drop-load` / `file-upload` → `load` with label `<type>-<ext>`                                     | Consolidated to `project_import` with `source` and `format` params.                                                                   |
-| `documentation-user` / `-search` / `-from-code` / `-from-simulator` with label `tab-slug`          | Consolidated to `docs_navigate` with `via`, `tab`, `slug` params.                                                                     |
+| `documentation-user` / `-search` / `-from-code` / `-from-simulator` with label `tab-slug`          | Consolidated to `docs_navigate` with `via`, `surface`, `id` params.                                                                   |
 | `search`                                                                                           | Renamed `docs_search`.                                                                                                                |
-| `code-drag` / `code-drop` / `code-copy` / `code-paste` with label `<toolkit>-<slug>` or `api-<id>` | Same names in snake_case; label split into `tab` and `id` params.                                                                     |
-| `paste` (value = line count)                                                                       | Renamed `editor_paste`; line count moved to the `lines` param.                                                                        |
+| `code-drag` / `code-drop` / `code-copy` / `code-paste` with label `<toolkit>-<slug>` or `api-<id>` | Same names in snake_case; label split into `surface` and `id` params.                                                                 |
+| `paste` (value = line count)                                                                       | Renamed `editor_paste`; line count moved to the `count` param.                                                                        |
 | `undo` / `redo`                                                                                    | Renamed `editor_undo` / `editor_redo`.                                                                                                |
 | `zoom-in` / `zoom-out`                                                                             | Consolidated to `editor_zoom` with `direction`.                                                                                       |
 | `autocomplete-accept`                                                                              | Renamed `editor_autocomplete`.                                                                                                        |
-| `sidebar-toggle` with label `open` / `close`                                                       | Renamed `sidebar_toggle`; label moved to the `action` param.                                                                          |
-| `serial-expand` / `serial-collapse`                                                                | Consolidated to `serial_toggle` with `action`.                                                                                        |
+| `sidebar-toggle` with label `open` / `close`                                                       | Renamed `sidebar_toggle`; label moved to the `state` param.                                                                           |
+| `serial-expand` / `serial-collapse`                                                                | Consolidated to `serial_toggle` with `state`.                                                                                         |
 | `serial-info`                                                                                      | Renamed `serial_help`.                                                                                                                |
 | `serial-interrupt` / `serial-reset` / `serial-traceback`                                           | Same names in snake_case.                                                                                                             |
 | `sim-user-start` / `sim-user-stopped` / `sim-user-reset`                                           | Renamed `sim_start` / `sim_stop` / `sim_reset`.                                                                                       |
-| `sim-user-mute` / `sim-user-unmute`                                                                | Consolidated to `sim_audio` with `action`.                                                                                            |
-| `sim-user-<sensorId>`                                                                              | Consolidated to `sim_sensor` with the `sensor` param.                                                                                 |
+| `sim-user-mute` / `sim-user-unmute`                                                                | Consolidated to `sim_audio` with `state`.                                                                                             |
+| `sim-user-<sensorId>`                                                                              | Consolidated to `sim_sensor` with the `id` param.                                                                                     |
 | `sim-user-data-log-saved`                                                                          | Renamed `sim_log_save`.                                                                                                               |
 | `WebUSB-time`                                                                                      | Was already dead (the emitter went with the connection-library extraction in Feb 2025). Revived as `duration_ms` on `device_success`. |

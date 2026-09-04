@@ -265,7 +265,7 @@ export class SimulatorDeviceConnection
     if (!this.sensorsLogged[sensorId]) {
       this.logging.event({
         type: "sim_sensor",
-        detail: { sensor: sensorId },
+        detail: { id: sensorId },
       });
       this.sensorsLogged[sensorId] = true;
     }
@@ -374,7 +374,7 @@ export class SimulatorDeviceConnection
     this.postMessage("mute", {});
     this.logging.event({
       type: "sim_audio",
-      detail: { action: "mute" },
+      detail: { state: "mute" },
     });
   };
 
@@ -382,7 +382,7 @@ export class SimulatorDeviceConnection
     this.postMessage("unmute", {});
     this.logging.event({
       type: "sim_audio",
-      detail: { action: "unmute" },
+      detail: { state: "unmute" },
     });
   };
 

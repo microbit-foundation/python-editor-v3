@@ -451,7 +451,7 @@ const DraggableSignature = ({
     (event: React.DragEvent) => {
       logging.event({
         type: "code_drag",
-        detail: { tab: "api", id: fullName },
+        detail: { surface: "api", id: fullName },
       });
       dndDebug("dragstart");
       event.dataTransfer.dropEffect = "copy";

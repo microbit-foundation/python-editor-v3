@@ -307,7 +307,7 @@ const logPastedLineCount = (logging: Logging, update: ViewUpdate) => {
           );
           logging.event({
             type: "editor_paste",
-            detail: { lines: lineCount },
+            detail: { count: lineCount },
           });
         }
       )
