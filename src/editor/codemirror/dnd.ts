@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { ChangeSet, Extension, Transaction } from "@codemirror/state";
-import { EditorView } from "@codemirror/view";
+import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
 import { deployment } from "../../deployment";
 import { flags } from "../../flags";
 import { SessionSettings } from "../../settings/session-settings";
@@ -20,7 +20,7 @@ export const debug = (message: string, ...args: any) => {
 
 /**
  * Information stashed last time we handled dragover.
- * Cleared on drop or dragleave.
+ * Cleared on drop, dragleave or when the drag ends.
  */
 interface LastDragPos {
   /**
@@ -57,6 +57,15 @@ export interface DragContext {
 let dragContext: DragContext | undefined;
 
 /**
+ * Cleanup for the editor showing a preview for the current drag.
+ *
+ * The editor only sees dragleave/drop when the pointer leaves or drops on
+ * its content, so a drag cancelled or dropped elsewhere would otherwise
+ * leave the preview in the document and stale undo state behind.
+ */
+let endDragInEditor: (() => void) | undefined;
+
+/**
  * Set the dragged code.
  *
  * There's no access to the content via the event in dragover (as it may be cross-document),
@@ -66,6 +75,10 @@ let dragContext: DragContext | undefined;
  */
 export const setDragContext = (context: DragContext | undefined) => {
   dragContext = context;
+  if (!context) {
+    endDragInEditor?.();
+    endDragInEditor = undefined;
+  }
 };
 
 // We add the class to the parent element that we own as otherwise CM
@@ -90,75 +103,119 @@ const clearSuppressChildDragEnterLeave = (view: EditorView) => {
   findWrappingSection(view).classList.remove("cm-drag-in-progress");
 };
 
-const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) => {
-  let lastDragPos: LastDragPos | undefined;
+const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) =>
+  ViewPlugin.fromClass(
+    class {
+      private lastDragPos: LastDragPos | undefined;
 
-  const revertPreview = (view: EditorView) => {
-    if (lastDragPos) {
-      view.dispatch({
-        userEvent: "dnd.cleanup",
-        changes: lastDragPos.previewUndo,
-        annotations: [Transaction.addToHistory.of(false)],
-      });
-      lastDragPos = undefined;
-    }
-  };
+      constructor(private view: EditorView) {}
 
-  return [
-    EditorView.domEventHandlers({
-      dragover(event, view) {
-        if (!view.state.facet(EditorView.editable)) {
+      update(update: ViewUpdate) {
+        // Keep the undo applicable if something else changes the document
+        // while the preview is showing.
+        if (
+          this.lastDragPos &&
+          update.docChanged &&
+          !update.transactions.some((t) => t.isUserEvent("dnd"))
+        ) {
+          this.lastDragPos.previewUndo = this.lastDragPos.previewUndo.map(
+            update.changes
+          );
+        }
+      }
+
+      destroy() {
+        if (endDragInEditor === this.endDrag) {
+          endDragInEditor = undefined;
+        }
+      }
+
+      private startDrag() {
+        suppressChildDragEnterLeave(this.view);
+        endDragInEditor = this.endDrag;
+      }
+
+      private endDrag = () => {
+        clearSuppressChildDragEnterLeave(this.view);
+        this.revertPreview();
+      };
+
+      private revertPreview() {
+        const lastDragPos = this.lastDragPos;
+        // Clear first so a failure here cannot break every later drag.
+        this.lastDragPos = undefined;
+        if (!lastDragPos) {
           return;
         }
-
-        if (dragContext) {
-          event.preventDefault();
-
-          const logicalPosition = findLogicalPosition(view, event);
-          if (
-            logicalPosition.line !== lastDragPos?.logicalPosition.line ||
-            logicalPosition.indent !== lastDragPos?.logicalPosition.indent
-          ) {
-            debug("  dragover", logicalPosition);
-            revertPreview(view);
-
-            const transaction = calculateChanges(
-              view.state,
-              dragContext.code,
-              dragContext.type,
-              logicalPosition.line,
-              logicalPosition.indent
-            );
-            lastDragPos = {
-              logicalPosition,
-              previewUndo: transaction.changes.invert(view.state.doc),
-            };
-            // Take just the changes, skip the selection updates we perform on drop.
-            view.dispatch({
-              userEvent: "dnd.preview",
-              changes: transaction.changes,
-              annotations: [Transaction.addToHistory.of(false)],
-            });
-          }
+        const { previewUndo } = lastDragPos;
+        if (previewUndo.length !== this.view.state.doc.length) {
+          debug("  revertPreview skipped, document changed", {
+            expected: previewUndo.length,
+            actual: this.view.state.doc.length,
+          });
+          return;
         }
-      },
-      dragenter(event, view) {
+        this.view.dispatch({
+          userEvent: "dnd.cleanup",
+          changes: previewUndo,
+          annotations: [Transaction.addToHistory.of(false)],
+        });
+      }
+
+      dragover(event: DragEvent) {
+        const view = this.view;
         if (!view.state.facet(EditorView.editable) || !dragContext) {
+          return;
+        }
+        event.preventDefault();
+
+        const logicalPosition = findLogicalPosition(view, event);
+        if (
+          logicalPosition.line !== this.lastDragPos?.logicalPosition.line ||
+          logicalPosition.indent !== this.lastDragPos?.logicalPosition.indent
+        ) {
+          debug("  dragover", logicalPosition);
+          this.revertPreview();
+          this.startDrag();
+
+          const transaction = calculateChanges(
+            view.state,
+            dragContext.code,
+            dragContext.type,
+            logicalPosition.line,
+            logicalPosition.indent
+          );
+          this.lastDragPos = {
+            logicalPosition,
+            previewUndo: transaction.changes.invert(view.state.doc),
+          };
+          // Take just the changes, skip the selection updates we perform on drop.
+          view.dispatch({
+            userEvent: "dnd.preview",
+            changes: transaction.changes,
+            annotations: [Transaction.addToHistory.of(false)],
+          });
+        }
+      }
+
+      dragenter(event: DragEvent) {
+        if (!this.view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
         debug("dragenter");
         event.preventDefault();
-        suppressChildDragEnterLeave(view);
-      },
-      dragleave(event, view) {
+        this.startDrag();
+      }
+
+      dragleave(event: DragEvent) {
+        const view = this.view;
         if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
 
         if (event.target === view.contentDOM) {
           event.preventDefault();
-          clearSuppressChildDragEnterLeave(view);
-          revertPreview(view);
+          this.endDrag();
           debug(
             "  dragleave",
             {
@@ -177,8 +234,10 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) => {
             event.target
           );
         }
-      },
-      drop(event, view) {
+      }
+
+      drop(event: DragEvent) {
+        const view = this.view;
         if (!view.state.facet(EditorView.editable) || !dragContext) {
           return;
         }
@@ -193,11 +252,10 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) => {
           });
         }
         debug("  drop");
-        clearSuppressChildDragEnterLeave(view);
         event.preventDefault();
 
         const logicalPosition = findLogicalPosition(view, event);
-        revertPreview(view);
+        this.endDrag();
         view.dispatch(
           calculateChanges(
             view.state,
@@ -209,10 +267,25 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) => {
           )
         );
         view.focus();
+      }
+    },
+    {
+      eventHandlers: {
+        dragover(event) {
+          this.dragover(event);
+        },
+        dragenter(event) {
+          this.dragenter(event);
+        },
+        dragleave(event) {
+          this.dragleave(event);
+        },
+        drop(event) {
+          this.drop(event);
+        },
       },
-    }),
-  ];
-};
+    }
+  );
 
 const findLogicalPosition = (
   view: EditorView,

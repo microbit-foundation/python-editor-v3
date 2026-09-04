@@ -36,6 +36,63 @@ test.describe("code example drag and drop", () => {
     await app.expectEditorContainText("#2");
   });
 
+  test("drops correctly when the document changes during the drag", async ({
+    app,
+  }) => {
+    await setupEditorAndSidebar(app);
+
+    await app.startCodeEmbedDrag("Scroll", 2);
+    await expect(app.page.locator(".cm-preview").first()).toBeVisible();
+
+    // Not something a user can do mid-drag, but stands in for any change to
+    // the document while the preview is showing.
+    await app.editorTextArea.focus();
+    await app.page.keyboard.type("#4");
+    await app.expectEditorContainText("#4");
+
+    await app.dropCodeEmbed();
+    await expect(app.page.locator(".cm-preview")).toHaveCount(0);
+    await expect(
+      app.editorTextArea.getByText("display.scroll('score')")
+    ).toHaveCount(1);
+    await expect(
+      app.page.locator(".cm-dropped--recent, .cm-dropped--done").first()
+    ).toBeVisible();
+    await app.expectEditorContainText("#4");
+
+    // Distinguishes a real drop from preview text left behind, which is
+    // not in the history.
+    await app.page.keyboard.press(`${app.modifierKey}+z`);
+    await expect(app.editorTextArea).not.toContainText("display.scroll");
+    await app.expectEditorContainText("#2");
+    await app.expectEditorContainText("#4");
+  });
+
+  test("reverts the preview when the drag ends without a dragleave", async ({
+    app,
+  }) => {
+    await setupEditorAndSidebar(app);
+
+    await app.startCodeEmbedDrag("Scroll", 2);
+    await expect(app.page.locator(".cm-preview").first()).toBeVisible();
+    // E.g. the drag was cancelled or dropped elsewhere.
+    await app.endDrag();
+    await expect(app.page.locator(".cm-preview")).toHaveCount(0);
+    await expect(app.editorTextArea).not.toContainText("display.scroll");
+    await app.expectEditorContainText("#2");
+
+    // A later drag still works, including after the document changes.
+    await app.editorTextArea.focus();
+    await app.page.keyboard.type("#4");
+    await app.startCodeEmbedDrag("Scroll", 2);
+    await expect(app.page.locator(".cm-preview").first()).toBeVisible();
+    await app.dropCodeEmbed();
+    await app.expectEditorContainText("display.scroll('score')");
+    await expect(
+      app.page.locator(".cm-dropped--recent, .cm-dropped--done").first()
+    ).toBeVisible();
+  });
+
   test("highlights dropped code and undoes the drop in one step", async ({
     app,
   }) => {
