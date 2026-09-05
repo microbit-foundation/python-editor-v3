@@ -124,7 +124,8 @@ export class LanguageServerClient extends TypedEventTarget<EventMap> {
         });
 
         const initializeParams: InitializeParams = {
-          locale: this.locale,
+          // Our pyright fork names its message files in lowercase.
+          locale: this.locale.toLowerCase(),
           capabilities: {
             textDocument: {
               moniker: {},

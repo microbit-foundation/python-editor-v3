@@ -10,6 +10,7 @@ import {
 } from "vscode-jsonrpc/browser";
 import { baseUrl } from "../base";
 import { createUri, LanguageServerClient } from "./client";
+import { supportedLanguages } from "../settings/settings";
 import { ToastFn } from "@microbit/ui";
 
 // This is modified by bin/update-pyright.sh
@@ -33,9 +34,12 @@ export const pyright = async (
   language: string,
   toast: ToastFn
 ): Promise<LanguageServerClient | undefined> => {
-  // The typeshed.<locale>.json imports and the server's locale are
-  // lowercase; language ids use canonical BCP 47 casing.
-  language = language.toLowerCase();
+  // Stored settings and ?l= links predate canonical id casing, so resolve
+  // the canonical id; the typeshed.<locale>.json files are named by it.
+  language =
+    supportedLanguages.find(
+      (l) => l.id.toLowerCase() === language.toLowerCase()
+    )?.id ?? language;
   // For jsdom.
   if (!window.Worker) {
     return undefined;
