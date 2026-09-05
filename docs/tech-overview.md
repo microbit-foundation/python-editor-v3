@@ -107,9 +107,9 @@ They can be disabled with the special flag `none`.
 
 We manage translations via Crowdin. Different sources of text are integrated with Crowdin in different ways.
 
-We use react-intl from [FormatJS](https://formatjs.io/) to manage user interface strings. These are stored in this repository.
+We use react-intl from [FormatJS](https://formatjs.io/) to manage user interface strings. These are stored in this repository in `lang/ui.en.json`.
 
-In development, add strings to `lang/ui.en.json` and run `npm run i18n:compile` to update the strings used by the app.
+In development, add strings to `lang/ui.en.json` and run `npm run i18n:compile` to regenerate the catalogs the app loads in `src/messages/` (gitignored; also run on install and before start, typecheck and build).
 
 Other content:
 
@@ -117,42 +117,41 @@ Other content:
 - Reference and Ideas content is managed in the Foundation's content management system
 - Common Pyright error messages are managed [in the Foundation's Pyright fork](https://github.com/microbit-foundation/pyright/blob/microbit/packages/pyright-internal/src/localization/simplified.nls.en-us.json).
 
-### Running a translation sync
+### Moving strings to and from Crowdin
+
+The editor, the stubs repository and the Pyright fork each have an `i18n.config.mjs` for [`@microbit/i18n-tools`](https://github.com/microbit-foundation/ui/tree/main/packages/i18n-tools), which downloads and uploads files one at a time via the Crowdin API rather than through a full project build and zip. `download`, `upload` and `status` need a Crowdin personal access token in `CROWDIN_PERSONAL_TOKEN`.
+
+The `lang/ui.<lang>.json` files hold only what Crowdin has translated; the compile falls back to English for the rest, and `npm run i18n:tidy` keeps the files sorted and pruned (checked in CI).
 
 The CMS content is managed separately by the Micro:bit Educational Foundation and is synchronized daily by an automated process.
 
-#### Incorporting changes from Crowdin
+#### Incorporating changes from Crowdin
 
-Use [update-translations.sh](../bin/update-translations.sh). Review it first. It assumes sibling checkouts of our pyright fork and the stubs repository. Prepare them with a clean branch from the main (editor, stubs) or microbit (pyright) branches.
+For the editor's UI strings alone, the translations-download workflow runs weekly and opens a pull request; run it from the Actions tab for an earlier sync, or `npm run i18n:download` locally.
 
-Build and download the Crowdin zip and unzip it to a temporary location. Note the zip itself doesn't contain a top-level directory, so on Mac/Linux use e.g. `unzip -d ~/tmp/trans microbit-org.zip`. Run the script passing the directory containing the unzipped translations.
-
-The script will update the stubs and pyright repository and update the editor with the stubs and pyright changes as well as the UI strings.
+For everything at once, use [update-translations.sh](../bin/update-translations.sh). Review it first. It assumes sibling checkouts of our pyright fork and the stubs repository. Prepare them with a clean branch from the main (editor, stubs) or microbit (pyright) branches. The script downloads into all three and updates the editor with the stubs and pyright changes as well as the UI strings.
 
 Review the changes and create PRs for each repository. Review the pyright and stubs PRs first.
 
-The script for this process could be improved to create and/or verify clean branches.
-
 #### Updating files in Crowdin
 
-The UI, Pyright and API files are updated manually. Please download the existing files and diff locally to ensure the changes are as expected. Each project contains an NPM script to produce a file in the format needed for Crowdin except the Pyright project where the JSON file can be used directly.
-
-For the editor itself, run `npm run i18n:convert` to create `crowdin/ui.en.json` in the correct format.
+Run the translations-upload workflow from the Actions tab when the English copy is ready to translate, or `npm run i18n:upload` locally. Either shows what changes before uploading (`--dry-run` stops there). Tick "keep translations" for a correction, such as a typo, that translators need not revisit. The stubs and Pyright repositories upload the same way with `npx microbit-i18n upload`.
 
 ### Adding a new language
 
-This process assumes the language is already in Crowdin and has at least some translations.
+This process assumes the language is already in Crowdin and has at least some translations. `npm run i18n:status` shows how far each language has got.
 
 When considering a new language it's worth checking early whether support is available in [lunr-languages](https://github.com/MihaiValentin/lunr-languages) as we need that support for our client-side search. Search is not currently supported for zh-CN and zh-TW due to the technical challenge of indexing those languages in the browser. ga-IE also lacks support in lunr-languages.
 
 Steps:
 
-1. Add the language in the stubs repository. The script there needs updating.
+1. Add the language in the stubs repository: its `i18n.config.mjs` and `scripts/build-translations.sh`.
 2. Add the language to the editor repository:
-   1. Add the language to the update script.
+   1. Add the language to `i18n.config.mjs`.
    2. Add lunr language support. See [search.ts](../src/documentation/search/search.ts).
-   3. Update `supportedLanguages` in [settings.tsx](../src/settings/settings.tsx). You can add the language as a preview language. In this case it will only show up on the beta deployment and will be tagged as a preview in the UI.
-3. Add the language to the pyright repository. There's a switch statement in `localize.ts`.
+   3. Add a case to `loadLocaleData` in [TranslationProvider.tsx](../src/messages/TranslationProvider.tsx).
+   4. Update `supportedLanguages` in [settings.tsx](../src/settings/settings.tsx). You can add the language as a preview language. In this case it will only show up on the beta deployment and will be tagged as a preview in the UI.
+3. Add the language to the pyright repository: its `i18n.config.mjs` and the switch statement in `localize.ts`.
 4. Run a translation sync as documented above.
 
 ## Updating MicroPython

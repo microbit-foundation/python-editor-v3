@@ -388,8 +388,7 @@
     "description": "Ideas tab description text. Tab shows programs to give students ideas."
   },
   "insert-code-action": {
-    "defaultMessage": "Insert code",
-    "descrition": "Insert code action label"
+    "defaultMessage": "Insert code"
   },
   "language": {
     "defaultMessage": "Language",

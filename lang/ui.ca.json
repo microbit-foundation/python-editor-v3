@@ -1,1205 +1,896 @@
 {
   "about": {
-    "defaultMessage": "Quant a",
-    "description": "About action"
+    "defaultMessage": "Quant a"
   },
   "about-comic": {
-    "defaultMessage": "Còmic de tres panells titulat \"MicroPython Rocks\" de Mike Rowbit. Una serp de dibuixos animats presenta a Damien, dient \"Et presento Damien... Va crear MicroPython\". Dues serps parlen de MicroPython. La serp groga diu \"MicroPython està dissenyat per funcionar en ordinadors molt petits\". \"Com la teva BBC micro:bit\" respon la serp morada.\" La serp groga continua \"Però Python pot executar-se a qualsevol lloc\". La serp morada hi està d'acord, dient \"Com en aquest bastidor de servidors que fan funcionar llocs de web enormes\". El fons darrere de les serps mostra un bastidor de servidors.",
-    "description": "Alt text for comic in the about dialog"
+    "defaultMessage": "Còmic de tres panells titulat \"MicroPython Rocks\" de Mike Rowbit. Una serp de dibuixos animats presenta a Damien, dient \"Et presento Damien... Va crear MicroPython\". Dues serps parlen de MicroPython. La serp groga diu \"MicroPython està dissenyat per funcionar en ordinadors molt petits\". \"Com la teva BBC micro:bit\" respon la serp morada.\" La serp groga continua \"Però Python pot executar-se a qualsevol lloc\". La serp morada hi està d'acord, dient \"Com en aquest bastidor de servidors que fan funcionar llocs de web enormes\". El fons darrere de les serps mostra un bastidor de servidors."
   },
   "about-microbit": {
-    "defaultMessage": "Fet amb amor per la <link>Micro:bit Educational Foundation i els col·laboradors</link>",
-    "description": "Text in about dialog"
+    "defaultMessage": "Fet amb amor per la <link>Micro:bit Educational Foundation i els col·laboradors</link>"
   },
   "about-micropython": {
-    "defaultMessage": "L'editor depèn de <link>MicroPython</link>, fet per Damien George i una comunitat de desenvolupadors d'arreu del món.",
-    "description": "Text in about dialog"
+    "defaultMessage": "L'editor depèn de <link>MicroPython</link>, fet per Damien George i una comunitat de desenvolupadors d'arreu del món."
   },
   "about-read-less-micropython": {
-    "defaultMessage": "Llegeix menys sobre MicroPython",
-    "description": "Aria label to collapse an expanded section about MicroPython"
+    "defaultMessage": "Llegeix menys sobre MicroPython"
   },
   "about-read-more-micropython": {
-    "defaultMessage": "Llegeix més sobre MicroPython",
-    "description": "Aria label to expand a collapsed section about MicroPython"
+    "defaultMessage": "Llegeix més sobre MicroPython"
   },
   "accessibility": {
-    "defaultMessage": "Accessibilitat",
-    "description": "Menu item for link to accessibility site"
+    "defaultMessage": "Accessibilitat"
   },
   "added-change": {
-    "defaultMessage": "S'ha afegit el fitxer {changeName}",
-    "description": "Change made to file"
+    "defaultMessage": "S'ha afegit el fitxer {changeName}"
   },
   "api-description": {
-    "defaultMessage": "Per a l'ús i els exemples, consulta <link>Referència</link>",
-    "description": "Extended description at the top of the API tab"
+    "defaultMessage": "Per a l'ús i els exemples, consulta <link>Referència</link>"
   },
   "api-tab": {
-    "defaultMessage": "API",
-    "description": "API tab button text"
+    "defaultMessage": "API"
   },
   "apidocs-baseclass": {
-    "defaultMessage": "{baseClassCount, plural, one {classe base} other {classes base: }}",
-    "description": "Prefix for a single base class or a list of base classes. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+    "defaultMessage": "{baseClassCount, plural, one {classe base} other {classes base: }}"
   },
   "apidocs-classes": {
-    "defaultMessage": "Classes",
-    "description": "Heading in API documentation for the classes in a Python module"
+    "defaultMessage": "Classes"
   },
   "apidocs-fields": {
-    "defaultMessage": "Camps",
-    "description": "Heading in API documentation for the fields in a Python module"
+    "defaultMessage": "Camps"
   },
   "apidocs-functions": {
-    "defaultMessage": "Funcions",
-    "description": "Heading in API documentation for the functions in a Python module"
+    "defaultMessage": "Funcions"
   },
   "apidocs-methods": {
-    "defaultMessage": "Mètodes",
-    "description": "Heading in API documentation for the methods in a Python class"
+    "defaultMessage": "Mètodes"
   },
   "back-action": {
-    "defaultMessage": "Enrera",
-    "description": "Back button text"
+    "defaultMessage": "Enrera"
   },
   "back-to-main": {
-    "defaultMessage": "tornar al codi principal",
-    "description": "Text button, takes back to main code"
+    "defaultMessage": "tornar al codi principal"
   },
   "cancel-action": {
-    "defaultMessage": "Cancel·lar",
-    "description": "Cancel button text"
+    "defaultMessage": "Cancel·lar"
   },
   "change-files": {
-    "defaultMessage": "Canviar fitxers?",
-    "description": "Header for dialog of confirmation of files changed"
+    "defaultMessage": "Canviar fitxers?"
   },
   "choose-main-add-file": {
-    "defaultMessage": "Afegeix el fitxer {name}",
-    "description": "Shown in load dialog to confirm actions"
+    "defaultMessage": "Afegeix el fitxer {name}"
   },
   "choose-main-add-module": {
-    "defaultMessage": "Afegeix el mòdul {name}",
-    "description": "Shown in load dialog to confirm actions"
+    "defaultMessage": "Afegeix el mòdul {name}"
   },
   "choose-main-replace-file": {
-    "defaultMessage": "Substitueix el fitxer {name}",
-    "description": "Shown in load dialog to confirm actions"
+    "defaultMessage": "Substitueix el fitxer {name}"
   },
   "choose-main-replace-module": {
-    "defaultMessage": "Substitueix el mòdul {name}",
-    "description": "Shown in load dialog to confirm actions"
+    "defaultMessage": "Substitueix el mòdul {name}"
   },
   "choose-main-source-add-file": {
-    "defaultMessage": "Afegeix el fitxer {target} des de {source} ",
-    "description": "Shown in load dialog to confirm actions"
+    "defaultMessage": "Afegeix el fitxer {target} des de {source} "
   },
   "choose-main-source-add-main-code": {
-    "defaultMessage": "Afegeix el programa principal de {source}",
-    "description": "Shown in load dialog to confirm actions"
+    "defaultMessage": "Afegeix el programa principal de {source}"
   },
   "choose-main-source-replace-file": {
-    "defaultMessage": "Substitueix el fitxer {target} per {source}",
-    "description": "Shown in load dialog to confirm actions"
+    "defaultMessage": "Substitueix el fitxer {target} per {source}"
   },
   "choose-main-source-replace-main-code": {
-    "defaultMessage": "Substitueix el programa principal per {source}",
-    "description": "Shown in load dialog to confirm actions"
+    "defaultMessage": "Substitueix el programa principal per {source}"
   },
   "clear": {
-    "defaultMessage": "Esborra",
-    "description": "Aria label for the search input"
+    "defaultMessage": "Esborra"
   },
   "close-action": {
-    "defaultMessage": "Tanca ",
-    "description": "Close button text"
+    "defaultMessage": "Tanca "
   },
   "code-editor": {
-    "defaultMessage": "Editor de codi",
-    "description": "Aria label for the code editor"
+    "defaultMessage": "Editor de codi"
   },
   "code-example": {
-    "defaultMessage": "Exemple de codi:",
-    "description": "Visually hidden text to announce code examples in the toolkit documentation"
+    "defaultMessage": "Exemple de codi:"
   },
   "confirm-action": {
-    "defaultMessage": "Confirma",
-    "description": "Confirm action label"
+    "defaultMessage": "Confirma"
   },
   "confirm-delete": {
-    "defaultMessage": "Confirma la supressió",
-    "description": "Confirmation header of deletion of a file"
+    "defaultMessage": "Confirma la supressió"
   },
   "confirm-replace-body": {
-    "defaultMessage": "Substitueix tots els fitxers amb els de l'hexadecimal?",
-    "description": "Confirmation message body for replacing project dialog"
+    "defaultMessage": "Substitueix tots els fitxers amb els de l'hexadecimal?"
   },
   "confirm-replace-reset": {
-    "defaultMessage": "Vols substituir tots els fitxers pel programa d'inici per defecte?",
-    "description": "Confirmation message for the reset action"
+    "defaultMessage": "Vols substituir tots els fitxers pel programa d'inici per defecte?"
   },
   "confirm-replace-title": {
-    "defaultMessage": "Confirma la substitució del projecte",
-    "description": "Confirmation message title for replacing project dialog"
+    "defaultMessage": "Confirma la substitució del projecte"
   },
   "confirm-replace-with-idea": {
-    "defaultMessage": "Vols substituir tots els fitxers per {ideaName}?",
-    "description": "Confirmation message body for replacing project dialog with an idea"
+    "defaultMessage": "Vols substituir tots els fitxers per {ideaName}?"
   },
   "confirm-save-action": {
-    "defaultMessage": "Confirma i desa",
-    "description": "Confirm and save action label"
+    "defaultMessage": "Confirma i desa"
   },
   "confirm-save-hint": {
-    "defaultMessage": "Cancel·la i després utilitza Desa per conservar una còpia del teu projecte.",
-    "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
+    "defaultMessage": "Cancel·la i després utilitza Desa per conservar una còpia del teu projecte."
   },
   "connect-action": {
-    "defaultMessage": "Connecta",
-    "description": "Connect button text"
+    "defaultMessage": "Connecta"
   },
   "connect-cable-title": {
-    "defaultMessage": "Connecta el cable",
-    "description": "Title for the connect cable dialog"
+    "defaultMessage": "Connecta el cable"
   },
   "connect-help-alt": {
-    "defaultMessage": "Diàleg de connexió WebUSB amb l'entrada de BBC micro:bit etiquetada com 1 i el botó de connexió etiquetat com 2",
-    "description": "Alt text for image in connect help dialog"
+    "defaultMessage": "Diàleg de connexió WebUSB amb l'entrada de BBC micro:bit etiquetada com 1 i el botó de connexió etiquetat com 2"
   },
   "connect-help-message": {
-    "defaultMessage": "A la següent finestra emergent:",
-    "description": "Text in the connect help dialog"
+    "defaultMessage": "A la següent finestra emergent:"
   },
   "connect-help-one": {
-    "defaultMessage": "Tria la teva micro:bit",
-    "description": "Legend text for the connect help dialog image"
+    "defaultMessage": "Tria la teva micro:bit"
   },
   "connect-help-title": {
-    "defaultMessage": "Selecciona la micro:bit",
-    "description": "Title for the connect help dialog"
+    "defaultMessage": "Selecciona la micro:bit"
   },
   "connect-help-two": {
-    "defaultMessage": "Selecciona 'Connecta'",
-    "description": "Legend text for the connect help dialog image"
+    "defaultMessage": "Selecciona 'Connecta'"
   },
   "connect-hover": {
-    "defaultMessage": "Connecta't a la teva micro:bit mitjançant WebUSB",
-    "description": "Connect button hover text"
+    "defaultMessage": "Connecta't a la teva micro:bit mitjançant WebUSB"
   },
   "connect-microbit": {
-    "defaultMessage": "Connecta't a la teva micro:bit per veure la sortida en sèrie aquí",
-    "description": "Text in serial area"
+    "defaultMessage": "Connecta't a la teva micro:bit per veure la sortida en sèrie aquí"
   },
   "connect-troubleshoot": {
-    "defaultMessage": "Soluciona problemes de connexió a la teva micro:bit",
-    "description": "Text in no the micro:bit found and firmware update dialogs"
+    "defaultMessage": "Soluciona problemes de connexió a la teva micro:bit"
   },
   "content-load-error": {
-    "defaultMessage": "Alguna cosa ha anat malament. Baixa el teu fitxer hexadecimal per mantenir-lo segur i, a continuació, actualitza la pàgina per tornar-la a carregar.",
-    "description": "Text displayed when content fails to load"
+    "defaultMessage": "Alguna cosa ha anat malament. Baixa el teu fitxer hexadecimal per mantenir-lo segur i, a continuació, actualitza la pàgina per tornar-la a carregar."
   },
   "cookies-action": {
-    "defaultMessage": "Galetes",
-    "description": "Action to show dialog to choose website cookie preferences"
+    "defaultMessage": "Galetes"
   },
   "copied": {
-    "defaultMessage": "Copiat",
-    "description": "Text shown after copy to clipboard"
+    "defaultMessage": "Copiat"
   },
   "copy-action": {
-    "defaultMessage": "Copia",
-    "description": "Copy to clipboard action text"
+    "defaultMessage": "Copia"
   },
   "copy-code-action": {
-    "defaultMessage": "Copia el programa",
-    "description": "Copy code to clipboard action text"
+    "defaultMessage": "Copia el programa"
   },
   "copy-snippet-advice": {
-    "defaultMessage": "Codi copiat, fes servir enganxa per inserir-lo.",
-    "description": "Toast shown when you copy from API or Reference snippets"
+    "defaultMessage": "Codi copiat, fes servir enganxa per inserir-lo."
   },
   "create-action": {
-    "defaultMessage": "Crea",
-    "description": "Create action label (e.g. in create file dialog)"
+    "defaultMessage": "Crea"
   },
   "create-file-action": {
-    "defaultMessage": "Crea un fitxer",
-    "description": "Button text for action that creates a new blank Python file in the current project"
+    "defaultMessage": "Crea un fitxer"
   },
   "create-python": {
-    "defaultMessage": "Crea un nou fitxer Python en aquest projecte",
-    "description": "Hover and dialog title when creating a new Python file"
+    "defaultMessage": "Crea un nou fitxer Python en aquest projecte"
   },
   "created-file": {
-    "defaultMessage": "S'ha creat {filename}",
-    "description": "Action feedback for creating a file"
+    "defaultMessage": "S'ha creat {filename}"
   },
   "delete-action": {
-    "defaultMessage": "Eliminar",
-    "description": "Button text for delete action"
+    "defaultMessage": "Eliminar"
   },
   "delete-file-action": {
-    "defaultMessage": "Suprimeix {name}",
-    "description": "Menu option to delete file"
+    "defaultMessage": "Suprimeix {name}"
   },
   "deleted-file": {
-    "defaultMessage": "S'ha suprimit {filename}",
-    "description": "Confirmation message that file got deleted"
+    "defaultMessage": "S'ha suprimit {filename}"
   },
   "disconnect-action": {
-    "defaultMessage": "Desconnecta",
-    "description": "Disconnect button text"
+    "defaultMessage": "Desconnecta"
   },
   "disconnect-hover": {
-    "defaultMessage": "Desconnecta't de la micro:bit",
-    "description": "Disconnect button hover text"
+    "defaultMessage": "Desconnecta't de la micro:bit"
   },
   "dont-show-again": {
-    "defaultMessage": "No tornis a mostrar això",
-    "description": "Text to never show a dialog again"
+    "defaultMessage": "No tornis a mostrar això"
   },
   "drag-hover": {
-    "defaultMessage": "Arrossegar i deixar anar",
-    "description": "Draggable code hover text"
+    "defaultMessage": "Arrossegar i deixar anar"
   },
   "edit-file-action": {
-    "defaultMessage": "Edita {name}",
-    "description": "Menu option to edit file"
+    "defaultMessage": "Edita {name}"
   },
   "edit-name-project-hover": {
-    "defaultMessage": "Edita el nom del teu projecte",
-    "description": "Text for user to edit the name of the project"
+    "defaultMessage": "Edita el nom del teu projecte"
   },
   "edit-project-name-action": {
-    "defaultMessage": "Edita el nom del projecte",
-    "description": "Text for user to edit the name of the project"
+    "defaultMessage": "Edita el nom del projecte"
   },
   "failed-to-build-hex": {
-    "defaultMessage": "No s'ha pogut crear el fitxer hexadecimal",
-    "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."
+    "defaultMessage": "No s'ha pogut crear el fitxer hexadecimal"
   },
   "feedback": {
-    "defaultMessage": "Comentaris",
-    "description": "Feedback action"
+    "defaultMessage": "Comentaris"
   },
   "file-actions": {
-    "defaultMessage": "Accions del fitxer {name}",
-    "description": "Header of file actions for file"
+    "defaultMessage": "Accions del fitxer {name}"
   },
   "file-already-exists": {
-    "defaultMessage": "Aquest fitxer ja existeix",
-    "description": "File already exists notification text"
+    "defaultMessage": "Aquest fitxer ja existeix"
   },
   "file-name-invalid-character": {
-    "defaultMessage": "El nom conté un caràcter no vàlid: {invalid}",
-    "description": "Warning text for new Python file name with an invalid character"
+    "defaultMessage": "El nom conté un caràcter no vàlid: {invalid}"
   },
   "file-name-length": {
-    "defaultMessage": "El nom és massa llarg",
-    "description": "Warning text for overly long file names (file system limitation)"
+    "defaultMessage": "El nom és massa llarg"
   },
   "file-name-lowercase-only": {
-    "defaultMessage": "El nom ha de ser tot en minúscula",
-    "description": "Warning text for new Python file with uppercase"
+    "defaultMessage": "El nom ha de ser tot en minúscula"
   },
   "file-name-not-empty": {
-    "defaultMessage": "El nom no pot estar buit",
-    "description": "Warning text for new Python file with empty name"
+    "defaultMessage": "El nom no pot estar buit"
   },
   "file-name-start-number": {
-    "defaultMessage": "El nom no pot començar amb un nombre",
-    "description": "Warning text for new Python file names starting with a number"
+    "defaultMessage": "El nom no pot començar amb un nombre"
   },
   "file-name-whitespace": {
-    "defaultMessage": "El nom no pot contenir espais",
-    "description": "Warning text for new Python file name with whitespace"
-  },
-  "firmware-update-link": {
-    "defaultMessage": "Has d'<link>actualitzar el teu microprogramari</link> abans de poder connectar amb aquesta micro:bit.",
-    "description": "Text in the firmware update dialog"
+    "defaultMessage": "El nom no pot contenir espais"
   },
   "firmware-update-message": {
-    "defaultMessage": "La connexió a la micro:bit ha fallat perquè el microprogramari de la teva micro:bit és massa antic.",
-    "description": "Text in the firmware update dialog"
+    "defaultMessage": "La connexió a la micro:bit ha fallat perquè el microprogramari de la teva micro:bit és massa antic."
   },
   "firmware-update-title": {
-    "defaultMessage": "Cal actualitzar el firmware",
-    "description": "Title for the firmware update dialog"
+    "defaultMessage": "Cal actualitzar el firmware"
   },
   "flash-action": {
-    "defaultMessage": "Transferir",
-    "description": "Text for flash button"
+    "defaultMessage": "Transferir"
   },
   "flash-hover": {
-    "defaultMessage": "Transfereix el projecte directament a la micro:bit",
-    "description": "Hover text over flash button"
+    "defaultMessage": "Transfereix el projecte directament a la micro:bit"
   },
   "flashing-code": {
-    "defaultMessage": "S'està enviant el programa (transferint)",
-    "description": "Progress dialog text for partial flashes (quick)"
+    "defaultMessage": "S'està enviant el programa (transferint)"
   },
   "flashing-full-flash-detail": {
-    "defaultMessage": "El teu programa s'està enviant (transferint) a la teva micro:bit. Això pot trigar una mica la primera vegada, però després serà més ràpid.",
-    "description": "Message shown after the title in the progress dialog for a full flash"
+    "defaultMessage": "El teu programa s'està enviant (transferint) a la teva micro:bit. Això pot trigar una mica la primera vegada, però després serà més ràpid."
   },
   "flashing-micropython": {
-    "defaultMessage": "Transferint MicroPython ",
-    "description": "Progress dialog text for full flashes (slower)"
+    "defaultMessage": "Transferint MicroPython "
   },
   "font-size": {
-    "defaultMessage": "Mida de la font",
-    "description": "Font size option text"
+    "defaultMessage": "Mida de la font"
   },
   "guide-link": {
-    "defaultMessage": "Per obtenir més suport, consulta la <link>guia de l'Editor de Python</link>",
-    "description": "Text with an external link to support/help content"
+    "defaultMessage": "Per obtenir més suport, consulta la <link>guia de l'Editor de Python</link>"
   },
   "help": {
-    "defaultMessage": "Ajuda",
-    "description": "Help menu label"
+    "defaultMessage": "Ajuda"
   },
   "help-support": {
-    "defaultMessage": "Ajuda i suport",
-    "description": "Menu item for link to support site"
+    "defaultMessage": "Ajuda i suport"
   },
   "highlight-code-structure": {
-    "defaultMessage": "Ressaltar l'estructura del programa",
-    "description": "Code structure setting label"
+    "defaultMessage": "Ressaltar l'estructura del programa"
   },
   "highlight-code-structure-full": {
-    "defaultMessage": "Ple",
-    "description": "Highlight code structure option"
+    "defaultMessage": "Ple"
   },
   "highlight-code-structure-none": {
-    "defaultMessage": "Cap",
-    "description": "Highlight code structure option"
+    "defaultMessage": "Cap"
   },
   "highlight-code-structure-simple": {
-    "defaultMessage": "Senzill",
-    "description": "Highlight code structure option"
+    "defaultMessage": "Senzill"
   },
   "ideas-tab": {
-    "defaultMessage": "Idees",
-    "description": "Ideas tab button text. Tab shows programs to give students ideas."
+    "defaultMessage": "Idees"
   },
   "ideas-tab-description": {
-    "defaultMessage": "Prova aquests projectes, modifica'ls i inspira't",
-    "description": "Ideas tab description text. Tab shows programs to give students ideas."
+    "defaultMessage": "Prova aquests projectes, modifica'ls i inspira't"
   },
   "insert-code-action": {
     "defaultMessage": "Insereix codi"
   },
   "language": {
-    "defaultMessage": "Idioma",
-    "description": "Language option text"
+    "defaultMessage": "Idioma"
   },
   "less-action": {
-    "defaultMessage": "Menys",
-    "description": "Less button text (showing less content)"
+    "defaultMessage": "Menys"
   },
   "load-error-makecode-info": {
-    "defaultMessage": "Aquest fitxer hexadecimal no es pot carregar a l'Editor de Python. L'Editor Python no pot obrir fitxers hexadecimals creats amb Microsoft MakeCode.",
-    "description": "Load error message"
+    "defaultMessage": "Aquest fitxer hexadecimal no es pot carregar a l'Editor de Python. L'Editor Python no pot obrir fitxers hexadecimals creats amb Microsoft MakeCode."
   },
   "load-error-makecode-link": {
-    "defaultMessage": "Visita <link>https://makecode.microbit.org/</link> per utilitzar aquest fitxer hexadecimal.",
-    "description": "Load error message"
+    "defaultMessage": "Visita <link>https://makecode.microbit.org/</link> per utilitzar aquest fitxer hexadecimal."
   },
   "load-error-mixed": {
-    "defaultMessage": "Un fitxer hexadecimal només es pot carregar sol. Substitueix tots els fitxers del projecte.",
-    "description": "Load error message"
+    "defaultMessage": "Un fitxer hexadecimal només es pot carregar sol. Substitueix tots els fitxers del projecte."
   },
   "load-error-mpy": {
-    "defaultMessage": "Aquesta versió de l'Editor de Python actualment no admet l'addició de fitxers .mpy.",
-    "description": "Load error message"
+    "defaultMessage": "Aquesta versió de l'Editor de Python actualment no admet l'addició de fitxers .mpy."
   },
   "load-error-title": {
-    "defaultMessage": "No es pot carregar {fileCount, plural, one {file} other {files}}",
-    "description": "Title of error dialog when we cannot load files. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+    "defaultMessage": "No es pot carregar {fileCount, plural, one {file} other {files}}"
   },
   "loaded-file-feedback": {
-    "defaultMessage": "S'ha carregat {filename}",
-    "description": "Success feedback for loading file"
+    "defaultMessage": "S'ha carregat {filename}"
   },
   "loading": {
-    "defaultMessage": "S'està carregant…",
-    "description": "Shown on loading indicators"
+    "defaultMessage": "S'està carregant…"
   },
   "microbit-hearts-alt": {
-    "defaultMessage": "placa micro:bit amb la graella LED de 5 per 5 que mostra un cor",
-    "description": "Alt text for micro:bit image in About dialog"
+    "defaultMessage": "placa micro:bit amb la graella LED de 5 per 5 que mostra un cor"
   },
   "micropython-documentation": {
-    "defaultMessage": "Documentació de MicroPython",
-    "description": "MicroPython documentation menu option text"
+    "defaultMessage": "Documentació de MicroPython"
   },
   "micropython-history": {
-    "defaultMessage": "Descobreix com va néixer MicroPython a la micro:bit",
-    "description": "Links to MicroPython history in the about dialog"
+    "defaultMessage": "Descobreix com va néixer MicroPython a la micro:bit"
   },
   "micropython-source-code": {
-    "defaultMessage": "MicroPython <linkV1>codi font per a la micro:bit V1</linkV1> i <linkV2>micro:bit V2</linkV2>",
-    "description": "Links to the MicroPython source code in the about dialog"
+    "defaultMessage": "MicroPython <linkV1>codi font per a la micro:bit V1</linkV1> i <linkV2>micro:bit V2</linkV2>"
   },
   "more-action": {
-    "defaultMessage": "Més",
-    "description": "More button text (showing more/further content)"
+    "defaultMessage": "Més"
   },
   "more-connect-options": {
-    "defaultMessage": "Més opcions de connexió",
-    "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
+    "defaultMessage": "Més opcions de connexió"
   },
   "more-ideas": {
-    "defaultMessage": "<link>Més idees</link>",
-    "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
+    "defaultMessage": "<link>Més idees</link>"
   },
   "more-save-options": {
-    "defaultMessage": "Més opcions de desar",
-    "description": "Aria label for the additional actions menu to the right of the Save button"
+    "defaultMessage": "Més opcions de desar"
   },
   "multiple-files-message-one": {
-    "defaultMessage": "Aquest projecte conté els fitxers {fileCount, plural, other {{fileCount} fitxers}}, però només s'ha baixat <strong>main.py</strong>.",
-    "description": "Message in dialog shown when multiple files are available for download. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format. In practice, fileCount will always be two or more."
+    "defaultMessage": "Aquest projecte conté els fitxers {fileCount, plural, other {{fileCount} fitxers}}, però només s'ha baixat <strong>main.py</strong>."
   },
   "multiple-files-message-two": {
-    "defaultMessage": "Fes servir el botó <strong>Desa</strong> per baixar tot el projecte com a fitxer hexadecimal. Pots <strong>obrir</strong> el fitxer hexadecimal per restaurar el teu projecte. Si prefereixes baixar fitxers Python individuals, fes servir la pestanya <strong>Projecte</strong>.",
-    "description": "Message in dialog shown when multiple files are available for download"
+    "defaultMessage": "Fes servir el botó <strong>Desa</strong> per baixar tot el projecte com a fitxer hexadecimal. Pots <strong>obrir</strong> el fitxer hexadecimal per restaurar el teu projecte. Si prefereixes baixar fitxers Python individuals, fes servir la pestanya <strong>Projecte</strong>."
   },
   "multiple-files-title": {
-    "defaultMessage": "Avís: només s'ha descarregat main.py",
-    "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
+    "defaultMessage": "Avís: només s'ha descarregat main.py"
   },
   "name-project": {
-    "defaultMessage": "Anomena el teu projecte",
-    "description": "Name your project header"
+    "defaultMessage": "Anomena el teu projecte"
   },
   "name-text": {
-    "defaultMessage": "Nom",
-    "description": "Header for name field"
+    "defaultMessage": "Nom"
   },
   "name-used-when": {
-    "defaultMessage": "El nom s'utilitza quan deses un fitxer hexadecimal.",
-    "description": "Text under project name field"
+    "defaultMessage": "El nom s'utilitza quan deses un fitxer hexadecimal."
   },
   "new-file-hint": {
-    "defaultMessage": "T'afegirem l'extensió <code>.py</code>.",
-    "description": "Hint shown in the new Python file dialog"
+    "defaultMessage": "T'afegirem l'extensió <code>.py</code>."
   },
   "next-action": {
-    "defaultMessage": "Següent",
-    "description": "Next button text"
+    "defaultMessage": "Següent"
   },
   "not-found-checklist-one": {
-    "defaultMessage": "La teva <strong>micro:bit està connectada</strong>? Has  <link>seguit aquests passos</link>?",
-    "description": "Checklist text in the no micro:bit found dialog"
-  },
-  "not-found-checklist-two": {
-    "defaultMessage": "Si tens una <strong>micro:bit V1</strong>, potser hauries d'<link>actualitzar el microprogramari</link>",
-    "description": "Checklist text in the no micro:bit found dialog"
+    "defaultMessage": "La teva <strong>micro:bit està connectada</strong>? Has  <link>seguit aquests passos</link>?"
   },
   "not-found-message": {
-    "defaultMessage": "No has seleccionat cap micro:bit o hi ha hagut un problema en connectar-s'hi.",
-    "description": "Text in the no micro:bit found dialog"
+    "defaultMessage": "No has seleccionat cap micro:bit o hi ha hagut un problema en connectar-s'hi."
   },
   "not-found-save-message": {
-    "defaultMessage": "Mètode alternatiu: selecciona Desa i segueix els passos per transferir",
-    "description": "Save prompt in the no micro:bit found dialog"
+    "defaultMessage": "Mètode alternatiu: selecciona Desa i segueix els passos per transferir"
   },
   "not-found-title": {
-    "defaultMessage": "No s'ha trobat cap micro:bit",
-    "description": "Title for the micro:bit found dialog"
-  },
-  "not-found-update-link": {
-    "defaultMessage": "Has d'<link>actualitzar el teu microprogramari</link> abans de poder connectar amb aquesta micro:bit.",
-    "description": "Text in the no micro:bit found dialog"
+    "defaultMessage": "No s'ha trobat cap micro:bit"
   },
   "offline-image-alt": {
-    "defaultMessage": "La imatge no està disponible fora de línia",
-    "description": "Alt text for an image placeholder when the user is offline"
+    "defaultMessage": "La imatge no està disponible fora de línia"
   },
   "open-action": {
-    "defaultMessage": "Obert",
-    "description": "Open button text"
+    "defaultMessage": "Obert"
   },
   "open-file-action": {
-    "defaultMessage": "Obert",
-    "description": "Open file button text"
+    "defaultMessage": "Obert"
   },
   "open-file-dropped": {
-    "defaultMessage": "Obre el fitxer quan es deixa anar",
-    "description": "Aria label for file drop target"
+    "defaultMessage": "Obre el fitxer quan es deixa anar"
   },
   "open-hover": {
-    "defaultMessage": "Obre un fitxer hexadecimal o Python o afegeix altres fitxers",
-    "description": "Hover text over load button"
+    "defaultMessage": "Obre un fitxer hexadecimal o Python o afegeix altres fitxers"
   },
   "options": {
-    "defaultMessage": "Opcions",
-    "description": "Label for an options menu"
+    "defaultMessage": "Opcions"
   },
   "parameter-help": {
-    "defaultMessage": "Ajuda dels paràmetres",
-    "description": "Setting label to control whether pop-up documentation for function/method parameters is automatically shown."
+    "defaultMessage": "Ajuda dels paràmetres"
   },
   "parameter-help-automatic": {
-    "defaultMessage": "Automàtic",
-    "description": "Parameter help setting for when the parameter documentation is shown automatically"
+    "defaultMessage": "Automàtic"
   },
   "parameter-help-manual": {
-    "defaultMessage": "Manual ({shortcut})",
-    "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
+    "defaultMessage": "Manual ({shortcut})"
   },
   "permanently-delete": {
-    "defaultMessage": "Suprimir {filename} permanentment?",
-    "description": "Confirmation question to permanently delete file"
+    "defaultMessage": "Suprimir {filename} permanentment?"
   },
   "post-save-message-files": {
-    "defaultMessage": "Conté tots els fitxers d'aquest projecte (inclosos els fitxers addicionals, per exemple, per executar accessoris, que s'enumeren a la pestanya <strong>Projecte</strong>).",
-    "description": "Message in dialog shown after the user saves the project as a hex file."
+    "defaultMessage": "Conté tots els fitxers d'aquest projecte (inclosos els fitxers addicionals, per exemple, per executar accessoris, que s'enumeren a la pestanya <strong>Projecte</strong>)."
   },
   "post-save-message-one": {
-    "defaultMessage": "Trobaràs el teu fitxer hexadecimal a la carpeta <strong>Baixades</strong> d'aquest ordinador.",
-    "description": "Message in dialog shown after the user saves the project as a hex file."
+    "defaultMessage": "Trobaràs el teu fitxer hexadecimal a la carpeta <strong>Baixades</strong> d'aquest ordinador."
   },
   "post-save-message-two": {
-    "defaultMessage": "Pots moure'l a una altra carpeta per emmagatzemar-lo i fer servir  <strong>Obre</strong> per continuar editant-lo més tard.",
-    "description": "Message in dialog shown after the user saves the project as a hex file."
+    "defaultMessage": "Pots moure'l a una altra carpeta per emmagatzemar-lo i fer servir  <strong>Obre</strong> per continuar editant-lo més tard."
   },
   "post-save-title": {
-    "defaultMessage": "Projecte desat",
-    "description": "Title of dialog shown after the user saves the project as a hex file."
+    "defaultMessage": "Projecte desat"
   },
   "post-save-transfer-hex": {
-    "defaultMessage": "Per executar aquest fitxer hexadecimal a la teva micro:bit <link>segueix aquests passos</link>.",
-    "description": "Message in dialog shown after the user saves the project as a hex file."
+    "defaultMessage": "Per executar aquest fitxer hexadecimal a la teva micro:bit <link>segueix aquests passos</link>."
   },
   "privacy-policy": {
-    "defaultMessage": "Política de privadesa",
-    "description": "Privacy policy menu option text"
+    "defaultMessage": "Política de privadesa"
   },
   "project-actions": {
-    "defaultMessage": "Accions del projecte",
-    "description": "Aria label for the bar with project actions"
+    "defaultMessage": "Accions del projecte"
   },
   "project-header": {
-    "defaultMessage": "Capçalera del projecte",
-    "description": "Aria label for the project header area"
+    "defaultMessage": "Capçalera del projecte"
   },
   "project-name": {
-    "defaultMessage": "Nom del projecte",
-    "description": "Text used to indicate the project name"
+    "defaultMessage": "Nom del projecte"
   },
   "project-name-not-empty": {
-    "defaultMessage": "El nom del projecte no pot estar buit",
-    "description": "Validation message for project name"
+    "defaultMessage": "El nom del projecte no pot estar buit"
   },
   "project-tab": {
-    "defaultMessage": "Projecte",
-    "description": "Project tab button text"
+    "defaultMessage": "Projecte"
   },
   "project-tab-description": {
-    "defaultMessage": "Visualitza, crea, afegeix i edita els fitxers del teu projecte",
-    "description": "Project tab description"
+    "defaultMessage": "Visualitza, crea, afegeix i edita els fitxers del teu projecte"
   },
   "python-powered": {
-    "defaultMessage": "Fet amb Python",
-    "description": "Python powered logo alt text"
+    "defaultMessage": "Fet amb Python"
   },
   "python-tab": {
-    "defaultMessage": "Python",
-    "description": "Python tab text"
+    "defaultMessage": "Python"
   },
   "quit-anyway": {
-    "defaultMessage": "Alguns dels teus canvis no s'han desat. Sortir de totes maneres?",
-    "description": "Quit anyway text"
+    "defaultMessage": "Alguns dels teus canvis no s'han desat. Sortir de totes maneres?"
   },
   "read-less": {
-    "defaultMessage": "Llegir menys",
-    "description": "Action text to collapse an expanded section"
+    "defaultMessage": "Llegir menys"
   },
   "read-more": {
-    "defaultMessage": "Més informació",
-    "description": "Action text to expand a collapsed section"
+    "defaultMessage": "Més informació"
   },
   "redo": {
-    "defaultMessage": "Refer",
-    "description": "Aria label for the redo button"
+    "defaultMessage": "Refer"
   },
   "reference-tab": {
-    "defaultMessage": "Referència",
-    "description": "Reference tab button text"
+    "defaultMessage": "Referència"
   },
   "replace-action-label": {
-    "defaultMessage": "Substitueix",
-    "description": "Action label for replacing project dialog"
+    "defaultMessage": "Substitueix"
   },
   "reset-project-action": {
-    "defaultMessage": "Restableix el projecte",
-    "description": "Action to reset the project to its default state"
+    "defaultMessage": "Restableix el projecte"
   },
   "reset-project-feedback": {
-    "defaultMessage": "Restableix el projecte al programa d'inici predeterminat",
-    "description": "Confirmation message after resetting the project"
+    "defaultMessage": "Restableix el projecte al programa d'inici predeterminat"
   },
   "reset-project-hover": {
-    "defaultMessage": "Restableix el projecte al programa inicial predeterminat, descartant el teu treball",
-    "description": "Reset action hover text"
+    "defaultMessage": "Restableix el projecte al programa inicial predeterminat, descartant el teu treball"
   },
   "results-count": {
-    "defaultMessage": "{count, plural, =0 {Sense resultats} one {# resultat} other {# resultats}}",
-    "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+    "defaultMessage": "{count, plural, =0 {Sense resultats} one {# resultat} other {# resultats}}"
   },
   "save-action": {
-    "defaultMessage": "Desa",
-    "description": "Save button text"
+    "defaultMessage": "Desa"
   },
   "save-file-action": {
-    "defaultMessage": "Desa {name}",
-    "description": "Menu option to save a file"
+    "defaultMessage": "Desa {name}"
   },
   "save-hex-action": {
-    "defaultMessage": "Desa el projecte hexadecimal",
-    "description": "Text for menu item for saving a project hex file"
+    "defaultMessage": "Desa el projecte hexadecimal"
   },
   "save-hover": {
-    "defaultMessage": "Desa el fitxer hexadecimal del projecte al teu ordinador",
-    "description": "Hover text over save button"
+    "defaultMessage": "Desa el fitxer hexadecimal del projecte al teu ordinador"
   },
   "save-python-action": {
-    "defaultMessage": "Desa l'script de Python",
-    "description": "Save button menu option to save the Python script"
+    "defaultMessage": "Desa l'script de Python"
   },
   "search": {
-    "defaultMessage": "Cerca",
-    "description": "Aria label for searching documentation"
+    "defaultMessage": "Cerca"
   },
   "send-action": {
-    "defaultMessage": "Envia a la micro:bit",
-    "description": "Send to micro:bit button text"
+    "defaultMessage": "Envia a la micro:bit"
   },
   "send-hover": {
-    "defaultMessage": "Connecta't mitjançant WebUSB i després transfereix el programa a la micro:bit",
-    "description": "Send button hover text"
+    "defaultMessage": "Connecta't mitjançant WebUSB i després transfereix el programa a la micro:bit"
   },
   "serial-collapse": {
-    "defaultMessage": "Amaga el terminal sèrie",
-    "description": "Action label to collapse the serial console/REPL area"
+    "defaultMessage": "Amaga el terminal sèrie"
   },
   "serial-ctrl-c-action": {
-    "defaultMessage": "Envia Ctrl+C per REPL",
-    "description": "Button to trigger the Python REPL from the serial area"
+    "defaultMessage": "Envia Ctrl+C per REPL"
   },
   "serial-ctrl-d-action": {
-    "defaultMessage": "Envia Ctrl+D per restablir",
-    "description": "Button to reset the micro:bit from the serial area"
+    "defaultMessage": "Envia Ctrl+D per restablir"
   },
   "serial-expand": {
-    "defaultMessage": "Mostra la consola sèrie",
-    "description": "Action label to expand the serial console/REPL area"
+    "defaultMessage": "Mostra la consola sèrie"
   },
   "serial-flashed": {
-    "defaultMessage": "micro:bit transferit",
-    "description": "Shown when your program is in sync with the micro:bit"
+    "defaultMessage": "micro:bit transferit"
   },
   "serial-help-ctrl-c": {
-    "defaultMessage": "Utilitza la drecera de teclat <kbd>Ctrl</kbd> + <kbd>C</kbd> per interrompre el teu programa. A continuació, pots escriure ordres de Python perquè s'executi MicroPython. És una bona manera d'experimentar amb alguna cosa nova.",
-    "description": "Text from the serial hints and tips dialog. kbd tag shows a keyboard key style."
+    "defaultMessage": "Utilitza la drecera de teclat <kbd>Ctrl</kbd> + <kbd>C</kbd> per interrompre el teu programa. A continuació, pots escriure ordres de Python perquè s'executi MicroPython. És una bona manera d'experimentar amb alguna cosa nova."
   },
   "serial-help-ctrl-d": {
-    "defaultMessage": "Per tornar a iniciar el programa, fes servir <kbd>Ctrl</kbd> + <kbd>D</kbd>.",
-    "description": "Text from the serial hints and tips dialog.  kbd tag shows a keyboard key style."
+    "defaultMessage": "Per tornar a iniciar el programa, fes servir <kbd>Ctrl</kbd> + <kbd>D</kbd>."
   },
   "serial-help-intro": {
-    "defaultMessage": "El terminal sèrie mostra errors i altres sortides del programa que s'executa a la teva micro:bit. Per defecte, mostra l'error més recent del programa. Amplia'l per veure tota la sortida.",
-    "description": "Text from the serial hints and tips dialog"
+    "defaultMessage": "El terminal sèrie mostra errors i altres sortides del programa que s'executa a la teva micro:bit. Per defecte, mostra l'error més recent del programa. Amplia'l per veure tota la sortida."
   },
   "serial-help-print": {
-    "defaultMessage": "El teu programa pot imprimir missatges mitjançant la funció <code>print</code>. Prova d'afegir <code>print('la micro:bit es genial')</code> al teu programa.",
-    "description": "Text from the serial hints and tips dialog. code tag shows monospaced font."
+    "defaultMessage": "El teu programa pot imprimir missatges mitjançant la funció <code>print</code>. Prova d'afegir <code>print('la micro:bit es genial')</code> al teu programa."
   },
   "serial-help-title": {
-    "defaultMessage": "Suggeriments i consells sobre la comunicació en sèrie",
-    "description": "Title for the serial hints and tips dialog"
+    "defaultMessage": "Suggeriments i consells sobre la comunicació en sèrie"
   },
   "serial-hints-and-tips": {
-    "defaultMessage": "Suggeriments i consells sobre la comunicació en sèrie",
-    "description": "Link/button to open the serial hints and tips dialog"
+    "defaultMessage": "Suggeriments i consells sobre la comunicació en sèrie"
   },
   "serial-menu": {
-    "defaultMessage": "Menú del terminal sèrie",
-    "description": "Aria label for serial area menu"
+    "defaultMessage": "Menú del terminal sèrie"
   },
   "serial-ready-to-flash": {
-    "defaultMessage": "micro:bit llesta per transferir",
-    "description": "Shown when your program is out of sync with the micro:bit"
+    "defaultMessage": "micro:bit llesta per transferir"
   },
   "serial-running": {
-    "defaultMessage": "Executant...",
-    "description": "Indicator text when the micro:bit is running a program"
+    "defaultMessage": "Executant..."
   },
   "serial-terminal": {
-    "defaultMessage": "Terminal sèrie",
-    "description": "Aria label for the serial terminal"
+    "defaultMessage": "Terminal sèrie"
   },
   "setting-allow-editing-third-party": {
-    "defaultMessage": "Permet editar mòduls de tercers",
-    "description": "Checkbox setting label"
+    "defaultMessage": "Permet editar mòduls de tercers"
   },
   "setting-allow-editing-third-party-info": {
-    "defaultMessage": "Canviar mòduls de tercers pot significar que no funcionin com s'havia previst.",
-    "description": "Checkbox setting label"
+    "defaultMessage": "Canviar mòduls de tercers pot significar que no funcionin com s'havia previst."
   },
   "setting-warn-on-v2-only-features": {
-    "defaultMessage": "Mostra advertències sobre funcions només de la V2",
-    "description": "Checkbox setting label"
+    "defaultMessage": "Mostra advertències sobre funcions només de la V2"
   },
   "setting-warn-on-v2-only-features-info": {
-    "defaultMessage": "Els avisos es mostren a l'editor quan es connecta un micro:bit V1",
-    "description": "Checkbox setting label"
+    "defaultMessage": "Els avisos es mostren a l'editor quan es connecta un micro:bit V1"
   },
   "settings": {
-    "defaultMessage": "Configuració",
-    "description": "Settings text"
+    "defaultMessage": "Configuració"
   },
   "show-api-documentation": {
-    "defaultMessage": "Mostra la documentació de l'API",
-    "description": "Shown on link from editor autocomplete and signature help to the API docs."
+    "defaultMessage": "Mostra la documentació de l'API"
   },
   "show-less": {
-    "defaultMessage": "Mostra menys",
-    "description": "Show less for general progressive disclosure"
+    "defaultMessage": "Mostra menys"
   },
   "show-less-for": {
-    "defaultMessage": "Mostra menys per a {item}",
-    "description": "Show less with item usually for aria label"
+    "defaultMessage": "Mostra menys per a {item}"
   },
   "show-more": {
-    "defaultMessage": "Mostra més",
-    "description": "Show more for general progressive disclosure"
+    "defaultMessage": "Mostra més"
   },
   "show-more-for": {
-    "defaultMessage": "Mostra més per a {item}",
-    "description": "Show more with item usually for aria label"
+    "defaultMessage": "Mostra més per a {item}"
   },
   "sidebar": {
-    "defaultMessage": "Barra lateral",
-    "description": "Aria label for the area on the left"
+    "defaultMessage": "Barra lateral"
   },
   "sidebar-collapse": {
-    "defaultMessage": "Replega la barra lateral",
-    "description": "Aria label for the collapse sidebar button"
+    "defaultMessage": "Replega la barra lateral"
   },
   "sidebar-expand": {
-    "defaultMessage": "Amplia la barra lateral",
-    "description": "Aria label for the expand sidebar button"
+    "defaultMessage": "Amplia la barra lateral"
   },
   "simulator-accelerometer": {
-    "defaultMessage": "Acceleròmetre",
-    "description": "Simulator Accelerometer panel title"
+    "defaultMessage": "Acceleròmetre"
   },
   "simulator-actions": {
-    "defaultMessage": "Accions del simulador",
-    "description": "Aria label for the bar with simulator actions (stop, mute etc)"
+    "defaultMessage": "Accions del simulador"
   },
   "simulator-button-a": {
-    "defaultMessage": "Botó A",
-    "description": "Button A aria label on the simulator board"
+    "defaultMessage": "Botó A"
   },
   "simulator-button-b": {
-    "defaultMessage": "Botó B",
-    "description": "Button B aria label on the simulator board"
+    "defaultMessage": "Botó B"
   },
   "simulator-button-hold-label": {
-    "defaultMessage": "Manté premut el botó {button}",
-    "description": "Aria label for simulator toggle button"
+    "defaultMessage": "Manté premut el botó {button}"
   },
   "simulator-button-press-label": {
-    "defaultMessage": "Prem el botó {button}",
-    "description": "Aria label for simulator push button"
+    "defaultMessage": "Prem el botó {button}"
   },
   "simulator-buttons": {
-    "defaultMessage": "Botons",
-    "description": "Buttons simulator panel title"
+    "defaultMessage": "Botons"
   },
   "simulator-collapse": {
-    "defaultMessage": "Replega el simulador",
-    "description": "Aria label for the collapse simulator button"
+    "defaultMessage": "Replega el simulador"
   },
   "simulator-collapse-module": {
-    "defaultMessage": "Replega el mòdul {title}",
-    "description": "Aria label for collapse simulator module button"
+    "defaultMessage": "Replega el mòdul {title}"
   },
   "simulator-compass": {
-    "defaultMessage": "Brúixola",
-    "description": "Compass simulator panel title"
+    "defaultMessage": "Brúixola"
   },
   "simulator-compass-heading-one": {
-    "defaultMessage": "Orientació",
-    "description": "Sub heading for simulator Compass panel"
+    "defaultMessage": "Orientació"
   },
   "simulator-compass-heading-two": {
-    "defaultMessage": "Intensitat del camp magnètic",
-    "description": "Sub heading for simulator Compass panel"
+    "defaultMessage": "Intensitat del camp magnètic"
   },
   "simulator-data-logging-empty": {
-    "defaultMessage": "Sense entrades al registre.",
-    "description": "Shown in the simulator Data logging table when there are no rows"
+    "defaultMessage": "Sense entrades al registre."
   },
   "simulator-data-logging-full": {
-    "defaultMessage": "Registre ple",
-    "description": "Shown below the simulator Data logging table to warn that the log is full"
+    "defaultMessage": "Registre ple"
   },
   "simulator-data-logging-rows": {
-    "defaultMessage": "{count, plural, =0 {No hi ha files registrades} one {# fila registrada} other{# files registrades}}",
-    "description": "Indicator of the number of rows logged in the simulator Data logging table. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
+    "defaultMessage": "{count, plural, =0 {No hi ha files registrades} one {# fila registrada} other{# files registrades}}"
   },
   "simulator-data-logging-save-log": {
-    "defaultMessage": "Guarda el registre",
-    "description": "Action label to save the data log as a file from the Data logging simulator panel"
+    "defaultMessage": "Guarda el registre"
   },
   "simulator-data-logging-truncated": {
-    "defaultMessage": "Les files més antigues no es mostren",
-    "description": "Text shown in the simulator Data logging table to indicate that old rows have been omitted"
+    "defaultMessage": "Les files més antigues no es mostren"
   },
   "simulator-expand": {
-    "defaultMessage": "Ampliar el simulador",
-    "description": "Aria label for the expand simulator button"
+    "defaultMessage": "Ampliar el simulador"
   },
   "simulator-expand-module": {
-    "defaultMessage": "Desplega el mòdul {title} ",
-    "description": "Aria label for expand simulator module button"
+    "defaultMessage": "Desplega el mòdul {title} "
   },
   "simulator-gesture-3g": {
-    "defaultMessage": "3g",
-    "description": "Simulator gesture option"
+    "defaultMessage": "3g"
   },
   "simulator-gesture-6g": {
-    "defaultMessage": "6g",
-    "description": "Simulator gesture option"
+    "defaultMessage": "6g"
   },
   "simulator-gesture-8g": {
-    "defaultMessage": "8g",
-    "description": "Simulator gesture option"
+    "defaultMessage": "8g"
   },
   "simulator-gesture-down": {
-    "defaultMessage": "cap avall",
-    "description": "Simulator gesture option"
+    "defaultMessage": "cap avall"
   },
   "simulator-gesture-face-down": {
-    "defaultMessage": "cara avall ",
-    "description": "Simulator gesture option"
+    "defaultMessage": "cara avall "
   },
   "simulator-gesture-face-up": {
-    "defaultMessage": "cara amunt",
-    "description": "Simulator gesture option"
+    "defaultMessage": "cara amunt"
   },
   "simulator-gesture-freefall": {
-    "defaultMessage": "caiguda lliure",
-    "description": "Simulator gesture option"
+    "defaultMessage": "caiguda lliure"
   },
   "simulator-gesture-left": {
-    "defaultMessage": "esquerra",
-    "description": "Simulator gesture option"
+    "defaultMessage": "esquerra"
   },
   "simulator-gesture-right": {
-    "defaultMessage": "dreta",
-    "description": "Simulator gesture option"
+    "defaultMessage": "dreta"
   },
   "simulator-gesture-select": {
-    "defaultMessage": "Tria el gest",
-    "description": "Aria label for the simulator gesture select input"
+    "defaultMessage": "Tria el gest"
   },
   "simulator-gesture-send": {
-    "defaultMessage": "Envia el gest",
-    "description": "Aria label for the simulator gesture send button"
+    "defaultMessage": "Envia el gest"
   },
   "simulator-gesture-shake": {
-    "defaultMessage": "sacseja",
-    "description": "Simulator gesture option"
+    "defaultMessage": "sacseja"
   },
   "simulator-gesture-up": {
-    "defaultMessage": "amunt",
-    "description": "Simulator gesture option"
+    "defaultMessage": "amunt"
   },
   "simulator-hide": {
-    "defaultMessage": "Amaga el simulador",
-    "description": "Hide simulator action"
+    "defaultMessage": "Amaga el simulador"
   },
   "simulator-input-hold": {
-    "defaultMessage": "Manté",
-    "description": "Label for UI toggles to hold simulator buttons or pins"
+    "defaultMessage": "Manté"
   },
   "simulator-input-press": {
-    "defaultMessage": "Prem",
-    "description": "Label for UI buttons to press simulator buttons or pins"
+    "defaultMessage": "Prem"
   },
   "simulator-light-level": {
-    "defaultMessage": "Nivell de llum",
-    "description": "Light level simulator panel title"
+    "defaultMessage": "Nivell de llum"
   },
   "simulator-log": {
-    "defaultMessage": "Registre de dades",
-    "description": "Data log simulator panel title"
+    "defaultMessage": "Registre de dades"
   },
   "simulator-loud": {
-    "defaultMessage": "So fort",
-    "description": "Simulator sound level high threshold marker hover text. This should match the translation of microbit.SoundEvent.LOUD in the api.en.json file but with differing case."
+    "defaultMessage": "So fort"
   },
   "simulator-mute": {
-    "defaultMessage": "Silencia",
-    "description": "Aria label for the mute simulator button"
+    "defaultMessage": "Silencia"
   },
   "simulator-pin-hold-label": {
-    "defaultMessage": "Manté premut el pin {pin}",
-    "description": "Aria label for simulator pin control"
+    "defaultMessage": "Manté premut el pin {pin}"
   },
   "simulator-pin-press-label": {
-    "defaultMessage": "Prem el pin {pin}",
-    "description": "Aria label for simulator pin control"
+    "defaultMessage": "Prem el pin {pin}"
   },
   "simulator-pins": {
-    "defaultMessage": "Pins",
-    "description": "Pins simulator panel title"
+    "defaultMessage": "Pins"
   },
   "simulator-quiet": {
-    "defaultMessage": "So fluix",
-    "description": "Simulator sound level low threshold marker hover text. This should match the translation of microbit.SoundEvent.QUIET in the api.en.json file but with differing case."
+    "defaultMessage": "So fluix"
   },
   "simulator-radio": {
-    "defaultMessage": "Ràdio",
-    "description": "Radio simulator panel title"
+    "defaultMessage": "Ràdio"
   },
   "simulator-radio-code": {
-    "defaultMessage": "micro:bit ha enviat:",
-    "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
+    "defaultMessage": "micro:bit ha enviat:"
   },
   "simulator-radio-group-notice": {
-    "defaultMessage": "Grup de ràdio establert a  {groupNumber}",
-    "description": "Message in radio simulator area when the radio group changes"
+    "defaultMessage": "Grup de ràdio establert a  {groupNumber}"
   },
   "simulator-radio-message": {
-    "defaultMessage": "Missatge de ràdio",
-    "description": "Label and placeholder for the simulator radio message input field"
+    "defaultMessage": "Missatge de ràdio"
   },
   "simulator-radio-message-limit-notice": {
-    "defaultMessage": "Els missatges més antigs no es mostren",
-    "description": "Text shown when the number of radio messages has been capped in the simulator user interface"
+    "defaultMessage": "Els missatges més antigs no es mostren"
   },
   "simulator-radio-no-messages": {
-    "defaultMessage": "Cap missatge a mostrar",
-    "description": "Text shown when there are no radio messages to display in the simulator user interface"
+    "defaultMessage": "Cap missatge a mostrar"
   },
   "simulator-radio-off": {
-    "defaultMessage": "La ràdio està tancada",
-    "description": "Text shown when there are no radio messages because the radio is off in the simulator user interface"
+    "defaultMessage": "La ràdio està tancada"
   },
   "simulator-radio-send": {
-    "defaultMessage": "Envia missatge",
-    "description": "Aria label for the simulator radio send button"
+    "defaultMessage": "Envia missatge"
   },
   "simulator-radio-user": {
-    "defaultMessage": "Has enviat:",
-    "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
+    "defaultMessage": "Has enviat:"
   },
   "simulator-reference-link": {
-    "defaultMessage": "Enllaç a la secció de Referència",
-    "description": "Aria label for simulator Reference link button"
+    "defaultMessage": "Enllaç a la secció de Referència"
   },
   "simulator-reset": {
-    "defaultMessage": "Reiniciar",
-    "description": "Aria label for the reset simulator button"
+    "defaultMessage": "Reiniciar"
   },
   "simulator-serial-terminal": {
-    "defaultMessage": "Terminal sèrie del simulador",
-    "description": "Aria label for the simulator serial terminal"
+    "defaultMessage": "Terminal sèrie del simulador"
   },
   "simulator-sound-level": {
-    "defaultMessage": "Nivell de so",
-    "description": "Sound level simulator panel title"
+    "defaultMessage": "Nivell de so"
   },
   "simulator-start-simulator": {
-    "defaultMessage": "Inicia el simulador",
-    "description": "Aria label for the large play button on the simulator board"
+    "defaultMessage": "Inicia el simulador"
   },
   "simulator-stop": {
-    "defaultMessage": "Atura el simulador",
-    "description": "Aria label for the stop simulator button"
+    "defaultMessage": "Atura el simulador"
   },
   "simulator-temperature": {
-    "defaultMessage": "Temperatura",
-    "description": "Temperature simulator panel title"
+    "defaultMessage": "Temperatura"
   },
   "simulator-title": {
-    "defaultMessage": "Simulador",
-    "description": "Simulator title"
+    "defaultMessage": "Simulador"
   },
   "simulator-touch-logo": {
-    "defaultMessage": "Logotip tàctil",
-    "description": "Name for the touch logo pin on the V2 micro:bit board. Used in the simulator."
+    "defaultMessage": "Logotip tàctil"
   },
   "simulator-unit-celsius": {
-    "defaultMessage": "degrees Celsius",
-    "description": "Unit for the temperature slider, used in its accessible name"
+    "defaultMessage": "degrees Celsius"
   },
   "simulator-unit-degrees": {
-    "defaultMessage": "degrees",
-    "description": "Unit for the compass heading slider, used in its accessible name"
+    "defaultMessage": "degrees"
   },
   "simulator-unit-milli-g": {
-    "defaultMessage": "milli-g",
-    "description": "Unit for the accelerometer axis sliders (thousandths of g-force), used in their accessible names"
+    "defaultMessage": "milli-g"
   },
   "simulator-unit-nanotesla": {
-    "defaultMessage": "nanotesla",
-    "description": "Unit for the compass axis sliders, used in their accessible names"
+    "defaultMessage": "nanotesla"
   },
   "simulator-unmute": {
-    "defaultMessage": "Deixar de silenciar",
-    "description": "Aria label for the unmute simulator button"
+    "defaultMessage": "Deixar de silenciar"
   },
   "software-versions": {
-    "defaultMessage": "Versions de programari",
-    "description": "Heading for a table of software versions in the about dialog"
+    "defaultMessage": "Versions de programari"
   },
   "start-coding-action": {
-    "defaultMessage": "Comença a codificar",
-    "description": "Start coding button text"
+    "defaultMessage": "Comença a codificar"
   },
   "support": {
-    "defaultMessage": "Suport",
-    "description": "Support menu option text"
+    "defaultMessage": "Suport"
   },
   "terms-of-use": {
-    "defaultMessage": "Condicions d'ús",
-    "description": "Terms of use menu option text"
+    "defaultMessage": "Condicions d'ús"
   },
   "third-party-module-explanation": {
-    "defaultMessage": "Aquest fitxer és un mòdul de tercers i no està pensat per ser editat.",
-    "description": "Explanation shown instead of the code editor for third-party modules."
+    "defaultMessage": "Aquest fitxer és un mòdul de tercers i no està pensat per ser editat."
   },
   "third-party-module-how-to": {
-    "defaultMessage": "Permet editar mòduls de tercers a <link>Configuració</link>  per modificar aquest mòdul.",
-    "description": "Explanation of how to allow editing for third-party modules."
+    "defaultMessage": "Permet editar mòduls de tercers a <link>Configuració</link>  per modificar aquest mòdul."
   },
   "timeout-error-description": {
-    "defaultMessage": "No es pot connectar a la micro:bit",
-    "description": "Description for error messages relating to WebUSB timeout"
+    "defaultMessage": "No es pot connectar a la micro:bit"
   },
   "timeout-error-title": {
-    "defaultMessage": "Temps de connexió esgotat",
-    "description": "Title for error messages relating to WebUSB timeout"
+    "defaultMessage": "Temps de connexió esgotat"
   },
   "toolkit-error-loading": {
-    "defaultMessage": "S'ha produït un error en carregar el conjunt d'eines.",
-    "description": "Error shown if we failed to load toolkit content"
+    "defaultMessage": "S'ha produït un error en carregar el conjunt d'eines."
   },
   "toolkit-view-documentation": {
-    "defaultMessage": "Consulta la documentació de {name}",
-    "description": "Aria label for the toolkit topic right arrow"
+    "defaultMessage": "Consulta la documentació de {name}"
   },
   "transfer-hex-message-one": {
-    "defaultMessage": "Arrossega el fitxer hexadecimal de la teva <strong>carpeta de descàrregues</strong> a la <strong>unitat MICROBIT</strong>.",
-    "description": "Text in the transfer hex dialog"
+    "defaultMessage": "Arrossega el fitxer hexadecimal de la teva <strong>carpeta de descàrregues</strong> a la <strong>unitat MICROBIT</strong>."
   },
   "transfer-hex-message-two": {
-    "defaultMessage": "Pots <strong>obrir</strong> el fitxer hexadecimal més tard per continuar editant.",
-    "description": "Text in the transfer hex dialog"
+    "defaultMessage": "Pots <strong>obrir</strong> el fitxer hexadecimal més tard per continuar editant."
   },
   "transfer-hex-title": {
-    "defaultMessage": "Transfereix el fitxer hexadecimal desat a la micro:bit",
-    "description": "Title for the transfer hex dialog"
+    "defaultMessage": "Transfereix el fitxer hexadecimal desat a la micro:bit"
   },
   "try-again-action": {
-    "defaultMessage": "Torna-ho a provar",
-    "description": "Try again button text"
+    "defaultMessage": "Torna-ho a provar"
   },
   "undo": {
-    "defaultMessage": "Desfer",
-    "description": "Aria label for the undo button"
+    "defaultMessage": "Desfer"
   },
   "unexpected-error-description": {
-    "defaultMessage": "Si us plau, torna-ho a provar o <link>plantejar una solicitud de suport</link> .",
-    "description": "Text shown for unexpected error scenarios"
+    "defaultMessage": "Si us plau, torna-ho a provar o <link>plantejar una solicitud de suport</link> ."
   },
   "unexpected-error-title": {
-    "defaultMessage": "Si us plau, torna-ho a provar o <link>plantejar una solicitud de suport</link>.",
-    "description": "Text shown for unexpected error scenarios"
+    "defaultMessage": "Si us plau, torna-ho a provar o <link>plantejar una solicitud de suport</link>."
   },
   "untitled-project": {
-    "defaultMessage": "Projecte sense títol",
-    "description": "Title for a new project"
+    "defaultMessage": "Projecte sense títol"
   },
   "update-firmware-action": {
-    "defaultMessage": "Actualitza microprogramari",
-    "description": "Update firmware button text"
+    "defaultMessage": "Actualitza microprogramari"
   },
   "updated-change": {
-    "defaultMessage": "Fitxer actualitzat {changeName}",
-    "description": "Change made to file"
+    "defaultMessage": "Fitxer actualitzat {changeName}"
   },
   "user-guide": {
-    "defaultMessage": "Guia de l'usuari",
-    "description": "Menu item for link to user guide site"
+    "defaultMessage": "Guia de l'usuari"
   },
   "visit-dot-org": {
-    "defaultMessage": "visita microbit.org (s'obre en una pestanya nova)",
-    "description": "alt text for logo link to .org"
+    "defaultMessage": "visita microbit.org (s'obre en una pestanya nova)"
   },
   "warn-on-v2-only-features-action": {
-    "defaultMessage": "Desactiva els avisos sobre les funcions només de la V2",
-    "description": "Label for editor action"
+    "defaultMessage": "Desactiva els avisos sobre les funcions només de la V2"
   },
   "webusb-error-clear-connect-description-1": {
-    "defaultMessage": "Un altre procés està connectat a aquest dispositiu.",
-    "description": "Part of WebUSB error message"
+    "defaultMessage": "Un altre procés està connectat a aquest dispositiu."
   },
   "webusb-error-clear-connect-description-2": {
-    "defaultMessage": "Tanca qualsevol altra pestanya que pugui utilitzar WebUSB (per exemple, MakeCode, Python Editor) o desconnecta i torna a connectar la micro:bit abans de tornar-ho a provar.",
-    "description": "Part of WebUSB error message"
+    "defaultMessage": "Tanca qualsevol altra pestanya que pugui utilitzar WebUSB (per exemple, MakeCode, Python Editor) o desconnecta i torna a connectar la micro:bit abans de tornar-ho a provar."
   },
   "webusb-error-clear-connect-title": {
-    "defaultMessage": "Una altra pàgina o pestanya del navegador està connectada a aquesta micro:bit",
-    "description": "Title of error for WebUsb connection"
+    "defaultMessage": "Una altra pàgina o pestanya del navegador està connectada a aquesta micro:bit"
   },
   "webusb-error-default-title": {
-    "defaultMessage": "Error de WebUSB",
-    "description": "Default title for error messages relating to WebUSB"
+    "defaultMessage": "Error de WebUSB"
   },
   "webusb-error-reconnect-microbit-description": {
-    "defaultMessage": "<p>Segueix aquests passos i, a continuació, torna-ho a provar:</p><ul><li>desendolla el cable USB</li><li>desendolla la bateria si n'hi ha cap connectada</li><li>torna a connectar el cable USB</li><li>torna a connectar la bateria si n'hi havia una</li></ul>",
-    "description": "Part of WebUSB error message"
+    "defaultMessage": "<p>Segueix aquests passos i, a continuació, torna-ho a provar:</p><ul><li>desendolla el cable USB</li><li>desendolla la bateria si n'hi ha cap connectada</li><li>torna a connectar el cable USB</li><li>torna a connectar la bateria si n'hi havia una</li></ul>"
   },
   "webusb-not-supported": {
-    "defaultMessage": "Malauradament, WebUSB no és compatible amb aquest navegador i el teu programa es desarà al teu ordinador. Segueix els passos de la pantalla següent per transferir-lo ala teva micro:bit. Et recomanem Google Chrome o Microsoft Edge perquè et puguis connectar directament a la teva micro:bit.",
-    "description": "Explantion shown when user's browser doesn't support WebUSB"
+    "defaultMessage": "Malauradament, WebUSB no és compatible amb aquest navegador i el teu programa es desarà al teu ordinador. Segueix els passos de la pantalla següent per transferir-lo ala teva micro:bit. Et recomanem Google Chrome o Microsoft Edge perquè et puguis connectar directament a la teva micro:bit."
   },
   "webusb-not-supported-title": {
-    "defaultMessage": "Aquest navegador no admet WebUSB",
-    "description": "Title of dialog shown when user's browser doesn't support WebUSB"
+    "defaultMessage": "Aquest navegador no admet WebUSB"
   },
   "webusb-why-use": {
-    "defaultMessage": "Amb WebUSB pots programar la teva micro:bit i connectar-te a la consola sèrie directament des de l'editor en línia.",
-    "description": "Shown to encourage use of browser that supports WebUSB"
+    "defaultMessage": "Amb WebUSB pots programar la teva micro:bit i connectar-te a la consola sèrie directament des de l'editor en línia."
   },
   "welcome-message": {
-    "defaultMessage": "Mira la nostra breu guia sobre algunes de les funcions clau o obté el programa immediatament.",
-    "description": "Text in the welcome dialogn"
+    "defaultMessage": "Mira la nostra breu guia sobre algunes de les funcions clau o obté el programa immediatament."
   },
   "welcome-title": {
-    "defaultMessage": "Benvingut a l'Editor Python de la micro:bit",
-    "description": "Title for the welcome dialog"
+    "defaultMessage": "Benvingut a l'Editor Python de la micro:bit"
   },
   "welcome-video-alt": {
-    "defaultMessage": "vídeo de presentació de l'editor Python",
-    "description": "iframe title for the welcome video"
+    "defaultMessage": "vídeo de presentació de l'editor Python"
   },
   "zoom-in-action": {
-    "defaultMessage": "Amplia",
-    "description": "Text label for zoom in button"
+    "defaultMessage": "Amplia"
   },
   "zoom-out-action": {
-    "defaultMessage": "Allunya",
-    "description": "Text label for zoom out button"
+    "defaultMessage": "Allunya"
   }
 }

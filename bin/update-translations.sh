@@ -1,37 +1,32 @@
 #!/usr/bin/env bash
 #
-# Partial automation of updating translations.
-# This process expects sibling checkouts of pyright and the stubs projects.
+# Pulls every source of translated text into the editor. Expects sibling
+# checkouts of our pyright fork (branch microbit) and the stubs repository
+# (branch main), each on a clean branch ready for a pull request, and a
+# CROWDIN_PERSONAL_TOKEN in the environment.
 #
-# New languages require code change in:
-# 1. Pyright to add to the switch in localization.ts
-# 2. Editor updates in settings.tsx and TranslationProvider.tsx.
-# 
-
+# Each repository has its own i18n.config.mjs for @microbit/i18n-tools; this
+# script only strings the downloads and rebuilds together. New languages need
+# adding to each config and the code changes listed in docs/tech-overview.md.
+#
 set -euxo pipefail
 
-if [ $# -eq 0 ]; then
-  echo Missing argument to extracted Crowdin ZIP >&1
-  exit 1
-fi
+# UI strings.
+npm run i18n:download
 
-languages="ca de es-ES fr ga-IE ja ko nl pl zh-CN zh-TW lol"
-
-mkdir -p crowdin/translated
-for language in $languages; do
-    lower="${language,,}"
-    prefix="${1}/${language}/new/apps/python-editor-v3"
-    cp "${prefix}/ui.en.json" "crowdin/translated/ui.${lower}.json"
-    cp "${prefix}/errors.en.json" "../pyright/packages/pyright-internal/src/localization/simplified.nls.${lower}.json"
-    cp "${prefix}/api.en.json" "../micropython-microbit-stubs/crowdin/translated/api.${lower}.json"
-done
-npm run i18n:convert
-npm run i18n:compile
-
+# API documentation, then rebuild the typeshed JSON from it.
 (
   cd ../micropython-microbit-stubs
+  npx microbit-i18n download
   ./scripts/build-translations.sh
 )
+
+# Error messages.
+(
+  cd ../pyright
+  npx microbit-i18n download
+)
+
 ./bin/update-pyright.sh
 ./bin/update-typeshed.sh
 # We sometimes have newer English stubs than translations and don't want to
