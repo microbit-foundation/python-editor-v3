@@ -3,7 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { fallbackLocale, useSettings } from "../settings/settings";
+import {
+  fallbackLocale,
+  inContextTranslationLangId,
+  supportedLanguages,
+  useSettings,
+} from "../settings/settings";
 import { IntlProvider, MessageFormatElement } from "react-intl";
 import { ReactNode, useEffect, useState } from "react";
 import { retryAsyncLoad } from "../common/chunk-util";
@@ -13,38 +18,19 @@ import {
 } from "../language-server/error-util";
 import { useToast } from "@microbit/ui";
 
-async function loadLocaleData(locale: string) {
-  // Language ids use canonical BCP 47 casing; the catalog files are lowercase.
-  switch (locale.toLowerCase()) {
-    // Add further cases explicitly for code splitting.
-    // The need for this might be worth revisiting.
-    case "ca":
-      return (await import("./ui.ca.json")).default;
-    case "de":
-      return (await import("./ui.de.json")).default;
-    case "es-es":
-      return (await import("./ui.es-es.json")).default;
-    case "fr":
-      return (await import("./ui.fr.json")).default;
-    case "ga-ie":
-      return (await import("./ui.ga-ie.json")).default;
-    case "ja":
-      return (await import("./ui.ja.json")).default;
-    case "ko":
-      return (await import("./ui.ko.json")).default;
-    case "lol":
-      return (await import("./ui.lol.json")).default;
-    case "nl":
-      return (await import("./ui.nl.json")).default;
-    case "pl":
-      return (await import("./ui.pl.json")).default;
-    case "zh-cn":
-      return (await import("./ui.zh-cn.json")).default;
-    case "zh-tw":
-      return (await import("./ui.zh-tw.json")).default;
-    default:
-      return (await import("./ui.en.json")).default;
+async function loadLocaleData(locale: string): Promise<Messages> {
+  // Matched case-insensitively: stored settings and ?l= links predate
+  // canonical id casing. The catalog file takes the canonical id. Vite
+  // splits the template import into a chunk per catalog.
+  const lower = locale.toLowerCase();
+  const id =
+    lower === inContextTranslationLangId
+      ? inContextTranslationLangId
+      : supportedLanguages.find((l) => l.id.toLowerCase() === lower)?.id;
+  if (!id || id === fallbackLocale) {
+    return (await import("./ui.en.json")).default;
   }
+  return (await import(`./ui.${id}.json`)).default as Messages;
 }
 
 type Messages = Record<string, string> | Record<string, MessageFormatElement[]>;

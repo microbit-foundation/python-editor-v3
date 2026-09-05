@@ -149,8 +149,7 @@ Steps:
 2. Add the language to the editor repository:
    1. Add the language to `i18n.config.mjs`.
    2. Add lunr language support. See [search.ts](../src/documentation/search/search.ts).
-   3. Add a case to `loadLocaleData` in [TranslationProvider.tsx](../src/messages/TranslationProvider.tsx).
-   4. Update `supportedLanguages` in [settings.tsx](../src/settings/settings.tsx). You can add the language as a preview language. In this case it will only show up on the beta deployment and will be tagged as a preview in the UI.
+   3. Update `supportedLanguages` in [settings.tsx](../src/settings/settings.tsx). You can add the language as a preview language. In this case it will only show up on the beta deployment and will be tagged as a preview in the UI.
 3. Add the language to the pyright repository: its `i18n.config.mjs` and the switch statement in `localize.ts`.
 4. Run a translation sync as documented above.
 

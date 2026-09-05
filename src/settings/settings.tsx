@@ -73,9 +73,9 @@ const findSupportedLanguage = (id: unknown): Language | undefined =>
 const languageHint = (): string | null =>
   new URLSearchParams(window.location.search).get("l");
 
-export const getLanguageFromQuery = (): string => {
-  return findSupportedLanguage(languageHint())?.id || supportedLanguages[0].id;
-};
+/** The ?l= language alone, for the noLang flag; English when absent. */
+export const getLanguageFromQuery = (): string =>
+  findSupportedLanguage(languageHint())?.id ?? fallbackLocale;
 
 /**
  * The first-run language: the ?l= hint, then the browser/OS preferences,
@@ -100,7 +100,7 @@ export const defaultSettings: Settings = {
   warnForApiUnsupportedByDevice: true,
 };
 
-const inContextTranslationLangId = "lol";
+export const inContextTranslationLangId = "lol";
 
 export const isValidSettingsObject = (value: unknown): value is Settings => {
   if (typeof value !== "object") {
