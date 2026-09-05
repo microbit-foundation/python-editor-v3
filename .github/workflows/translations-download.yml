@@ -1,0 +1,61 @@
+name: translations-download
+
+# Pulls the configured languages from Crowdin and opens (or refreshes) a
+# pull request with whatever changed. New languages are added to
+# i18n.config.mjs first; this only updates the ones listed there.
+on:
+  schedule:
+    # Mondays at 6am UTC, after crowdin-reports has run.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: translations-download
+  cancel-in-progress: false
+
+env:
+  # renovate: datasource=npm depName=npm
+  NPM_VERSION: "11"
+  BRANCH: translations/sync
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          cache: "npm"
+          registry-url: "https://npm.pkg.github.com"
+      - run: npm install -g npm@${{ env.NPM_VERSION }} --registry=https://registry.npmjs.org
+      - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run i18n:download
+        env:
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.MICROBIT_ORG_CROWDIN_PERSONAL_ACCESS_TOKEN }}
+      - name: Open or update the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet; then
+            echo "No translation changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add -A
+          git commit -m "Translation sync"
+          git push --force origin "$BRANCH"
+          if gh pr view "$BRANCH" --json state --jq .state 2>/dev/null | grep -q OPEN; then
+            echo "Updated the open pull request."
+          else
+            gh pr create --base main --head "$BRANCH" --title "Translation sync" \
+              --body "Translations downloaded from Crowdin by the translations-download workflow. Review, then merge; the branch is force-pushed on each run."
+          fi

@@ -1,0 +1,48 @@
+name: translations-upload
+
+# Replaces the English catalogs in Crowdin. Run by hand from the Actions tab
+# when the copy is stable enough to translate: sometimes that is a batch of
+# features, sometimes a single string. Translations of strings whose English
+# changed are cleared, as with a manual upload; tick "keep translations" for a
+# correction translators need not revisit. `npm run i18n:upload -- --dry-run`
+# locally shows the same diff.
+on:
+  workflow_dispatch:
+    inputs:
+      keep_translations:
+        description: Keep translations of strings whose English text changed
+        type: boolean
+        default: false
+      dry_run:
+        description: Show what would change without uploading
+        type: boolean
+        default: false
+
+concurrency:
+  group: translations-upload
+  cancel-in-progress: false
+
+env:
+  # renovate: datasource=npm depName=npm
+  NPM_VERSION: "11"
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          cache: "npm"
+          registry-url: "https://npm.pkg.github.com"
+      - run: npm install -g npm@${{ env.NPM_VERSION }} --registry=https://registry.npmjs.org
+      - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run i18n:upload -- ${{ inputs.keep_translations && '--keep-translations' || '' }} ${{ inputs.dry_run && '--dry-run' || '' }}
+        env:
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.MICROBIT_ORG_CROWDIN_PERSONAL_ACCESS_TOKEN }}
