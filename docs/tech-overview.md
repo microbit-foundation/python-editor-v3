@@ -135,7 +135,7 @@ Review the changes and create PRs for each repository. Review the pyright and st
 
 #### Updating files in Crowdin
 
-Run the translations-upload workflow from the Actions tab when the English copy is ready to translate, or `npm run i18n:upload` locally. Either shows what changes before uploading (`--dry-run` stops there). Tick "keep translations" for a correction, such as a typo, that translators need not revisit. The stubs and Pyright repositories upload the same way with `npx microbit-i18n upload`.
+Run the translations-upload workflow from the Actions tab when the English copy is ready to translate, or `npm run i18n:upload` locally. Either shows what changes before uploading (`--dry-run` stops there). Tick "keep translations" for a correction, such as a typo, that translators need not revisit. The stubs repository uploads the same way with `npm run i18n:upload`; the Pyright fork, which does not install the tool, with `npx --yes --package @microbit/i18n-tools microbit-i18n upload`.
 
 ### Adding a new language
 

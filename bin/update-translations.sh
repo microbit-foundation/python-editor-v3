@@ -6,7 +6,8 @@
 # CROWDIN_PERSONAL_TOKEN in the environment.
 #
 # Each repository has its own i18n.config.mjs for @microbit/i18n-tools; this
-# script only strings the downloads and rebuilds together. New languages need
+# script only strings the downloads and rebuilds together. The pyright fork
+# does not install the tool, so npx fetches it there. New languages need
 # adding to each config and the code changes listed in docs/tech-overview.md.
 #
 set -euxo pipefail
@@ -24,7 +25,7 @@ npm run i18n:download
 # Error messages.
 (
   cd ../pyright
-  npx microbit-i18n download
+  npx --yes --package @microbit/i18n-tools microbit-i18n download
 )
 
 ./bin/update-pyright.sh
