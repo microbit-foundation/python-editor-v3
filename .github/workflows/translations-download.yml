@@ -22,8 +22,6 @@ env:
 jobs:
   download:
     runs-on: ubuntu-latest
-    env:
-      SUMMARY: ${{ runner.temp }}/translation-summary.md
     permissions:
       contents: read
       packages: read
@@ -70,10 +68,12 @@ jobs:
           [ "$status" -eq 0 ] || [ "$status" -eq 2 ]
         env:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.MICROBIT_ORG_CROWDIN_PERSONAL_ACCESS_TOKEN }}
+          SUMMARY: ${{ runner.temp }}/translation-summary.md
       - name: Open or update the pull request
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          SUMMARY: ${{ runner.temp }}/translation-summary.md
         run: |
           # Staged first so a new language's file counts as a change.
           git add -A
