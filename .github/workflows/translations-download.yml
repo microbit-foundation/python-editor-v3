@@ -49,7 +49,17 @@ jobs:
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm run i18n:download
+      # Exit 2 means some files failed to download and the rest were written:
+      # still worth a pull request, so carry on and fail the job at the end.
+      # Anything else non-zero stops here.
+      - id: download
+        run: |
+          set +e
+          npm run i18n:download
+          status=$?
+          set -e
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          [ "$status" -eq 0 ] || [ "$status" -eq 2 ]
         env:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.MICROBIT_ORG_CROWDIN_PERSONAL_ACCESS_TOKEN }}
       - name: Open or update the pull request
@@ -76,3 +86,7 @@ jobs:
             gh pr create --base main --head "$BRANCH" --title "Translation sync" \
               --body "Translations downloaded from Crowdin by the translations-download workflow. Review, then merge; the branch is force-pushed on each run."
           fi
+      - if: steps.download.outputs.status == '2'
+        run: |
+          echo "::error::Some translations failed to download; see the download step. The pull request holds the rest."
+          exit 1
