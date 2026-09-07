@@ -19,11 +19,11 @@ export class SerialActions {
   ) {}
 
   interrupt = (): void => {
-    this.logging.event({ type: "serial-interrupt" });
+    this.logging.event({ type: "serial_interrupt" });
     this.sendCommand("\x03");
   };
   reset = (): void => {
-    this.logging.event({ type: "serial-reset" });
+    this.logging.event({ type: "serial_reset" });
     this.sendCommand("\x04");
   };
 

@@ -47,7 +47,7 @@ const useContent = <T,>(
           setState({ status: "ok", content, languageId });
         }
       } catch (e) {
-        logging.error(e);
+        logging.error("Failed to load documentation", e);
         if (!ignore) {
           setState({
             status: "error",

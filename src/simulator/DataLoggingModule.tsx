@@ -55,7 +55,7 @@ const DataLoggingModule = ({
     });
     saveAs(blob, "simulated-log-data.csv");
     logging.event({
-      type: "sim-user-data-log-saved",
+      type: "sim_log_save",
     });
   }, [logging, untruncatedDataLog]);
   if (minimised) {

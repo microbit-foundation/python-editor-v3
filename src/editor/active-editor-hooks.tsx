@@ -35,16 +35,18 @@ export class EditorActions {
     code: string,
     codeWithImports: string,
     type: CodeInsertType,
-    id?: string
+    id?: string,
+    tab?: string
   ): Promise<void> => {
     this.logging.event({
-      type: "code-copy",
-      message: id,
+      type: "code_copy",
+      detail: { surface: tab, id },
     });
     copyCodeSnippet({
       code,
       codeWithImports,
       type,
+      tab,
       id,
     });
     this.actionFeedback.success({
@@ -53,14 +55,14 @@ export class EditorActions {
   };
   undo = (): void => {
     this.logging.event({
-      type: "undo",
+      type: "editor_undo",
     });
     undo(this.view);
     this.view.focus();
   };
   redo = (): void => {
     this.logging.event({
-      type: "redo",
+      type: "editor_redo",
     });
     redo(this.view);
     this.view.focus();

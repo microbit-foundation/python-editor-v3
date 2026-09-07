@@ -30,6 +30,7 @@ const createLogging = (): Logging => ({
   event: vi.fn(),
   error: vi.fn(),
   log: vi.fn(),
+  setUserProperty: vi.fn(),
 });
 
 const createClient = (
@@ -233,7 +234,7 @@ describe("createCompletionSource", () => {
       expect(state.doc.toString()).toEqual("button_a");
       expect(state.selection.main.from).toEqual("button_a".length);
       expect(logging.event).toHaveBeenCalledWith({
-        type: "autocomplete-accept",
+        type: "editor_autocomplete",
       });
     });
 

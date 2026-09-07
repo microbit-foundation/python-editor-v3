@@ -32,14 +32,14 @@ const ZoomControls = ({ size, css: cssProp }: ZoomControlsProps) => {
       ...settings,
       fontSize: Math.min(maximumFontSize, settings.fontSize + fontSizeStep),
     });
-    logging.event({ type: "zoom-in" });
+    logging.event({ type: "editor_zoom", detail: { direction: "in" } });
   }, [setSettings, settings, logging]);
   const handleZoomOut = useCallback(() => {
     setSettings({
       ...settings,
       fontSize: Math.max(minimumFontSize, settings.fontSize - fontSizeStep),
     });
-    logging.event({ type: "zoom-out" });
+    logging.event({ type: "editor_zoom", detail: { direction: "out" } });
   }, [setSettings, settings, logging]);
   const intl = useIntl();
   return (

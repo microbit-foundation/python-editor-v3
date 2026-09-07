@@ -186,7 +186,7 @@ export class SimulatorDeviceConnection
       case "request_flash": {
         this.dispatchEvent("requestflash");
         this.logging.event({
-          type: "sim-user-start",
+          type: "sim_start",
         });
         break;
       }
@@ -244,7 +244,7 @@ export class SimulatorDeviceConnection
       }
       case "internal_error": {
         const error = event.data.error;
-        this.logging.error(error);
+        this.logging.error("Simulator internal error", error);
         break;
       }
       default: {
@@ -264,7 +264,8 @@ export class SimulatorDeviceConnection
   private logSensor(sensorId: string): void {
     if (!this.sensorsLogged[sensorId]) {
       this.logging.event({
-        type: `sim-user-${sensorId}`,
+        type: "sim_sensor",
+        detail: { id: sensorId },
       });
       this.sensorsLogged[sensorId] = true;
     }
@@ -365,21 +366,23 @@ export class SimulatorDeviceConnection
     this.postMessage("reset", {});
     this.notifyResetComms();
     this.logging.event({
-      type: "sim-user-reset",
+      type: "sim_reset",
     });
   };
 
   mute = async (): Promise<void> => {
     this.postMessage("mute", {});
     this.logging.event({
-      type: "sim-user-mute",
+      type: "sim_audio",
+      detail: { state: "mute" },
     });
   };
 
   unmute = async (): Promise<void> => {
     this.postMessage("unmute", {});
     this.logging.event({
-      type: "sim-user-unmute",
+      type: "sim_audio",
+      detail: { state: "unmute" },
     });
   };
 

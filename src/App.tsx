@@ -10,7 +10,11 @@ import "./App.css";
 import { DialogProvider } from "./common/use-dialogs";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
 import { deployment, useDeployment } from "./deployment";
-import { createUSBConnection } from "@microbit/microbit-connection/usb";
+import { ConnectionStatusChange } from "@microbit/microbit-connection";
+import {
+  MicrobitUSBConnection,
+  createUSBConnection,
+} from "@microbit/microbit-connection/usb";
 import { DeviceContextProvider } from "./device/device-hooks";
 import { MockDeviceConnection } from "./device/mock";
 import DocumentationProvider from "./documentation/documentation-hooks";
@@ -21,6 +25,7 @@ import { FileSystemProvider } from "./fs/fs-hooks";
 import { createHost } from "./fs/host";
 import { fetchMicroPython } from "./micropython/micropython";
 import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
+import { logDeviceStatusChange } from "./logging/analytics";
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
@@ -38,7 +43,7 @@ const isMockDeviceMode = () =>
   );
 
 const logging = deployment.logging;
-const device = isMockDeviceMode()
+const device: MicrobitUSBConnection = isMockDeviceMode()
   ? new MockDeviceConnection()
   : createUSBConnection({ logging });
 
@@ -50,9 +55,16 @@ fs.initializeInBackground();
 
 const App = () => {
   useEffect(() => {
-    logging.event({ type: "boot" });
+    logging.setUserProperty(
+      "webusb_available",
+      "usb" in navigator ? "yes" : "no"
+    );
+    const statusListener = (event: ConnectionStatusChange) =>
+      logDeviceStatusChange(logging, event);
+    device.addEventListener("status", statusListener);
     device.initialize();
     return () => {
+      device.removeEventListener("status", statusListener);
       device.dispose();
     };
   }, []);

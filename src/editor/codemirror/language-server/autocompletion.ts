@@ -108,7 +108,7 @@ export const createCompletionSource =
               // In practice we don't get textEdit fields back from Pyright so the label is used.
               label: item.label,
               apply: (view, completion, from, to) => {
-                logging.event({ type: "autocomplete-accept" });
+                logging.event({ type: "editor_autocomplete" });
                 const insert = item.label;
                 const transactions: TransactionSpec[] = [
                   {

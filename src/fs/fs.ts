@@ -46,10 +46,12 @@ export enum VersionAction {
 export interface Statistics {
   /**
    * The number of lines in main.py.
-   *
-   * Undefined when it is unchanged from the default program.
    */
-  lines: number | undefined;
+  lines: number;
+  /**
+   * Whether main.py is unchanged from the default program.
+   */
+  defaultMain: boolean;
   /**
    * File count.
    */
@@ -415,12 +417,10 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     return {
       files: files.length,
       storageUsed: fs.getStorageUsed(),
-      lines:
-        this.cachedInitialProject &&
-        this.cachedInitialProject.files[MAIN_FILE] ===
-          fromByteArray(currentMainFile)
-          ? undefined
-          : lineNumFromUint8Array(currentMainFile),
+      lines: lineNumFromUint8Array(currentMainFile),
+      defaultMain:
+        this.cachedInitialProject?.files[MAIN_FILE] ===
+        fromByteArray(currentMainFile),
       magicModules: numMagicModules,
     };
   }

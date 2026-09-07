@@ -73,7 +73,7 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
           if (!isUnmounted()) {
             setResults((prevResults) => {
               if (!prevResults) {
-                logging.event({ type: "search" });
+                logging.event({ type: "docs_search" });
               }
               return results;
             });

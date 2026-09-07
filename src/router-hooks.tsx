@@ -42,11 +42,10 @@ export interface RouterState {
   focus?: boolean;
 }
 
-type NavigationSource =
-  | "documentation-user"
-  | "documentation-search"
-  | "documentation-from-code"
-  | "documentation-from-simulator";
+/**
+ * How the user reached a documentation page, for the docs_navigate event.
+ */
+export type NavigationSource = "user" | "search" | "code" | "simulator";
 
 type RouterContextValue = [
   RouterState,
@@ -112,11 +111,9 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useCallback(
     (newState: RouterState, source?: NavigationSource) => {
       if (source) {
-        const parts = [newState.tab, newState.slug?.id];
-        const message = parts.filter((x): x is string => !!x).join("-");
         logging.event({
-          type: source,
-          message,
+          type: "docs_navigate",
+          detail: { via: source, surface: newState.tab, id: newState.slug?.id },
         });
       }
       const url = toUrl(newState);

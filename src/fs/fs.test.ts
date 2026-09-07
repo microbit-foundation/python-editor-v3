@@ -228,7 +228,8 @@ describe("Filesystem", () => {
   it("gives useful stats", async () => {
     expect(await ufs.statistics()).toEqual({
       files: 1,
-      lines: undefined, // signifies initial program
+      lines: expect.any(Number),
+      defaultMain: true,
       storageUsed: 256,
       magicModules: 0,
     });
@@ -246,6 +247,7 @@ describe("Filesystem", () => {
     expect(await ufs.statistics()).toEqual({
       files: 3,
       lines: 3,
+      defaultMain: false,
       storageUsed: 896,
       magicModules: 1,
     });

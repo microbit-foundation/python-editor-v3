@@ -35,10 +35,7 @@ const ReferenceToolkit = ({ toolkit }: ReferenceDocumentationProps) => {
   const topicOrEntryId = anchor?.id.split("/")[0];
   const handleNavigate = useCallback(
     (topicOrEntryId: string | undefined) => {
-      setAnchor(
-        topicOrEntryId ? { id: topicOrEntryId } : undefined,
-        "documentation-user"
-      );
+      setAnchor(topicOrEntryId ? { id: topicOrEntryId } : undefined, "user");
     },
     [setAnchor]
   );

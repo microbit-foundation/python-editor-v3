@@ -7,16 +7,20 @@ import { Event, Logging } from "./logging";
 
 export class MockLogging implements Logging {
   events: Event[] = [];
-  errors: any[] = [];
+  errors: Array<{ message: string; e: unknown }> = [];
   logs: any[] = [];
+  userProperties: Record<string, string> = {};
 
   event(event: Event): void {
     this.events.push(event);
   }
-  error(e: any): void {
-    this.errors.push(e);
+  error(message: string, e: unknown): void {
+    this.errors.push({ message, e });
   }
   log(e: any): void {
     this.logs.push(e);
+  }
+  setUserProperty(name: string, value: string): void {
+    this.userProperties[name] = value;
   }
 }
