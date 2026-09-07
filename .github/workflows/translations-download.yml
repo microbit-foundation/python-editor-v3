@@ -17,7 +17,6 @@ concurrency:
 env:
   # renovate: datasource=npm depName=npm
   NPM_VERSION: "11"
-  BRANCH: translations/sync
 
 jobs:
   download:
@@ -26,20 +25,7 @@ jobs:
       contents: read
       packages: read
     steps:
-      # The branch is pushed and the pull request opened with a token from the
-      # microbit-i18n GitHub App rather than GITHUB_TOKEN: events raised by
-      # GITHUB_TOKEN never start workflows, so the pull request would get no
-      # CI. The App's setup is in the @microbit/i18n-tools README.
-      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
-        id: app-token
-        with:
-          app-id: ${{ secrets.I18N_APP_ID }}
-          private-key: ${{ secrets.I18N_APP_PRIVATE_KEY }}
-          permission-contents: write
-          permission-pull-requests: write
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          token: ${{ steps.app-token.outputs.token }}
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24
@@ -49,58 +35,10 @@ jobs:
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Exit 2 means some files failed to download and the rest were written:
-      # still worth a pull request, so carry on and fail the job at the end.
-      # Anything else non-zero stops here.
-      - id: download
-        run: |
-          set +e
-          npm run i18n:download -- --summary "$SUMMARY"
-          status=$?
-          set -e
-          echo "status=$status" >> "$GITHUB_OUTPUT"
-          if [ -f "$SUMMARY" ]; then
-            cat "$SUMMARY" >> "$GITHUB_STEP_SUMMARY"
-            if grep -q "^### Translations left out" "$SUMMARY"; then
-              echo "::warning::Some translations were left out for placeholder problems; see the summary."
-            fi
-          fi
-          [ "$status" -eq 0 ] || [ "$status" -eq 2 ]
+      - uses: microbit-foundation/translations-sync-action@v1
+        with:
+          download: npm run i18n:download
+          app-id: ${{ secrets.I18N_APP_ID }}
+          private-key: ${{ secrets.I18N_APP_PRIVATE_KEY }}
         env:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.MICROBIT_ORG_CROWDIN_PERSONAL_ACCESS_TOKEN }}
-          SUMMARY: ${{ runner.temp }}/translation-summary.md
-      - name: Open or update the pull request
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
-          SUMMARY: ${{ runner.temp }}/translation-summary.md
-        run: |
-          # Staged first so a new language's file counts as a change.
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No translation changes."
-            exit 0
-          fi
-          BOT="$APP_SLUG[bot]"
-          BOT_ID=$(gh api "/users/$BOT" --jq .id)
-          git config user.name "$BOT"
-          git config user.email "$BOT_ID+$BOT@users.noreply.github.com"
-          git checkout -B "$BRANCH"
-          git commit -m "Translation sync"
-          git push --force origin "$BRANCH"
-          {
-            echo "Translations downloaded from Crowdin by the translations-download workflow. Review, then merge; the branch is force-pushed on each run."
-            echo
-            cat "$SUMMARY"
-          } > "$RUNNER_TEMP/pr-body.md"
-          if gh pr view "$BRANCH" --json state --jq .state 2>/dev/null | grep -q OPEN; then
-            gh pr edit "$BRANCH" --body-file "$RUNNER_TEMP/pr-body.md"
-            echo "Updated the open pull request."
-          else
-            gh pr create --base main --head "$BRANCH" --title "Translation sync" \
-              --reviewer microbit-foundation/web --body-file "$RUNNER_TEMP/pr-body.md"
-          fi
-      - if: steps.download.outputs.status == '2'
-        run: |
-          echo "::error::Some translations failed to download; see the download step. The pull request holds the rest."
-          exit 1
