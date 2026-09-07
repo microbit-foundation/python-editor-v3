@@ -98,7 +98,7 @@ jobs:
             echo "Updated the open pull request."
           else
             gh pr create --base main --head "$BRANCH" --title "Translation sync" \
-              --body-file "$RUNNER_TEMP/pr-body.md"
+              --reviewer microbit-foundation/web --body-file "$RUNNER_TEMP/pr-body.md"
           fi
       - if: steps.download.outputs.status == '2'
         run: |
