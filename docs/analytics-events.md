@@ -5,41 +5,6 @@ ml-trainer's `docs/analytics-events.md` so the two apps can share GA4 custom
 definitions where the concept matches; the "Removed / migrated events" table
 at the end maps the previous UA-shaped events to their replacements.
 
-## Overview
-
-- The web build emits via gtag. GA4 Enhanced Measurement auto-collects
-  `page_view` (including `pushState` navigation between documentation pages),
-  `session_start`, `first_visit`, `user_engagement`, etc. Those are not
-  redocumented here.
-- gtag is only present when `shared-assets/common.js` is loaded, which
-  `index.html` does only for Foundation builds (`VITE_FOUNDATION_BUILD`), and
-  the script itself is hostname-gated to `*.microbit.org`. Consent is owned by
-  the shared-assets cookie modal, which only offers the GA opt-in on
-  PRODUCTION / STAGING. OSS forks and local dev therefore send nothing: events
-  fall through to the console via the Sentry-breadcrumb fallback.
-- Backend code: `src/logging/logger.ts` (param building, Sentry, product
-  injection) and `src/logging/sink.ts` (gtag). Shared device-event
-  vocabulary and helpers are in `src/logging/analytics.ts`.
-- Names are snake_case, ≤40 chars. Param values are primitives (string
-  ≤100 chars, number, or boolean). These are Firebase's rules; the editor has
-  no native build today but the catalogue is kept compatible so a future one
-  could share it.
-- Every event automatically carries a **`product`** param (`python-editor`),
-  injected by the logger from `BrandConfig.product`. It's not listed on
-  individual event tables. Lets dashboards split traffic by product when
-  sibling apps share a GA4 property.
-- Numeric params (`files`, `lines`, `storage_used`, `errors`, `modules`,
-  `duration_ms`, `count`) are sent raw and should be registered as GA4 **custom
-  metrics**, not dimensions. The UA-era bucketing (`0-5`, `51-100`, …) is gone;
-  bucket in the reporting layer if needed.
-- Param names are deliberately generic so one GA4 custom definition serves
-  both apps: `surface` is "which part of the UI" (ml-trainer: home / projects
-  / toolbar; here: the sidebar tab), `id` is "the content item this event is
-  about" (the event name says what kind), `state` is the resulting state of a
-  toggle, `count` is "how many things this event touched", `is_default` is
-  "still the unedited starter". Prefer reusing one of these over adding a
-  product-specific name.
-
 ## User properties
 
 Set once on app boot. Auto-attach to every subsequent event for the same user,

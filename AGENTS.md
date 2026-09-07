@@ -25,8 +25,7 @@ Events go through `Logging` (`src/logging/`) and are documented in
 `docs/analytics-events.md`; update the doc when adding or changing an event.
 Names are snake_case with flat primitive params. gtag only exists on
 Foundation builds (`VITE_FOUNDATION_BUILD`, see `index.html`), so OSS and
-local dev log events to the console instead. The private theme package
-supplies brand config only, including the `product` analytics slug.
+local dev log events to the console instead.
 
 ## Commands
 
