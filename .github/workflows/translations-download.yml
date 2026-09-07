@@ -22,6 +22,8 @@ env:
 jobs:
   download:
     runs-on: ubuntu-latest
+    env:
+      SUMMARY: ${{ runner.temp }}/translation-summary.md
     permissions:
       contents: read
       packages: read
@@ -55,10 +57,16 @@ jobs:
       - id: download
         run: |
           set +e
-          npm run i18n:download
+          npm run i18n:download -- --summary "$SUMMARY"
           status=$?
           set -e
           echo "status=$status" >> "$GITHUB_OUTPUT"
+          if [ -f "$SUMMARY" ]; then
+            cat "$SUMMARY" >> "$GITHUB_STEP_SUMMARY"
+            if grep -q "^### Translations left out" "$SUMMARY"; then
+              echo "::warning::Some translations were left out for placeholder problems; see the summary."
+            fi
+          fi
           [ "$status" -eq 0 ] || [ "$status" -eq 2 ]
         env:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.MICROBIT_ORG_CROWDIN_PERSONAL_ACCESS_TOKEN }}
@@ -80,11 +88,17 @@ jobs:
           git checkout -B "$BRANCH"
           git commit -m "Translation sync"
           git push --force origin "$BRANCH"
+          {
+            echo "Translations downloaded from Crowdin by the translations-download workflow. Review, then merge; the branch is force-pushed on each run."
+            echo
+            cat "$SUMMARY"
+          } > "$RUNNER_TEMP/pr-body.md"
           if gh pr view "$BRANCH" --json state --jq .state 2>/dev/null | grep -q OPEN; then
+            gh pr edit "$BRANCH" --body-file "$RUNNER_TEMP/pr-body.md"
             echo "Updated the open pull request."
           else
             gh pr create --base main --head "$BRANCH" --title "Translation sync" \
-              --body "Translations downloaded from Crowdin by the translations-download workflow. Review, then merge; the branch is force-pushed on each run."
+              --body-file "$RUNNER_TEMP/pr-body.md"
           fi
       - if: steps.download.outputs.status == '2'
         run: |
