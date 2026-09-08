@@ -113,7 +113,7 @@ In development, add strings to `lang/ui.en.json` and run `npm run i18n:compile` 
 
 Other content:
 
-- API documentation is managed in the [type stubs repository](https://github.com/microbit-foundation/micropython-microbit-stubs/)
+- API documentation is managed in the [type stubs repository](https://github.com/microbit-foundation/micropython-microbit-stubs/) and reaches the editor as the `@microbit/micropython-microbit-stubs` npm package (see below)
 - Reference and Ideas content is managed in the Foundation's content management system
 - Common Pyright error messages are managed [in the Foundation's Pyright fork](https://github.com/microbit-foundation/pyright/blob/microbit/packages/pyright-internal/src/localization/simplified.nls.en-us.json).
 
@@ -127,11 +127,12 @@ The CMS content is managed separately by the Micro:bit Educational Foundation an
 
 #### Incorporating changes from Crowdin
 
-For the editor's UI strings alone, the translations-download workflow runs weekly and opens a pull request; run it from the Actions tab for an earlier sync, or `npm run i18n:download` locally.
+Each of the three repositories has a translations-download workflow that runs weekly and opens a pull request; run it from the Actions tab for an earlier sync, or `npm run i18n:download` locally for the editor's UI strings.
 
-For everything at once, use [update-translations.sh](../bin/update-translations.sh). Review it first. It assumes sibling checkouts of our pyright fork and the stubs repository. Prepare them with a clean branch from the main (editor, stubs) or microbit (pyright) branches. The script downloads into all three and updates the editor with the stubs and pyright changes as well as the UI strings.
+The stubs and Pyright changes reach the editor differently:
 
-Review the changes and create PRs for each repository. Review the pyright and stubs PRs first.
+- The stubs repository publishes its `typeshed.<lang>.json` to npm as `@microbit/micropython-microbit-stubs` when a GitHub release is created there. Renovate then opens a pull request here to take the new version. `npm run stubs` (part of `npm run generate`, run on install and before start, typecheck and build) copies the files into `src/micropython/main/`, which is gitignored.
+- The Pyright fork's worker is built and vendored into `public/workers/` with [update-pyright.sh](../bin/update-pyright.sh), which expects a sibling checkout of the fork on its `microbit` branch.
 
 #### Updating files in Crowdin
 
@@ -145,13 +146,13 @@ When considering a new language it's worth checking early whether support is ava
 
 Steps:
 
-1. Add the language in the stubs repository: its `i18n.config.mjs` and `scripts/build-translations.sh`.
+1. Add the language to the stubs repository's `i18n.config.mjs`, run a sync there and cut a release.
 2. Add the language to the editor repository:
    1. Add the language to `i18n.config.mjs`.
    2. Add lunr language support. See [search.ts](../src/documentation/search/search.ts).
    3. Update `supportedLanguages` in [settings.tsx](../src/settings/settings.tsx). You can add the language as a preview language. In this case it will only show up on the beta deployment and will be tagged as a preview in the UI.
 3. Add the language to the pyright repository: its `i18n.config.mjs` and the switch statement in `localize.ts`.
-4. Run a translation sync as documented above.
+4. Run a translation sync as documented above, take the stubs release and rebuild Pyright.
 
 ## Updating MicroPython
 
