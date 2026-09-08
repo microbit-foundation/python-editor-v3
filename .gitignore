@@ -28,7 +28,6 @@ yarn-error.log*
 __pycache__
 *.pyc
 /reports/*
-/crowdin/*
 /test-results/
 /playwright-report/
 /blob-report/

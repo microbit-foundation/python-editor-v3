@@ -29,6 +29,10 @@ export default defineConfig({
   catalogs: [
     {
       source: "lang/ui.en.json",
+      // The Crowdin file predates Crowdin's react-intl support and keeps
+      // its strings' screenshots and other hand-added context, so it stays
+      // in the format it was created in.
+      crowdinFormat: "chrome",
       out: "src/messages/ui.{lang}.json",
       packages: ["@microbit/ui", "@microbit/ui-patterns"],
     },

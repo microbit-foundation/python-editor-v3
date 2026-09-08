@@ -58,7 +58,7 @@
   "devDependencies": {
     "@csstools/postcss-cascade-layers": "^6.0.0",
     "@microbit/eslint-config": "^0.2.1",
-    "@microbit/i18n-tools": "^0.1.0",
+    "@microbit/i18n-tools": "^0.1.4",
     "@pandacss/dev": "^1.11.4",
     "@playwright/test": "^1.58.2",
     "@testing-library/jest-dom": "^5.14.1",
