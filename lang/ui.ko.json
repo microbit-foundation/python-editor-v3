@@ -161,9 +161,6 @@
   "copy-code-action": {
     "defaultMessage": "코드 복사"
   },
-  "copy-snippet-advice": {
-    "defaultMessage": "Code copied, use paste to insert it."
-  },
   "create-action": {
     "defaultMessage": "생성"
   },
@@ -779,18 +776,6 @@
   "simulator-touch-logo": {
     "defaultMessage": "터치 로고"
   },
-  "simulator-unit-celsius": {
-    "defaultMessage": "degrees Celsius"
-  },
-  "simulator-unit-degrees": {
-    "defaultMessage": "degrees"
-  },
-  "simulator-unit-milli-g": {
-    "defaultMessage": "milli-g"
-  },
-  "simulator-unit-nanotesla": {
-    "defaultMessage": "nanotesla"
-  },
   "simulator-unmute": {
     "defaultMessage": "음소거 해제"
   },
@@ -874,6 +859,9 @@
   },
   "webusb-error-default-title": {
     "defaultMessage": "WebUSB 오류"
+  },
+  "webusb-error-reconnect-microbit-description": {
+    "defaultMessage": "<p>다음 단계를 따른 후 다시 시도하세요:</p><ul><li>USB 케이블을 분리하세요</li><li>배터리 팩이 연결되어 있다면 분리하세요</li><li>USB 케이블을 다시 연결하세요</li><li>배터리 팩을 분리했다면 다시 연결하세요</li></ul>"
   },
   "webusb-not-supported": {
     "defaultMessage": "이 브라우저가 WebUSB를 지원하지 않아 프로그램이 컴퓨터에 저장됩니다. micro:bit로 전송하려면 다음 화면의 단계를 따르세요. micro:bit에 직접 연결할 수 있도록 Google Chrome 또는 Microsoft Edge 사용을 권장합니다."

@@ -779,18 +779,6 @@
   "simulator-touch-logo": {
     "defaultMessage": "crwdns334598:0crwdne334598:0"
   },
-  "simulator-unit-celsius": {
-    "defaultMessage": "degrees Celsius"
-  },
-  "simulator-unit-degrees": {
-    "defaultMessage": "degrees"
-  },
-  "simulator-unit-milli-g": {
-    "defaultMessage": "milli-g"
-  },
-  "simulator-unit-nanotesla": {
-    "defaultMessage": "nanotesla"
-  },
   "simulator-unmute": {
     "defaultMessage": "crwdns334600:0crwdne334600:0"
   },

@@ -779,18 +779,6 @@
   "simulator-touch-logo": {
     "defaultMessage": "Touch-Logo"
   },
-  "simulator-unit-celsius": {
-    "defaultMessage": "degrees Celsius"
-  },
-  "simulator-unit-degrees": {
-    "defaultMessage": "degrees"
-  },
-  "simulator-unit-milli-g": {
-    "defaultMessage": "milli-g"
-  },
-  "simulator-unit-nanotesla": {
-    "defaultMessage": "nanotesla"
-  },
   "simulator-unmute": {
     "defaultMessage": "Lautlos beenden"
   },

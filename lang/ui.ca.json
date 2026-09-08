@@ -236,6 +236,9 @@
   "file-name-whitespace": {
     "defaultMessage": "El nom no pot contenir espais"
   },
+  "firmware-update-link": {
+    "defaultMessage": "Has d''<link>actualitzar el teu microprogramari</link> abans de poder connectar amb aquesta micro:bit."
+  },
   "firmware-update-message": {
     "defaultMessage": "La connexió a la micro:bit ha fallat perquè el microprogramari de la teva micro:bit és massa antic."
   },
@@ -368,6 +371,9 @@
   "not-found-checklist-one": {
     "defaultMessage": "La teva <strong>micro:bit està connectada</strong>? Has  <link>seguit aquests passos</link>?"
   },
+  "not-found-checklist-two": {
+    "defaultMessage": "Si tens una <strong>micro:bit V1</strong>, potser hauries d''<link>actualitzar el microprogramari</link>"
+  },
   "not-found-message": {
     "defaultMessage": "No has seleccionat cap micro:bit o hi ha hagut un problema en connectar-s'hi."
   },
@@ -376,6 +382,9 @@
   },
   "not-found-title": {
     "defaultMessage": "No s'ha trobat cap micro:bit"
+  },
+  "not-found-update-link": {
+    "defaultMessage": "Has d''<link>actualitzar el teu microprogramari</link> abans de poder connectar amb aquesta micro:bit."
   },
   "offline-image-alt": {
     "defaultMessage": "La imatge no està disponible fora de línia"
@@ -769,18 +778,6 @@
   },
   "simulator-touch-logo": {
     "defaultMessage": "Logotip tàctil"
-  },
-  "simulator-unit-celsius": {
-    "defaultMessage": "degrees Celsius"
-  },
-  "simulator-unit-degrees": {
-    "defaultMessage": "degrees"
-  },
-  "simulator-unit-milli-g": {
-    "defaultMessage": "milli-g"
-  },
-  "simulator-unit-nanotesla": {
-    "defaultMessage": "nanotesla"
   },
   "simulator-unmute": {
     "defaultMessage": "Deixar de silenciar"

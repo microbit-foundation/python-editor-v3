@@ -161,9 +161,6 @@
   "copy-code-action": {
     "defaultMessage": "複製程式碼"
   },
-  "copy-snippet-advice": {
-    "defaultMessage": "Code copied, use paste to insert it."
-  },
   "create-action": {
     "defaultMessage": "創造"
   },
@@ -778,18 +775,6 @@
   },
   "simulator-touch-logo": {
     "defaultMessage": " 觸控標誌"
-  },
-  "simulator-unit-celsius": {
-    "defaultMessage": "degrees Celsius"
-  },
-  "simulator-unit-degrees": {
-    "defaultMessage": "degrees"
-  },
-  "simulator-unit-milli-g": {
-    "defaultMessage": "milli-g"
-  },
-  "simulator-unit-nanotesla": {
-    "defaultMessage": "nanotesla"
   },
   "simulator-unmute": {
     "defaultMessage": "取消靜音"
