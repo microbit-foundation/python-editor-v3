@@ -40,6 +40,7 @@ import { languageServer } from "./language-server/view";
 import { lintGutter } from "./lint/lint";
 import { codeStructure } from "./structure-highlighting";
 import themeExtensions from "./themeExtensions";
+import { ViewErrorReporting } from "./view-error-reporting";
 import { useDevice } from "../../device/device-hooks";
 
 interface CodeMirrorProps {
@@ -120,10 +121,12 @@ const CodeMirror = ({
           logPastedLineCount(logging, update);
         }
       });
+      const errorReporting = new ViewErrorReporting(logging);
       const state = EditorState.create({
         doc: defaultValue,
         extensions: [
           notify,
+          errorReporting.extension(),
           editorConfig,
           // Extension requires external state.
           dndSupport({ sessionSettings, setSessionSettings }),
@@ -164,6 +167,7 @@ const CodeMirror = ({
       const view = new EditorView({
         state,
         parent: elementRef.current!,
+        dispatchTransactions: errorReporting.dispatchTransactions,
       });
 
       viewRef.current = view;

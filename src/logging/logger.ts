@@ -42,8 +42,8 @@ export class Logger implements Logging {
     this.sink.setUserProperty(name, value);
   }
 
-  error(message: string, e: unknown): void {
-    reportError(this.sentryDsn, message, e);
+  error(message: string, e: unknown, context?: Record<string, unknown>): void {
+    reportError(this.sentryDsn, message, e, context);
   }
 
   log(v: unknown): void {
