@@ -44,9 +44,14 @@ export const initSentry = (env: Record<string, string>): string | undefined => {
 export const reportError = (
   dsn: string | undefined,
   message: string,
-  e: unknown
+  e: unknown,
+  context?: Record<string, unknown>
 ): void => {
-  console.error(message, e);
+  if (context) {
+    console.error(message, e, context);
+  } else {
+    console.error(message, e);
+  }
   if (!dsn) {
     return;
   }
@@ -56,7 +61,7 @@ export const reportError = (
       type: "error-message",
       level: "error",
     });
-    sentryCaptureException(e);
+    sentryCaptureException(e, context ? { extra: context } : undefined);
   } catch (err) {
     console.error(err);
   }

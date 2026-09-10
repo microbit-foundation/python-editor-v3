@@ -12,7 +12,11 @@ export interface Event {
 
 export interface Logging {
   event(event: Event): void;
-  error(message: string, e: unknown): void;
+  /**
+   * Report an error. `context` is attached to the Sentry event as extra
+   * data; keep it to primitives and never include document text.
+   */
+  error(message: string, e: unknown, context?: Record<string, unknown>): void;
   log(e: any): void;
   /**
    * Set a GA4 user property — auto-attaches to every subsequent event
