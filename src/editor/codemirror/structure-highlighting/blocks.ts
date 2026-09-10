@@ -34,6 +34,7 @@ export interface CodeBlock {
    * Start of the first header node of the run.
    */
   start: number;
+  /** Always past {@link start}, so `bodyStart - 1` is a valid position. */
   bodyStart: number;
   bodyEnd: number;
   /**
@@ -80,13 +81,19 @@ export const codeBlocks = (state: EditorState): CodeBlock[] => {
           let runStart = 0;
           for (let i = 0; i < children.length; ++i) {
             if (children[i].name === "Body") {
-              blocks.push({
-                statement: leaving.name,
-                start: children[runStart].start,
-                bodyStart: children[i].start,
-                bodyEnd: children[i].end,
-                depth,
-              });
+              // Error recovery can give a compound statement a zero-length
+              // error node in place of its header, leaving the body starting
+              // where the header does. There's no header to draw, and the
+              // view relies on bodyStart being past start.
+              if (children[i].start > children[runStart].start) {
+                blocks.push({
+                  statement: leaving.name,
+                  start: children[runStart].start,
+                  bodyStart: children[i].start,
+                  bodyEnd: children[i].end,
+                  depth,
+                });
+              }
               runStart = i + 1;
             }
           }

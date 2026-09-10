@@ -79,7 +79,8 @@ export const codeStructureView = (option: "full" | "simple") =>
          *
          * @param view The view.
          * @param start The start position.
-         * @param end The end position.
+         * @param end The end position. Must be greater than zero, as we look
+         *            at the character before it; see CodeBlock.bodyStart.
          * @param depth Current indent depth (1 per indent level starting at 0).
          * @param parent The parent positions (e.g. for the while block) if we're calculating body positions, otherwise undefined.
          * @returns The positions for the block denoted by start/end or undefined if highlighting should be skipped.
