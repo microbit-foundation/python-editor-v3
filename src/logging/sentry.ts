@@ -40,6 +40,12 @@ export const initSentry = (env: Record<string, string>): string | undefined => {
 
 /**
  * Report an error to Sentry (if configured) and the console.
+ *
+ * Non-Error values are converted before capture. Sentry otherwise titles
+ * them "Object captured as exception with keys: ..." and groups them all
+ * together, which is what happens to errors structured-cloned across
+ * postMessage from the simulator (e.g. Emscripten's ExitStatus, which
+ * does not extend Error).
  */
 export const reportError = (
   dsn: string | undefined,
@@ -61,9 +67,47 @@ export const reportError = (
       type: "error-message",
       level: "error",
     });
-    sentryCaptureException(e, context ? { extra: context } : undefined);
+    const { error, extra } = toError(e);
+    const combined = extra || context ? { ...extra, ...context } : undefined;
+    sentryCaptureException(error, combined ? { extra: combined } : undefined);
   } catch (err) {
     console.error(err);
+  }
+};
+
+interface NormalisedError {
+  error: Error;
+  extra?: Record<string, unknown>;
+}
+
+const toError = (e: unknown): NormalisedError => {
+  if (e instanceof Error) {
+    return { error: e };
+  }
+  let error: Error;
+  let extra: Record<string, unknown> | undefined;
+  if (typeof e === "object" && e !== null) {
+    const { name, message, ...rest } = e as Record<string, unknown>;
+    error = new Error(typeof message === "string" ? message : stringify(e));
+    if (typeof name === "string" && name) {
+      error.name = name;
+    }
+    extra = Object.keys(rest).length > 0 ? rest : undefined;
+  } else {
+    error = new Error(String(e));
+  }
+  // The stack we'd get here is just the logging call chain, identical for
+  // every caller, so Sentry would group unrelated errors together. Without
+  // one it falls back to grouping by type and message.
+  error.stack = undefined;
+  return { error, extra };
+};
+
+const stringify = (e: object): string => {
+  try {
+    return JSON.stringify(e);
+  } catch {
+    return Object.prototype.toString.call(e);
   }
 };
 
