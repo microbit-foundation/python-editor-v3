@@ -150,6 +150,32 @@ describe("structure highlighting grammar contract", () => {
     ]);
   });
 
+  it("drops runs whose header is only an error node", () => {
+    // A leading colon recovers as a TryStatement whose children are a
+    // zero-length error node then the body, so start and bodyStart are both 0.
+    // view.ts would take bodyStart - 1 and ask for line -1.
+    const state = createState(":\n    pass\n");
+    expect(codeBlocks(state)).toEqual([]);
+  });
+
+  it("keeps bodyStart past start for every run", () => {
+    const samples = [
+      "if a:\n    pass\n",
+      "if a:\n    pass\nelif b:\n    pass\nelse:\n    pass\n",
+      "try:\n    pass\nexcept:\n    pass\nfinally:\n    pass\n",
+      "if a: pass\n",
+      ":\n    pass\n",
+      "::\n    pass\n",
+      "    pass\n",
+      "else:\n    pass\n",
+    ];
+    for (const doc of samples) {
+      for (const block of codeBlocks(createState(doc))) {
+        expect(block.bodyStart).toBeGreaterThan(block.start);
+      }
+    }
+  });
+
   it("covers every compound statement name in grammarInfo", () => {
     const samples = [
       "if a:\n    pass\n",
