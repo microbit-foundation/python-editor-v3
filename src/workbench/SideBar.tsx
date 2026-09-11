@@ -160,7 +160,7 @@ const SideBar = ({
         // previous selection is retained (but not styled). Clicking it
         // fires no selection change, so expand from the click instead.
         handleTabChange(panes.findIndex((p) => p.id === id));
-      } else if (slug) {
+      } else if (id === tab && slug) {
         // A click on a tab when it's already selected should
         // reset any other parameters so we go back to the top
         // level.
