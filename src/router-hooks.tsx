@@ -1,28 +1,25 @@
 /**
- * A simple custom router. We don't have pages as such, but the different UI areas
- * use query parameters to keep some state, for example to allow navigating back from
- * drilling down into the documentation in the side panel or making tab selections.
+ * Editor URL state.
  *
- * Which UI state is encoded into the URL might be subject to change in future
- * based on user feedback and discussion.
+ * The documentation tabs and their drill-down anchors are encoded in the URL
+ * so that browser navigation works for them. These hooks are the app's view
+ * of that state over react-router.
  *
- * (c) 2021-2022, Micro:bit Educational Foundation and contributors
+ * (c) 2021-2026, Micro:bit Educational Foundation and contributors
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { baseUrl } from "./base";
+import { useCallback, useMemo } from "react";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { useLogging } from "./logging/logging-hooks";
+import { createEditorUrl } from "./urls";
 
 export type TabName = "api" | "ideas" | "reference" | "project";
+
+const tabNames: readonly string[] = ["api", "ideas", "reference", "project"];
+
+const isTabName = (value: string | undefined): value is TabName =>
+  value !== undefined && tabNames.includes(value);
 
 /**
  * An anchor-like navigation used for scroll positions.
@@ -33,8 +30,6 @@ export type TabName = "api" | "ideas" | "reference" | "project";
 export interface Anchor {
   id: string;
 }
-const anchorForParam = (param: string | null): Anchor | undefined =>
-  param ? { id: param } : undefined;
 
 export interface RouterState {
   tab?: TabName;
@@ -52,63 +47,38 @@ type RouterContextValue = [
   (state: RouterState, source?: NavigationSource) => void
 ];
 
-const RouterContext = createContext<RouterContextValue | undefined>(undefined);
-
-const parse = (pathname: string): RouterState => {
-  pathname = pathname.slice(baseUrl.length);
-  if (pathname) {
-    const parts = pathname.split("/");
-    const tab = parts[0];
-    if (
-      tab === "api" ||
-      tab === "reference" ||
-      tab === "ideas" ||
-      tab === "project"
-    ) {
-      return { tab, slug: anchorForParam(parts[1]) };
-    }
-  }
-  return {};
-};
+/** Carried in history state rather than the URL. */
+interface LocationState {
+  focus?: boolean;
+}
 
 /**
  * The full router state.
- * Consider using useRouterParam instead if you only care about one parameter.
+ * Consider using useRouterTabSlug instead if you only care about one parameter.
  *
  * Updating the state updates the URL.
  *
  * @return a [state, setState] pair.
  */
 export const useRouterState = (): RouterContextValue => {
-  const value = useContext(RouterContext);
-  if (!value) {
-    throw new Error("Missing provider!");
-  }
-  return value;
-};
-
-export const toUrl = (state: RouterState): string => {
-  const parts = [state.tab, state.slug?.id];
-  const pathname = baseUrl + parts.filter((x): x is string => !!x).join("/");
-  return window.location.toString().split("/", 1)[0] + pathname;
-};
-
-export const RouterProvider = ({ children }: { children: ReactNode }) => {
+  const { tab, slug } = useParams<"tab" | "slug">();
+  const location = useLocation();
+  const navigate = useNavigate();
   const logging = useLogging();
-  const [state, setState] = useState(() => parse(window.location.pathname));
-  useEffect(() => {
-    // This detects browser navigation but not our programatic changes,
-    // so we need to update state there ourselves.
-    const listener = (_: PopStateEvent) => {
-      const newState = parse(window.location.pathname);
-      setState(newState);
-    };
-    window.addEventListener("popstate", listener);
-    return () => {
-      window.removeEventListener("popstate", listener);
-    };
-  }, [setState]);
-  const navigate = useCallback(
+
+  const focus = (location.state as LocationState | null)?.focus ?? false;
+  const state = useMemo<RouterState>(
+    () =>
+      isTabName(tab)
+        ? { tab, slug: slug ? { id: slug } : undefined, focus }
+        : {},
+    // location.key: navigating to the current anchor again must produce a new
+    // state object so that the scroll and focus effects run again.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [tab, slug, focus, location.key]
+  );
+
+  const setState = useCallback(
     (newState: RouterState, source?: NavigationSource) => {
       if (source) {
         logging.event({
@@ -116,19 +86,13 @@ export const RouterProvider = ({ children }: { children: ReactNode }) => {
           detail: { via: source, surface: newState.tab, id: newState.slug?.id },
         });
       }
-      const url = toUrl(newState);
-      window.history.pushState(newState, "", url);
-
-      setState(newState);
+      const locationState: LocationState = { focus: newState.focus };
+      void navigate(createEditorUrl(newState), { state: locationState });
     },
-    [logging, setState]
+    [logging, navigate]
   );
-  const value: RouterContextValue = useMemo(() => {
-    return [state, navigate];
-  }, [state, navigate]);
-  return (
-    <RouterContext.Provider value={value}>{children}</RouterContext.Provider>
-  );
+
+  return useMemo(() => [state, setState], [state, setState]);
 };
 
 /**

@@ -3,12 +3,19 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Divider, Link, Text } from "@microbit/ui";
+import { Divider, styled, Text } from "@microbit/ui";
 import { ComponentProps } from "react";
 import { FormattedMessage } from "react-intl";
+import { Link as RouterLink } from "react-router";
 import { Stack } from "styled-system/jsx";
-import { RouterState, toUrl } from "../../router-hooks";
+import { link } from "styled-system/recipes";
+import { RouterState } from "../../router-hooks";
+import { createEditorUrl } from "../../urls";
 import { Extract, Result } from "./common";
+
+// @microbit/ui's Link with react-router underneath, so the href respects the
+// basename and a modifier-click opens the result in a new tab.
+const Link = styled(RouterLink, link);
 
 interface SearchResultListProps {
   title: string;
@@ -61,15 +68,13 @@ const SearchResultItem = ({
   viewedResults,
   onViewResult,
 }: SearchResultItemProps) => {
-  const url = toUrl(navigation);
-
   return (
     <Stack pl="3px" pr="3px">
       <Link
         variant="standalone"
         bgColor={viewedResults.includes(id) ? "#efedf5" : "unset"}
         borderRadius="md"
-        href={url}
+        to={createEditorUrl(navigation)}
         onClick={(e) => {
           e.preventDefault();
           onViewResult(id, navigation);

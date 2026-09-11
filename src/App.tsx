@@ -5,7 +5,7 @@
  */
 import { SharedUIProvider, ToastProvider } from "@microbit/ui";
 import { polyfill } from "mobile-drag-drop";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import "./App.css";
 import { DialogProvider } from "./common/use-dialogs";
 import VisualViewPortCSSVariables from "./common/VisualViewportCSSVariables";
@@ -29,12 +29,12 @@ import { logDeviceStatusChange } from "./logging/analytics";
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
-import { RouterProvider } from "./router-hooks";
+import { RouterProvider } from "react-router/dom";
+import { createRouter } from "./router";
 import SessionSettingsProvider from "./settings/session-settings";
 import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
 import { SelectionProvider } from "./workbench/use-selection";
-import Workbench from "./workbench/Workbench";
 
 const isMockDeviceMode = () =>
   // We use a cookie set from the e2e tests. Avoids having separate test and live builds.
@@ -75,6 +75,7 @@ const App = () => {
 
   const deployment = useDeployment();
   const { ConsentProvider } = deployment.compliance;
+  const router = useMemo(() => createRouter(), []);
   return (
     <>
       <VisualViewPortCSSVariables />
@@ -96,15 +97,13 @@ const App = () => {
                         <SearchProvider>
                           <SelectionProvider>
                             <DialogProvider>
-                              <RouterProvider>
-                                <ConsentProvider>
-                                  <ProjectDropTarget>
-                                    <ActiveEditorProvider>
-                                      <Workbench />
-                                    </ActiveEditorProvider>
-                                  </ProjectDropTarget>
-                                </ConsentProvider>
-                              </RouterProvider>
+                              <ConsentProvider>
+                                <ProjectDropTarget>
+                                  <ActiveEditorProvider>
+                                    <RouterProvider router={router} />
+                                  </ActiveEditorProvider>
+                                </ProjectDropTarget>
+                              </ConsentProvider>
                             </DialogProvider>
                           </SelectionProvider>
                         </SearchProvider>
