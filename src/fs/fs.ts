@@ -254,6 +254,29 @@ export class FileSystem extends TypedEventTarget<EventMap> {
   }
 
   /**
+   * Switch to a different backing storage, typically another project.
+   *
+   * The new storage is the record from here on: reads, writes and the hex
+   * file system all reflect it. Versions of files present in the new storage
+   * are bumped so editors showing a same-named file reload it.
+   */
+  async switchStorage(storage: FSStorage): Promise<void> {
+    if (this.initializing) {
+      await this.initializing;
+    }
+    this.storage = storage;
+    this._dirty = await storage.isDirty();
+    this.project = { ...this.project, id: generateId() };
+    if (this.fs) {
+      await this.initializeFsFromStorage(this.fs);
+    }
+    for (const name of await storage.ls()) {
+      this.incrementFileVersion(name);
+    }
+    return this.notify();
+  }
+
+  /**
    * Update the project name.
    *
    * @param projectName New project name.
