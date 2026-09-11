@@ -41,13 +41,13 @@ export const sessionStorageIfPossible = (): Storage | undefined => {
  * Opens the storage for the tab's current project.
  *
  * In order: the project the tab already has open; a project migrated from
- * the session-storage file system that predates the library, so a reload
+ * the session-storage file system that predates the projects database, so a reload
  * after deploying this lands in the user's work; otherwise a new project.
  *
  * Without IndexedDB (unavailable, blocked, or an incompatible database) this
  * falls back to session storage, which is what the editor used before. On
  * non-public stages an incompatible database is reported for the UI to offer
- * clearing it instead, since review builds share one library.
+ * clearing it instead, since review builds share one database.
  */
 export const openCurrentProjectStorage = async (
   logging: Logging,
@@ -64,7 +64,7 @@ export const openCurrentProjectStorage = async (
       reportStorageVersionError(e);
       return undefined;
     }
-    logging.error("Project library unavailable, using session storage", e);
+    logging.error("Projects database unavailable, using session storage", e);
     return SessionStorageFSStorage.create();
   }
   const session = sessionStorageIfPossible();
@@ -99,7 +99,7 @@ const chooseProject = async (
 };
 
 /**
- * Moves the single session-storage project into the library. The session
+ * Moves the single session-storage project into the database. The session
  * storage copy is removed so this happens once; the id then stands in for it.
  */
 const migrateLegacyProject = async (

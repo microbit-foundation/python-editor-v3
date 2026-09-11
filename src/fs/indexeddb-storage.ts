@@ -9,7 +9,7 @@ import { FSStorage } from "./storage";
 const defaultFlushDelayMs = 300;
 
 /**
- * File system storage for one project in the IndexedDB library.
+ * File system storage for one project in the IndexedDB projects database.
  *
  * Intended as the secondary of a SplitStrategyStorage, so reads are rare and
  * writes arrive on every keystroke. Writes are coalesced per file and flushed

@@ -87,7 +87,7 @@ describe("openCurrentProjectStorage", () => {
     await (storage as IndexedDBFSStorage).dispose();
   });
 
-  it("falls back to session storage when the library cannot be opened", async () => {
+  it("falls back to session storage when the database cannot be opened", async () => {
     vi.spyOn(ProjectsDatabase, "open").mockRejectedValueOnce(
       new Error("blocked")
     );
@@ -96,7 +96,7 @@ describe("openCurrentProjectStorage", () => {
     expect(logging.errors[0].message).toMatch(/using session storage/);
   });
 
-  it("falls back to session storage for an incompatible library on public stages", async () => {
+  it("falls back to session storage for an incompatible database on public stages", async () => {
     vi.spyOn(ProjectsDatabase, "open").mockRejectedValueOnce(
       new DOMException("nope", "VersionError")
     );
@@ -104,7 +104,7 @@ describe("openCurrentProjectStorage", () => {
     expect(storage).toBeInstanceOf(SessionStorageFSStorage);
   });
 
-  it("reports an incompatible library for clearing on non-public stages", async () => {
+  it("reports an incompatible database for clearing on non-public stages", async () => {
     vi.spyOn(ProjectsDatabase, "open").mockRejectedValueOnce(
       new DOMException("nope", "VersionError")
     );

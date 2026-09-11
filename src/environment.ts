@@ -11,7 +11,7 @@ export const stage = (import.meta.env.VITE_STAGE || "local") as Stage;
 
 /**
  * Stages real users reach. Development affordances (like offering to clear
- * an incompatible project library) are for the others.
+ * an incompatible projects database) are for the others.
  */
 export const isPublicFacingStage = (s: Stage = stage): boolean =>
   s === "STAGING" || s === "PRODUCTION";

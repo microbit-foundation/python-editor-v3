@@ -1,5 +1,5 @@
 /**
- * The project library in IndexedDB.
+ * The projects database in IndexedDB.
  *
  * (c) 2026, Micro:bit Educational Foundation and contributors
  *

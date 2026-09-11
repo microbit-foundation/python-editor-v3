@@ -11,7 +11,7 @@ let versionError: unknown;
 const listeners = new Set<() => void>();
 
 /**
- * Records that the project library was created by an incompatible version
+ * Records that the projects database was created by an incompatible version
  * of the app. Only used on non-public stages, where the fix is to clear it.
  */
 export const reportStorageVersionError = (error: unknown): void => {

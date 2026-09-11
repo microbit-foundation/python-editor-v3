@@ -20,8 +20,8 @@ const deleteDatabase = (name: string) =>
   });
 
 /**
- * Shown on non-public stages when the project library was created by an
- * incompatible build. Review builds share one library, so this is expected
+ * Shown on non-public stages when the projects database was created by an
+ * incompatible build. Review builds share one database, so this is expected
  * to happen there now and then; the fix is to start again.
  *
  * Deliberately untranslated: it never appears on a public deployment.
