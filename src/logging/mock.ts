@@ -14,12 +14,19 @@ export class MockLogging implements Logging {
   }> = [];
   logs: any[] = [];
   userProperties: Record<string, string> = {};
+  /** What error() returns, for tests of code that shows the reference. */
+  errorReference: string | undefined = undefined;
 
   event(event: Event): void {
     this.events.push(event);
   }
-  error(message: string, e: unknown, context?: Record<string, unknown>): void {
+  error(
+    message: string,
+    e: unknown,
+    context?: Record<string, unknown>
+  ): string | undefined {
     this.errors.push({ message, e, context });
+    return this.errorReference;
   }
   log(e: any): void {
     this.logs.push(e);

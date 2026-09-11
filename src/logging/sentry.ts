@@ -52,14 +52,14 @@ export const reportError = (
   message: string,
   e: unknown,
   context?: Record<string, unknown>
-): void => {
+): string | undefined => {
   if (context) {
     console.error(message, e, context);
   } else {
     console.error(message, e);
   }
   if (!dsn) {
-    return;
+    return undefined;
   }
   try {
     sentryAddBreadcrumb({
@@ -69,9 +69,13 @@ export const reportError = (
     });
     const { error, extra } = toError(e);
     const combined = extra || context ? { ...extra, ...context } : undefined;
-    sentryCaptureException(error, combined ? { extra: combined } : undefined);
+    return sentryCaptureException(
+      error,
+      combined ? { extra: combined } : undefined
+    );
   } catch (err) {
     console.error(err);
+    return undefined;
   }
 };
 

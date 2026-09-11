@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createBrowserRouter, Outlet } from "react-router";
-import ErrorBoundary from "./common/ErrorBoundary";
+import { createBrowserRouter } from "react-router";
+import RootLayout from "./RootLayout";
 import { basename, editorRoutePath } from "./urls";
 import Workbench from "./workbench/Workbench";
 
@@ -14,12 +14,7 @@ export const createRouter = () =>
       {
         id: "root",
         path: "",
-        // Without this an uncaught render error unmounts the whole app.
-        element: (
-          <ErrorBoundary>
-            <Outlet />
-          </ErrorBoundary>
-        ),
+        element: <RootLayout />,
         children: [
           { path: editorRoutePath, element: <Workbench /> },
           // Deeper paths are the editor with no tab selected, as before.
