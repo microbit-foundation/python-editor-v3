@@ -26,8 +26,14 @@ describe("reportError", () => {
   });
 
   it("does nothing beyond console when Sentry is disabled", () => {
-    reportError(undefined, "Oops", new Error("boom"));
+    const reference = reportError(undefined, "Oops", new Error("boom"));
     expect(captureException).not.toHaveBeenCalled();
+    expect(reference).toBeUndefined();
+  });
+
+  it("returns the event id as the report reference", () => {
+    vi.mocked(captureException).mockReturnValueOnce("evt-1");
+    expect(reportError(dsn, "Oops", new Error("boom"))).toBe("evt-1");
   });
 
   it("passes Error instances through unchanged", () => {

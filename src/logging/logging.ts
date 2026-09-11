@@ -15,8 +15,15 @@ export interface Logging {
   /**
    * Report an error. `context` is attached to the Sentry event as extra
    * data; keep it to primitives and never include document text.
+   *
+   * Returns a reference for the report (the Sentry event id) when one was
+   * sent, for showing to the user so support can find the report.
    */
-  error(message: string, e: unknown, context?: Record<string, unknown>): void;
+  error(
+    message: string,
+    e: unknown,
+    context?: Record<string, unknown>
+  ): string | undefined;
   log(e: any): void;
   /**
    * Set a GA4 user property — auto-attaches to every subsequent event
