@@ -169,6 +169,18 @@ export class SessionStorageFSStorage implements FSStorage {
     this.storage.clear();
   }
 
+  /**
+   * Removes the file system's keys and nothing else: session storage also
+   * holds session settings.
+   */
+  async removeAll(): Promise<void> {
+    for (const key of Object.keys(this.storage)) {
+      if (key.startsWith(fsFilesPrefix) || key.startsWith(fsMetadataPrefix)) {
+        this.storage.removeItem(key);
+      }
+    }
+  }
+
   async markDirty(): Promise<void> {
     this.storage.setItem(dirtyKey, "true");
   }
@@ -189,17 +201,25 @@ export class SessionStorageFSStorage implements FSStorage {
  */
 export class SplitStrategyStorage implements FSStorage {
   private initialized: Promise<unknown>;
+  private secondary: FSStorage | undefined;
 
+  /**
+   * @param secondary The persistent copy, or a promise of one for storage
+   * that takes time to open. Every operation waits for it.
+   */
   constructor(
     private primary: FSStorage,
-    private secondary: FSStorage | undefined,
+    secondary: FSStorage | undefined | Promise<FSStorage | undefined>,
     private log: Logging
   ) {
-    this.initialized = secondary
-      ? this.secondaryErrorHandle(async () => {
-          await initializeFromStorage(secondary, primary);
-        })
-      : Promise.resolve();
+    this.initialized = Promise.resolve(secondary).then((resolved) => {
+      this.secondary = resolved;
+      return resolved
+        ? this.secondaryErrorHandle(async () => {
+            await initializeFromStorage(resolved, primary);
+          })
+        : undefined;
+    });
   }
 
   async ls() {

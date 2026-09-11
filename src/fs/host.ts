@@ -12,12 +12,8 @@ import {
   projectFilesToBase64,
 } from "./initial-project";
 import { parseMigrationFromUrl } from "./migration";
-import {
-  FSStorage,
-  InMemoryFSStorage,
-  SessionStorageFSStorage,
-  SplitStrategyStorage,
-} from "./storage";
+import { openCurrentProjectStorage } from "./current-project";
+import { FSStorage, InMemoryFSStorage, SplitStrategyStorage } from "./storage";
 
 const messages = {
   type: "pyeditor",
@@ -42,7 +38,7 @@ export class DefaultHost implements Host {
   createStorage(logging: Logging): FSStorage {
     return new SplitStrategyStorage(
       new InMemoryFSStorage(undefined),
-      SessionStorageFSStorage.create(),
+      openCurrentProjectStorage(logging),
       logging
     );
   }

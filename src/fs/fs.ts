@@ -160,8 +160,9 @@ export const isNameLengthValid = (filename: string): boolean =>
 /**
  * The MicroPython file system adapted for convienient use from the UI.
  *
- * For now we store contents backed by session storage so they're only
- * persistent over a browser refresh or Chrome tab restore.
+ * Contents are held in memory and mirrored to the host's persistent storage:
+ * the current project in the IndexedDB library, or session storage where
+ * that is unavailable.
  *
  * We version files in a way that's designed to make UI updates simple.
  * If a UI action updates a file (e.g. load from disk) then we bump its version.
