@@ -5,11 +5,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { isPublicFacingStage } from "../environment";
 import { Logging } from "../logging/logging";
 import { generateId } from "./fs-util";
 import { IndexedDBFSStorage } from "./indexeddb-storage";
 import { ProjectsDatabase } from "./projects-db";
 import { FSStorage, SessionStorageFSStorage } from "./storage";
+import { reportStorageVersionError } from "./storage-status";
 
 /**
  * The open project is per tab, as the whole project used to be.
@@ -43,10 +45,13 @@ export const sessionStorageIfPossible = (): Storage | undefined => {
  * after deploying this lands in the user's work; otherwise a new project.
  *
  * Without IndexedDB (unavailable, blocked, or an incompatible database) this
- * falls back to session storage, which is what the editor used before.
+ * falls back to session storage, which is what the editor used before. On
+ * non-public stages an incompatible database is reported for the UI to offer
+ * clearing it instead, since review builds share one library.
  */
 export const openCurrentProjectStorage = async (
-  logging: Logging
+  logging: Logging,
+  publicFacing: boolean = isPublicFacingStage()
 ): Promise<FSStorage | undefined> => {
   if (typeof indexedDB === "undefined") {
     return SessionStorageFSStorage.create();
@@ -55,6 +60,10 @@ export const openCurrentProjectStorage = async (
   try {
     db = await ProjectsDatabase.open();
   } catch (e) {
+    if (isVersionError(e) && !publicFacing) {
+      reportStorageVersionError(e);
+      return undefined;
+    }
     logging.error("Project library unavailable, using session storage", e);
     return SessionStorageFSStorage.create();
   }
@@ -114,3 +123,6 @@ const migrateLegacyProject = async (
   await legacy.removeAll();
   return id;
 };
+
+const isVersionError = (e: unknown): boolean =>
+  e instanceof DOMException && e.name === "VersionError";

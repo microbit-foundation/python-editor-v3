@@ -25,10 +25,17 @@ const contents = (files: Record<string, Uint8Array>) =>
   );
 
 describe("databaseName", () => {
-  it("is namespaced by the base path so deployments on one origin stay apart", () => {
-    expect(databaseName("/")).toEqual("python-editor");
-    expect(databaseName("/v/3/")).toEqual("python-editor/v/3");
-    expect(databaseName("/v/beta/")).toEqual("python-editor/v/beta");
+  it("is namespaced by the base path so production and beta stay apart", () => {
+    expect(databaseName("local", "/")).toEqual("python-editor");
+    expect(databaseName("PRODUCTION", "/v/3/")).toEqual("python-editor/v/3");
+    expect(databaseName("STAGING", "/v/beta/")).toEqual("python-editor/v/beta");
+  });
+
+  it("is shared by every review build", () => {
+    expect(databaseName("REVIEW", "/some-branch/")).toEqual(
+      "python-editor-review"
+    );
+    expect(databaseName("REVIEW", "/another/")).toEqual("python-editor-review");
   });
 });
 

@@ -7,6 +7,7 @@
  */
 import { DBSchema, IDBPDatabase, openDB } from "idb";
 import { baseUrl } from "../base";
+import { Stage, stage as currentStage } from "../environment";
 
 /**
  * Project metadata. Deliberately holds no file content so listing is cheap.
@@ -58,11 +59,23 @@ interface Schema extends DBSchema {
 const DB_VERSION = 1;
 
 /**
- * Deployments share an origin (production, beta and every review build), so
- * the database name includes the base path to keep their libraries apart.
+ * Deployments share an origin, so the database name includes the base path
+ * to keep production's and beta's libraries apart. Review builds all share
+ * one: they are internal, and a project made on one branch is useful on the
+ * next. When a schema change breaks it, StorageVersionErrorPage offers to
+ * clear it.
  */
-export const databaseName = (base: string = baseUrl): string =>
-  base === "/" ? "python-editor" : `python-editor${base.replace(/\/$/, "")}`;
+export const databaseName = (
+  stage: Stage = currentStage,
+  base: string = baseUrl
+): string => {
+  if (stage === "REVIEW") {
+    return "python-editor-review";
+  }
+  return base === "/"
+    ? "python-editor"
+    : `python-editor${base.replace(/\/$/, "")}`;
+};
 
 export class ProjectsDatabase {
   private constructor(private db: IDBPDatabase<Schema>) {}

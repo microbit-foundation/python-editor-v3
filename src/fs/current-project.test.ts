@@ -14,6 +14,7 @@ import {
 import { IndexedDBFSStorage } from "./indexeddb-storage";
 import { databaseName, ProjectsDatabase } from "./projects-db";
 import { SessionStorageFSStorage } from "./storage";
+import { resetStorageStatus } from "./storage-status";
 
 const deleteDatabase = () =>
   new Promise<void>((resolve, reject) => {
@@ -31,6 +32,7 @@ describe("openCurrentProjectStorage", () => {
     sessionStorage.clear();
     await deleteDatabase();
     logging = new MockLogging();
+    resetStorageStatus();
   });
 
   it("creates a new project and makes it current when there is nothing", async () => {
@@ -87,11 +89,32 @@ describe("openCurrentProjectStorage", () => {
 
   it("falls back to session storage when the library cannot be opened", async () => {
     vi.spyOn(ProjectsDatabase, "open").mockRejectedValueOnce(
-      new DOMException("nope", "VersionError")
+      new Error("blocked")
     );
     const storage = await openCurrentProjectStorage(logging);
     expect(storage).toBeInstanceOf(SessionStorageFSStorage);
     expect(logging.errors[0].message).toMatch(/using session storage/);
+  });
+
+  it("falls back to session storage for an incompatible library on public stages", async () => {
+    vi.spyOn(ProjectsDatabase, "open").mockRejectedValueOnce(
+      new DOMException("nope", "VersionError")
+    );
+    const storage = await openCurrentProjectStorage(logging, true);
+    expect(storage).toBeInstanceOf(SessionStorageFSStorage);
+  });
+
+  it("reports an incompatible library for clearing on non-public stages", async () => {
+    vi.spyOn(ProjectsDatabase, "open").mockRejectedValueOnce(
+      new DOMException("nope", "VersionError")
+    );
+    const { renderHook } = await import("@testing-library/react");
+    const { useStorageVersionError } = await import("./storage-status");
+    const storage = await openCurrentProjectStorage(logging, false);
+    expect(storage).toBeUndefined();
+    expect(logging.errors).toEqual([]);
+    const { result } = renderHook(() => useStorageVersionError());
+    expect((result.current as DOMException).name).toEqual("VersionError");
   });
 
   it("falls back to session storage without IndexedDB", async () => {
