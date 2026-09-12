@@ -34,6 +34,23 @@ const theme = "@microbit-foundation/python-editor-v3-microbit";
 const external = `node_modules/${theme}`;
 const internal = "src/deployment/default";
 
+/**
+ * Resolves theme-package/images/* imports per file rather than per package:
+ * the branded package wins when it ships the file, and the OSS default in
+ * src/deployment/default stands in otherwise, so the branded package only
+ * needs to carry images that differ from the defaults. A miss resolves to
+ * the nonexistent default path so the build fails loudly, typos included.
+ */
+const resolveThemeImage = (id: string): string => {
+  if (fs.existsSync(external)) {
+    const branded = path.resolve(__dirname, external, "dist", id);
+    if (fs.existsSync(branded)) {
+      return branded;
+    }
+  }
+  return path.resolve(__dirname, internal, id);
+};
+
 const featurePwa = process.env.FEATURE_PWA === "true";
 const pwaCacheId =
   // v3 vs beta should have distinct caches
@@ -219,15 +236,28 @@ export default defineConfig(({ mode }) => {
     ],
     test: unitTest,
     resolve: {
-      alias: {
-        "theme-package": fs.existsSync(external)
-          ? theme
-          : path.resolve(__dirname, internal),
-        // Resolve Panda's generated helpers for all importers, including
-        // @microbit/ui's source (consumed from node_modules). Mirrors the
-        // tsconfig `paths` entry.
-        "styled-system": path.resolve(__dirname, "styled-system"),
-      },
+      alias: [
+        {
+          // Theme images resolve per file so the branded package only ships
+          // images that differ from the OSS defaults. See resolveThemeImage.
+          find: /^theme-package\/(images\/.+)$/,
+          replacement: "$1",
+          customResolver: (id: string) => resolveThemeImage(id),
+        },
+        {
+          find: "theme-package",
+          replacement: fs.existsSync(external)
+            ? theme
+            : path.resolve(__dirname, internal),
+        },
+        {
+          // Resolve Panda's generated helpers for all importers, including
+          // @microbit/ui's source (consumed from node_modules). Mirrors the
+          // tsconfig `paths` entry.
+          find: "styled-system",
+          replacement: path.resolve(__dirname, "styled-system"),
+        },
+      ],
       // The @microbit/ui packages are consumed as source and, when symlinked
       // to a local ../ui checkout, their `import "react"` etc. would resolve
       // to the ui monorepo's own copies — two Reacts → invalid-hook

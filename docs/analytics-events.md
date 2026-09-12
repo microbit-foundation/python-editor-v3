@@ -123,7 +123,63 @@ when the menu action is chosen, before the confirm dialog. No params.
 ### `project_rename`
 
 User set the project name, from the header or the name-your-project prompt on
-save. No params.
+save, with no params; or from a project card or the projects toolbar, with
+`surface`.
+
+| Param     | Values                                                    |
+| --------- | --------------------------------------------------------- |
+| `surface` | `home` / `projects` (absent when renamed from the editor) |
+
+## Project management events
+
+The home and projects pages, aligned with ml-trainer's events of the same
+names so one set of custom definitions serves both.
+
+### `project_create`
+
+User named and created a new project from the home page.
+
+| Param     | Values |
+| --------- | ------ |
+| `surface` | `home` |
+
+### `project_open`
+
+User opened a project from a card or its menu.
+
+| Param     | Values              |
+| --------- | ------------------- |
+| `surface` | `home` / `projects` |
+
+### `project_duplicate`
+
+| Param     | Values              |
+| --------- | ------------------- |
+| `surface` | `home` / `projects` |
+
+### `project_delete`
+
+Fires once for a single delete and once for a multi-select delete, after the
+user confirms.
+
+| Param     | Values                                                    |
+| --------- | --------------------------------------------------------- |
+| `count`   | int (1 for a card's menu; the selection's size otherwise) |
+| `surface` | `home` / `projects`                                       |
+
+### `project_search`
+
+Projects page only. Fires once per intentional search, 400ms after the last
+keystroke, not per keypress. No params.
+
+### `project_sort`
+
+Projects page only. Fires when the user changes the sort field or direction.
+
+| Param       | Values                                         |
+| ----------- | ---------------------------------------------- |
+| `field`     | `name` / `timestamp` (last modified or opened) |
+| `direction` | `asc` / `desc`                                 |
 
 ### `idea_open`
 

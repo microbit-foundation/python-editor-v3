@@ -4,14 +4,23 @@
  * SPDX-License-Identifier: MIT
  */
 import { NotFoundPage } from "@microbit/ui-patterns";
-import { createBrowserRouter, Navigate, useParams } from "react-router";
+import {
+  createBrowserRouter,
+  Navigate,
+  redirect,
+  useParams,
+} from "react-router";
 import { baseUrl } from "./base";
+import HomePage from "./pages/HomePage";
+import ProjectsPage from "./pages/ProjectsPage";
 import { Projects } from "./project/projects";
 import RootLayout from "./RootLayout";
 import { isTabName } from "./router-hooks";
 import {
   basename,
   createEditorUrl,
+  createHomePageUrl,
+  createProjectsPageUrl,
   editorRoutePath,
   iframeEditorRoutePath,
   legacyEditorRoutePath,
@@ -35,14 +44,6 @@ const LegacyEditorRedirect = () => {
   );
 };
 
-/**
- * The editor keeps its place at the root here so a #project: link on a
- * microbit.org page still opens the program it carries.
- */
-const RootRedirect = () => (
-  <Navigate to={createEditorUrl() + window.location.hash} replace />
-);
-
 const NotFound = () => <NotFoundPage homeUrl={baseUrl} />;
 
 export interface RouterOptions {
@@ -53,8 +54,30 @@ export interface RouterOptions {
   projects: Projects | undefined;
 }
 
-export const createRouter = ({ projects }: RouterOptions) =>
-  createBrowserRouter(
+export const createRouter = ({ projects }: RouterOptions) => {
+  /**
+   * The pages need the project list and only make sense with the projects
+   * database; without it there is one implicit project and the editor is
+   * the whole app.
+   */
+  const pagesLoader = async () => {
+    if (!(await projects!.isAvailable())) {
+      return redirect(createEditorUrl());
+    }
+    await projects!.refresh();
+    return null;
+  };
+  /**
+   * A #project: link on a microbit.org page still points at the root, so
+   * the program it carries goes to the editor.
+   */
+  const homeLoader = () => {
+    if (window.location.hash.startsWith("#project:")) {
+      return redirect(createEditorUrl() + window.location.hash);
+    }
+    return pagesLoader();
+  };
+  return createBrowserRouter(
     [
       {
         id: "root",
@@ -67,7 +90,16 @@ export const createRouter = ({ projects }: RouterOptions) =>
               { path: "*", element: <Workbench /> },
             ]
           : [
-              { index: true, element: <RootRedirect /> },
+              {
+                path: createHomePageUrl(),
+                element: <HomePage />,
+                loader: homeLoader,
+              },
+              {
+                path: createProjectsPageUrl(),
+                element: <ProjectsPage />,
+                loader: pagesLoader,
+              },
               {
                 path: editorRoutePath,
                 element: <Workbench />,
@@ -88,3 +120,4 @@ export const createRouter = ({ projects }: RouterOptions) =>
     ],
     { basename }
   );
+};
