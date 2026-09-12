@@ -54,7 +54,7 @@ export class DefaultHost implements Host {
   async createInitialProject(): Promise<PythonProject> {
     const migrationParseResult = parseMigrationFromUrl(this.url);
     if (migrationParseResult) {
-      const { migration, postMigrationUrl } = migrationParseResult;
+      const { migration } = migrationParseResult;
       const project = {
         files: projectFilesToBase64({
           [MAIN_FILE]: migration.source,
@@ -62,8 +62,11 @@ export class DefaultHost implements Host {
         projectName: migration.meta.name,
       };
       // Remove the migration information from the URL so that a refresh
-      // will reload from storage not remigrate.
-      window.history.replaceState(null, "", postMigrationUrl);
+      // will reload from storage not remigrate. The path may have changed
+      // since boot (the root redirects to the editor), so strip the hash
+      // from the current URL rather than using the parsed one.
+      const { pathname, search } = window.location;
+      window.history.replaceState(null, "", pathname + search);
       return project;
     }
     return defaultInitialProject;
