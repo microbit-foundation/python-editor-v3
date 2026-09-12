@@ -14,6 +14,8 @@ import {
   setCurrentProjectId,
 } from "./current-project";
 import { MAIN_FILE } from "./fs";
+import { parseMigrationFromUrl } from "./migration";
+import { testMigrationUrl } from "./migration-test-data";
 import { databaseName, ProjectsDatabase } from "./projects-db";
 import { SessionStorageFSStorage } from "./storage";
 import {
@@ -132,6 +134,21 @@ describe("chooseProject", () => {
     setCurrentProjectId(sessionStorage, "deleted");
 
     expect(await chooseProject(db, sessionStorage)).toEqual("recent");
+  });
+
+  it("makes a #project: link a new project ahead of everything", async () => {
+    await db.create({ id: "cur", name: "Cur", timestamp: 2 }, {});
+    setCurrentProjectId(sessionStorage, "cur");
+    const { migration } = parseMigrationFromUrl(testMigrationUrl)!;
+
+    const id = await chooseProject(db, sessionStorage, migration);
+
+    expect(id).not.toEqual("cur");
+    expect(getCurrentProjectId(sessionStorage)).toEqual(id);
+    expect((await db.get(id))?.name).toEqual("Hearts");
+    expect(new TextDecoder().decode(await db.file(id, MAIN_FILE))).toMatch(
+      /display.show\(Image.HEART\)/
+    );
   });
 
   it("migrates a project from session storage ahead of anything else", async () => {

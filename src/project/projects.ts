@@ -17,6 +17,7 @@ import {
 import { FileSystem } from "../fs/fs";
 import { generateId } from "../fs/fs-util";
 import { IndexedDBFSStorage } from "../fs/indexeddb-storage";
+import { PendingMigration } from "../fs/migration";
 import { ProjectListEntry, ProjectsDatabase } from "../fs/projects-db";
 import {
   FSStorage,
@@ -64,7 +65,7 @@ export class Projects extends TypedEventTarget<EventMap> {
   private firstStorageResolved = false;
   private openId: string | undefined;
   private openStorage: IndexedDBFSStorage | undefined;
-  private opening: Promise<void> | undefined;
+  private opening: Promise<boolean> | undefined;
   private cachedList: ProjectListEntry[] = [];
   private readonly channel: BroadcastChannel | undefined;
   private readonly session = sessionStorageIfPossible();
@@ -72,12 +73,15 @@ export class Projects extends TypedEventTarget<EventMap> {
   /**
    * @param firstStorage Resolved with the file system's persistent storage
    * when a project is first opened; the host's DefaultHost waits on it.
+   * @param migration The #project: link at boot, made a new project when
+   * the editor first chooses one. Left for the host without the database.
    */
   constructor(
     private fs: FileSystem,
     private logging: Logging,
     db: Promise<ProjectsDatabase | undefined>,
-    private firstStorage: Deferred<FSStorage | undefined>
+    private firstStorage: Deferred<FSStorage | undefined>,
+    private migration: PendingMigration = new PendingMigration("")
   ) {
     super();
     this.ready = db.then((resolved) => {
@@ -120,29 +124,39 @@ export class Projects extends TypedEventTarget<EventMap> {
   }
 
   /**
-   * Makes sure the editor has a project: the one already open, else the
-   * tab's, the most recent, or a new one. For the editor route's loader.
-   * Concurrent calls share one choice so they cannot each create a project.
+   * Makes sure the editor has a project: one from the #project: link the
+   * app booted with, else the one already open, the tab's, the most recent,
+   * or a new one. For the editor route's loader. Concurrent calls share one
+   * choice so they cannot each create a project.
+   *
+   * @returns True if a #project: link became a project, so the caller can
+   * drop the hash from the URL.
    */
-  openCurrent(): Promise<void> {
+  openCurrent(): Promise<boolean> {
     this.opening ??= this.chooseAndOpen().finally(() => {
       this.opening = undefined;
     });
     return this.opening;
   }
 
-  private async chooseAndOpen(): Promise<void> {
+  private async chooseAndOpen(): Promise<boolean> {
     await this.ready;
     if (!this.db) {
       this.resolveFirstStorage(
         hasStorageVersionError() ? undefined : SessionStorageFSStorage.create()
       );
-      return;
+      return false;
     }
-    if (this.openId && (await this.db.get(this.openId))) {
-      return;
+    const migration = this.migration.take();
+    if (!migration && this.openId && (await this.db.get(this.openId))) {
+      return false;
     }
-    await this.switchTo(await chooseProject(this.db, this.session));
+    const id = await chooseProject(this.db, this.session, migration);
+    await this.switchTo(id);
+    if (migration) {
+      await this.changed([id]);
+    }
+    return migration !== undefined;
   }
 
   async open(id: string): Promise<void> {
@@ -155,9 +169,20 @@ export class Projects extends TypedEventTarget<EventMap> {
   }
 
   async create(name: string): Promise<string> {
+    return this.createFromFiles(name, defaultProjectFiles());
+  }
+
+  /**
+   * Creates a project with the given files, e.g. from an imported hex, and
+   * opens it in the editor.
+   */
+  async createFromFiles(
+    name: string | undefined,
+    files: Record<string, Uint8Array>
+  ): Promise<string> {
     const db = await this.requireDb();
     const id = generateId();
-    await db.create({ id, name, timestamp: Date.now() }, defaultProjectFiles());
+    await db.create({ id, name, timestamp: Date.now() }, files);
     await this.switchTo(id);
     await this.changed([id]);
     return id;

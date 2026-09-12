@@ -9,7 +9,9 @@ import { toByteArray } from "base64-js";
 import { isPublicFacingStage } from "../environment";
 import { Logging } from "../logging/logging";
 import { generateId } from "./fs-util";
+import { MAIN_FILE } from "./fs";
 import { defaultInitialProject } from "./initial-project";
+import { Migration } from "./migration";
 import { ProjectsDatabase } from "./projects-db";
 import { SessionStorageFSStorage } from "./storage";
 import {
@@ -89,18 +91,38 @@ export const defaultProjectFiles = (): Record<string, Uint8Array> =>
   );
 
 /**
+ * The files of a project shared as a #project: link.
+ */
+export const migrationProjectFiles = (
+  migration: Migration
+): Record<string, Uint8Array> => ({
+  [MAIN_FILE]: new TextEncoder().encode(migration.source),
+});
+
+/**
  * Decides which project the editor opens and marks it most recent.
  *
- * In order: the project the tab already has open; a project migrated from
- * the session-storage file system that predates the projects database, so a
+ * In order: a new project from the #project: link the app booted with; the
+ * project the tab already has open; a project migrated from the
+ * session-storage file system that predates the projects database, so a
  * reload after deploying this lands in the user's work; the most recently
  * used project, so a straight-to-editor bookmark keeps working; otherwise a
  * new project.
  */
 export const chooseProject = async (
   db: ProjectsDatabase,
-  session: Storage | undefined
+  session: Storage | undefined,
+  migration?: Migration
 ): Promise<string> => {
+  if (migration) {
+    const id = generateId();
+    await db.create(
+      { id, name: migration.meta.name, timestamp: Date.now() },
+      migrationProjectFiles(migration)
+    );
+    setCurrentProjectId(session, id);
+    return id;
+  }
   const current = getCurrentProjectId(session);
   if (current && (await db.get(current))) {
     await db.touch(current);

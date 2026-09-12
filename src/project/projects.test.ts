@@ -45,7 +45,7 @@ const setup = async (dbAvailable = true) => {
     ? await ProjectsDatabase.open(`projects-${Date.now()}-${counter++}`)
     : undefined;
   const storage = deferred<FSStorage | undefined>();
-  const host = new DefaultHost("", storage.promise);
+  const host = new DefaultHost(undefined, storage.promise);
   const fs = new FileSystem(logging, host, microPythonSource);
   const projects = new Projects(fs, logging, Promise.resolve(db), storage);
   return { db, fs, projects };

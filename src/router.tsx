@@ -105,8 +105,14 @@ export const createRouter = ({ projects }: RouterOptions) => {
                 element: <Workbench />,
                 // The editor needs a project; choosing one is the only
                 // asynchronous step, the MicroPython load carries on behind.
-                loader: async () => {
-                  await projects.openCurrent();
+                loader: async ({ request }) => {
+                  if (await projects.openCurrent()) {
+                    // A #project: link became a project, so drop the hash or
+                    // a reload would import it again. Without the database
+                    // the host takes the link and strips the hash itself.
+                    const { pathname, search } = new URL(request.url);
+                    return redirect(pathname + search);
+                  }
                   return null;
                 },
               },
