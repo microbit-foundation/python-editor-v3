@@ -88,7 +88,7 @@ export class HomePage {
 
   constructor(public readonly page: Page) {
     this.cards = new ProjectCards(page);
-    this.projectsHeading = page.getByRole("heading", { name: "Your projects" });
+    this.projectsHeading = page.getByRole("heading", { name: "My projects" });
   }
 
   async goto(): Promise<void> {
@@ -122,6 +122,6 @@ export class HomePage {
   }
 
   async viewAllProjects(): Promise<void> {
-    await this.page.getByRole("link", { name: "View all projects" }).click();
+    await this.page.getByRole("link", { name: "View all" }).click();
   }
 }

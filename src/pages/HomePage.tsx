@@ -3,11 +3,25 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Button, css, Icon, IconButton } from "@microbit/ui";
+import {
+  Button,
+  css,
+  Icon,
+  IconButton,
+  Text,
+  TooltipButton,
+  useBreakpointValue,
+  VStack,
+} from "@microbit/ui";
 import { CarouselRow } from "@microbit/ui-carousel";
 import { NameProjectDialog, ProjectCard } from "@microbit/ui-patterns";
 import { ChangeEvent, useCallback, useRef, useState } from "react";
-import { RiAddLine, RiFolderOpenLine, RiUpload2Line } from "react-icons/ri";
+import {
+  RiAddLine,
+  RiFolderOpenLine,
+  RiInformationLine,
+  RiUpload2Line,
+} from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link as RouterLink, useNavigate } from "react-router";
 import FileDropTarget from "../common/FileDropTarget";
@@ -66,6 +80,10 @@ const HomePage = () => {
 };
 
 const ProjectsRow = () => {
+  const tooltipPlacement = useBreakpointValue<"bottom" | "right">({
+    base: "bottom",
+    sm: "right",
+  });
   const projects = usePageProjects();
   const { actions, open, create } = useProjectPageActions("home", projects);
   const cards = [
@@ -93,6 +111,24 @@ const ProjectsRow = () => {
       <CarouselRow
         carouselItems={cards}
         title={<FormattedMessage id="my-projects-row-title" />}
+        titleSuffix={
+          <TooltipButton
+            hasArrow
+            placement={tooltipPlacement}
+            label={
+              <VStack textAlign="left" alignItems="flex-start" m={3}>
+                <Text>
+                  <FormattedMessage id="project-storage-tooltip" />
+                </Text>
+              </VStack>
+            }
+          >
+            <Icon
+              as={RiInformationLine}
+              css={{ opacity: 0.7, width: 5, height: 5 }}
+            />
+          </TooltipButton>
+        }
         actions={[
           <ImportProjectButton key="import" />,
           <ViewAllProjectsLink key="view-all" />,
@@ -174,7 +210,6 @@ const ImportProjectButton = () => {
         <Icon as={RiUpload2Line} />
       </IconButton>
       <Button
-        variant="ghost"
         startIcon={<Icon as={RiUpload2Line} />}
         onPress={choose}
         css={{ display: { base: "none", sm: "inline-flex" } }}

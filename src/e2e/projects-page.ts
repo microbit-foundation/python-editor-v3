@@ -15,7 +15,7 @@ export class ProjectsPage {
 
   constructor(public readonly page: Page) {
     this.cards = new ProjectCards(page);
-    this.heading = page.getByRole("heading", { name: "Your projects" });
+    this.heading = page.getByRole("heading", { name: "My projects" });
     this.searchInput = page.getByRole("searchbox", { name: "Search" });
     // Two toolbars are in the DOM, for wide and narrow layouts; only one is
     // shown, so act on the visible one.

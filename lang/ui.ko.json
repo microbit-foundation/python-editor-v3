@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "취소"
   },
-  "change-files": {
-    "defaultMessage": "파일을 변경하시겠습니까?"
-  },
   "choose-main-add-file": {
     "defaultMessage": "{name} 파일 추가"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "삭제 확인"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "모든 파일을 hex 내 파일로 교체하시겠습니까?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "모든 파일을 기본 스타터 코드로 교체하시겠습니까?"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "프로젝트 교체 확인"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "모든 파일을 {ideaName}(으)로 교체하시겠습니까?"
-  },
   "confirm-save-action": {
     "defaultMessage": "확인 및 저장"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "프로젝트의 사본을 유지하려면 취소하고 저장하세요."
   },
   "connect-action": {
     "defaultMessage": "연결"
@@ -389,17 +371,8 @@
   "open-action": {
     "defaultMessage": "열기"
   },
-  "open-file-action": {
-    "defaultMessage": "열기…"
-  },
   "open-file-dropped": {
     "defaultMessage": "드롭될 때 파일 열기"
-  },
-  "open-hover": {
-    "defaultMessage": "Hex 또는 Python 파일을 열거나 다른 파일을 추가하세요"
-  },
-  "options": {
-    "defaultMessage": "옵션"
   },
   "parameter-help": {
     "defaultMessage": "매개변수 도움말"
@@ -469,18 +442,6 @@
   },
   "reference-tab": {
     "defaultMessage": "참조"
-  },
-  "replace-action-label": {
-    "defaultMessage": "교체"
-  },
-  "reset-project-action": {
-    "defaultMessage": "프로젝트 초기화"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "프로젝트를 기본 스타터 코드로 초기화합니다."
-  },
-  "reset-project-hover": {
-    "defaultMessage": "프로젝트를 기본 스타터 코드로 초기화하고 작업한 내용을 삭제합니다"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {결과 없음} one {#개의 결과} other {#개의 결과}}"

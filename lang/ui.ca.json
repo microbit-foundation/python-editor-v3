@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "Cancel·lar"
   },
-  "change-files": {
-    "defaultMessage": "Canviar fitxers?"
-  },
   "choose-main-add-file": {
     "defaultMessage": "Afegeix el fitxer {name}"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "Confirma la supressió"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "Substitueix tots els fitxers amb els de l'hexadecimal?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "Vols substituir tots els fitxers pel programa d'inici per defecte?"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "Confirma la substitució del projecte"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "Vols substituir tots els fitxers per {ideaName}?"
-  },
   "confirm-save-action": {
     "defaultMessage": "Confirma i desa"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "Cancel·la i després utilitza Desa per conservar una còpia del teu projecte."
   },
   "connect-action": {
     "defaultMessage": "Connecta"
@@ -392,17 +374,8 @@
   "open-action": {
     "defaultMessage": "Obert"
   },
-  "open-file-action": {
-    "defaultMessage": "Obert"
-  },
   "open-file-dropped": {
     "defaultMessage": "Obre el fitxer quan es deixa anar"
-  },
-  "open-hover": {
-    "defaultMessage": "Obre un fitxer hexadecimal o Python o afegeix altres fitxers"
-  },
-  "options": {
-    "defaultMessage": "Opcions"
   },
   "parameter-help": {
     "defaultMessage": "Ajuda dels paràmetres"
@@ -472,18 +445,6 @@
   },
   "reference-tab": {
     "defaultMessage": "Referència"
-  },
-  "replace-action-label": {
-    "defaultMessage": "Substitueix"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Restableix el projecte"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Restableix el projecte al programa d'inici predeterminat"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Restableix el projecte al programa inicial predeterminat, descartant el teu treball"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Sense resultats} one {# resultat} other {# resultats}}"

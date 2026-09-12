@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "Annuleren"
   },
-  "change-files": {
-    "defaultMessage": "Bestanden wijzigen?"
-  },
   "choose-main-add-file": {
     "defaultMessage": "Voeg bestand {name} toe"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "Verwijderen bevestigen"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "Alle bestanden vervangen door bestanden in de hex?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "Alle bestanden vervangen door de standaard startcode?"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "Vervanging bevestigen"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "Alle bestanden vervangen door {ideaName}?"
-  },
   "confirm-save-action": {
     "defaultMessage": "Bevestigen en opslaan"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "Annuleer dan Opslaan om een kopie van je project te bewaren."
   },
   "connect-action": {
     "defaultMessage": "Verbinden "
@@ -392,17 +374,8 @@
   "open-action": {
     "defaultMessage": "Open"
   },
-  "open-file-action": {
-    "defaultMessage": "Open…"
-  },
   "open-file-dropped": {
     "defaultMessage": "Open bestand wanneer gedropt"
-  },
-  "open-hover": {
-    "defaultMessage": "Open een hex of Python bestand of voeg andere bestanden toe"
-  },
-  "options": {
-    "defaultMessage": "Opties"
   },
   "parameter-help": {
     "defaultMessage": "Hulp parameter"
@@ -472,18 +445,6 @@
   },
   "reference-tab": {
     "defaultMessage": "Referentie"
-  },
-  "replace-action-label": {
-    "defaultMessage": "Vervangen"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Reset project"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Project opnieuw instellen op de standaard startcode"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Reset het project naar de standaard start code, waarmee je jouw werk weggooit"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0{# results} one{# result} other{# results}}"

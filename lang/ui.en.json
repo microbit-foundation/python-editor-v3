@@ -491,7 +491,7 @@
     "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
   },
   "my-projects-row-title": {
-    "defaultMessage": "Your projects",
+    "defaultMessage": "My projects",
     "description": "Heading of the home page row of the user's projects, and of the projects page"
   },
   "name-project": {
@@ -641,6 +641,10 @@
   "project-name-not-empty": {
     "defaultMessage": "The project name cannot be empty",
     "description": "Validation message for project name"
+  },
+  "project-storage-tooltip": {
+    "defaultMessage": "Your data is saved in this browser on this device. Clearing your browser's cookies or site data will delete it. It may also be automatically removed by your browser if your device is low on storage.",
+    "description": "Tooltip on the home page projects row heading explaining where projects are stored"
   },
   "project-tab": {
     "defaultMessage": "Files",
@@ -1187,7 +1191,7 @@
     "description": "Menu item for link to user guide site"
   },
   "view-all-projects": {
-    "defaultMessage": "View all projects",
+    "defaultMessage": "View all",
     "description": "Link and card on the home page leading to the projects page"
   },
   "visit-dot-org": {
