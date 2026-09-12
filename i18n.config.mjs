@@ -34,7 +34,11 @@ export default defineConfig({
       // in the format it was created in.
       crowdinFormat: "chrome",
       out: "src/messages/ui.{lang}.json",
-      packages: ["@microbit/ui", "@microbit/ui-patterns"],
+      packages: [
+        "@microbit/ui",
+        "@microbit/ui-patterns",
+        "@microbit/ui-carousel",
+      ],
     },
   ],
 });

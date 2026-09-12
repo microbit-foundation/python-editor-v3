@@ -5,7 +5,14 @@
  */
 import { useMediaQuery } from "@microbit/ui";
 import { Flex, styled } from "styled-system/jsx";
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useIntl } from "react-intl";
 import {
   hideSidebarMediaQuery,
@@ -56,8 +63,13 @@ const Workbench = () => {
   const intl = useIntl();
 
   const [maybeInvalidSelection, setSelection] = useSelection();
-  const { files } = useProject();
+  const { id: projectId, files } = useProject();
   const selection = defaultSelection(maybeInvalidSelection, files);
+  // Opening another project shows its main.py, not whichever file was open
+  // in the last one. Before paint so the previous file does not flash.
+  useLayoutEffect(() => {
+    setSelection({ file: MAIN_FILE, location: { line: undefined } });
+  }, [projectId, setSelection]);
   const setSelectedFile = useCallback(
     (file: string) => {
       setSelection({ file, location: { line: undefined } });

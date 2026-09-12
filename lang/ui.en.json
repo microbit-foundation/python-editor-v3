@@ -27,6 +27,10 @@
     "defaultMessage": "Accessibility",
     "description": "Menu item for link to accessibility site"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "Accessibility",
+    "description": "Title of the help card linking to the accessibility statement"
+  },
   "added-change": {
     "defaultMessage": "Added file {changeName}",
     "description": "Change made to file"
@@ -227,6 +231,10 @@
     "defaultMessage": "Create file",
     "description": "Button text for action that creates a new blank Python file in the current project"
   },
+  "create-project-action": {
+    "defaultMessage": "Create",
+    "description": "Confirm button of the dialog naming a new project"
+  },
   "create-python": {
     "defaultMessage": "Create a new Python file in this project",
     "description": "Hover and dialog title when creating a new Python file"
@@ -327,6 +335,10 @@
     "defaultMessage": "Firmware update required",
     "description": "Title for the firmware update dialog"
   },
+  "first-lessons-with-python-resource-title": {
+    "defaultMessage": "First lessons with Python and the micro:bit",
+    "description": "Title of the teacher resource card for the first lessons unit"
+  },
   "flash-action": {
     "defaultMessage": "Flash",
     "description": "Text for flash button"
@@ -359,6 +371,10 @@
     "defaultMessage": "Help",
     "description": "Help menu label"
   },
+  "help-resources-row-title": {
+    "defaultMessage": "Help and support",
+    "description": "Heading of the home page row of help cards"
+  },
   "help-support": {
     "defaultMessage": "Help & support",
     "description": "Menu item for link to support site"
@@ -379,6 +395,18 @@
     "defaultMessage": "Simple",
     "description": "Highlight code structure option"
   },
+  "home-action": {
+    "defaultMessage": "Home",
+    "description": "Button returning to the home page from the editor and the projects page"
+  },
+  "homepage-banner-heading": {
+    "defaultMessage": "Code your BBC micro:bit with Python",
+    "description": "Heading of the banner at the top of the home page"
+  },
+  "homepage-banner-subtitle": {
+    "defaultMessage": "Create, edit and flash MicroPython programs to your micro:bit.",
+    "description": "Text under the home page banner heading"
+  },
   "ideas-tab": {
     "defaultMessage": "Ideas",
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
@@ -393,6 +421,10 @@
   "language": {
     "defaultMessage": "Language",
     "description": "Language option text"
+  },
+  "learn-more-action": {
+    "defaultMessage": "Learn more",
+    "description": "Home page banner button linking to microbit.org"
   },
   "less-action": {
     "defaultMessage": "Less",
@@ -470,6 +502,10 @@
     "defaultMessage": "Warning: Only main.py downloaded",
     "description": "Title of dialog shown when multiple files are available for download but only the main file downloaded."
   },
+  "my-projects-row-title": {
+    "defaultMessage": "Your projects",
+    "description": "Heading of the home page row of the user's projects, and of the projects page"
+  },
   "name-project": {
     "defaultMessage": "Name your project",
     "description": "Name your project header"
@@ -486,9 +522,17 @@
     "defaultMessage": "We'll add the <code>.py</code> extension for you.",
     "description": "Hint shown in the new Python file dialog"
   },
+  "new-project-action": {
+    "defaultMessage": "New project",
+    "description": "Home page card creating a new project"
+  },
   "next-action": {
     "defaultMessage": "Next",
     "description": "Next button text"
+  },
+  "no-projects": {
+    "defaultMessage": "No projects to display",
+    "description": "Shown on the projects page when there are no projects, or none match the search"
   },
   "not-found-checklist-one": {
     "defaultMessage": "Is your <strong>micro:bit plugged in</strong>? Did you <link>follow these steps</link>?",
@@ -586,6 +630,34 @@
     "defaultMessage": "Project header",
     "description": "Aria label for the project header area"
   },
+  "project-idea-animated-animals-title": {
+    "defaultMessage": "Animated animals",
+    "description": "Title of a project idea card; matches the microbit.org project name"
+  },
+  "project-idea-beating-heart-title": {
+    "defaultMessage": "Beating heart",
+    "description": "Title of a project idea card; matches the microbit.org project name"
+  },
+  "project-idea-emotion-badge-title": {
+    "defaultMessage": "Emotion badge",
+    "description": "Title of a project idea card; matches the microbit.org project name"
+  },
+  "project-idea-flashing-emotions-title": {
+    "defaultMessage": "Flashing emotions",
+    "description": "Title of a project idea card; matches the microbit.org project name"
+  },
+  "project-idea-get-silly-title": {
+    "defaultMessage": "Get silly",
+    "description": "Title of a project idea card; matches the microbit.org project name"
+  },
+  "project-idea-heart-title": {
+    "defaultMessage": "Heart",
+    "description": "Title of a project idea card; matches the microbit.org project name"
+  },
+  "project-ideas-row-title": {
+    "defaultMessage": "Project ideas",
+    "description": "Heading of the home page row of project idea cards"
+  },
   "project-name": {
     "defaultMessage": "Project name",
     "description": "Text used to indicate the project name"
@@ -601,6 +673,10 @@
   "project-tab-description": {
     "defaultMessage": "View, create, add and edit the files in your project",
     "description": "Project tab description"
+  },
+  "projects-page-title": {
+    "defaultMessage": "Projects",
+    "description": "Title of the page listing all projects"
   },
   "python-powered": {
     "defaultMessage": "Python powered",
@@ -1070,6 +1146,10 @@
     "defaultMessage": "Support",
     "description": "Support menu option text"
   },
+  "teacher-resources-row-title": {
+    "defaultMessage": "Teacher resources",
+    "description": "Heading of the home page row of teacher resource cards"
+  },
   "terms-of-use": {
     "defaultMessage": "Terms of use",
     "description": "Terms of use menu option text"
@@ -1110,6 +1190,10 @@
     "defaultMessage": "Transfer saved hex file to micro:bit",
     "description": "Title for the transfer hex dialog"
   },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "Troubleshooting",
+    "description": "Title of the help card linking to the support site"
+  },
   "try-again-action": {
     "defaultMessage": "Try again",
     "description": "Try again button text"
@@ -1141,6 +1225,10 @@
   "user-guide": {
     "defaultMessage": "User guide",
     "description": "Menu item for link to user guide site"
+  },
+  "view-all-projects": {
+    "defaultMessage": "View all projects",
+    "description": "Link and card on the home page leading to the projects page"
   },
   "visit-dot-org": {
     "defaultMessage": "visit microbit.org (opens in a new tab)",
