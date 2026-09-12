@@ -15,7 +15,7 @@ const ProjectDropTarget = ({ children }: ProjectDropTargetProps) => {
   const actions = useProjectActions();
   const handleDrop = useCallback(
     (files: File[]) => {
-      actions.load(files, "drop-load");
+      actions.load(files, "drop");
     },
     [actions]
   );

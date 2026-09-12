@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { expect } from "@playwright/test";
-import { LoadDialogType } from "./app.js";
 import { test } from "./app-test-fixtures.js";
 
 test.describe("open", () => {
@@ -17,19 +16,16 @@ test.describe("open", () => {
     );
   });
 
-  test("Loads a Python file", async ({ app }) => {
-    await app.loadFiles("testData/samplefile.py", {
-      acceptDialog: LoadDialogType.CONFIRM,
-    });
+  test("Adds a Python file to the project", async ({ app }) => {
+    await app.loadFiles("testData/samplefile.py");
 
-    await app.expectAlertText("Updated file main.py");
+    await app.expectAlertText("Added file samplefile.py");
+    await app.expectProjectFiles(["main.py", "samplefile.py"]);
     await app.expectProjectName("Untitled project");
   });
 
   test("Correctly handles a hex that's actually Python", async ({ app }) => {
-    await app.loadFiles("testData/not-a-hex.hex", {
-      acceptDialog: LoadDialogType.NONE,
-    });
+    await app.loadFiles("testData/not-a-hex.hex");
 
     await app.expectAlertText(
       "Cannot load file",
@@ -39,31 +35,38 @@ test.describe("open", () => {
     );
   });
 
-  test("Loads a v1.0.1 hex file", async ({ app }) => {
+  test("Opens a v1.0.1 hex file as a new project", async ({
+    app,
+    homePage,
+  }) => {
+    await app.typeInEditor("# Keep me");
     await app.loadFiles("testData/1.0.1.hex");
 
     await app.expectEditorContainText(/PASS1/);
     await app.expectProjectName("1.0.1");
+
+    // The previous project is untouched.
+    await app.goHome();
+    await homePage.cards.expectVisible("1.0.1");
+    await homePage.cards.open("Untitled project");
+    await app.expectEditorContainText("# Keep me");
   });
 
-  test("Loads a v0.9 hex file", async ({ app }) => {
+  test("Opens a v0.9 hex file as a new project", async ({ app }) => {
     await app.loadFiles("testData/0.9.hex");
 
     await app.expectEditorContainText(/PASS2/);
     await app.expectProjectName("0.9");
   });
 
-  test("Loads via drag and drop", async ({ app }) => {
+  test("Opens a hex via drag and drop", async ({ app }) => {
     await app.dropFile("testData/1.0.1.hex");
 
     await app.expectProjectName("1.0.1");
-    // await app.findVisibleEditorContents(/PASS1/);
   });
 
   test("Correctly handles an mpy file", async ({ app }) => {
-    await app.loadFiles("testData/samplempyfile.mpy", {
-      acceptDialog: LoadDialogType.NONE,
-    });
+    await app.loadFiles("testData/samplempyfile.mpy");
 
     await app.expectAlertText(
       "Cannot load file",
@@ -74,9 +77,7 @@ test.describe("open", () => {
   test("Correctly handles a file with an invalid extension", async ({
     app,
   }) => {
-    await app.loadFiles("testData/sampletxtfile.txt", {
-      acceptDialog: LoadDialogType.CONFIRM,
-    });
+    await app.loadFiles("testData/sampletxtfile.txt");
 
     expect(await app.isEditFileOptionDisabled("sampletxtfile.txt")).toEqual(
       true
@@ -86,60 +87,11 @@ test.describe("open", () => {
   test("Correctly imports modules with the 'magic comment' in the filesystem.", async ({
     app,
   }) => {
-    await app.loadFiles("testData/module.py", {
-      acceptDialog: LoadDialogType.CONFIRM,
-    });
+    await app.loadFiles("testData/module.py");
 
     await app.expectAlertText("Added file module.py");
 
-    await app.loadFiles("testData/module.py", {
-      acceptDialog: LoadDialogType.CONFIRM,
-    });
+    await app.loadFiles("testData/module.py");
     await app.expectAlertText("Updated file module.py");
-  });
-
-  test("Warns before load if you have changes", async ({ app }) => {
-    await app.typeInEditor("# Different text");
-    await app.loadFiles("testData/1.0.1.hex", {
-      acceptDialog: LoadDialogType.REPLACE,
-    });
-    await app.expectEditorContainText(/PASS1/);
-    await app.expectProjectName("1.0.1");
-  });
-
-  test("No warn before load if you save hex", async ({ app }) => {
-    await app.setProjectName("Avoid dialog");
-    await app.typeInEditor("# Different text");
-    await app.save();
-    await app.closeDialog("Project saved");
-
-    // No dialog accepted
-    await app.loadFiles("testData/1.0.1.hex");
-    await app.expectEditorContainText(/PASS1/);
-  });
-
-  test("No warn before load if you save main file", async ({ app }) => {
-    await app.setProjectName("Avoid dialog");
-    await app.typeInEditor("# Different text");
-    await app.savePythonScript();
-
-    // No dialog accepted
-    await app.loadFiles("testData/1.0.1.hex");
-    await app.expectEditorContainText(/PASS1/);
-  });
-
-  test("Warn before load if you save main file only and you have others", async ({
-    app,
-  }) => {
-    await app.setProjectName("Avoid dialog");
-    await app.typeInEditor("# Different text");
-    await app.createNewFile("another");
-    await app.savePythonScript();
-    await app.closeDialog("Warning: Only main.py downloaded");
-
-    await app.loadFiles("testData/1.0.1.hex", {
-      acceptDialog: LoadDialogType.REPLACE,
-    });
-    await app.expectEditorContainText(/PASS1/);
   });
 });

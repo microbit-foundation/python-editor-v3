@@ -17,8 +17,8 @@ const ProjectsContext = createContext<Projects | undefined>(undefined);
 export const ProjectsProvider = ProjectsContext.Provider;
 
 /**
- * The projects in this browser. Undefined in iframe controller mode, where
- * the embedding page owns the project.
+ * The projects in this browser. Throws in iframe controller mode, where the
+ * embedding page owns the project; use useProjectsIfAvailable there.
  */
 export const useProjects = (): Projects => {
   const projects = useContext(ProjectsContext);
@@ -27,6 +27,12 @@ export const useProjects = (): Projects => {
   }
   return projects;
 };
+
+/**
+ * The projects in this browser, or undefined in iframe controller mode.
+ */
+export const useProjectsIfAvailable = (): Projects | undefined =>
+  useContext(ProjectsContext);
 
 /**
  * The project list, kept up to date as projects change in this tab or

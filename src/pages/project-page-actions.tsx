@@ -11,6 +11,8 @@ import { useIntl } from "react-intl";
 import { useNavigate } from "react-router";
 import useActionFeedback from "../common/use-action-feedback";
 import { useLogging } from "../logging/logging-hooks";
+import { useProjectImporter } from "../project/project-hooks";
+import { ImportSource } from "../project/project-import";
 import { useProjectList, useProjects } from "../project/projects-hooks";
 import { createEditorUrl } from "../urls";
 
@@ -99,4 +101,24 @@ export const useProjectPageActions = (
   );
 
   return { actions, open, create };
+};
+
+/**
+ * Imports files from the home page as a new project and opens the editor on
+ * it. Errors are reported as toasts by the importer.
+ */
+export const useImportProjectFiles = (): ((
+  files: File[],
+  source: ImportSource
+) => Promise<void>) => {
+  const importer = useProjectImporter();
+  const navigate = useNavigate();
+  return useCallback(
+    async (files: File[], source: ImportSource) => {
+      if (await importer.importAsNewProject(files, source)) {
+        await navigate(createEditorUrl());
+      }
+    },
+    [importer, navigate]
+  );
 };

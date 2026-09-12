@@ -17,13 +17,6 @@ import { fileURLToPath } from "url";
 import { readFileSync } from "fs";
 import { DeviceErrorCode } from "@microbit/microbit-connection";
 
-export enum LoadDialogType {
-  CONFIRM,
-  REPLACE,
-  CONFIRM_BUT_LOAD_AS_MODULE,
-  NONE,
-}
-
 export interface BrowserDownload {
   filename: string;
   data: Buffer;
@@ -42,38 +35,6 @@ export interface UrlOptions {
 
 interface SaveOptions {
   waitForDownload: boolean;
-}
-
-class LoadDialog {
-  private confirmButton: Locator;
-  private replaceButton: Locator;
-  private optionsButton: Locator;
-  private type: LoadDialogType;
-
-  constructor(public readonly page: Page, type: LoadDialogType) {
-    this.type = type;
-    this.confirmButton = this.page.getByRole("button", { name: "Confirm" });
-    this.replaceButton = this.page.getByRole("button", { name: "Replace" });
-    this.optionsButton = this.page.getByRole("button", {
-      name: "Options",
-      exact: true,
-    });
-  }
-
-  async submit() {
-    switch (this.type) {
-      case LoadDialogType.CONFIRM:
-        return await this.confirmButton.click();
-      case LoadDialogType.REPLACE:
-        return await this.replaceButton.click();
-      case LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE:
-        await this.optionsButton.click();
-        await this.page.getByText(/^(Add|Replace) file .+\.py$/).click();
-        return await this.confirmButton.click();
-      default:
-        return;
-    }
-  }
 }
 
 class FileActionsMenu {
@@ -103,8 +64,8 @@ class ProjectTabPanel {
   private openButton: Locator;
   constructor(public readonly page: Page) {
     this.openButton = this.page
-      .getByRole("tabpanel", { name: "Project" })
-      .getByTestId("open");
+      .getByRole("tabpanel", { name: "Files" })
+      .getByTestId("add-files");
   }
 
   async openFileActionsMenu(filename: string) {
@@ -336,23 +297,17 @@ export class App {
     }
   }
 
-  async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
+  async switchTab(tabName: "Files" | "API" | "Reference" | "Ideas") {
     await this.page.getByRole("tab", { name: tabName }).click();
   }
 
   async createNewFile(name: string): Promise<void> {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     await this.page.getByRole("button", { name: "Create file" }).click();
     await this.page.getByLabel("Name*").fill(name);
     await this.page
       .getByRole("button", { name: "Create", exact: true })
       .click();
-  }
-
-  async resetProject(): Promise<void> {
-    await this.switchTab("Project");
-    await this.page.getByRole("button", { name: "Reset project" }).click();
-    await this.page.getByRole("button", { name: "Replace" }).click();
   }
 
   async expectEditorContainText(match: RegExp | string) {
@@ -363,27 +318,17 @@ export class App {
   }
 
   async expectProjectFiles(expected: string[]): Promise<void> {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     await expect(this.page.getByRole("listitem")).toHaveText(expected);
   }
 
-  async loadFiles(
-    filePathFromProjectRoot: string,
-    options: { acceptDialog?: LoadDialogType } = {}
-  ) {
-    await this.switchTab("Project");
+  /** Adds files from the Files tab; a hex opens as a new project. */
+  async loadFiles(filePathFromProjectRoot: string) {
+    await this.switchTab("Files");
     await this.projectTab.chooseFile(filePathFromProjectRoot);
-
-    if (options.acceptDialog !== undefined) {
-      const loadDialog = new LoadDialog(this.page, options.acceptDialog);
-      await loadDialog.submit();
-    }
   }
 
-  async dropFile(
-    filePathFromProjectRoot: string,
-    options: { acceptDialog?: LoadDialogType } = {}
-  ) {
+  async dropFile(filePathFromProjectRoot: string) {
     const filePath = getAbsoluteFilePath(filePathFromProjectRoot);
     const filename = getFilename(filePathFromProjectRoot);
 
@@ -411,11 +356,6 @@ export class App {
     const dropZone = this.page.getByTestId("project-drop-target-overlay");
     await dropZone.waitFor();
     await dropZone.dispatchEvent("drop", { dataTransfer });
-
-    if (options.acceptDialog !== undefined) {
-      const loadDialog = new LoadDialog(this.page, options.acceptDialog);
-      await loadDialog.submit();
-    }
   }
 
   async expectAlertText(title: string, description?: string): Promise<void> {
@@ -426,19 +366,19 @@ export class App {
   }
 
   async isDeleteFileOptionDisabled(filename: string) {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
     return await fileOptionMenu.deleteButton.isDisabled();
   }
 
   async isEditFileOptionDisabled(filename: string) {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
     return await fileOptionMenu.editButton.isDisabled();
   }
 
   async editFile(filename: string): Promise<void> {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
     await fileOptionMenu.editButton.click();
   }
@@ -483,7 +423,7 @@ export class App {
   }
 
   async deleteFile(filename: string) {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
     await fileOptionMenu.delete();
   }
@@ -840,7 +780,7 @@ export const getFilename = (filePath: string) => {
   return filename;
 };
 
-const getAbsoluteFilePath = (filePathFromProjectRoot: string) => {
+export const getAbsoluteFilePath = (filePathFromProjectRoot: string) => {
   const dir = path.dirname(fileURLToPath(import.meta.url));
   return path.join(dir.replace("src/e2e", ""), filePathFromProjectRoot);
 };

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { expect, Locator, Page } from "@playwright/test";
-import { homeUrl } from "./app.js";
+import { getAbsoluteFilePath, homeUrl } from "./app.js";
 
 /**
  * The modal dialog rather than a menu popover, which also has the dialog
@@ -111,6 +111,14 @@ export class HomePage {
         .getByRole("button", { name: "Create" })
         .click();
     }
+  }
+
+  /** Imports a file from the projects row as a new project. */
+  async importFile(filePathFromProjectRoot: string): Promise<void> {
+    const fileChooserPromise = this.page.waitForEvent("filechooser");
+    await this.page.getByRole("button", { name: "Import" }).click();
+    const fileChooser = await fileChooserPromise;
+    await fileChooser.setFiles(getAbsoluteFilePath(filePathFromProjectRoot));
   }
 
   async viewAllProjects(): Promise<void> {

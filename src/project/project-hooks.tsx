@@ -22,6 +22,24 @@ import { useSessionSettings } from "../settings/session-settings";
 import { useSettings } from "../settings/settings";
 import { useSelection } from "../workbench/use-selection";
 import { defaultedProject, ProjectActions } from "./project-actions";
+import { ProjectImporter } from "./project-import";
+import { useProjectsIfAvailable } from "./projects-hooks";
+
+/**
+ * Imports files as new projects or into the open one. Usable from the pages
+ * as well as the editor.
+ */
+export const useProjectImporter = (): ProjectImporter => {
+  const fs = useFileSystem();
+  const projects = useProjectsIfAvailable();
+  const actionFeedback = useActionFeedback();
+  const intl = useIntl();
+  const logging = useLogging();
+  return useMemo(
+    () => new ProjectImporter(fs, projects, actionFeedback, intl, logging),
+    [fs, projects, actionFeedback, intl, logging]
+  );
+};
 
 /**
  * Hook exposing the main UI actions.
@@ -37,6 +55,7 @@ export const useProjectActions = (): ProjectActions => {
   const client = useLanguageServerClient();
   const [settings, setSettings] = useSettings();
   const [sessionSettings, setSessionSettings] = useSessionSettings();
+  const importer = useProjectImporter();
   const actions = useMemo<ProjectActions>(
     () =>
       new ProjectActions(
@@ -49,7 +68,8 @@ export const useProjectActions = (): ProjectActions => {
         { values: sessionSettings, setValues: setSessionSettings },
         intl,
         logging,
-        client
+        client,
+        importer
       ),
     [
       fs,
@@ -64,6 +84,7 @@ export const useProjectActions = (): ProjectActions => {
       setSettings,
       sessionSettings,
       setSessionSettings,
+      importer,
     ]
   );
   return actions;

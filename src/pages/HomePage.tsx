@@ -3,13 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { css } from "@microbit/ui";
+import { Button, css, Icon, IconButton } from "@microbit/ui";
 import { CarouselRow } from "@microbit/ui-carousel";
 import { NameProjectDialog, ProjectCard } from "@microbit/ui-patterns";
-import { useCallback, useState } from "react";
-import { RiAddLine, RiFolderOpenLine } from "react-icons/ri";
+import { ChangeEvent, useCallback, useRef, useState } from "react";
+import { RiAddLine, RiFolderOpenLine, RiUpload2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link as RouterLink, useNavigate } from "react-router";
+import FileDropTarget from "../common/FileDropTarget";
 import { useDeployment } from "../deployment";
 import { useSettings } from "../settings/settings";
 import { createProjectsPageUrl } from "../urls";
@@ -17,7 +18,11 @@ import ActionCard from "./ActionCard";
 import DefaultPageLayout from "./DefaultPageLayout";
 import ProjectIcon from "./ProjectIcon";
 import HomepageBanner from "./HomepageBanner";
-import { usePageProjects, useProjectPageActions } from "./project-page-actions";
+import {
+  useImportProjectFiles,
+  usePageProjects,
+  useProjectPageActions,
+} from "./project-page-actions";
 import {
   createHelpCards,
   createLessonCards,
@@ -30,25 +35,32 @@ const HomePage = () => {
   const intl = useIntl();
   const [{ languageId }] = useSettings();
   const brand = useDeployment();
+  const importFiles = useImportProjectFiles();
+  const handleDrop = useCallback(
+    (files: File[]) => void importFiles(files, "drop"),
+    [importFiles]
+  );
   return (
     <DefaultPageLayout>
-      <HomepageBanner />
-      <ProjectsRow />
-      <CarouselRow
-        carouselItems={createProjectIdeaCards(intl, languageId)}
-        title={<FormattedMessage id="project-ideas-row-title" />}
-        navigation
-      />
-      <CarouselRow
-        carouselItems={createLessonCards(intl)}
-        title={<FormattedMessage id="teacher-resources-row-title" />}
-        navigation
-      />
-      <CarouselRow
-        carouselItems={createHelpCards(intl, brand)}
-        title={<FormattedMessage id="help-resources-row-title" />}
-        navigation
-      />
+      <FileDropTarget data-testid="home-drop-target" onFileDrop={handleDrop}>
+        <HomepageBanner />
+        <ProjectsRow />
+        <CarouselRow
+          carouselItems={createProjectIdeaCards(intl, languageId)}
+          title={<FormattedMessage id="project-ideas-row-title" />}
+          navigation
+        />
+        <CarouselRow
+          carouselItems={createLessonCards(intl)}
+          title={<FormattedMessage id="teacher-resources-row-title" />}
+          navigation
+        />
+        <CarouselRow
+          carouselItems={createHelpCards(intl, brand)}
+          title={<FormattedMessage id="help-resources-row-title" />}
+          navigation
+        />
+      </FileDropTarget>
     </DefaultPageLayout>
   );
 };
@@ -81,7 +93,10 @@ const ProjectsRow = () => {
       <CarouselRow
         carouselItems={cards}
         title={<FormattedMessage id="my-projects-row-title" />}
-        actions={<ViewAllProjectsLink />}
+        actions={[
+          <ImportProjectButton key="import" />,
+          <ViewAllProjectsLink key="view-all" />,
+        ]}
         navigation
       />
     </>
@@ -115,6 +130,57 @@ const NewProjectCard = ({
       <ActionCard onClick={() => setIsOpen(true)} icon={RiAddLine}>
         <FormattedMessage id="new-project-action" />
       </ActionCard>
+    </>
+  );
+};
+
+/**
+ * Chooses files to import as a new project. Icon only where the row's
+ * heading leaves no room for the label.
+ */
+const ImportProjectButton = () => {
+  const intl = useIntl();
+  const importFiles = useImportProjectFiles();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const choose = useCallback(() => inputRef.current?.click(), []);
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(e.target.files ?? []);
+      // Clear the input so choosing the same file again triggers a change.
+      e.target.value = "";
+      if (files.length > 0) {
+        void importFiles(files, "file_picker");
+      }
+    },
+    [importFiles]
+  );
+  const label = intl.formatMessage({ id: "import-file-action" });
+  return (
+    <>
+      <input
+        ref={inputRef}
+        type="file"
+        multiple
+        hidden
+        onChange={handleChange}
+        data-testid="import-project-input"
+      />
+      <IconButton
+        variant="ghost"
+        aria-label={label}
+        onPress={choose}
+        css={{ display: { base: "inline-flex", sm: "none" } }}
+      >
+        <Icon as={RiUpload2Line} />
+      </IconButton>
+      <Button
+        variant="ghost"
+        startIcon={<Icon as={RiUpload2Line} />}
+        onPress={choose}
+        css={{ display: { base: "none", sm: "inline-flex" } }}
+      >
+        {label}
+      </Button>
     </>
   );
 };

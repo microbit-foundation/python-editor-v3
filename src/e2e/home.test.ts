@@ -99,6 +99,27 @@ test.describe("home page", () => {
     await homePage.cards.expectVisible("Copy of Day light");
   });
 
+  test("imports a hex as a new project", async ({ app, homePage }) => {
+    await homePage.goto();
+    await homePage.importFile("testData/1.0.1.hex");
+
+    await app.expectProjectName("1.0.1");
+    await app.expectEditorContainText(/PASS1/);
+    await app.goHome();
+    await homePage.cards.expectVisible("1.0.1");
+  });
+
+  test("imports a Python script as a new project named after it", async ({
+    app,
+    homePage,
+  }) => {
+    await homePage.goto();
+    await homePage.importFile("testData/samplefile.py");
+
+    await app.expectProjectName("samplefile");
+    await app.expectProjectFiles(["main.py"]);
+  });
+
   test("keeps projects across a reload", async ({ app, homePage }) => {
     await homePage.goto();
     await homePage.newProject("Night light");
