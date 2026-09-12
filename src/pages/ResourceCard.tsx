@@ -39,7 +39,9 @@ const ResourceCard = ({
     bg="white"
     borderRadius="10px"
     overflow="hidden"
-    w={64}
+    // The carousel sizes its slides; a token width would shrink under the
+    // dense preset and open up the gaps.
+    w="100%"
     boxShadow="md"
     alignSelf="stretch"
   >
