@@ -14,9 +14,10 @@ import {
   ModalBody,
 } from "@microbit/ui";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { RiCloseLine, RiHome2Line, RiSearch2Line } from "react-icons/ri";
+import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import { useNavigate } from "react-router";
+import { Link as RouterLink } from "react-router";
+import { css } from "styled-system/css";
 import { Box, Flex, HStack, styled } from "styled-system/jsx";
 import CollapsibleButton from "../common/CollapsibleButton";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
@@ -77,11 +78,11 @@ const SideBarHeader = ({
 
   const [{ languageId }] = useSettings();
   const searchAvailable = supportedSearchLanguages.includes(languageId);
-  // Without the projects database there is nothing on the home page.
+  // Without the projects database there is nothing on the home page, so
+  // the logo keeps its link to microbit.org.
   const projectsDatabaseActive = useProjectsDatabaseActive();
   const iframeMode = useIframeMode();
-  const showHome = projectsDatabaseActive && !iframeMode;
-  const navigate = useNavigate();
+  const logoLinksHome = projectsDatabaseActive && !iframeMode;
 
   const handleSearchShortcut = useCallback(() => {
     if (searchAvailable) {
@@ -140,6 +141,18 @@ const SideBarHeader = ({
     ? faceLogoRef.current.getBoundingClientRect().right + paddingX
     : 0;
   const modalWidth = contentWidth - modalOffset + "px";
+  const logo = (
+    <HStack gap="0.875rem">
+      <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
+        {brand.squareLogo}
+      </Box>
+      {!query && sidebarShown && (
+        <Box width="9.098rem" role="img" color="white">
+          {brand.horizontalLogo}
+        </Box>
+      )}
+    </HStack>
+  );
   return (
     <>
       {searchAvailable && searchModalOpen && (
@@ -190,40 +203,32 @@ const SideBarHeader = ({
               searchAvailable && searchModalOpen ? "4.95rem" : topBarHeight,
           }}
         >
-          {showHome && (
-            <IconButton
-              variant="ghost"
+          {logoLinksHome ? (
+            <RouterLink
+              to={createHomePageUrl()}
               aria-label={intl.formatMessage({ id: "home-action" })}
-              onPress={() => void navigate(createHomePageUrl())}
-              css={{ color: "white", fontSize: "xl", ml: "2" }}
+              className={css({
+                display: "block",
+                mx: "1rem",
+                borderRadius: "md",
+                outline: "none",
+                _focusVisible: { focusRing: "outline" },
+              })}
             >
-              <Icon as={RiHome2Line} />
-            </IconButton>
+              {logo}
+            </RouterLink>
+          ) : (
+            <Link
+              display="block"
+              href={microbitOrgUrl(languageId)}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={intl.formatMessage({ id: "visit-dot-org" })}
+              mx="1rem"
+            >
+              {logo}
+            </Link>
           )}
-          <Link
-            display="block"
-            href={microbitOrgUrl(languageId)}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={intl.formatMessage({ id: "visit-dot-org" })}
-            mx="1rem"
-          >
-            <HStack gap="0.875rem">
-              <Box
-                width="3.56875rem"
-                color="white"
-                role="img"
-                ref={faceLogoRef}
-              >
-                {brand.squareLogo}
-              </Box>
-              {!query && sidebarShown && (
-                <Box width="9.098rem" role="img" color="white">
-                  {brand.horizontalLogo}
-                </Box>
-              )}
-            </HStack>
-          </Link>
           {searchAvailable && !query && sidebarShown && (
             <CollapsibleButton
               onPress={handleModalOpened}

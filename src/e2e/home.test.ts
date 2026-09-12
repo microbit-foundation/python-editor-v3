@@ -48,7 +48,7 @@ test.describe("home page", () => {
     await homePage.newProject("Night light");
     await app.expectProjectName("Night light");
 
-    await app.page.getByRole("button", { name: "Home" }).click();
+    await app.goHome();
 
     await homePage.expectOnPage();
     await homePage.cards.expectVisible("Night light");
@@ -63,11 +63,11 @@ test.describe("home page", () => {
     await app.expectProjectName("Night light");
     await app.typeInEditor("# a change");
     await app.expectEditorContainText("# a change");
-    await app.page.getByRole("button", { name: "Home" }).click();
+    await app.goHome();
     await homePage.expectOnPage();
     await homePage.newProject("Other");
     await app.expectProjectName("Other");
-    await app.page.getByRole("button", { name: "Home" }).click();
+    await app.goHome();
     await homePage.expectOnPage();
 
     await homePage.cards.open("Night light");
@@ -83,7 +83,7 @@ test.describe("home page", () => {
     await homePage.goto();
     await homePage.newProject("Night light");
     await app.expectProjectName("Night light");
-    await app.page.getByRole("button", { name: "Home" }).click();
+    await app.goHome();
     await homePage.expectOnPage();
 
     await homePage.cards.menuRename("Night light", "Day light");
@@ -103,7 +103,7 @@ test.describe("home page", () => {
     await homePage.goto();
     await homePage.newProject("Night light");
     await app.expectProjectName("Night light");
-    await app.page.getByRole("button", { name: "Home" }).click();
+    await app.goHome();
     await homePage.expectOnPage();
 
     await homePage.page.reload();
