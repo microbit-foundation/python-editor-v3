@@ -855,6 +855,8 @@ export const editorUrl = (options: UrlOptions = {}): string => {
     // We didn't use BASE_URL here as CRA seems to set it to "" before running jest.
     // Maybe can be changed since the Vite upgrade.
     (process.env.E2E_BASE_URL ?? "/") +
+    // In controller mode the editor is the only page and stays at the root.
+    (options.controller ? "" : "project") +
     "?" +
     new URLSearchParams(params).toString() +
     (options.fragment ?? "")

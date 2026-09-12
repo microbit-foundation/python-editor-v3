@@ -22,7 +22,8 @@ import SearchProvider from "./documentation/search/search-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
-import { createHost } from "./fs/host";
+import { createHost, IframeHost } from "./fs/host";
+import { IframeModeProvider } from "./iframe-mode-hooks";
 import { fetchMicroPython } from "./micropython/micropython";
 import { LanguageServerClientProvider } from "./language-server/language-server-hooks";
 import { logDeviceStatusChange } from "./logging/analytics";
@@ -48,6 +49,7 @@ const device: MicrobitUSBConnection = isMockDeviceMode()
   : createUSBConnection({ logging });
 
 const host = createHost(logging);
+const iframeMode = host instanceof IframeHost;
 const fs = new FileSystem(logging, host, fetchMicroPython);
 
 // If this fails then we retry on access.
@@ -75,46 +77,48 @@ const App = () => {
 
   const deployment = useDeployment();
   const { ConsentProvider } = deployment.compliance;
-  const router = useMemo(() => createRouter(), []);
+  const router = useMemo(() => createRouter({ iframe: iframeMode }), []);
   return (
     <>
       <VisualViewPortCSSVariables />
       <LoggingProvider value={logging}>
-        <SettingsProvider>
-          <SessionSettingsProvider>
-            <TranslationProvider>
-              {/* Inside TranslationProvider: SharedUIProvider passes the app
+        <IframeModeProvider value={iframeMode}>
+          <SettingsProvider>
+            <SessionSettingsProvider>
+              <TranslationProvider>
+                {/* Inside TranslationProvider: SharedUIProvider passes the app
                     locale to react-aria for its built-in strings, and the
                     toast region's close label and status announcements are
                     react-intl messages. */}
-              <SharedUIProvider>
-                <ToastProvider />
-                <FileSystemProvider value={fs}>
-                  <DeviceContextProvider value={device}>
-                    <LanguageServerClientProvider>
-                      <BeforeUnloadDirtyCheck />
-                      <DocumentationProvider>
-                        <SearchProvider>
-                          <SelectionProvider>
-                            <DialogProvider>
-                              <ConsentProvider>
-                                <ProjectDropTarget>
-                                  <ActiveEditorProvider>
-                                    <RouterProvider router={router} />
-                                  </ActiveEditorProvider>
-                                </ProjectDropTarget>
-                              </ConsentProvider>
-                            </DialogProvider>
-                          </SelectionProvider>
-                        </SearchProvider>
-                      </DocumentationProvider>
-                    </LanguageServerClientProvider>
-                  </DeviceContextProvider>
-                </FileSystemProvider>
-              </SharedUIProvider>
-            </TranslationProvider>
-          </SessionSettingsProvider>
-        </SettingsProvider>
+                <SharedUIProvider>
+                  <ToastProvider />
+                  <FileSystemProvider value={fs}>
+                    <DeviceContextProvider value={device}>
+                      <LanguageServerClientProvider>
+                        <BeforeUnloadDirtyCheck />
+                        <DocumentationProvider>
+                          <SearchProvider>
+                            <SelectionProvider>
+                              <DialogProvider>
+                                <ConsentProvider>
+                                  <ProjectDropTarget>
+                                    <ActiveEditorProvider>
+                                      <RouterProvider router={router} />
+                                    </ActiveEditorProvider>
+                                  </ProjectDropTarget>
+                                </ConsentProvider>
+                              </DialogProvider>
+                            </SelectionProvider>
+                          </SearchProvider>
+                        </DocumentationProvider>
+                      </LanguageServerClientProvider>
+                    </DeviceContextProvider>
+                  </FileSystemProvider>
+                </SharedUIProvider>
+              </TranslationProvider>
+            </SessionSettingsProvider>
+          </SettingsProvider>
+        </IframeModeProvider>
       </LoggingProvider>
     </>
   );
