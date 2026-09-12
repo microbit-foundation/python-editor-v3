@@ -776,11 +776,10 @@ export class App {
   }
 
   async expectFocusOnLoad(): Promise<void> {
-    const link = this.page.getByLabel(
-      "visit microbit.org (opens in a new tab)"
-    );
+    // The home button leads the sidebar header.
+    const home = this.page.getByRole("button", { name: "Home" });
     await this.page.keyboard.press("Tab");
-    await expect(link).toBeFocused();
+    await expect(home).toBeFocused();
   }
 
   async assertFocusOnSidebar(): Promise<void> {

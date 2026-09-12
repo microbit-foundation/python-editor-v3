@@ -14,8 +14,9 @@ import {
   ModalBody,
 } from "@microbit/ui";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
+import { RiCloseLine, RiHome2Line, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { useNavigate } from "react-router";
 import { Box, Flex, HStack, styled } from "styled-system/jsx";
 import CollapsibleButton from "../common/CollapsibleButton";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
@@ -26,9 +27,12 @@ import { supportedSearchLanguages } from "../documentation/search/search.worker"
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
 import { microbitOrgUrl } from "../external-links";
+import { useProjectsDatabaseActive } from "../fs/storage-status";
+import { useIframeMode } from "../iframe-mode-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 import { useSettings } from "../settings/settings";
+import { createHomePageUrl } from "../urls";
 import { useHotkeys } from "react-hotkeys-hook";
 import {
   globalShortcutConfig,
@@ -73,6 +77,11 @@ const SideBarHeader = ({
 
   const [{ languageId }] = useSettings();
   const searchAvailable = supportedSearchLanguages.includes(languageId);
+  // Without the projects database there is nothing on the home page.
+  const projectsDatabaseActive = useProjectsDatabaseActive();
+  const iframeMode = useIframeMode();
+  const showHome = projectsDatabaseActive && !iframeMode;
+  const navigate = useNavigate();
 
   const handleSearchShortcut = useCallback(() => {
     if (searchAvailable) {
@@ -181,6 +190,16 @@ const SideBarHeader = ({
               searchAvailable && searchModalOpen ? "4.95rem" : topBarHeight,
           }}
         >
+          {showHome && (
+            <IconButton
+              variant="ghost"
+              aria-label={intl.formatMessage({ id: "home-action" })}
+              onPress={() => void navigate(createHomePageUrl())}
+              css={{ color: "white", fontSize: "xl", ml: "2" }}
+            >
+              <Icon as={RiHome2Line} />
+            </IconButton>
+          )}
           <Link
             display="block"
             href={microbitOrgUrl(languageId)}
