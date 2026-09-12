@@ -27,13 +27,22 @@ describe("IndexedDBFSStorage", () => {
   let db: ProjectsDatabase;
   let storage: IndexedDBFSStorage;
   let errors: unknown[];
+  let changes: number;
   beforeEach(async () => {
     db = await openWithProject();
     errors = [];
-    storage = new IndexedDBFSStorage(db, projectId, (e) => errors.push(e), 20);
+    changes = 0;
+    storage = new IndexedDBFSStorage(
+      db,
+      projectId,
+      (e) => errors.push(e),
+      () => changes++,
+      20
+    );
   });
   afterEach(async () => {
     await storage.dispose();
+    db.close();
   });
 
   commonStorageTests(() => storage);
@@ -62,6 +71,13 @@ describe("IndexedDBFSStorage", () => {
     await storage.flush();
     expect(await storage.isDirty()).toEqual(false);
     expect(apply).not.toHaveBeenCalled();
+  });
+
+  it("reports each successful flush for cross-tab sync", async () => {
+    await storage.write("main.py", new Uint8Array([1]));
+    await storage.flush();
+    await storage.flush();
+    expect(changes).toEqual(1);
   });
 
   it("a remove after a write in the same batch wins", async () => {

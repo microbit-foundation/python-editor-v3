@@ -12,7 +12,6 @@ import {
   projectFilesToBase64,
 } from "./initial-project";
 import { parseMigrationFromUrl } from "./migration";
-import { openCurrentProjectStorage } from "./current-project";
 import { FSStorage, InMemoryFSStorage, SplitStrategyStorage } from "./storage";
 
 const messages = {
@@ -33,12 +32,22 @@ export interface Host {
 }
 
 export class DefaultHost implements Host {
-  constructor(private url: string = "") {}
+  /**
+   * @param url The URL at boot, for a #project: migration.
+   * @param persistentStorage The record of the project, once one is opened.
+   * Until then the file system waits, and without one it stays in memory.
+   */
+  constructor(
+    private url: string = "",
+    private persistentStorage: Promise<FSStorage | undefined> = Promise.resolve(
+      undefined
+    )
+  ) {}
 
   createStorage(logging: Logging): FSStorage {
     return new SplitStrategyStorage(
       new InMemoryFSStorage(undefined),
-      openCurrentProjectStorage(logging),
+      this.persistentStorage,
       logging
     );
   }
@@ -146,12 +155,15 @@ export class IframeHost implements Host {
   }
 }
 
-export const createHost = (logging: Logging): Host => {
+export const createHost = (
+  logging: Logging,
+  persistentStorage: Promise<FSStorage | undefined>
+): Host => {
   const iframeHost = getControllerHost(logging);
   if (iframeHost) {
     return new IframeHost(iframeHost, window);
   }
-  return new DefaultHost(window.location.href);
+  return new DefaultHost(window.location.href, persistentStorage);
 };
 
 const getControllerHost = (logging: Logging): Window | undefined => {

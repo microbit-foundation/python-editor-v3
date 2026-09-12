@@ -6,6 +6,7 @@
 import { NotFoundPage } from "@microbit/ui-patterns";
 import { createBrowserRouter, Navigate, useParams } from "react-router";
 import { baseUrl } from "./base";
+import { Projects } from "./project/projects";
 import RootLayout from "./RootLayout";
 import { isTabName } from "./router-hooks";
 import {
@@ -45,18 +46,21 @@ const RootRedirect = () => (
 const NotFound = () => <NotFoundPage homeUrl={baseUrl} />;
 
 export interface RouterOptions {
-  /** Controller mode: the editor is the only page and stays at the root. */
-  iframe: boolean;
+  /**
+   * The projects in this browser. Undefined in iframe controller mode, where
+   * the editor is the only page and stays at the root.
+   */
+  projects: Projects | undefined;
 }
 
-export const createRouter = ({ iframe }: RouterOptions) =>
+export const createRouter = ({ projects }: RouterOptions) =>
   createBrowserRouter(
     [
       {
         id: "root",
         path: "",
         element: <RootLayout />,
-        children: iframe
+        children: !projects
           ? [
               { path: iframeEditorRoutePath, element: <Workbench /> },
               // Deeper paths are the editor with no tab selected, as before.
@@ -64,7 +68,16 @@ export const createRouter = ({ iframe }: RouterOptions) =>
             ]
           : [
               { index: true, element: <RootRedirect /> },
-              { path: editorRoutePath, element: <Workbench /> },
+              {
+                path: editorRoutePath,
+                element: <Workbench />,
+                // The editor needs a project; choosing one is the only
+                // asynchronous step, the MicroPython load carries on behind.
+                loader: async () => {
+                  await projects.openCurrent();
+                  return null;
+                },
+              },
               {
                 path: legacyEditorRoutePath,
                 element: <LegacyEditorRedirect />,

@@ -26,6 +26,9 @@ const defaultFlushDelayMs = 300;
 export class IndexedDBFSStorage implements FSStorage {
   private pendingWrites = new Map<string, Uint8Array | null>();
   private pendingMeta: NonNullable<ProjectChanges["meta"]> = {};
+  // When the oldest pending change was made: the project's "last modified"
+  // is the edit, not the flush, which may come later than another project's.
+  private pendingSince: number | undefined;
   private timer: ReturnType<typeof setTimeout> | undefined;
   private flushing: Promise<void> = Promise.resolve();
   private readonly handleHidden = () => {
@@ -34,10 +37,15 @@ export class IndexedDBFSStorage implements FSStorage {
     }
   };
 
+  /**
+   * @param onError Reports a failed flush; the changes in it are dropped.
+   * @param onChange Called after a successful flush, for cross-tab sync.
+   */
   constructor(
     private db: ProjectsDatabase,
     private projectId: string,
     private onError: (e: unknown) => void,
+    private onChange: () => void = () => {},
     private flushDelayMs: number = defaultFlushDelayMs
   ) {
     if (typeof document !== "undefined") {
@@ -46,14 +54,16 @@ export class IndexedDBFSStorage implements FSStorage {
     }
   }
 
-  /** Flushes, stops listening and closes the database. */
+  /**
+   * Flushes and stops listening. The database connection is shared with
+   * the projects list and stays open.
+   */
   async dispose(): Promise<void> {
     if (typeof document !== "undefined") {
       document.removeEventListener("visibilitychange", this.handleHidden);
       window.removeEventListener("pagehide", this.handleHidden);
     }
     await this.flush();
-    this.db.close();
   }
 
   async ls(): Promise<string[]> {
@@ -112,6 +122,7 @@ export class IndexedDBFSStorage implements FSStorage {
   }
 
   private schedule(): void {
+    this.pendingSince ??= Date.now();
     if (this.timer === undefined) {
       this.timer = setTimeout(() => void this.flush(), this.flushDelayMs);
     }
@@ -142,14 +153,16 @@ export class IndexedDBFSStorage implements FSStorage {
       }
     }
     const changes: ProjectChanges = {
-      meta: { ...this.pendingMeta, timestamp: Date.now() },
+      meta: { ...this.pendingMeta, timestamp: this.pendingSince ?? Date.now() },
       writes,
       deletes,
     };
     this.pendingWrites = new Map();
     this.pendingMeta = {};
+    this.pendingSince = undefined;
     try {
       await this.db.apply(this.projectId, changes);
+      this.onChange();
     } catch (e) {
       this.onError(e);
     }
