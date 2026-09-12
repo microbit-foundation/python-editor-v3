@@ -33,7 +33,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useLogging } from "../logging/logging-hooks";
 import DefaultPageLayout from "./DefaultPageLayout";
-import { ProjectGlyph } from "./HomePage";
+import ProjectIcon from "./ProjectIcon";
 import {
   PageProject,
   usePageProjects,
@@ -191,7 +191,7 @@ const ProjectsPage = () => {
                       onRename={actions.rename}
                       onDuplicate={actions.duplicate}
                     >
-                      <ProjectGlyph />
+                      <ProjectIcon hasCheckbox />
                     </ProjectCard>
                   </Box>
                 ))}

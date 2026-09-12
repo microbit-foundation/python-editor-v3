@@ -3,19 +3,19 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, css } from "@microbit/ui";
+import { css } from "@microbit/ui";
 import { CarouselRow } from "@microbit/ui-carousel";
 import { NameProjectDialog, ProjectCard } from "@microbit/ui-patterns";
 import { useCallback, useState } from "react";
 import { RiAddLine, RiFolderOpenLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link as RouterLink, useNavigate } from "react-router";
-import PythonLogo from "../common/PythonLogo";
 import { useDeployment } from "../deployment";
 import { useSettings } from "../settings/settings";
 import { createProjectsPageUrl } from "../urls";
 import ActionCard from "./ActionCard";
 import DefaultPageLayout from "./DefaultPageLayout";
+import ProjectIcon from "./ProjectIcon";
 import HomepageBanner from "./HomepageBanner";
 import { usePageProjects, useProjectPageActions } from "./project-page-actions";
 import {
@@ -68,7 +68,7 @@ const ProjectsRow = () => {
         onRename={actions.rename}
         onDuplicate={actions.duplicate}
       >
-        <ProjectGlyph />
+        <ProjectIcon />
       </ProjectCard>
     )),
     ...(projects.length > numCardsDisplayed
@@ -87,13 +87,6 @@ const ProjectsRow = () => {
     </>
   );
 };
-
-/** The picture on a project card. */
-export const ProjectGlyph = () => (
-  <Box w={12} h={12} mt={4} alignSelf="center">
-    <PythonLogo width="100%" height="100%" />
-  </Box>
-);
 
 const NewProjectCard = ({
   onCreate,
