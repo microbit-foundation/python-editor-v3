@@ -19,6 +19,11 @@ export interface ProjectMeta {
   timestamp: number;
 }
 
+/** A project as listed on the pages: its metadata plus what it contains. */
+export interface ProjectListEntry extends ProjectMeta {
+  fileNames: string[];
+}
+
 /**
  * A file belonging to a project, keyed by [projectId, name]: a file's name
  * is its identity within a project.
@@ -114,6 +119,29 @@ export class ProjectsDatabase {
   async list(): Promise<ProjectMeta[]> {
     const all = await this.db.getAll(PROJECTS);
     return all.sort((a, b) => b.timestamp - a.timestamp);
+  }
+
+  /**
+   * All projects with their file names, most recent first. One transaction
+   * over both stores so the list is consistent and costs two reads, not one
+   * per project.
+   */
+  async listWithFileNames(): Promise<ProjectListEntry[]> {
+    const tx = this.db.transaction(stores, "readonly");
+    const [projects, fileKeys] = await Promise.all([
+      tx.objectStore(PROJECTS).getAll(),
+      tx.objectStore(FILES).getAllKeys(),
+      tx.done,
+    ]);
+    const filesByProject = new Map<string, string[]>();
+    for (const [projectId, name] of fileKeys) {
+      const names = filesByProject.get(projectId) ?? [];
+      names.push(name);
+      filesByProject.set(projectId, names);
+    }
+    return projects
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .map((p) => ({ ...p, fileNames: filesByProject.get(p.id) ?? [] }));
   }
 
   async get(id: string): Promise<ProjectMeta | undefined> {

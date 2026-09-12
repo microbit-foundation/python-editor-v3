@@ -5,12 +5,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { toByteArray } from "base64-js";
 import { isPublicFacingStage } from "../environment";
 import { Logging } from "../logging/logging";
 import { generateId } from "./fs-util";
-import { IndexedDBFSStorage } from "./indexeddb-storage";
+import { defaultInitialProject } from "./initial-project";
 import { ProjectsDatabase } from "./projects-db";
-import { FSStorage, SessionStorageFSStorage } from "./storage";
+import { SessionStorageFSStorage } from "./storage";
 import {
   reportProjectsDatabaseActive,
   reportStorageVersionError,
@@ -27,8 +28,14 @@ export const getCurrentProjectId = (
 
 export const setCurrentProjectId = (
   session: Storage | undefined,
-  id: string
-): void => session?.setItem(currentProjectKey, id);
+  id: string | undefined
+): void => {
+  if (id === undefined) {
+    session?.removeItem(currentProjectKey);
+  } else {
+    session?.setItem(currentProjectKey, id);
+  }
+};
 
 export const sessionStorageIfPossible = (): Storage | undefined => {
   try {
@@ -41,44 +48,56 @@ export const sessionStorageIfPossible = (): Storage | undefined => {
 };
 
 /**
- * Opens the storage for the tab's current project.
+ * Opens the projects database, or explains why not.
  *
- * In order: the project the tab already has open; a project migrated from
- * the session-storage file system that predates the projects database, so a reload
- * after deploying this lands in the user's work; otherwise a new project.
- *
- * Without IndexedDB (unavailable, blocked, or an incompatible database) this
- * falls back to session storage, which is what the editor used before. On
- * non-public stages an incompatible database is reported for the UI to offer
- * clearing it instead, since review builds share one database.
+ * Without IndexedDB (unavailable, blocked, or an incompatible database) the
+ * result is undefined and the editor falls back to session storage, which is
+ * what it used before. On non-public stages an incompatible database is
+ * reported for the UI to offer clearing it instead, since review builds share
+ * one database.
  */
-export const openCurrentProjectStorage = async (
+export const openProjectsDatabase = async (
   logging: Logging,
   publicFacing: boolean = isPublicFacingStage()
-): Promise<FSStorage | undefined> => {
+): Promise<ProjectsDatabase | undefined> => {
   if (typeof indexedDB === "undefined") {
-    return SessionStorageFSStorage.create();
+    return undefined;
   }
-  let db: ProjectsDatabase;
   try {
-    db = await ProjectsDatabase.open();
+    const db = await ProjectsDatabase.open();
+    reportProjectsDatabaseActive();
+    return db;
   } catch (e) {
     if (isVersionError(e) && !publicFacing) {
       reportStorageVersionError(e);
-      return undefined;
+    } else {
+      logging.error("Projects database unavailable, using session storage", e);
     }
-    logging.error("Projects database unavailable, using session storage", e);
-    return SessionStorageFSStorage.create();
+    return undefined;
   }
-  const session = sessionStorageIfPossible();
-  const id = await chooseProject(db, session);
-  reportProjectsDatabaseActive();
-  return new IndexedDBFSStorage(db, id, (e) =>
-    logging.error("Failed to save project", e)
-  );
 };
 
-const chooseProject = async (
+/**
+ * The files of a new project: the starter program.
+ */
+export const defaultProjectFiles = (): Record<string, Uint8Array> =>
+  Object.fromEntries(
+    Object.entries(defaultInitialProject.files).map(([name, base64]) => [
+      name,
+      toByteArray(base64),
+    ])
+  );
+
+/**
+ * Decides which project the editor opens and marks it most recent.
+ *
+ * In order: the project the tab already has open; a project migrated from
+ * the session-storage file system that predates the projects database, so a
+ * reload after deploying this lands in the user's work; the most recently
+ * used project, so a straight-to-editor bookmark keeps working; otherwise a
+ * new project.
+ */
+export const chooseProject = async (
   db: ProjectsDatabase,
   session: Storage | undefined
 ): Promise<string> => {
@@ -93,8 +112,17 @@ const chooseProject = async (
     setCurrentProjectId(session, id);
     return id;
   }
+  const recent = await db.mostRecent();
+  if (recent) {
+    await db.touch(recent.id);
+    setCurrentProjectId(session, recent.id);
+    return recent.id;
+  }
   const id = generateId();
-  await db.create({ id, name: undefined, timestamp: Date.now() }, {});
+  await db.create(
+    { id, name: undefined, timestamp: Date.now() },
+    defaultProjectFiles()
+  );
   setCurrentProjectId(session, id);
   return id;
 };
