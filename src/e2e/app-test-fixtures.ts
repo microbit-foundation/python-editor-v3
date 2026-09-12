@@ -1,8 +1,12 @@
 import { test as base } from "@playwright/test";
 import { App } from "./app.js";
+import { HomePage } from "./home-page.js";
+import { ProjectsPage } from "./projects-page.js";
 
 type MyFixtures = {
   app: App;
+  homePage: HomePage;
+  projectsPage: ProjectsPage;
 };
 
 type Options = {
@@ -51,5 +55,11 @@ export const test = base.extend<MyFixtures & Options>({
       await app.goto();
     }
     await use(app);
+  },
+  homePage: async ({ page }, use) => {
+    await use(new HomePage(page));
+  },
+  projectsPage: async ({ page }, use) => {
+    await use(new ProjectsPage(page));
   },
 });

@@ -833,7 +833,20 @@ const getAbsoluteFilePath = (filePathFromProjectRoot: string) => {
   return path.join(dir.replace("src/e2e", ""), filePathFromProjectRoot);
 };
 
-export const editorUrl = (options: UrlOptions = {}): string => {
+export const editorUrl = (options: UrlOptions = {}): string =>
+  // In controller mode the editor is the only page and stays at the root.
+  appUrl(options.controller ? "" : "project", options);
+
+export const homeUrl = (options: UrlOptions = {}): string =>
+  appUrl("", options);
+
+export const projectsPageUrl = (options: UrlOptions = {}): string =>
+  appUrl("projects", options);
+
+/**
+ * @param path The page's path within the app, without a leading slash.
+ */
+export const appUrl = (path: string, options: UrlOptions = {}): string => {
   const flags = new Set<string>([
     "none",
     "noWelcome",
@@ -854,8 +867,7 @@ export const editorUrl = (options: UrlOptions = {}): string => {
     // We didn't use BASE_URL here as CRA seems to set it to "" before running jest.
     // Maybe can be changed since the Vite upgrade.
     (process.env.E2E_BASE_URL ?? "/") +
-    // In controller mode the editor is the only page and stays at the root.
-    (options.controller ? "" : "project") +
+    path +
     "?" +
     new URLSearchParams(params).toString() +
     (options.fragment ?? "")
