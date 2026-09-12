@@ -160,8 +160,9 @@ export const isNameLengthValid = (filename: string): boolean =>
 /**
  * The MicroPython file system adapted for convienient use from the UI.
  *
- * For now we store contents backed by session storage so they're only
- * persistent over a browser refresh or Chrome tab restore.
+ * Contents are held in memory and mirrored to the host's persistent storage:
+ * the current project in the IndexedDB projects database, or session storage where
+ * that is unavailable.
  *
  * We version files in a way that's designed to make UI updates simple.
  * If a UI action updates a file (e.g. load from disk) then we bump its version.
@@ -251,6 +252,29 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     }
     await this.initializing;
     return this.fs!;
+  }
+
+  /**
+   * Switch to a different backing storage, typically another project.
+   *
+   * The new storage is the record from here on: reads, writes and the hex
+   * file system all reflect it. Versions of files present in the new storage
+   * are bumped so editors showing a same-named file reload it.
+   */
+  async switchStorage(storage: FSStorage): Promise<void> {
+    if (this.initializing) {
+      await this.initializing;
+    }
+    this.storage = storage;
+    this._dirty = await storage.isDirty();
+    this.project = { ...this.project, id: generateId() };
+    if (this.fs) {
+      await this.initializeFsFromStorage(this.fs);
+    }
+    for (const name of await storage.ls()) {
+      this.incrementFileVersion(name);
+    }
+    return this.notify();
   }
 
   /**
