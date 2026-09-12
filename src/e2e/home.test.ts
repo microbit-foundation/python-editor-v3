@@ -17,11 +17,7 @@ test.describe("home page", () => {
         name: "Code your BBC micro:bit with Python",
       })
     ).toBeVisible();
-    for (const row of [
-      "Project ideas",
-      "Teacher resources",
-      "Help and support",
-    ]) {
+    for (const row of ["Project ideas", "Teacher resources", "Help"]) {
       await expect(
         homePage.page.getByRole("heading", { name: row })
       ).toBeVisible();

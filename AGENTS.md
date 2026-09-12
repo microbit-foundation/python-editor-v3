@@ -5,8 +5,10 @@
 This app uses react-aria-components + Panda CSS via `@microbit/ui`.
 Read `../ui/docs/hints.md` before styling/theming/UI work.
 The private theme package is the sibling repo
-`../python-editor-v3-microbit` (consumed via a manual `node_modules`
-symlink locally — re-create it after `npm install`).
+`../python-editor-v3-microbit`. Link it with `npm run dev:link-theme`, which
+builds it and symlinks it into `node_modules`; re-run after `npm install`.
+Home page artwork (banner, help cards) lives there and is resolved per file by
+`theme-package/images/*` imports, falling back to `src/deployment/default`.
 
 `@microbit/ui` is consumed as the **published package**, pinned in
 `package.json`. To develop against a local `../ui` checkout instead — what you

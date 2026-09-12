@@ -13,14 +13,13 @@ import {
 } from "@microbit/ui";
 import { FormattedMessage } from "react-intl";
 import bannerBackground from "theme-package/images/banner-background.svg";
-import { microbitOrgCodeUrl } from "../external-links";
-import { useSettings } from "../settings/settings";
+import { useDeployment } from "../deployment";
 
 // Landscape phones.
 const shortHeight = "@media (max-height: 700px)";
 
 const HomepageBanner = () => {
-  const [{ languageId }] = useSettings();
+  const { userGuideLink } = useDeployment();
   return (
     <HStack w="100%">
       <HStack
@@ -61,17 +60,19 @@ const HomepageBanner = () => {
               <FormattedMessage id="homepage-banner-subtitle" />
             </Text>
           </VStack>
-          <LinkButton
-            href={microbitOrgCodeUrl(languageId)}
-            css={{
-              bg: "white",
-              border: 0,
-              color: "brand.700",
-              _hover: { bg: "white", color: "brand.700" },
-            }}
-          >
-            <FormattedMessage id="learn-more-action" />
-          </LinkButton>
+          {userGuideLink && (
+            <LinkButton
+              href={userGuideLink}
+              css={{
+                bg: "white",
+                border: 0,
+                color: "brand.700",
+                _hover: { bg: "white", color: "brand.700" },
+              }}
+            >
+              <FormattedMessage id="learn-more-action" />
+            </LinkButton>
+          )}
         </VStack>
       </HStack>
     </HStack>
