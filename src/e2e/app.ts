@@ -32,10 +32,12 @@ export interface BrowserDownload {
 // E2E_PORT points the suite at a server on another port.
 const baseUrl = `http://localhost:${process.env.E2E_PORT ?? "3000"}`;
 
-interface UrlOptions {
+export interface UrlOptions {
   flags?: Flag[];
   fragment?: string;
   language?: string;
+  /** Iframe controller mode, as embedded by classroom. */
+  controller?: boolean;
 }
 
 interface SaveOptions {
@@ -280,7 +282,7 @@ export class App {
   }
 
   async goto(options: UrlOptions = {}) {
-    await this.page.goto(optionsToURL(options));
+    await this.page.goto(editorUrl(options));
     // Wait for the page to be loaded
     await this.editor.waitFor();
   }
@@ -496,8 +498,18 @@ export class App {
   }
 
   async closeWithoutBeforeUnloadPrompt(): Promise<void> {
-    // Playwright accepts a beforeunload dialog itself if nobody listens, so
-    // listen to see it. Any dialog is handled before the page can close.
+    expect(await this.closeAndCollectDialogs()).not.toContain("beforeunload");
+  }
+
+  async closeAndExpectBeforeUnloadPrompt(): Promise<void> {
+    expect(await this.closeAndCollectDialogs()).toContain("beforeunload");
+  }
+
+  /**
+   * Playwright accepts a beforeunload dialog itself if nobody listens, so
+   * listen to see it. Any dialog is handled before the page can close.
+   */
+  private async closeAndCollectDialogs(): Promise<string[]> {
     const dialogs: string[] = [];
     this.page.on("dialog", async (dialog) => {
       dialogs.push(dialog.type());
@@ -506,7 +518,7 @@ export class App {
     const closed = this.page.waitForEvent("close");
     await this.page.close({ runBeforeUnload: true });
     await closed;
-    expect(dialogs).not.toContain("beforeunload");
+    return dialogs;
   }
 
   async expectDocumentationTopLevelHeading(
@@ -822,7 +834,7 @@ const getAbsoluteFilePath = (filePathFromProjectRoot: string) => {
   return path.join(dir.replace("src/e2e", ""), filePathFromProjectRoot);
 };
 
-const optionsToURL = (options: UrlOptions): string => {
+export const editorUrl = (options: UrlOptions = {}): string => {
   const flags = new Set<string>([
     "none",
     "noWelcome",
@@ -834,6 +846,9 @@ const optionsToURL = (options: UrlOptions): string => {
   ]);
   if (options.language) {
     params.push(["l", options.language]);
+  }
+  if (options.controller) {
+    params.push(["controller", "1"]);
   }
   return (
     baseUrl +
