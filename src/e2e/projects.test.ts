@@ -28,7 +28,7 @@ test.describe("projects page", () => {
       for (const name of ["Alpha", "Beta"]) {
         await homePage.newProject(name);
         await app.expectProjectName(name);
-        await app.page.getByRole("button", { name: "Home" }).click();
+        await app.goHome();
         await homePage.expectOnPage();
       }
       await projectsPage.goto();

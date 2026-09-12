@@ -776,10 +776,22 @@ export class App {
   }
 
   async expectFocusOnLoad(): Promise<void> {
-    // The home button leads the sidebar header.
-    const home = this.page.getByRole("button", { name: "Home" });
+    // The logo's home link leads the sidebar header.
     await this.page.keyboard.press("Tab");
-    await expect(home).toBeFocused();
+    await expect(this.homeLink).toBeFocused();
+  }
+
+  private get homeLink() {
+    return this.page.getByRole("link", { name: "Home" });
+  }
+
+  /**
+   * Follows the sidebar logo to the home page. Only available with the
+   * projects database active outside iframe mode; otherwise the logo links
+   * to microbit.org.
+   */
+  async goHome(): Promise<void> {
+    await this.homeLink.click();
   }
 
   async assertFocusOnSidebar(): Promise<void> {
