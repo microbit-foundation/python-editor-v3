@@ -10,7 +10,7 @@ import {
   SessionStorageFSStorage,
   SplitStrategyStorage,
 } from "./storage";
-import { commonStorageTests } from "./storage-tests";
+import { commonStorageTests, dirtyFlagTests } from "./storage-tests";
 
 const projectName = "projectName";
 
@@ -20,6 +20,7 @@ describe("SessionStorageFSStorage", () => {
     sessionStorage.clear();
   });
   commonStorageTests(() => storage);
+  dirtyFlagTests(() => storage);
 });
 
 describe("InMemoryFSStorage", () => {
@@ -28,6 +29,7 @@ describe("InMemoryFSStorage", () => {
     storage.clear();
   });
   commonStorageTests(() => storage);
+  dirtyFlagTests(() => storage);
 });
 
 describe("SplitStrategyStorage", () => {
@@ -42,6 +44,7 @@ describe("SplitStrategyStorage", () => {
     sessionStorage.clear();
   });
   commonStorageTests(() => storage);
+  dirtyFlagTests(() => storage);
 
   it("initializes from session storage", async () => {
     const memory = new InMemoryFSStorage(projectName);

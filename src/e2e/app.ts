@@ -495,19 +495,18 @@ export class App {
     await this.page.getByRole("button", { name: "Close" }).click();
   }
 
-  async closeAndExpectBeforeUnloadDialogVisible(
-    visible: boolean
-  ): Promise<void> {
-    if (visible) {
-      this.page.on("dialog", async (dialog) => {
-        expect(dialog.type() === "beforeunload").toEqual(visible);
-
-        // Though https://playwright.dev/docs/api/class-page#page-event-dialog
-        // says that dialog.dismiss() is needed otherwise the page will freeze,
-        // in practice, it appears that the dialog is dismissed automatically.
-      });
-    }
+  async closeWithoutBeforeUnloadPrompt(): Promise<void> {
+    // Playwright accepts a beforeunload dialog itself if nobody listens, so
+    // listen to see it. Any dialog is handled before the page can close.
+    const dialogs: string[] = [];
+    this.page.on("dialog", async (dialog) => {
+      dialogs.push(dialog.type());
+      await dialog.accept();
+    });
+    const closed = this.page.waitForEvent("close");
     await this.page.close({ runBeforeUnload: true });
+    await closed;
+    expect(dialogs).not.toContain("beforeunload");
   }
 
   async expectDocumentationTopLevelHeading(

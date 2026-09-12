@@ -11,7 +11,10 @@ import { generateId } from "./fs-util";
 import { IndexedDBFSStorage } from "./indexeddb-storage";
 import { ProjectsDatabase } from "./projects-db";
 import { FSStorage, SessionStorageFSStorage } from "./storage";
-import { reportStorageVersionError } from "./storage-status";
+import {
+  reportProjectsDatabaseActive,
+  reportStorageVersionError,
+} from "./storage-status";
 
 /**
  * The open project is per tab, as the whole project used to be.
@@ -69,6 +72,7 @@ export const openCurrentProjectStorage = async (
   }
   const session = sessionStorageIfPossible();
   const id = await chooseProject(db, session);
+  reportProjectsDatabaseActive();
   return new IndexedDBFSStorage(db, id, (e) =>
     logging.error("Failed to save project", e)
   );
@@ -90,10 +94,7 @@ const chooseProject = async (
     return id;
   }
   const id = generateId();
-  await db.create(
-    { id, name: undefined, timestamp: Date.now(), dirty: false },
-    {}
-  );
+  await db.create({ id, name: undefined, timestamp: Date.now() }, {});
   setCurrentProjectId(session, id);
   return id;
 };
@@ -112,12 +113,7 @@ const migrateLegacyProject = async (
   }
   const id = generateId();
   await db.create(
-    {
-      id,
-      name: await legacy.projectName(),
-      timestamp: Date.now(),
-      dirty: await legacy.isDirty(),
-    },
+    { id, name: await legacy.projectName(), timestamp: Date.now() },
     files
   );
   await legacy.removeAll();

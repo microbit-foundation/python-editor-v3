@@ -19,6 +19,9 @@ const defaultFlushDelayMs = 300;
  * Failures never propagate: the in-memory primary still holds the content,
  * so a failed flush is reported through onError and the changes are dropped
  * rather than retried forever against, say, a full quota.
+ *
+ * The dirty flag is not stored: it exists to warn before work is lost, and
+ * a project in the database outlives the tab.
  */
 export class IndexedDBFSStorage implements FSStorage {
   private pendingWrites = new Map<string, Uint8Array | null>();
@@ -86,7 +89,7 @@ export class IndexedDBFSStorage implements FSStorage {
     for (const name of await this.ls()) {
       this.pendingWrites.set(name, null);
     }
-    this.pendingMeta = { name: undefined, dirty: false };
+    this.pendingMeta = { name: undefined };
     await this.flush();
   }
 
@@ -100,19 +103,12 @@ export class IndexedDBFSStorage implements FSStorage {
     return (await this.db.get(this.projectId))?.name;
   }
 
-  async markDirty(): Promise<void> {
-    this.pendingMeta.dirty = true;
-    this.schedule();
-  }
+  async markDirty(): Promise<void> {}
 
-  async clearDirty(): Promise<void> {
-    this.pendingMeta.dirty = false;
-    this.schedule();
-  }
+  async clearDirty(): Promise<void> {}
 
   async isDirty(): Promise<boolean> {
-    await this.flush();
-    return (await this.db.get(this.projectId))?.dirty ?? false;
+    return false;
   }
 
   private schedule(): void {

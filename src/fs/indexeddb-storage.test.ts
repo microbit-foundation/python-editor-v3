@@ -19,10 +19,7 @@ const contents = (files: Record<string, Uint8Array>) =>
 
 const openWithProject = async () => {
   const db = await ProjectsDatabase.open(uniqueName());
-  await db.create(
-    { id: projectId, name: undefined, timestamp: 1, dirty: false },
-    {}
-  );
+  await db.create({ id: projectId, name: undefined, timestamp: 1 }, {});
   return db;
 };
 
@@ -46,7 +43,7 @@ describe("IndexedDBFSStorage", () => {
     await storage.write("main.py", new Uint8Array([1]));
     await storage.write("main.py", new Uint8Array([2]));
     await storage.write("other.py", new Uint8Array([3]));
-    await storage.markDirty();
+    await storage.setProjectName("Renamed");
     expect(apply).not.toHaveBeenCalled();
 
     await new Promise((resolve) => setTimeout(resolve, 40));
@@ -56,7 +53,15 @@ describe("IndexedDBFSStorage", () => {
       "main.py": [2],
       "other.py": [3],
     });
-    expect((await db.get(projectId))?.dirty).toEqual(true);
+    expect((await db.get(projectId))?.name).toEqual("Renamed");
+  });
+
+  it("does not track the dirty flag", async () => {
+    const apply = vi.spyOn(db, "apply");
+    await storage.markDirty();
+    await storage.flush();
+    expect(await storage.isDirty()).toEqual(false);
+    expect(apply).not.toHaveBeenCalled();
   });
 
   it("a remove after a write in the same batch wins", async () => {

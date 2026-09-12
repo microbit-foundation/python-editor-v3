@@ -8,7 +8,10 @@ import { useSyncExternalStore } from "react";
 // The storage opens at module load, before React mounts, so the outcome is
 // held here for the UI to read rather than passed through props.
 let versionError: unknown;
+let projectsDatabaseActive = false;
 const listeners = new Set<() => void>();
+
+const notify = () => listeners.forEach((listener) => listener());
 
 /**
  * Records that the projects database was created by an incompatible version
@@ -16,7 +19,17 @@ const listeners = new Set<() => void>();
  */
 export const reportStorageVersionError = (error: unknown): void => {
   versionError = error;
-  listeners.forEach((listener) => listener());
+  notify();
+};
+
+/**
+ * Records that the open project is in the projects database, which outlives
+ * the tab. Not reported for the session-storage fallback or in iframe mode,
+ * where closing the tab still loses the work.
+ */
+export const reportProjectsDatabaseActive = (): void => {
+  projectsDatabaseActive = true;
+  notify();
 };
 
 const subscribe = (listener: () => void) => {
@@ -27,7 +40,11 @@ const subscribe = (listener: () => void) => {
 export const useStorageVersionError = (): unknown =>
   useSyncExternalStore(subscribe, () => versionError);
 
+export const useProjectsDatabaseActive = (): boolean =>
+  useSyncExternalStore(subscribe, () => projectsDatabaseActive);
+
 /** For tests. */
 export const resetStorageStatus = (): void => {
   versionError = undefined;
+  projectsDatabaseActive = false;
 };

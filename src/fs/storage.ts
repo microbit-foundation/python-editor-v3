@@ -23,8 +23,10 @@ export interface FSStorage {
   projectName(): Promise<string | undefined>;
   clear(): Promise<void>;
   /**
-   * We persist the dirty flag so that we know whether the user
-   * had previously made changes after a restore from storage.
+   * Whether the user has changed the project since the last hex save, used
+   * to warn before their work is lost. Storage that lives no longer than the
+   * tab persists it so the warning survives a reload; storage that outlives
+   * the tab has nothing to warn about and always reports false.
    */
   markDirty(): Promise<void>;
   clearDirty(): Promise<void>;

@@ -18,14 +18,6 @@ export const commonStorageTests = (storage: () => FSStorage) => {
     expect(await storage().projectName()).toEqual("foo");
   });
 
-  it("stores dirty flag", async () => {
-    expect(await storage().isDirty()).toEqual(false);
-    await storage().markDirty();
-    expect(await storage().isDirty()).toEqual(true);
-    await storage().clearDirty();
-    expect(await storage().isDirty()).toEqual(false);
-  });
-
   it("stores files", async () => {
     await storage().write("test1.py", new Uint8Array([1]));
     await storage().write("test2.py", new Uint8Array([2]));
@@ -62,5 +54,18 @@ export const commonStorageTests = (storage: () => FSStorage) => {
     expect(await storage().exists("test1.py")).toEqual(false);
     expect(await storage().exists("test2.py")).toEqual(false);
     expect(await storage().ls()).toEqual([]);
+  });
+};
+
+/**
+ * For storage that lives no longer than the tab and so tracks the dirty flag.
+ */
+export const dirtyFlagTests = (storage: () => FSStorage) => {
+  it("stores dirty flag", async () => {
+    expect(await storage().isDirty()).toEqual(false);
+    await storage().markDirty();
+    expect(await storage().isDirty()).toEqual(true);
+    await storage().clearDirty();
+    expect(await storage().isDirty()).toEqual(false);
   });
 };

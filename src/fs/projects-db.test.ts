@@ -14,7 +14,6 @@ const meta = (id: string, timestamp: number, name = id): ProjectMeta => ({
   id,
   name,
   timestamp,
-  dirty: false,
 });
 const bytes = (...values: number[]) => new Uint8Array(values);
 // Typed arrays read back through fake-indexeddb under jsdom belong to another
@@ -68,14 +67,13 @@ describe("ProjectsDatabase", () => {
   it("applies metadata, writes and deletes together", async () => {
     await db.create(meta("a", 1), { "main.py": bytes(1), "old.py": bytes(9) });
     await db.apply("a", {
-      meta: { name: "renamed", dirty: true, timestamp: 5 },
+      meta: { name: "renamed", timestamp: 5 },
       writes: { "main.py": bytes(2), "new.py": bytes(3) },
       deletes: ["old.py"],
     });
     expect(await db.get("a")).toEqual({
       id: "a",
       name: "renamed",
-      dirty: true,
       timestamp: 5,
     });
     expect(contents(await db.files("a"))).toEqual({

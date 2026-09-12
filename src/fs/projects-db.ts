@@ -17,8 +17,6 @@ export interface ProjectMeta {
   name: string | undefined;
   /** Last modified or opened, for ordering by recency. */
   timestamp: number;
-  /** Changed since the last hex save. Persisted so a reload keeps it. */
-  dirty: boolean;
 }
 
 /**
