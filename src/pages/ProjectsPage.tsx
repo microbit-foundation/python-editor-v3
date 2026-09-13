@@ -31,6 +31,7 @@ import {
 } from "@microbit/ui-patterns";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
+import FileDropTarget from "../common/FileDropTarget";
 import { useLogging } from "../logging/logging-hooks";
 import DefaultPageLayout from "./DefaultPageLayout";
 import ProjectIcon from "./ProjectIcon";
@@ -38,6 +39,7 @@ import {
   PageProject,
   usePageProjects,
   useProjectPageActions,
+  useImportProjectFiles,
 } from "./project-page-actions";
 
 const fileNames = (project: PageProject) => project.fileNames;
@@ -71,6 +73,12 @@ const ProjectsPage = () => {
     setDirection(next);
     logging.event({ type: "project_sort", detail: { field, direction: next } });
   };
+
+  const importFiles = useImportProjectFiles();
+  const handleDrop = useCallback(
+    (files: File[]) => void importFiles(files, "drop"),
+    [importFiles]
+  );
 
   const [query, setQuery] = useState("");
   const handleQueryChange = useCallback(
@@ -114,101 +122,106 @@ const ProjectsPage = () => {
     <>
       {actions.dialogs}
       <DefaultPageLayout backToHome>
-        <VStack as="main" alignItems="center" flexGrow={1}>
-          <Box
-            w="100%"
-            maxW="1180px"
-            p={4}
-            mt={4}
-            display="flex"
-            flexDir="column"
-            flexGrow={1}
-          >
-            <Heading as="h1" size="lg" mb={4}>
-              <FormattedMessage id="my-projects-row-title" />
-            </Heading>
-            <HStack mb={4} justifyContent="space-between" alignItems="center">
-              <SearchInput
-                value={query}
-                onChange={handleQueryChange}
-                className={css({ maxW: "30ch", my: "1px" })}
-              />
-              {selection.hasSelection && (
-                <Box
-                  ref={desktopToolbarRef}
-                  display={{ base: "none", lg: "block" }}
-                  bg="white"
-                  borderWidth="1px"
-                  borderColor="gray.200"
-                  borderRadius="lg"
-                  ml="auto"
-                >
-                  <ProjectsToolbar
-                    selectedCount={selectedIds.length}
-                    onRename={actions.rename}
-                    onDuplicate={actions.duplicate}
-                    onDelete={actions.requestDelete}
-                    onClearSelection={selection.clear}
-                  />
-                </Box>
-              )}
-              <SortInput
-                className={cx(
-                  css({ ml: "auto" }),
-                  selection.hasSelection
-                    ? css({ display: { base: "flex", lg: "none" } })
-                    : undefined
-                )}
-                field={field}
-                onFieldChange={handleFieldChange}
-                direction={direction}
-                onToggleDirection={toggleDirection}
-                hasSearchQuery={!!query.trim()}
-              />
-            </HStack>
-            {shown.length > 0 ? (
-              <Grid
-                mt={3}
-                gap={3}
-                gridTemplateColumns={{
-                  base: "repeat(1, minmax(0, 1fr))",
-                  sm: "repeat(2, minmax(0, 1fr))",
-                  md: "repeat(3, minmax(0, 1fr))",
-                  lg: "repeat(4, minmax(0, 1fr))",
-                }}
-                pb={selection.hasSelection ? { base: 16, lg: 0 } : 0}
-              >
-                {shown.map((project) => (
-                  <Box key={project.id} minH="233px">
-                    <ProjectCard
-                      project={project}
-                      isSelected={selection.isSelected(project.id)}
-                      onSelected={selection.toggle}
-                      onSkipToToolbar={handleSkipToToolbar}
-                      onOpen={open}
-                      onDelete={actions.requestDelete}
+        <FileDropTarget
+          data-testid="projects-drop-target"
+          onFileDrop={handleDrop}
+        >
+          <VStack as="main" alignItems="center" flexGrow={1}>
+            <Box
+              w="100%"
+              maxW="1180px"
+              p={4}
+              mt={4}
+              display="flex"
+              flexDir="column"
+              flexGrow={1}
+            >
+              <Heading as="h1" size="lg" mb={4}>
+                <FormattedMessage id="my-projects-row-title" />
+              </Heading>
+              <HStack mb={4} justifyContent="space-between" alignItems="center">
+                <SearchInput
+                  value={query}
+                  onChange={handleQueryChange}
+                  className={css({ maxW: "30ch", my: "1px" })}
+                />
+                {selection.hasSelection && (
+                  <Box
+                    ref={desktopToolbarRef}
+                    display={{ base: "none", lg: "block" }}
+                    bg="white"
+                    borderWidth="1px"
+                    borderColor="gray.200"
+                    borderRadius="lg"
+                    ml="auto"
+                  >
+                    <ProjectsToolbar
+                      selectedCount={selectedIds.length}
                       onRename={actions.rename}
                       onDuplicate={actions.duplicate}
-                    >
-                      <ProjectIcon hasCheckbox />
-                    </ProjectCard>
+                      onDelete={actions.requestDelete}
+                      onClearSelection={selection.clear}
+                    />
                   </Box>
-                ))}
-              </Grid>
-            ) : (
-              <Stack
-                justifyContent="center"
-                alignItems="center"
-                flexGrow={1}
-                p={12}
-              >
-                <Text>
-                  <FormattedMessage id="no-projects" />
-                </Text>
-              </Stack>
-            )}
-          </Box>
-        </VStack>
+                )}
+                <SortInput
+                  className={cx(
+                    css({ ml: "auto" }),
+                    selection.hasSelection
+                      ? css({ display: { base: "flex", lg: "none" } })
+                      : undefined
+                  )}
+                  field={field}
+                  onFieldChange={handleFieldChange}
+                  direction={direction}
+                  onToggleDirection={toggleDirection}
+                  hasSearchQuery={!!query.trim()}
+                />
+              </HStack>
+              {shown.length > 0 ? (
+                <Grid
+                  mt={3}
+                  gap={3}
+                  gridTemplateColumns={{
+                    base: "repeat(1, minmax(0, 1fr))",
+                    sm: "repeat(2, minmax(0, 1fr))",
+                    md: "repeat(3, minmax(0, 1fr))",
+                    lg: "repeat(4, minmax(0, 1fr))",
+                  }}
+                  pb={selection.hasSelection ? { base: 16, lg: 0 } : 0}
+                >
+                  {shown.map((project) => (
+                    <Box key={project.id} minH="233px">
+                      <ProjectCard
+                        project={project}
+                        isSelected={selection.isSelected(project.id)}
+                        onSelected={selection.toggle}
+                        onSkipToToolbar={handleSkipToToolbar}
+                        onOpen={open}
+                        onDelete={actions.requestDelete}
+                        onRename={actions.rename}
+                        onDuplicate={actions.duplicate}
+                      >
+                        <ProjectIcon hasCheckbox />
+                      </ProjectCard>
+                    </Box>
+                  ))}
+                </Grid>
+              ) : (
+                <Stack
+                  justifyContent="center"
+                  alignItems="center"
+                  flexGrow={1}
+                  p={12}
+                >
+                  <Text>
+                    <FormattedMessage id="no-projects" />
+                  </Text>
+                </Stack>
+              )}
+            </Box>
+          </VStack>
+        </FileDropTarget>
       </DefaultPageLayout>
       <Slide isOpen={selection.hasSelection} css={{ zIndex: 10 }}>
         <Flex

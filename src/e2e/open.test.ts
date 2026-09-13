@@ -24,6 +24,21 @@ test.describe("open", () => {
     await app.expectProjectName("Untitled project");
   });
 
+  test("Asks before replacing a file with the same name", async ({ app }) => {
+    await app.loadFiles("testData/samplefile.py");
+    await app.expectAlertText("Added file samplefile.py");
+
+    await app.loadFiles("testData/samplefile.py");
+    await app.expectDialog("Replace existing files?");
+    await app.answerDialog("Cancel");
+    await app.expectProjectFiles(["main.py", "samplefile.py"]);
+
+    await app.loadFiles("testData/samplefile.py");
+    await app.expectDialog("Replace existing files?");
+    await app.answerDialog("Replace");
+    await app.expectAlertText("Updated file samplefile.py");
+  });
+
   test("Correctly handles a hex that's actually Python", async ({ app }) => {
     await app.loadFiles("testData/not-a-hex.hex");
 
@@ -92,6 +107,7 @@ test.describe("open", () => {
     await app.expectAlertText("Added file module.py");
 
     await app.loadFiles("testData/module.py");
+    await app.answerDialog("Replace");
     await app.expectAlertText("Updated file module.py");
   });
 });

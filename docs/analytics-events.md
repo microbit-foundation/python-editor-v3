@@ -110,7 +110,7 @@ No `destination` param: the editor only downloads. ml-trainer's
 User brought files in. Fires once per drop / picker selection, before the
 files are parsed, so it counts attempts. A hex always becomes a new project.
 Other files join the open project from the editor and become a new project
-from the home page.
+from the home and projects pages.
 
 | Param     | Values                                                                                                       |
 | --------- | ------------------------------------------------------------------------------------------------------------ |

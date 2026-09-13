@@ -328,12 +328,21 @@ export class App {
     await this.projectTab.chooseFile(filePathFromProjectRoot);
   }
 
-  async dropFile(filePathFromProjectRoot: string) {
+  /**
+   * Drops a file on a drop target. The default is the editor's; the home and
+   * projects pages have their own.
+   */
+  async dropFile(
+    filePathFromProjectRoot: string,
+    target: string = "project-drop-target"
+  ) {
     const filePath = getAbsoluteFilePath(filePathFromProjectRoot);
     const filename = getFilename(filePathFromProjectRoot);
 
-    // Wait for page to load
-    await this.saveButton.waitFor();
+    if (target === "project-drop-target") {
+      // Wait for page to load
+      await this.saveButton.waitFor();
+    }
 
     // Playwright drag and drop file method taken from
     // https://github.com/microsoft/playwright/issues/10667#issuecomment-998397241
@@ -350,12 +359,25 @@ export class App {
 
     // Drag file over target area to reveal drop zone
     await this.page
-      .getByTestId("project-drop-target")
+      .getByTestId(target)
       .dispatchEvent("dragover", { dataTransfer });
 
-    const dropZone = this.page.getByTestId("project-drop-target-overlay");
+    const dropZone = this.page.getByTestId(`${target}-overlay`);
     await dropZone.waitFor();
     await dropZone.dispatchEvent("drop", { dataTransfer });
+  }
+
+  /** No drop overlay left showing after a drop. */
+  async expectNoDropOverlay(): Promise<void> {
+    await expect(this.page.locator('[data-testid$="-overlay"]')).toHaveCount(0);
+  }
+
+  /** Answers the open confirmation dialog. */
+  async answerDialog(buttonName: string): Promise<void> {
+    await this.page
+      .getByRole("alertdialog")
+      .getByRole("button", { name: buttonName })
+      .click();
   }
 
   async expectAlertText(title: string, description?: string): Promise<void> {

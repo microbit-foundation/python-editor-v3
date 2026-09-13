@@ -259,9 +259,17 @@ export class ProjectActions {
       detail: { id: slug },
     });
     try {
-      await this.importer.newProject(title, {
-        [MAIN_FILE]: new TextEncoder().encode(code),
-      });
+      const opened = await this.importer.newProject(
+        title,
+        { [MAIN_FILE]: new TextEncoder().encode(code) },
+        this.intl.formatMessage(
+          { id: "confirm-replace-with-idea" },
+          { ideaName: title }
+        )
+      );
+      if (!opened) {
+        return;
+      }
       this.actionFeedback.success({
         title: this.intl.formatMessage(
           { id: "loaded-file-feedback" },

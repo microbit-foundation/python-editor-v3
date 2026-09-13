@@ -116,6 +116,17 @@ test.describe("home page", () => {
     await app.expectProjectFiles(["main.py"]);
   });
 
+  test("a dropped hex opens as a new project with no overlay left", async ({
+    app,
+    homePage,
+  }) => {
+    await homePage.goto();
+    await app.dropFile("testData/1.0.1.hex", "home-drop-target");
+
+    await app.expectProjectName("1.0.1");
+    await app.expectNoDropOverlay();
+  });
+
   test("keeps projects across a reload", async ({ app, homePage }) => {
     await homePage.goto();
     await homePage.newProject("Night light");

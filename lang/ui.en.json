@@ -139,9 +139,33 @@
     "defaultMessage": "Confirm delete",
     "description": "Confirmation header of deletion of a file"
   },
+  "confirm-replace-body": {
+    "defaultMessage": "Replace all files with those in the hex?",
+    "description": "Confirmation message body for replacing project dialog"
+  },
+  "confirm-replace-files-body": {
+    "defaultMessage": "{count, plural, one {{names} is already in this project and will be replaced.} other {These files are already in this project and will be replaced: {names}}}",
+    "description": "Body of the confirmation shown when added files would overwrite files already in the project. names is a comma-separated list of file names."
+  },
+  "confirm-replace-files-title": {
+    "defaultMessage": "Replace existing files?",
+    "description": "Title of the confirmation shown when added files would overwrite files already in the project"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "Confirm replace project",
+    "description": "Confirmation message title for replacing project dialog"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Replace all files with {ideaName}?",
+    "description": "Confirmation message body for replacing project dialog with an idea"
+  },
   "confirm-save-action": {
     "defaultMessage": "Confirm and save",
     "description": "Confirm and save action label"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "Cancel then use Save to keep a copy of your project.",
+    "description": "Hint shown when the user has unsaved changes that they might lose if they continue with an action"
   },
   "connect-action": {
     "defaultMessage": "Connect",
@@ -427,7 +451,7 @@
     "description": "Load error message"
   },
   "load-error-mixed": {
-    "defaultMessage": "A hex file can only be loaded on its own. It replaces all files in the project.",
+    "defaultMessage": "A hex file can only be imported on its own.",
     "description": "Load error message"
   },
   "load-error-mpy": {
@@ -685,6 +709,10 @@
   "reference-tab": {
     "defaultMessage": "Reference",
     "description": "Reference tab button text"
+  },
+  "replace-action-label": {
+    "defaultMessage": "Replace",
+    "description": "Action label for replacing project dialog"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",

@@ -10,7 +10,9 @@ import { Link, List, ListItem, Text } from "@microbit/ui";
 import { ReactNode } from "react";
 import { IntlShape } from "react-intl";
 import { Stack } from "styled-system/jsx";
+import { ConfirmDialog } from "../common/ConfirmDialog";
 import { ActionFeedback } from "../common/use-action-feedback";
+import { Dialogs } from "../common/use-dialogs";
 import { defaultProjectFiles } from "../fs/current-project";
 import { FileSystem, MAIN_FILE, VersionAction } from "../fs/fs";
 import {
@@ -102,6 +104,7 @@ export class ProjectImporter {
     private fs: FileSystem,
     private projects: Projects | undefined,
     private actionFeedback: ActionFeedback,
+    private dialogs: Dialogs,
     private intl: IntlShape,
     private logging: Logging
   ) {}
@@ -146,7 +149,9 @@ export class ProjectImporter {
         const inputs = await this.readAll(files);
         const project = filesForNewProject(inputs);
         try {
-          await this.newProject(project.name, project.files);
+          if (!(await this.newProject(project.name, project.files))) {
+            return false;
+          }
         } catch (e) {
           this.actionFeedback.unexpectedError(e);
           return false;
@@ -169,18 +174,71 @@ export class ProjectImporter {
 
   /**
    * Opens a new project with these files, or replaces the implicit project
-   * where there is no projects database.
+   * where there is no projects database, asking first if it has unsaved
+   * edits.
+   *
+   * @param confirmPrompt What replacing means, for the confirmation.
+   * @returns False if the user kept their project.
    */
   newProject = async (
     name: string | undefined,
-    files: Record<string, Uint8Array>
-  ): Promise<void> => {
+    files: Record<string, Uint8Array>,
+    confirmPrompt?: string
+  ): Promise<boolean> => {
     if (this.projects && (await this.projects.isAvailable())) {
       await this.projects.createFromFiles(name, files);
-    } else {
-      await this.fs.replaceWithFiles(name, files);
+      return true;
     }
+    if (!(await this.confirmReplace(confirmPrompt))) {
+      return false;
+    }
+    await this.fs.replaceWithFiles(name, files);
+    return true;
   };
+
+  /**
+   * Without the projects database a replaced project is gone, so ask when
+   * there are edits since the last save. Nothing to ask about otherwise.
+   */
+  private async confirmReplace(customPrompt?: string): Promise<boolean> {
+    if (!this.fs.dirty) {
+      return true;
+    }
+    return this.dialogs.show((callback) => (
+      <ConfirmDialog
+        callback={callback}
+        header={this.intl.formatMessage({ id: "confirm-replace-title" })}
+        body={
+          <Stack gap="2">
+            <Text>
+              {customPrompt ??
+                this.intl.formatMessage({ id: "confirm-replace-body" })}
+            </Text>
+            <Text>{this.intl.formatMessage({ id: "confirm-save-hint" })}</Text>
+          </Stack>
+        }
+        actionLabel={this.intl.formatMessage({ id: "replace-action-label" })}
+      />
+    ));
+  }
+
+  /** Files that would overwrite existing ones need a yes first. */
+  private async confirmReplaceFiles(names: string[]): Promise<boolean> {
+    if (names.length === 0) {
+      return true;
+    }
+    return this.dialogs.show((callback) => (
+      <ConfirmDialog
+        callback={callback}
+        header={this.intl.formatMessage({ id: "confirm-replace-files-title" })}
+        body={this.intl.formatMessage(
+          { id: "confirm-replace-files-body" },
+          { count: names.length, names: names.join(", ") }
+        )}
+        actionLabel={this.intl.formatMessage({ id: "replace-action-label" })}
+      />
+    ));
+  }
 
   private begin(
     files: File[],
@@ -211,7 +269,9 @@ export class ProjectImporter {
       return false;
     }
     try {
-      await this.newProject(name, files);
+      if (!(await this.newProject(name, files))) {
+        return false;
+      }
     } catch (e) {
       this.actionFeedback.unexpectedError(e);
       return false;
@@ -229,6 +289,12 @@ export class ProjectImporter {
         ? FileOperation.REPLACE
         : FileOperation.ADD,
     }));
+    const replaced = changes
+      .filter((c) => c.operation === FileOperation.REPLACE)
+      .map((c) => c.name);
+    if (!(await this.confirmReplaceFiles(replaced))) {
+      return;
+    }
     try {
       for (const change of changes) {
         await this.fs.write(

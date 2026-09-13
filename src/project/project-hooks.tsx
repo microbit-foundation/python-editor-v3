@@ -33,11 +33,13 @@ export const useProjectImporter = (): ProjectImporter => {
   const fs = useFileSystem();
   const projects = useProjectsIfAvailable();
   const actionFeedback = useActionFeedback();
+  const dialogs = useDialogs();
   const intl = useIntl();
   const logging = useLogging();
   return useMemo(
-    () => new ProjectImporter(fs, projects, actionFeedback, intl, logging),
-    [fs, projects, actionFeedback, intl, logging]
+    () =>
+      new ProjectImporter(fs, projects, actionFeedback, dialogs, intl, logging),
+    [fs, projects, actionFeedback, dialogs, intl, logging]
   );
 };
 

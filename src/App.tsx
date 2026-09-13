@@ -35,7 +35,6 @@ import { LanguageServerClientProvider } from "./language-server/language-server-
 import { logDeviceStatusChange } from "./logging/analytics";
 import { LoggingProvider } from "./logging/logging-hooks";
 import TranslationProvider from "./messages/TranslationProvider";
-import ProjectDropTarget from "./project/ProjectDropTarget";
 import { RouterProvider } from "react-router/dom";
 import { createRouter } from "./router";
 import StorageErrorToast from "./project/storage-error-toast";
@@ -130,11 +129,9 @@ const App = () => {
                               <SelectionProvider>
                                 <DialogProvider>
                                   <ConsentProvider>
-                                    <ProjectDropTarget>
-                                      <ActiveEditorProvider>
-                                        <RouterProvider router={router} />
-                                      </ActiveEditorProvider>
-                                    </ProjectDropTarget>
+                                    <ActiveEditorProvider>
+                                      <RouterProvider router={router} />
+                                    </ActiveEditorProvider>
                                   </ConsentProvider>
                                 </DialogProvider>
                               </SelectionProvider>

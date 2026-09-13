@@ -54,6 +54,29 @@ test.describe("projects page", () => {
       await projectsPage.expectProjectCount(2);
     });
 
+    test("a dropped hex becomes a new project open in the editor", async ({
+      app,
+      projectsPage,
+    }) => {
+      await app.dropFile("testData/1.0.1.hex", "projects-drop-target");
+      await app.expectProjectName("1.0.1");
+      await app.expectNoDropOverlay();
+      await app.goHome();
+      await projectsPage.goto();
+      await projectsPage.expectProjectCount(3);
+    });
+
+    test("a dropped Python file becomes a new project", async ({
+      app,
+      projectsPage,
+    }) => {
+      await app.dropFile("testData/samplefile.py", "projects-drop-target");
+      await app.expectProjectName("samplefile");
+      await app.expectProjectFiles(["main.py"]);
+      await projectsPage.goto();
+      await projectsPage.expectProjectCount(3);
+    });
+
     test("opens a project from its menu", async ({ app, projectsPage }) => {
       await projectsPage.cards.menuOpen("Alpha");
       await app.expectProjectName("Alpha");

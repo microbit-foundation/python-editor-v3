@@ -34,6 +34,28 @@ test.describe("storage fallback", () => {
     await app.closeAndExpectBeforeUnloadPrompt();
   });
 
+  test("replaces the project with a hex without asking if not edited", async ({
+    app,
+  }) => {
+    await app.loadFiles("testData/1.0.1.hex");
+    await app.expectProjectName("1.0.1");
+  });
+
+  test("asks before a hex replaces an edited project", async ({ app }) => {
+    await app.typeInEditor("A change!");
+    await app.expectEditorContainText(/A change/);
+
+    await app.loadFiles("testData/1.0.1.hex");
+    await app.expectDialog("Confirm replace project");
+    await app.answerDialog("Cancel");
+    await app.expectEditorContainText(/A change/);
+
+    await app.loadFiles("testData/1.0.1.hex");
+    await app.answerDialog("Replace");
+    await app.expectProjectName("1.0.1");
+    await app.expectEditorContainText(/PASS1/);
+  });
+
   test("retains text across a reload via session storage", async ({ app }) => {
     await app.typeInEditor("A change!");
     await app.expectEditorContainText(/A change/);

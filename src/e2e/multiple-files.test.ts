@@ -34,6 +34,7 @@ test.describe("multiple-files", () => {
     await app.expectEditorContainText(/b_works/);
 
     await app.loadFiles("testData/updated/usermodule.py");
+    await app.answerDialog("Replace");
 
     await app.expectEditorContainText(/c_works/);
   });
@@ -51,6 +52,7 @@ test.describe("multiple-files", () => {
     }
 
     await app.loadFiles("testData/updated/module.py");
+    await app.answerDialog("Replace");
     await app.expectThirdPartModuleWarning("a", "1.1.0");
   });
 

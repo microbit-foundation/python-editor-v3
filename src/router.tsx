@@ -25,6 +25,7 @@ import {
   iframeEditorRoutePath,
   legacyEditorRoutePath,
 } from "./urls";
+import ProjectDropTarget from "./project/ProjectDropTarget";
 import Workbench from "./workbench/Workbench";
 
 /**
@@ -77,6 +78,13 @@ export const createRouter = ({ projects }: RouterOptions) => {
     }
     return pagesLoader();
   };
+  // Files dropped on the editor join the open project; the pages have their
+  // own targets, which make a new project.
+  const editor = (
+    <ProjectDropTarget>
+      <Workbench />
+    </ProjectDropTarget>
+  );
   return createBrowserRouter(
     [
       {
@@ -85,9 +93,9 @@ export const createRouter = ({ projects }: RouterOptions) => {
         element: <RootLayout />,
         children: !projects
           ? [
-              { path: iframeEditorRoutePath, element: <Workbench /> },
+              { path: iframeEditorRoutePath, element: editor },
               // Deeper paths are the editor with no tab selected, as before.
-              { path: "*", element: <Workbench /> },
+              { path: "*", element: editor },
             ]
           : [
               {
@@ -102,7 +110,7 @@ export const createRouter = ({ projects }: RouterOptions) => {
               },
               {
                 path: editorRoutePath,
-                element: <Workbench />,
+                element: editor,
                 // The editor needs a project; choosing one is the only
                 // asynchronous step, the MicroPython load carries on behind.
                 loader: async ({ request }) => {
