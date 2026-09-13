@@ -384,11 +384,11 @@
     "description": "Link on the editor logo and button on the projects page returning to the home page"
   },
   "homepage-banner-heading": {
-    "defaultMessage": "Code your BBC micro:bit with Python",
+    "defaultMessage": "Python for the BBC micro:bit",
     "description": "Heading of the banner at the top of the home page"
   },
   "homepage-banner-subtitle": {
-    "defaultMessage": "Create, edit and flash MicroPython programs to your micro:bit.",
+    "defaultMessage": "Write a program, try it in the simulator, then send it to your micro:bit.",
     "description": "Text under the home page banner heading"
   },
   "ideas-tab": {
