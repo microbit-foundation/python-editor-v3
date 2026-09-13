@@ -107,8 +107,8 @@ const DefaultPageLayout = ({
     >
       {backToHome ? <BackToHomeButton /> : <Branding />}
       <HStack gap={3}>
-        <SettingsMenu size="lg" css={headerButtonCss} />
-        <HelpMenu size="lg" css={headerButtonCss} />
+        <SettingsMenu size="lg" variant="plain" css={headerButtonCss} />
+        <HelpMenu size="lg" variant="plain" css={headerButtonCss} />
       </HStack>
     </styled.header>
     <Box flexGrow={1} display="flex" flexDir="column" overflow="auto">

@@ -21,6 +21,12 @@ import { SettingsDialog } from "./SettingsDialog";
 
 interface SettingsMenuProps {
   size?: "lg" | "md" | "sm" | "xs";
+  /**
+   * The trigger's button variant. The default suits the editor's black
+   * chrome; the pages pass "plain" for the brand-coloured header, where the
+   * family shows no hover state on icon buttons.
+   */
+  variant?: "sidebar" | "plain";
   /** Per-instance overrides for the trigger button, merged last. */
   css?: SystemStyleObject;
 }
@@ -28,7 +34,11 @@ interface SettingsMenuProps {
 /**
  * The settings button triggers a menu with main and other settings.
  */
-const SettingsMenu = ({ size, css: cssProp }: SettingsMenuProps) => {
+const SettingsMenu = ({
+  size,
+  variant = "sidebar",
+  css: cssProp,
+}: SettingsMenuProps) => {
   const [languageDialogOpen, setLanguageDialogOpen] = useState(false);
   const intl = useIntl();
   const dialogs = useDialogs();
@@ -56,7 +66,7 @@ const SettingsMenu = ({ size, css: cssProp }: SettingsMenuProps) => {
           aria-label={intl.formatMessage({ id: "settings" })}
           size={size}
           css={{ fontSize: "xl", ...cssProp }}
-          variant="sidebar"
+          variant={variant}
         >
           <RiSettings2Line />
         </IconButton>
