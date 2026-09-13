@@ -34,8 +34,16 @@ export class ProjectsChangedEvent extends Event {
   }
 }
 
+/** A write to the open project's storage failed; its changes were dropped. */
+export class ProjectSaveErrorEvent extends Event {
+  constructor(public readonly error: unknown) {
+    super("saveerror");
+  }
+}
+
 interface EventMap {
   change: ProjectsChangedEvent;
+  saveerror: ProjectSaveErrorEvent;
 }
 
 /**
@@ -67,6 +75,7 @@ export class Projects extends TypedEventTarget<EventMap> {
   private openStorage: IndexedDBFSStorage | undefined;
   private opening: Promise<boolean> | undefined;
   private cachedList: ProjectListEntry[] = [];
+  private saveErrorReported = false;
   private readonly channel: BroadcastChannel | undefined;
   private readonly session = sessionStorageIfPossible();
 
@@ -248,7 +257,7 @@ export class Projects extends TypedEventTarget<EventMap> {
     const indexed = new IndexedDBFSStorage(
       db,
       id,
-      (e) => this.logging.error("Failed to save project", e),
+      (e) => this.handleSaveError(e),
       () => this.channel?.postMessage({ type: "changed", projectIds: [id] })
     );
     const storage = new SplitStrategyStorage(
@@ -277,6 +286,18 @@ export class Projects extends TypedEventTarget<EventMap> {
     if (getCurrentProjectId(this.session)) {
       setCurrentProjectId(this.session, undefined);
     }
+  }
+
+  /**
+   * Writes are per keystroke, so once storage is full every flush fails;
+   * report the first so Sentry sees it and leave the toast to say the rest.
+   */
+  private handleSaveError(error: unknown): void {
+    if (!this.saveErrorReported) {
+      this.saveErrorReported = true;
+      this.logging.error("Failed to save project", error);
+    }
+    this.dispatchTypedEvent("saveerror", new ProjectSaveErrorEvent(error));
   }
 
   private async changed(ids: string[]): Promise<void> {

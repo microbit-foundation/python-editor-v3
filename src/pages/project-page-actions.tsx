@@ -14,6 +14,10 @@ import { useLogging } from "../logging/logging-hooks";
 import { useProjectImporter } from "../project/project-hooks";
 import { ImportSource } from "../project/project-import";
 import { useProjectList, useProjects } from "../project/projects-hooks";
+import {
+  isQuotaExceededError,
+  useShowStorageError,
+} from "../project/storage-error-toast";
 import { createEditorUrl } from "../urls";
 
 /** Which page an action happened on, for analytics. */
@@ -46,15 +50,20 @@ export const useProjectPageActions = (
   const navigate = useNavigate();
   const actionFeedback = useActionFeedback();
 
+  const showStorageError = useShowStorageError();
   const attempt = useCallback(
     async (action: () => Promise<void>) => {
       try {
         await action();
       } catch (e) {
-        actionFeedback.unexpectedError(e);
+        if (isQuotaExceededError(e)) {
+          showStorageError(e);
+        } else {
+          actionFeedback.unexpectedError(e);
+        }
       }
     },
-    [actionFeedback]
+    [actionFeedback, showStorageError]
   );
 
   const actions = useProjectActions({

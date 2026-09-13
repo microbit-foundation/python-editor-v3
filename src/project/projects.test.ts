@@ -15,7 +15,7 @@ import { DefaultHost } from "../fs/host";
 import { ProjectsDatabase } from "../fs/projects-db";
 import { FSStorage } from "../fs/storage";
 import { MicroPythonSource } from "../micropython/micropython";
-import { Projects } from "./projects";
+import { Projects, ProjectSaveErrorEvent } from "./projects";
 
 const hexes = [
   nodeFs.readFileSync("src/micropython/microbit-micropython-v1.hex", {
@@ -155,6 +155,33 @@ describe("Projects", () => {
     await projects.openCurrent();
     expect(projects.currentId).toEqual("other");
     expect(fs.project.name).toEqual("Other");
+  });
+
+  it("a failed save raises saveerror each time but is logged once", async () => {
+    const { db, fs, projects } = await setup();
+    await projects.openCurrent();
+    await fs.initialize();
+    const error = new DOMException("Simulated", "QuotaExceededError");
+    vi.spyOn(db!, "apply").mockRejectedValue(error);
+    const logged = vi
+      .spyOn(logging, "error")
+      .mockImplementation(() => undefined);
+    const errors: unknown[] = [];
+    projects.addEventListener("saveerror", (e: ProjectSaveErrorEvent) => {
+      errors.push(e.error);
+    });
+
+    await fs.write(MAIN_FILE, "# one", VersionAction.MAINTAIN);
+    await vi.waitFor(() => expect(errors).toHaveLength(1));
+    await fs.write(MAIN_FILE, "# two", VersionAction.MAINTAIN);
+    await vi.waitFor(() => expect(errors).toHaveLength(2));
+
+    expect(errors).toEqual([error, error]);
+    expect(logged).toHaveBeenCalledTimes(1);
+    // The in-memory copy still has the edit.
+    expect((await fs.read(MAIN_FILE)).data).toEqual(
+      new TextEncoder().encode("# two")
+    );
   });
 
   it("without the database there is nothing to manage and the editor still works", async () => {

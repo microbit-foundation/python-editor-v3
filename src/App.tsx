@@ -38,6 +38,7 @@ import TranslationProvider from "./messages/TranslationProvider";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import { RouterProvider } from "react-router/dom";
 import { createRouter } from "./router";
+import StorageErrorToast from "./project/storage-error-toast";
 import SessionSettingsProvider from "./settings/session-settings";
 import SettingsProvider from "./settings/settings";
 import BeforeUnloadDirtyCheck from "./workbench/BeforeUnloadDirtyCheck";
@@ -123,6 +124,7 @@ const App = () => {
                       <DeviceContextProvider value={device}>
                         <LanguageServerClientProvider>
                           <BeforeUnloadDirtyCheck />
+                          <StorageErrorToast />
                           <DocumentationProvider>
                             <SearchProvider>
                               <SelectionProvider>
