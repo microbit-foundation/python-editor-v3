@@ -9,10 +9,12 @@ import { FormattedMessage } from "react-intl";
 import { Link as RouterLink, useNavigate } from "react-router";
 import { styled } from "styled-system/jsx";
 import { useDeployment } from "../deployment";
+import { flags } from "../flags";
 import SettingsMenu from "../settings/SettingsMenu";
 import { createHomePageUrl } from "../urls";
 import HelpMenu from "../workbench/HelpMenu";
 import BackArrow from "./BackArrow";
+import PageReleaseNotice from "./PageReleaseNotice";
 
 interface DefaultPageLayoutProps {
   children: ReactNode;
@@ -111,6 +113,7 @@ const DefaultPageLayout = ({
         <HelpMenu size="lg" variant="plain" css={headerButtonCss} />
       </HStack>
     </styled.header>
+    {flags.betaNotice && <PageReleaseNotice />}
     <Box flexGrow={1} display="flex" flexDir="column" overflow="auto">
       {children}
     </Box>
