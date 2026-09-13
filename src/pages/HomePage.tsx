@@ -92,7 +92,6 @@ const ProjectsRow = () => {
       <ProjectCard
         key={project.id}
         project={project}
-        description={project.fileNames.join(", ")}
         onOpen={open}
         onDelete={actions.requestDelete}
         onRename={actions.rename}

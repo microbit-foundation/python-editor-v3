@@ -182,7 +182,6 @@ const ProjectsPage = () => {
                   <Box key={project.id} minH="233px">
                     <ProjectCard
                       project={project}
-                      description={project.fileNames.join(", ")}
                       isSelected={selection.isSelected(project.id)}
                       onSelected={selection.toggle}
                       onSkipToToolbar={handleSkipToToolbar}

@@ -9,6 +9,7 @@ import {
   MenuItem,
   MenuList,
   MenuTrigger,
+  SystemStyleObject,
 } from "@microbit/ui";
 import { useCallback, useRef, useState } from "react";
 import { MdOutlineCookie } from "react-icons/md";
@@ -26,12 +27,14 @@ import FeedbackForm from "./FeedbackForm";
 
 interface HelpMenuProps {
   size?: "lg" | "md" | "sm" | "xs";
+  /** Per-instance overrides for the trigger button, merged last. */
+  css?: SystemStyleObject;
 }
 
 /**
  * A help button that triggers a drop-down menu with actions.
  */
-const HelpMenu = ({ size }: HelpMenuProps) => {
+const HelpMenu = ({ size, css: cssProp }: HelpMenuProps) => {
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
   const intl = useIntl();
   const dialogs = useDialogs();
@@ -62,7 +65,7 @@ const HelpMenu = ({ size }: HelpMenuProps) => {
           ref={menuButtonRef}
           aria-label={intl.formatMessage({ id: "help" })}
           size={size}
-          css={{ fontSize: "xl" }}
+          css={{ fontSize: "xl", ...cssProp }}
           variant="sidebar"
         >
           <RiQuestionLine />

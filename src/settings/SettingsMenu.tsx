@@ -3,7 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { IconButton, MenuItem, MenuList, MenuTrigger } from "@microbit/ui";
+import {
+  IconButton,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
+  SystemStyleObject,
+} from "@microbit/ui";
 import { useCallback, useRef, useState } from "react";
 import { IoMdGlobe } from "react-icons/io";
 import { RiListSettingsLine, RiSettings2Line } from "react-icons/ri";
@@ -15,12 +21,14 @@ import { SettingsDialog } from "./SettingsDialog";
 
 interface SettingsMenuProps {
   size?: "lg" | "md" | "sm" | "xs";
+  /** Per-instance overrides for the trigger button, merged last. */
+  css?: SystemStyleObject;
 }
 
 /**
  * The settings button triggers a menu with main and other settings.
  */
-const SettingsMenu = ({ size }: SettingsMenuProps) => {
+const SettingsMenu = ({ size, css: cssProp }: SettingsMenuProps) => {
   const [languageDialogOpen, setLanguageDialogOpen] = useState(false);
   const intl = useIntl();
   const dialogs = useDialogs();
@@ -47,7 +55,7 @@ const SettingsMenu = ({ size }: SettingsMenuProps) => {
           data-testid="settings"
           aria-label={intl.formatMessage({ id: "settings" })}
           size={size}
-          css={{ fontSize: "xl" }}
+          css={{ fontSize: "xl", ...cssProp }}
           variant="sidebar"
         >
           <RiSettings2Line />
