@@ -14,7 +14,7 @@ test.describe("home page", () => {
     await homePage.goto();
     await expect(
       homePage.page.getByRole("heading", {
-        name: "Code your BBC micro:bit with Python",
+        name: "Python for the BBC micro:bit",
       })
     ).toBeVisible();
     for (const row of ["Project ideas", "Teacher resources", "Help"]) {
