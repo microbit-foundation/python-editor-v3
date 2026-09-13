@@ -7,11 +7,11 @@
  */
 import { IntlShape } from "react-intl";
 import accessibilityImage from "theme-package/images/accessibility.svg";
-import animatedAnimals from "theme-package/images/animated-animals.gif";
-import beatingHeart from "theme-package/images/beating-heart.gif";
+import animatedAnimals from "theme-package/images/animated-animals.jpg";
+import beatingHeart from "theme-package/images/beating-heart.jpg";
 import emotionBadge from "theme-package/images/emotion-badge.png";
 import firstLessonsImage from "theme-package/images/first-lessons-python.svg";
-import flashingEmotions from "theme-package/images/flashing-emotions.gif";
+import flashingEmotions from "theme-package/images/flashing-emotions.jpg";
 import getSilly from "theme-package/images/get-silly.png";
 import heart from "theme-package/images/heart.png";
 import troubleshootingImage from "theme-package/images/troubleshooting.svg";
