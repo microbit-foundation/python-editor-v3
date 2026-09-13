@@ -3,17 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  Box,
-  Button,
-  css,
-  darkSurface,
-  HStack,
-  Icon,
-  VStack,
-} from "@microbit/ui";
+import { Box, Button, css, darkSurface, HStack, VStack } from "@microbit/ui";
 import { ReactNode } from "react";
-import { RiArrowLeftLine } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { Link as RouterLink, useNavigate } from "react-router";
 import { styled } from "styled-system/jsx";
@@ -21,6 +12,7 @@ import { useDeployment } from "../deployment";
 import SettingsMenu from "../settings/SettingsMenu";
 import { createHomePageUrl } from "../urls";
 import HelpMenu from "../workbench/HelpMenu";
+import BackArrow from "./BackArrow";
 
 interface DefaultPageLayoutProps {
   children: ReactNode;
@@ -74,10 +66,9 @@ const BackToHomeButton = () => {
   const navigate = useNavigate();
   return (
     <Button
-      variant="ghost"
-      startIcon={<Icon as={RiArrowLeftLine} />}
+      variant="toolbar"
+      startIcon={<BackArrow />}
       onPress={() => void navigate(createHomePageUrl())}
-      css={{ color: "white" }}
     >
       <FormattedMessage id="home-action" />
     </Button>
