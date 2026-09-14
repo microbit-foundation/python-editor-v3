@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { expect } from "@playwright/test";
+import { appUrlPattern } from "./app.js";
 import { test } from "./app-test-fixtures.js";
 
 test.describe("home page", () => {
@@ -32,7 +33,7 @@ test.describe("home page", () => {
     await homePage.newProject("Night light");
 
     await app.expectProjectName("Night light");
-    await expect(app.page).toHaveURL(/\/project(\?|$)/);
+    await expect(app.page).toHaveURL(appUrlPattern("project"));
     await app.expectEditorContainText("from microbit import");
   });
 

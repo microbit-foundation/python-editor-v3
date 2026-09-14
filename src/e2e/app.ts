@@ -25,6 +25,10 @@ export interface BrowserDownload {
 // E2E_PORT points the suite at a server on another port.
 const baseUrl = `http://localhost:${process.env.E2E_PORT ?? "3000"}`;
 
+// We didn't use BASE_URL here as CRA seems to set it to "" before running jest.
+// Maybe can be changed since the Vite upgrade.
+const basePath = process.env.E2E_BASE_URL ?? "/";
+
 export interface UrlOptions {
   flags?: Flag[];
   fragment?: string;
@@ -820,6 +824,19 @@ export const projectsPageUrl = (options: UrlOptions = {}): string =>
 /**
  * @param path The page's path within the app, without a leading slash.
  */
+/**
+ * Matches a page's URL, wherever the app is deployed. The base URL's trailing
+ * slash is optional: the app's own links to the home page are without it.
+ *
+ * @param path The page's path within the app, without a leading slash.
+ */
+export const appUrlPattern = (path: string = ""): RegExp => {
+  const prefix = (baseUrl + basePath + path).replace(/\/$/, "");
+  return new RegExp(
+    `^${prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/?([?#]|$)`
+  );
+};
+
 export const appUrl = (path: string, options: UrlOptions = {}): string => {
   const flags = new Set<string>([
     "none",
@@ -838,9 +855,7 @@ export const appUrl = (path: string, options: UrlOptions = {}): string => {
   }
   return (
     baseUrl +
-    // We didn't use BASE_URL here as CRA seems to set it to "" before running jest.
-    // Maybe can be changed since the Vite upgrade.
-    (process.env.E2E_BASE_URL ?? "/") +
+    basePath +
     path +
     "?" +
     new URLSearchParams(params).toString() +

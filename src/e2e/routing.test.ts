@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { expect } from "@playwright/test";
-import { appUrl, homeUrl } from "./app.js";
+import { appUrl, appUrlPattern, homeUrl } from "./app.js";
 import { test } from "./app-test-fixtures.js";
 
 const heartMigrationFragment =
@@ -15,7 +15,9 @@ test.describe("routing", () => {
 
   test("redirects the editor's old documentation URLs", async ({ app }) => {
     await app.page.goto(appUrl("reference/display"));
-    await expect(app.page).toHaveURL(/\/project\/reference\/display/);
+    await expect(app.page).toHaveURL(
+      appUrlPattern("project/reference/display")
+    );
     await expect(
       app.page.getByRole("tab", { name: "Reference" })
     ).toHaveAttribute("aria-selected", "true");
@@ -38,7 +40,7 @@ test.describe("routing", () => {
       app,
     }) => {
       await app.page.goto(homeUrl({ fragment }));
-      await expect(app.page).toHaveURL(/\/project(\?|$)/);
+      await expect(app.page).toHaveURL(appUrlPattern("project"));
       await app.expectProjectName("Hearts");
       await app.expectEditorContainText("display.show(Image.HEART)");
     });

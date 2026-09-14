@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { expect, Locator, Page } from "@playwright/test";
-import { projectsPageUrl } from "./app.js";
+import { appUrlPattern, projectsPageUrl } from "./app.js";
 import { ProjectCards } from "./home-page.js";
 
 export class ProjectsPage {
@@ -31,7 +31,7 @@ export class ProjectsPage {
 
   async expectOnPage(): Promise<void> {
     await expect(this.heading).toBeVisible();
-    await expect(this.page).toHaveURL(/\/projects(\?|$)/);
+    await expect(this.page).toHaveURL(appUrlPattern("projects"));
   }
 
   async goHome(): Promise<void> {

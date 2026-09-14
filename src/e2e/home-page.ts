@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { expect, Locator, Page } from "@playwright/test";
-import { getAbsoluteFilePath, homeUrl } from "./app.js";
+import { appUrlPattern, getAbsoluteFilePath, homeUrl } from "./app.js";
 
 /**
  * The modal dialog rather than a menu popover, which also has the dialog
@@ -98,7 +98,7 @@ export class HomePage {
 
   async expectOnPage(): Promise<void> {
     await expect(this.projectsHeading).toBeVisible();
-    await expect(this.page).toHaveURL(/\/(\?|$)/);
+    await expect(this.page).toHaveURL(appUrlPattern());
   }
 
   /** Creates a project, accepting the default name unless one is given. */
