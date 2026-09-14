@@ -779,6 +779,12 @@
   "simulator-touch-logo": {
     "defaultMessage": "Touch-Logo"
   },
+  "simulator-unit-degrees": {
+    "defaultMessage": "Grad"
+  },
+  "simulator-unit-milli-g": {
+    "defaultMessage": "milli-g"
+  },
   "simulator-unmute": {
     "defaultMessage": "Lautlos beenden"
   },

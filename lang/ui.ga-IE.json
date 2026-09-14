@@ -779,6 +779,18 @@
   "simulator-touch-logo": {
     "defaultMessage": "Lógó tadhaill"
   },
+  "simulator-unit-celsius": {
+    "defaultMessage": "céimeanna Celsius"
+  },
+  "simulator-unit-degrees": {
+    "defaultMessage": "céim"
+  },
+  "simulator-unit-milli-g": {
+    "defaultMessage": "milli-g"
+  },
+  "simulator-unit-nanotesla": {
+    "defaultMessage": "nanaiteisle"
+  },
   "simulator-unmute": {
     "defaultMessage": "Díbholadh"
   },

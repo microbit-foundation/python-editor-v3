@@ -779,6 +779,18 @@
   "simulator-touch-logo": {
     "defaultMessage": "Aanraak logo"
   },
+  "simulator-unit-celsius": {
+    "defaultMessage": "graden Celsius"
+  },
+  "simulator-unit-degrees": {
+    "defaultMessage": "graden"
+  },
+  "simulator-unit-milli-g": {
+    "defaultMessage": "milli-g"
+  },
+  "simulator-unit-nanotesla": {
+    "defaultMessage": "nanotesla"
+  },
   "simulator-unmute": {
     "defaultMessage": "Niet meer dempen"
   },

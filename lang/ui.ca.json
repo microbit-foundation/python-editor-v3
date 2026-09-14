@@ -779,6 +779,18 @@
   "simulator-touch-logo": {
     "defaultMessage": "Logotip tàctil"
   },
+  "simulator-unit-celsius": {
+    "defaultMessage": "graus celsius"
+  },
+  "simulator-unit-degrees": {
+    "defaultMessage": "graus"
+  },
+  "simulator-unit-milli-g": {
+    "defaultMessage": "mili-g"
+  },
+  "simulator-unit-nanotesla": {
+    "defaultMessage": "nanotesla"
+  },
   "simulator-unmute": {
     "defaultMessage": "Deixar de silenciar"
   },
