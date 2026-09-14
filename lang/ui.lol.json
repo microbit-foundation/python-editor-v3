@@ -779,6 +779,18 @@
   "simulator-touch-logo": {
     "defaultMessage": "crwdns334598:0crwdne334598:0"
   },
+  "simulator-unit-celsius": {
+    "defaultMessage": "crwdns370806:0crwdne370806:0"
+  },
+  "simulator-unit-degrees": {
+    "defaultMessage": "crwdns370808:0crwdne370808:0"
+  },
+  "simulator-unit-milli-g": {
+    "defaultMessage": "crwdns370810:0crwdne370810:0"
+  },
+  "simulator-unit-nanotesla": {
+    "defaultMessage": "crwdns370812:0crwdne370812:0"
+  },
   "simulator-unmute": {
     "defaultMessage": "crwdns334600:0crwdne334600:0"
   },

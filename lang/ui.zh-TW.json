@@ -776,6 +776,12 @@
   "simulator-touch-logo": {
     "defaultMessage": " 觸控標誌"
   },
+  "simulator-unit-degrees": {
+    "defaultMessage": "度"
+  },
+  "simulator-unit-milli-g": {
+    "defaultMessage": "毫克"
+  },
   "simulator-unmute": {
     "defaultMessage": "取消靜音"
   },
