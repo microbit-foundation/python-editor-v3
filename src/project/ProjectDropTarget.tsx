@@ -20,7 +20,11 @@ const ProjectDropTarget = ({ children }: ProjectDropTargetProps) => {
     [actions]
   );
   return (
-    <FileDropTarget data-testid="project-drop-target" onFileDrop={handleDrop}>
+    <FileDropTarget
+      data-testid="project-drop-target"
+      onFileDrop={handleDrop}
+      height="100%"
+    >
       {children}
     </FileDropTarget>
   );

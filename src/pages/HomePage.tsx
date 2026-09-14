@@ -57,7 +57,11 @@ const HomePage = () => {
   );
   return (
     <DefaultPageLayout>
-      <FileDropTarget data-testid="home-drop-target" onFileDrop={handleDrop}>
+      <FileDropTarget
+        data-testid="home-drop-target"
+        onFileDrop={handleDrop}
+        flexGrow={1}
+      >
         <HomepageBanner />
         <ProjectsRow />
         <CarouselRow

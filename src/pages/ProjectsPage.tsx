@@ -126,6 +126,9 @@ const ProjectsPage = () => {
         <FileDropTarget
           data-testid="projects-drop-target"
           onFileDrop={handleDrop}
+          display="flex"
+          flexDirection="column"
+          flexGrow={1}
         >
           <VStack as="main" alignItems="center" flexGrow={1}>
             <Box
