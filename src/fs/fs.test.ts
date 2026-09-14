@@ -20,6 +20,7 @@ import {
 } from "./fs";
 import { DefaultHost } from "./host";
 import { defaultInitialProject } from "./initial-project";
+import { InMemoryFSStorage } from "./storage";
 
 const hexes = [
   fs.readFileSync("src/micropython/microbit-micropython-v1.hex", {
@@ -292,6 +293,95 @@ describe("fs - diff", () => {
   it("detects edit", () => {
     expect(diff(main1, main2)).toEqual([{ name: "main.py", type: "edit" }]);
     expect(diff(main2, main1)).toEqual([{ name: "main.py", type: "edit" }]);
+  });
+});
+
+describe("Filesystem switchStorage", () => {
+  const logging = new ConsoleLogging();
+  const host = new DefaultHost();
+  const encode = (text: string) => new TextEncoder().encode(text);
+
+  const otherProject = async () => {
+    const storage = new InMemoryFSStorage("Other project");
+    await storage.write(MAIN_FILE, encode("# other main"));
+    await storage.write("helper.py", encode("# helper"));
+    await storage.markDirty();
+    return storage;
+  };
+
+  it("presents the new storage's files, name and dirty flag", async () => {
+    const ufs = new FileSystem(logging, host, fsMicroPythonSource);
+    await ufs.initialize();
+    const events: Project[] = [];
+    ufs.addEventListener("project_updated", (e) => {
+      events.push(e.project);
+    });
+
+    const storage = await otherProject();
+    await ufs.switchStorage(storage);
+
+    expect(ufs.project.name).toEqual("Other project");
+    expect(ufs.project.files.map((f) => f.name)).toEqual([
+      MAIN_FILE,
+      "helper.py",
+    ]);
+    expect(await asString(ufs.read(MAIN_FILE))).toEqual("# other main");
+    expect(ufs.dirty).toEqual(true);
+    expect(events).toHaveLength(1);
+  });
+
+  it("bumps versions so editors reload the same-named file", async () => {
+    const ufs = new FileSystem(logging, host, fsMicroPythonSource);
+    await ufs.initialize();
+    const before = ufs.project.files.find((f) => f.name === MAIN_FILE)!;
+
+    await ufs.switchStorage(await otherProject());
+
+    const after = ufs.project.files.find((f) => f.name === MAIN_FILE)!;
+    expect(after.version).toBeGreaterThan(before.version);
+  });
+
+  it("gives the project a new id", async () => {
+    const ufs = new FileSystem(logging, host, fsMicroPythonSource);
+    await ufs.initialize();
+    const before = ufs.project.id;
+    await ufs.switchStorage(await otherProject());
+    expect(ufs.project.id).not.toEqual(before);
+  });
+
+  it("refills the hex file system from the new storage", async () => {
+    const ufs = new FileSystem(logging, host, fsMicroPythonSource);
+    await ufs.initialize();
+    await ufs.switchStorage(await otherProject());
+
+    const stats = await ufs.statistics();
+    expect(stats.files).toEqual(2);
+    expect(await ufs.toHexForSave()).toContain(":");
+  });
+
+  it("directs later writes and removes to the new storage only", async () => {
+    const ufs = new FileSystem(logging, host, fsMicroPythonSource);
+    await ufs.initialize();
+    const storage = await otherProject();
+    await ufs.switchStorage(storage);
+
+    await ufs.write("new.py", "# new", VersionAction.INCREMENT);
+    await ufs.remove("helper.py");
+
+    expect(await storage.ls()).toEqual([MAIN_FILE, "new.py"]);
+    const original = await new DefaultHost().createStorage(logging).ls();
+    expect(original).not.toContain("new.py");
+  });
+
+  it("waits for an in-flight initialisation", async () => {
+    const ufs = new FileSystem(logging, host, fsMicroPythonSource);
+    const initializing = ufs.initialize();
+    await ufs.switchStorage(await otherProject());
+    await initializing;
+
+    expect(ufs.project.name).toEqual("Other project");
+    expect(await asString(ufs.read(MAIN_FILE))).toEqual("# other main");
+    expect((await ufs.statistics()).files).toEqual(2);
   });
 });
 
