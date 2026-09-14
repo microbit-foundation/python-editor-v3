@@ -93,7 +93,7 @@ const ProjectsRow = () => {
         key={project.id}
         project={project}
         onOpen={open}
-        onDelete={actions.requestDelete}
+        onDelete={actions.delete}
         onRename={actions.rename}
         onDuplicate={actions.duplicate}
       >

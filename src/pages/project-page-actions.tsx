@@ -43,7 +43,7 @@ export const usePageProjects = (): PageProject[] => {
 export const useProjectPageActions = (
   surface: ProjectSurface,
   projects: PageProject[],
-  getSelectedIds?: () => string[]
+  selectedIds?: string[]
 ) => {
   const store = useProjects();
   const logging = useLogging();
@@ -68,7 +68,7 @@ export const useProjectPageActions = (
 
   const actions = useProjectActions({
     projects,
-    getSelectedIds,
+    selectedIds,
     onRename: (id, name) =>
       attempt(async () => {
         logging.event({ type: "project_rename", detail: { surface } });
