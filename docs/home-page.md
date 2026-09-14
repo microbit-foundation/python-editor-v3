@@ -16,12 +16,11 @@ Launch is coordinated with content, support articles and video, so the work sits
 
 - `home-page` (python-editor-v3, origin): the integration branch, from `main` after #1326. Merge `main` into it rather than rebasing.
 - `storage-foundation` → `home-page`: PR open, under review from 12 September. `FileSystem.switchStorage`, the projects database and per-project storage, session-storage migration and fallback, the review-stage clear-and-reload page.
-- `projects-pages` → `storage-foundation`: stacked, local. Everything else in this document: routes, pages, import, editor chrome, header, notice, toasts, e2e. **Its CI is red until the ui releases below are pinned**, because it builds against the local `../ui` checkout through `npm run dev:link-ui`.
-- `project-components` (ui repo): the shared project components in `ui-patterns` and `ConfirmDialog` moved into `@microbit/ui`. Needs review, then releases in order: `@microbit/ui` 0.5.0, then `ui-carousel` and `ui-patterns` with peers at `^0.5.0`.
-- `projects-pages` (private theme package): the home page images and the `AppLogo` and `OrgLogo` header components. Merge and publish; until then the review build shows grey placeholders and a text wordmark.
+- `projects-pages` → `storage-foundation`: stacked, local. Everything else in this document: routes, pages, import, editor chrome, header, notice, toasts, e2e. Pins the released `@microbit/ui` 0.5.0, `ui-carousel` 0.4.0 and `ui-patterns` 0.7.0; the `dev:link-ui` and `dev:link-theme` scripts are no longer in use here.
+- `projects-pages` (private theme package): the home page images, the `AppLogo` and `OrgLogo` header components and the footer's `copyrightHolder`. A temporary branch build, `0.0.0-projects.pages.111`, is pinned in `build.yml`; merge and publish a release before landing.
 - `shared-project-components` (ml-trainer): consumes the shared components. Bump its pins to the releases before merging.
 
-Order once the storage PR is in: release the ui packages, pin them in `projects-pages` and drop the link, publish the theme package, review `projects-pages`, land on `home-page`. At launch merge `home-page` to `main`; the database name includes the base path, so beta starts empty.
+Order once the storage PR is in: publish the theme package and pin the release, review `projects-pages`, land on `home-page`. At launch merge `home-page` to `main`; the database name includes the base path, so beta starts empty.
 
 ## 3. Reviewing and running it
 
