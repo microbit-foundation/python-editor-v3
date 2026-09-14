@@ -23,7 +23,7 @@ export interface BrowserDownload {
 }
 
 // E2E_PORT points the suite at a server on another port.
-const baseUrl = `http://localhost:${process.env.E2E_PORT ?? "3000"}`;
+export const baseUrl = `http://localhost:${process.env.E2E_PORT ?? "3000"}`;
 
 // We didn't use BASE_URL here as CRA seems to set it to "" before running jest.
 // Maybe can be changed since the Vite upgrade.
