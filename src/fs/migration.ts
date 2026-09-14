@@ -35,6 +35,13 @@ interface MigrationParseResult {
   postMigrationUrl: string;
 }
 
+/**
+ * True if the URL carries a #project: link. On microbit.org links it sits
+ * behind the v2 editor's #import: prefix, so it isn't always the whole hash.
+ */
+export const hasProjectLink = (url: string): boolean =>
+  url.includes("#project:");
+
 export const parseMigrationFromUrl = (
   url: string
 ): MigrationParseResult | undefined => {

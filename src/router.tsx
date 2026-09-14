@@ -11,6 +11,7 @@ import {
   useParams,
 } from "react-router";
 import { baseUrl } from "./base";
+import { hasProjectLink } from "./fs/migration";
 import HomePage from "./pages/HomePage";
 import ProjectsPage from "./pages/ProjectsPage";
 import { Projects } from "./project/projects";
@@ -24,6 +25,7 @@ import {
   editorRoutePath,
   iframeEditorRoutePath,
   legacyEditorRoutePath,
+  routerPathFromUrl,
 } from "./urls";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import Workbench from "./workbench/Workbench";
@@ -73,7 +75,7 @@ export const createRouter = ({ projects }: RouterOptions) => {
    * the program it carries goes to the editor.
    */
   const homeLoader = () => {
-    if (window.location.hash.startsWith("#project:")) {
+    if (hasProjectLink(window.location.href)) {
       return redirect(createEditorUrl() + window.location.hash);
     }
     return pagesLoader();
@@ -118,8 +120,7 @@ export const createRouter = ({ projects }: RouterOptions) => {
                     // A #project: link became a project, so drop the hash or
                     // a reload would import it again. Without the database
                     // the host takes the link and strips the hash itself.
-                    const { pathname, search } = new URL(request.url);
-                    return redirect(pathname + search);
+                    return redirect(routerPathFromUrl(request.url));
                   }
                   return null;
                 },

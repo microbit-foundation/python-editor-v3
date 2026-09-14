@@ -28,14 +28,21 @@ test.describe("routing", () => {
     ).toBeVisible();
   });
 
-  test("a #project: link at the root opens the program in the editor", async ({
-    app,
-  }) => {
-    await app.page.goto(homeUrl({ fragment: heartMigrationFragment }));
-    await expect(app.page).toHaveURL(/\/project(\?|$)/);
-    await app.expectProjectName("Hearts");
-    await app.expectEditorContainText("display.show(Image.HEART)");
-  });
+  // microbit.org links carry the v2 editor's #import: prefix; the editor's
+  // own share links are bare.
+  for (const [name, fragment] of [
+    ["a #project:", heartMigrationFragment],
+    ["an #import:", "#import:" + heartMigrationFragment],
+  ]) {
+    test(`${name} link at the root opens the program in the editor`, async ({
+      app,
+    }) => {
+      await app.page.goto(homeUrl({ fragment }));
+      await expect(app.page).toHaveURL(/\/project(\?|$)/);
+      await app.expectProjectName("Hearts");
+      await app.expectEditorContainText("display.show(Image.HEART)");
+    });
+  }
 
   test("a new tab at the editor opens the most recent project", async ({
     app,

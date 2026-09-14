@@ -19,6 +19,18 @@ import type { RouterState } from "./router-hooks";
 export const basename =
   baseUrl === "/" ? undefined : baseUrl.replace(/\/$/, "");
 
+/**
+ * The router-relative path and query of a full URL, for a loader that wants
+ * to redirect to where it already is: `request.url` carries the basename and
+ * `redirect` adds it back.
+ */
+export const routerPathFromUrl = (url: string, base = basename): string => {
+  const { pathname, search } = new URL(url);
+  const path =
+    base && pathname.startsWith(base) ? pathname.slice(base.length) : pathname;
+  return (path || "/") + search;
+};
+
 export const createHomePageUrl = (): string => "/";
 
 export const createProjectsPageUrl = (): string => "/projects";
