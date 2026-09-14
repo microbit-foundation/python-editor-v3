@@ -99,6 +99,29 @@ const viteRemoveManifestPlugin = (): Plugin => ({
   },
 });
 
+/**
+ * Serves the base URL without its trailing slash, which the app's own links
+ * to the home page are: react-router renders the route at "/" as the bare
+ * basename. S3 serves it, vite preview 404s it, and the e2e tests run
+ * against preview.
+ */
+const basePathWithoutTrailingSlashPlugin = (): Plugin => ({
+  name: "base-path-without-trailing-slash",
+  configurePreviewServer(server) {
+    const base = process.env.BASE_URL ?? "/";
+    if (base === "/") {
+      return;
+    }
+    server.middlewares.use((req, _res, next) => {
+      const [path, query] = (req.url ?? "").split("?");
+      if (path === base.replace(/\/$/, "")) {
+        req.url = base + (query ? `?${query}` : "");
+      }
+      next();
+    });
+  },
+});
+
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   const unitTest: UserConfig["test"] = {
@@ -233,6 +256,7 @@ export default defineConfig(({ mode }) => {
         },
       }),
       viteRemoveManifestPlugin(),
+      basePathWithoutTrailingSlashPlugin(),
     ],
     test: unitTest,
     resolve: {
