@@ -44,6 +44,11 @@ export interface BrandConfig {
   termsOfUseLink?: string;
   privacyPolicyLink?: string;
   translationLink?: string;
+  /**
+   * Name shown after the copyright symbol in the home page footer. Omit it
+   * and no copyright line is shown.
+   */
+  copyrightHolder?: string;
 }
 
 export interface LogoProps {

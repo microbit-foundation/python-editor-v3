@@ -32,6 +32,7 @@ import ActionCard from "./ActionCard";
 import DefaultPageLayout from "./DefaultPageLayout";
 import ProjectIcon from "./ProjectIcon";
 import HomepageBanner from "./HomepageBanner";
+import HomepageFooter from "./HomepageFooter";
 import {
   useImportProjectFiles,
   usePageProjects,
@@ -75,6 +76,7 @@ const HomePage = () => {
           navigation
         />
       </FileDropTarget>
+      <HomepageFooter />
     </DefaultPageLayout>
   );
 };
