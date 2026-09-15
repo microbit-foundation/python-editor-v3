@@ -1,37 +1,31 @@
-# Python home page / multipe-projects support
+# Python home page / multiple-projects support
 
-New WIP version: https://review-python-editor-v3.microbit.org/home-page/ (pending PR merge)
+Demo: https://review-python-editor-v3.microbit.org/home-page/
 
-Older prototype: https://review-python-editor-v3.microbit.org/multiple-projects-prototype/
-
-The older prototype likely has nothing further to offer except as a comparison for one open question (the way home from the editor, see below).
+Older prototype, for comparison on one open question only (the way home from the editor, see below): https://review-python-editor-v3.microbit.org/multiple-projects-prototype/
 
 ## 1. What this is
 
 The Python Editor gains a home page and a projects page, and keeps projects in an IndexedDB database in the browser, so a user can have more than one and come back to them. The editor moves to `/project`. The pages are built from shared components in `@microbit/ui-patterns`, lifted from ml-trainer, so the two apps present projects the same way.
 
-Launch is coordinated with content, support articles and video, so the work sits on an integration branch and reaches `main` at launch or for a TBC beta period. A react-router routing foundation and the shared error page have aready shipped.
+Launch is coordinated with content, support articles and video, so the work sits on the `home-page` integration branch and reaches `main` at launch or for a TBC beta period. The react-router routing foundation and the shared error page shipped earlier.
 
 ## 2. Where the work is
 
-- `home-page` (python-editor-v3, origin): the integration branch, from `main` after #1326. Merge `main` into it rather than rebasing.
-- `storage-foundation` → `home-page`: PR open, under review from 12 September. `FileSystem.switchStorage`, the projects database and per-project storage, session-storage migration and fallback, the review-stage clear-and-reload page.
-- `projects-pages` → `storage-foundation`: stacked, local. Everything else in this document: routes, pages, import, editor chrome, header, notice, toasts, e2e. Pins the released `@microbit/ui` 0.5.0, `ui-carousel` 0.4.0 and `ui-patterns` 0.7.0; the `dev:link-ui` and `dev:link-theme` scripts are no longer in use here.
-- `projects-pages` (private theme package): the home page images, the `AppLogo` and `OrgLogo` header components and the footer's `copyrightHolder`. A temporary branch build, `0.0.0-projects.pages.111`, is pinned in `build.yml`; merge and publish a release before landing.
-- `shared-project-components` (ml-trainer): consumes the shared components. Bump its pins to the releases before merging.
+Everything described in this document is on `home-page`. ui library work has been shipped but we're holding off on uploading translations to let strings setttle.
 
-Order once the storage PR is in: publish the theme package and pin the release, review `projects-pages`, land on `home-page`. At launch merge `home-page` to `main`; the database name includes the base path, so beta starts empty.
+Still outstanding before launch:
+
+- The private theme package's `projects-pages` branch (home page images, the `AppLogo` and `OrgLogo` header components, the footer's `copyrightHolder`). `build.yml` pins a temporary branch build, `0.0.0-projects.pages.111`. Merge, publish a release and pin it.
+- `shared-project-components` (ml-trainer) consumes the shared components. Bump its pins to the releases before merging.
+- At launch merge `home-page` to `main`. The database name includes the base path, so beta starts empty.
 
 ## 3. Reviewing and running it
 
-There are still a lot of scenarios that haven't been manually exercised.
+Still to try:
 
-Easy to miss cases:
-
-- **Iframe controller mode**, which the e2e suite covers only with a synthetic host page. Check the real embeds: `python-editor-embed`'s Storybook, and micro:bit classroom against a review build. Look at load, edits reaching the host, `importproject`, a dropped hex or Python file, the replace confirmation on an edited project, the before-unload prompt, and that no home or projects page is reachable.
+- **Iframe controller mode**, which the e2e suite covers only with a synthetic host page. Check the real embeds: `python-editor-embed`'s Storybook, and micro:bit classroom against the `home-page` review build. Look at load, edits reaching the host, `importproject`, a dropped hex or Python file, the replace confirmation on an edited project, the before-unload prompt, and that no home or projects page is reachable.
 - **No IndexedDB outside an iframe.** The session-storage fallback exists for this cohort, but it is not known whether the cohort is real. Test the browsers and modes that plausibly block IndexedDB (Firefox and Safari private windows, Chrome with site data blocked, a school-managed Chromebook profile if one is to hand, Safari's storage settings) and record what actually happens in each. If none blocks it in practice, the fallback can be simplified or dropped; if some do, that is the case the fallback has to be good at.
-
-Notes for reviewers:
 
 ## 4. Design notes
 
@@ -119,6 +113,6 @@ All new pages strings are new copy. Changed or notable:
 - Without the database, a hex or idea asks before replacing an edited project. Revised 13 September: the first version dropped this, reasoning that the before-unload prompt protected the cohort, but that only guards closing the tab, and in classroom a student's dropped hex would silently replace the teacher's starter.
 - Adding files that overwrite existing ones asks first, in every mode.
 - Shared components in `ui-patterns`; no `ui-carousel` dependency there; no shared `ProjectsPage` body.
-- Integration branch `home-page`, merged from `main`, PRs into it reviewed as normal. `projects-pages` stacked ahead of the ui releases, red CI accepted.
+- Integration branch `home-page`, merged from `main`, PRs into it reviewed as normal.
 - The SVG wordmark stays in the private theme package. OSS placeholders are ml-trainer's minimal ones.
 - Beta notice and header not shared yet; the "More" button is gone.
