@@ -3,14 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, List, ListItem, Text, UnorderedList } from "@microbit/ui";
-import { Box, HStack, Stack, VStack } from "styled-system/jsx";
-import { isMakeCodeForV1Hex as isMakeCodeForV1HexNoErrorHandling } from "@microbit/microbit-universal-hex";
+import { ListItem, Text, UnorderedList } from "@microbit/ui";
+import { Box, HStack, VStack } from "styled-system/jsx";
 import { saveAs } from "file-saver";
 import { ReactNode } from "react";
 import { FormattedMessage, IntlShape } from "react-intl";
 import { ConfirmDialog } from "../common/ConfirmDialog";
-import { InputDialog, InputDialogBody } from "../common/InputDialog";
+import { InputDialog } from "../common/InputDialog";
 import MultipleFilesDialog, {
   MultipleFilesChoice,
 } from "../common/MultipleFilesDialog";
@@ -26,22 +25,10 @@ import {
 } from "@microbit/microbit-connection";
 import { MicrobitUSBConnection } from "@microbit/microbit-connection/usb";
 import { FileSystem, MAIN_FILE, Statistics, VersionAction } from "../fs/fs";
-import {
-  getLowercaseFileExtension,
-  isPythonMicrobitModule,
-  readFileAsText,
-  readFileAsUint8Array,
-} from "../fs/fs-util";
-import {
-  defaultInitialProject,
-  projectFilesToBase64,
-  PythonProject,
-} from "../fs/initial-project";
 import { LanguageServerClient } from "../language-server/client";
 import {
   AnalyticsTask,
   deviceFailureCode,
-  importFormat,
   markUserDisconnect,
   transport,
 } from "../logging/analytics";
@@ -60,35 +47,16 @@ import TransferHexDialog, {
 } from "../workbench/connect-dialogs/TransferHexDialog";
 import WebUSBDialog from "../workbench/connect-dialogs/WebUSBDialog";
 import { WorkbenchSelection } from "../workbench/use-selection";
-import {
-  ClassifiedFileInput,
-  FileChange,
-  FileInput,
-  FileOperation,
-} from "./changes";
-import ChooseMainScriptQuestion from "./ChooseMainScriptQuestion";
 import NewFileNameQuestion from "./NewFileNameQuestion";
 import { DefaultedProject } from "./project-hooks";
-import {
-  ensurePythonExtension,
-  isPythonFile,
-  validateNewFilename,
-} from "./project-utils";
+import { ImportSource, ProjectImporter } from "./project-import";
+import { ensurePythonExtension, validateNewFilename } from "./project-utils";
 import ProjectNameQuestion from "./ProjectNameQuestion";
 import WebUSBErrorDialog from "../workbench/connect-dialogs/WebUSBErrorDialog";
 import reconnectWebm from "../workbench/connect-dialogs/reconnect.webm";
 import reconnectMp4 from "../workbench/connect-dialogs/reconnect.mp4";
 
-/**
- * Distinguishes the different ways to trigger the load action.
- */
-export type LoadType = "drop-load" | "file-upload";
-
 export type FinalFocusRef = React.RefObject<HTMLElement> | undefined;
-
-export interface MainScriptChoice {
-  main: string | undefined;
-}
 
 interface ProjectStatistics extends Statistics {
   errorCount: number;
@@ -138,7 +106,8 @@ export class ProjectActions {
     },
     private intl: IntlShape,
     private logging: Logging,
-    private client: LanguageServerClient | undefined
+    private client: LanguageServerClient | undefined,
+    private importer: ProjectImporter
   ) {}
 
   private get project(): DefaultedProject {
@@ -269,278 +238,48 @@ export class ProjectActions {
     }
   };
 
-  private async confirmReplace(customConfirmPrompt?: string): Promise<boolean> {
-    if (!this.fs.dirty) {
-      // No need to ask.
-      return true;
-    }
-    return this.dialogs.show((callback) => (
-      <ConfirmDialog
-        callback={callback}
-        header={this.intl.formatMessage({ id: "confirm-replace-title" })}
-        body={
-          <Stack gap="2">
-            <Text>
-              {customConfirmPrompt ??
-                this.intl.formatMessage({ id: "confirm-replace-body" })}
-            </Text>
-            <Text>
-              <FormattedMessage id="confirm-save-hint" />
-            </Text>
-          </Stack>
-        }
-        actionLabel={this.intl.formatMessage({
-          id: "replace-action-label",
-        })}
-      />
-    ));
-  }
-
   /**
-   * Loads files
+   * Brings files into the editor.
    *
-   * Replaces the open project if a hex file is opened.
-   * No other files may be opened in the same call as a hex file.
-   *
-   * Uses module marker comments to determine if a Python file
-   * is a script or a module. At most one script and any number
-   * of modules may be opened together. The existing project is
-   * updated.
+   * A hex becomes a new project. Other files are added to the open project,
+   * replacing any with the same names.
    *
    * @param files the files from drag and drop or an input element.
-   * @param the type of user event that triggered the load.
+   * @param source how the user brought them in.
    */
-  load = async (
-    files: File[],
-    type: LoadType = "file-upload"
-  ): Promise<void> => {
-    if (files.length === 0) {
-      throw new Error("Expected to be called with at least one file");
-    }
-    this.logging.event({
-      type: "project_import",
-      detail: {
-        source: type === "drop-load" ? "drop" : "file_picker",
-        format: importFormat(files),
-      },
-    });
-
-    // Avoid lingering messages related to the previous project.
-    // Also makes e2e testing easier.
-    this.actionFeedback.closeAll();
-
-    const errorTitle = this.intl.formatMessage(
-      { id: "load-error-title" },
-      {
-        fileCount: files.length,
-      }
-    );
-    const extensions = new Set(
-      files.map((f) => getLowercaseFileExtension(f.name))
-    );
-    if (extensions.has("mpy")) {
-      this.actionFeedback.expectedError({
-        title: errorTitle,
-        description: this.intl.formatMessage({ id: "load-error-mpy" }),
-      });
-    } else if (extensions.has("hex")) {
-      if (files.length > 1) {
-        this.actionFeedback.expectedError({
-          title: errorTitle,
-          description: this.intl.formatMessage({ id: "load-error-mixed" }),
-        });
-      } else {
-        if (await this.confirmReplace()) {
-          const file = files[0];
-          const projectName = file.name.replace(/\.hex$/i, "");
-          const hex = await readFileAsText(file);
-          try {
-            await this.fs.replaceWithHexContents(projectName, hex);
-            this.actionFeedback.success({
-              title: this.intl.formatMessage(
-                { id: "loaded-file-feedback" },
-                { filename: file.name }
-              ),
-            });
-          } catch (e: any) {
-            const isMakeCodeHex = isMakeCodeForV1Hex(hex);
-            // Ideally we'd make FormattedMessage work in toasts, but it does not so using intl.
-            this.actionFeedback.expectedError({
-              title: errorTitle,
-              description: isMakeCodeHex ? (
-                <Stack gap="0.5">
-                  <Text>
-                    {this.intl.formatMessage({
-                      id: "load-error-makecode-info",
-                    })}
-                  </Text>
-                  <Text>
-                    {this.intl.formatMessage(
-                      { id: "load-error-makecode-link" },
-                      {
-                        link: (chunks: ReactNode) => (
-                          <Link
-                            target="_blank"
-                            rel="noopener"
-                            href="https://makecode.microbit.org/"
-                          >
-                            {chunks}
-                          </Link>
-                        ),
-                      }
-                    )}
-                  </Text>
-                </Stack>
-              ) : (
-                e.message
-              ),
-            });
-          }
-        }
-      }
-    } else {
-      const classifiedInputs: ClassifiedFileInput[] = [];
-      const hasMainPyFile = files.some((x) => x.name === MAIN_FILE);
-      for (const f of files) {
-        const content = await readFileAsUint8Array(f);
-        const python = isPythonFile(f.name);
-        const module = python && isPythonMicrobitModule(content);
-        const script = hasMainPyFile ? f.name === MAIN_FILE : python && !module;
-        classifiedInputs.push({
-          name: f.name,
-          script,
-          module,
-          data: () => Promise.resolve(content),
-        });
-      }
-
-      const inputs = await this.chooseScriptForMain(classifiedInputs);
-      if (inputs) {
-        return this.uploadInternal(inputs);
-      }
-    }
-  };
+  load = (files: File[], source: ImportSource = "file_picker"): Promise<void> =>
+    this.importer.importIntoEditor(files, source);
 
   /**
-   * Open a project, asking for confirmation if required.
-   *
-   * @param project The project.
-   * @param confirmPrompt Optional custom confirmation prompt.
-   * @returns True if we opened the project, false if the user cancelled.
+   * Opens an idea from the documentation as a new project.
    */
-  private openProject = async (
-    project: PythonProject,
-    confirmPrompt?: string
-  ): Promise<boolean> => {
-    const confirmed = await this.confirmReplace(confirmPrompt);
-    if (confirmed) {
-      await this.fs.replaceWithMultipleFiles(project);
-    }
-    return confirmed;
-  };
-
   openIdea = async (slug: string | undefined, code: string, title: string) => {
     this.logging.event({
       type: "idea_open",
       detail: { id: slug },
     });
-    const pythonProject: PythonProject = {
-      files: projectFilesToBase64({
-        [MAIN_FILE]: code,
-      }),
-      projectName: title,
-    };
-    const confirmPrompt = this.intl.formatMessage(
-      { id: "confirm-replace-with-idea" },
-      { ideaName: pythonProject.projectName }
-    );
-    if (await this.openProject(pythonProject, confirmPrompt)) {
+    try {
+      const opened = await this.importer.newProject(
+        title,
+        { [MAIN_FILE]: new TextEncoder().encode(code) },
+        this.intl.formatMessage(
+          { id: "confirm-replace-with-idea" },
+          { ideaName: title }
+        )
+      );
+      if (!opened) {
+        return;
+      }
       this.actionFeedback.success({
         title: this.intl.formatMessage(
           { id: "loaded-file-feedback" },
           { filename: title }
         ),
       });
-    }
-  };
-
-  reset = async () => {
-    this.logging.event({
-      type: "project_reset",
-    });
-    const confirmPrompt = this.intl.formatMessage({
-      id: "confirm-replace-reset",
-    });
-    if (await this.openProject(defaultInitialProject, confirmPrompt)) {
-      this.actionFeedback.success({
-        title: this.intl.formatMessage({ id: "reset-project-feedback" }),
-      });
-    }
-  };
-
-  private async uploadInternal(inputs: ClassifiedFileInput[]) {
-    const changes = this.findChanges(inputs);
-    try {
-      for (const change of changes) {
-        const data = await change.data();
-        await this.fs.write(change.name, data, VersionAction.INCREMENT);
-      }
-      this.actionFeedback.success(this.summarizeChanges(changes));
-    } catch (e: any) {
+    } catch (e) {
       this.actionFeedback.unexpectedError(e);
     }
-  }
-
-  private findChanges(files: FileInput[]): FileChange[] {
-    const currentFiles = this.project.files.map((f) => f.name);
-    const current = new Set(currentFiles);
-    return files.map((f) => ({
-      ...f,
-      operation: current.has(f.name)
-        ? FileOperation.REPLACE
-        : FileOperation.ADD,
-    }));
-  }
-
-  private async chooseScriptForMain(
-    inputs: ClassifiedFileInput[]
-  ): Promise<ClassifiedFileInput[] | undefined> {
-    const defaultScript = inputs.find((x) => x.script);
-    const chosenScript = await this.dialogs.show<MainScriptChoice | undefined>(
-      (callback) => (
-        <InputDialog
-          callback={callback}
-          header={this.intl.formatMessage({ id: "change-files" })}
-          initialValue={{
-            main: defaultScript ? defaultScript.name : undefined,
-          }}
-          Body={(props: InputDialogBody<MainScriptChoice>) => (
-            <ChooseMainScriptQuestion
-              {...props}
-              currentFiles={new Set(this.project.files.map((f) => f.name))}
-              inputs={inputs}
-            />
-          )}
-          actionLabel={this.intl.formatMessage({ id: "confirm-action" })}
-          size="lg"
-        />
-      )
-    );
-    if (!chosenScript) {
-      // User cancelled.
-      return undefined;
-    }
-
-    return inputs.map((input) => {
-      if (chosenScript && chosenScript.main === input.name) {
-        return {
-          ...input,
-          name: "main.py",
-        };
-      }
-      return input;
-    });
-  }
+  };
 
   /**
    * Flash the device, reporting progress via a dialog.
@@ -1057,47 +796,7 @@ export class ProjectActions {
       errorCount: this.client?.errorCount() ?? 0,
     };
   }
-
-  summarizeChanges = (changes: FileChange[]) => {
-    if (changes.length === 1) {
-      return { title: this.summarizeChange(changes[0]) };
-    }
-    return {
-      title: `${changes.length} changes`,
-      description: (
-        <List>
-          {changes.map((c) => (
-            <ListItem key={c.name}>{this.summarizeChange(c)}</ListItem>
-          ))}
-        </List>
-      ),
-    };
-  };
-
-  idForChangeType = (changeType: FileOperation): string => {
-    return changeType === FileOperation.REPLACE
-      ? "updated-change"
-      : "added-change";
-  };
-
-  summarizeChange = (change: FileChange): string => {
-    const translationID = this.idForChangeType(change.operation);
-    return this.intl.formatMessage(
-      { id: translationID },
-      { changeName: change.name }
-    );
-  };
 }
-
-const isMakeCodeForV1Hex = (hexStr: string) => {
-  try {
-    return isMakeCodeForV1HexNoErrorHandling(hexStr);
-  } catch {
-    // We just use this to give a better message in error scenarios so we don't
-    // care if we failed to parse it etc.
-    return false;
-  }
-};
 
 export const defaultedProject = (
   fs: FileSystem,

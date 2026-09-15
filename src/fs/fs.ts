@@ -7,6 +7,7 @@ import {
   getIntelHexAppendedScript,
   microbitBoardId,
   MicropythonFsHex,
+  IntelHexWithId,
 } from "@microbit/microbit-fs";
 import { fromByteArray, toByteArray } from "base64-js";
 import { sortBy } from "../common/sort-util";
@@ -160,8 +161,9 @@ export const isNameLengthValid = (filename: string): boolean =>
 /**
  * The MicroPython file system adapted for convienient use from the UI.
  *
- * For now we store contents backed by session storage so they're only
- * persistent over a browser refresh or Chrome tab restore.
+ * Contents are held in memory and mirrored to the host's persistent storage:
+ * the current project in the IndexedDB projects database, or session storage where
+ * that is unavailable.
  *
  * We version files in a way that's designed to make UI updates simple.
  * If a UI action updates a file (e.g. load from disk) then we bump its version.
@@ -251,6 +253,29 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     }
     await this.initializing;
     return this.fs!;
+  }
+
+  /**
+   * Switch to a different backing storage, typically another project.
+   *
+   * The new storage is the record from here on: reads, writes and the hex
+   * file system all reflect it. Versions of files present in the new storage
+   * are bumped so editors showing a same-named file reload it.
+   */
+  async switchStorage(storage: FSStorage): Promise<void> {
+    if (this.initializing) {
+      await this.initializing;
+    }
+    this.storage = storage;
+    this._dirty = await storage.isDirty();
+    this.project = { ...this.project, id: generateId() };
+    if (this.fs) {
+      await this.initializeFsFromStorage(this.fs);
+    }
+    for (const name of await storage.ls()) {
+      this.incrementFileVersion(name);
+    }
+    return this.notify();
   }
 
   /**
@@ -354,34 +379,50 @@ export class FileSystem extends TypedEventTarget<EventMap> {
   }
 
   async replaceWithMultipleFiles(project: PythonProject): Promise<void> {
-    const fs = await this.initialize();
-    fs.ls().forEach((f) => fs.remove(f));
-    for (const key in project.files) {
-      const content = toByteArray(project.files[key]);
-      fs.write(key, content);
-    }
-    await this.replaceCommon(project.projectName);
+    const files = Object.fromEntries(
+      Object.entries(project.files).map(([name, base64]) => [
+        name,
+        toByteArray(base64),
+      ])
+    );
+    await this.replaceWithFiles(project.projectName, files);
   }
 
-  async replaceWithHexContents(
-    projectName: string,
-    hex: string
+  /**
+   * Replace the project's files and name. For the single implicit project
+   * of the iframe and session-storage cases; with the projects database an
+   * import becomes a new project instead.
+   */
+  async replaceWithFiles(
+    projectName: string | undefined,
+    files: Record<string, Uint8Array>
   ): Promise<void> {
     const fs = await this.initialize();
+    fs.ls().forEach((f) => fs.remove(f));
+    for (const [name, content] of Object.entries(files)) {
+      fs.write(name, content);
+    }
+    await this.replaceCommon(projectName);
+  }
+
+  /**
+   * The files in a hex saved by the editor, or the script appended to a hex
+   * by older editors as main.py. Throws if there is neither.
+   *
+   * Uses a separate file system so the open project is untouched.
+   */
+  async filesFromHex(hex: string): Promise<Record<string, Uint8Array>> {
+    const fs = await this.createInternalFileSystem();
     try {
-      fs.importFilesFromHex(hex, {
-        overwrite: true,
-        formatFirst: true,
-      });
+      fs.importFilesFromHex(hex, { overwrite: true, formatFirst: true });
     } catch {
       const code = getIntelHexAppendedScript(hex);
       if (!code) {
         throw new Error("No appended code found in the hex file");
       }
-      fs.ls().forEach((f) => fs.remove(f));
-      fs.write(MAIN_FILE, code);
+      return { [MAIN_FILE]: new TextEncoder().encode(code) };
     }
-    await this.replaceCommon(projectName);
+    return Object.fromEntries(fs.ls().map((f) => [f, fs.readBytes(f)]));
   }
 
   async replaceCommon(projectName?: string): Promise<void> {
@@ -507,9 +548,16 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     }
   }
 
+  private microPython: Promise<IntelHexWithId[]> | undefined;
+
   private createInternalFileSystem = async () => {
-    const microPython = await this.microPythonSource();
-    return new MicropythonFsHex(microPython, {
+    // Fetched once for the open project and any hex imports; a failed fetch
+    // is forgotten so the next attempt retries it.
+    this.microPython ??= this.microPythonSource().catch((e) => {
+      this.microPython = undefined;
+      throw e;
+    });
+    return new MicropythonFsHex(await this.microPython, {
       maxFsSize: commonFsSize,
     });
   };

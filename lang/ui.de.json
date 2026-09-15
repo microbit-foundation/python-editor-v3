@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "Abbrechen"
   },
-  "change-files": {
-    "defaultMessage": "Dateien ändern?"
-  },
   "choose-main-add-file": {
     "defaultMessage": "Datei {name} hinzufügen?"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "Löschen bestätigen"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "Alle Dateien durch die in der HEX-Datei ersetzen?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "Alle Dateien durch den Standard-Startcode ersetzen?"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "Zurücksetzen bestätigen"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "Alle Dateien durch {ideaName} ersetzen?"
-  },
   "confirm-save-action": {
     "defaultMessage": "Bestätigen und speichern"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "Abbrechen und dann Speichern verwenden, um eine Kopie deines Projekts zu behalten."
   },
   "connect-action": {
     "defaultMessage": "Verbinden"
@@ -392,17 +374,8 @@
   "open-action": {
     "defaultMessage": "Öffnen"
   },
-  "open-file-action": {
-    "defaultMessage": "Öffnen …"
-  },
   "open-file-dropped": {
     "defaultMessage": "Datei nach Ablegen öffnen"
-  },
-  "open-hover": {
-    "defaultMessage": "Eine HEX- oder Python-Datei öffnen oder andere Dateien hinzufügen."
-  },
-  "options": {
-    "defaultMessage": "Optionen"
   },
   "parameter-help": {
     "defaultMessage": "Parameter-Hilfe"
@@ -472,18 +445,6 @@
   },
   "reference-tab": {
     "defaultMessage": "Referenz"
-  },
-  "replace-action-label": {
-    "defaultMessage": "Ersetzen"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Projekt zurücksetzen"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Projekt auf den Standard-Startcode zurückgesetzt"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Setzt das Projekt auf den Standard-Startcode zurück und verwirft deine Arbeit"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Keine Ergebnisse} one {# Ergebnis} other {# Ergebnisse}}"

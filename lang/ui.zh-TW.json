@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "取消"
   },
-  "change-files": {
-    "defaultMessage": "是否要變更檔案？"
-  },
   "choose-main-add-file": {
     "defaultMessage": "新增檔案 {name}"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "確認刪除"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "是否要用 hex 取代所有檔案？"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "是否要用預設起始程式碼來取代所有檔案？"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "確認取代專案"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "是否要用 {ideaName} 取代所有檔案？"
-  },
   "confirm-save-action": {
     "defaultMessage": "確認並儲存"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "取消，然後使用「儲存」來保留您的專案副本。"
   },
   "connect-action": {
     "defaultMessage": "連線"
@@ -389,17 +371,8 @@
   "open-action": {
     "defaultMessage": "開啟"
   },
-  "open-file-action": {
-    "defaultMessage": "開啟..."
-  },
   "open-file-dropped": {
     "defaultMessage": "放置時開啟檔案"
-  },
-  "open-hover": {
-    "defaultMessage": "開啟 Hex 或 Python 檔案，或是新增其他檔案"
-  },
-  "options": {
-    "defaultMessage": "選項"
   },
   "parameter-help": {
     "defaultMessage": "參數說明"
@@ -469,18 +442,6 @@
   },
   "reference-tab": {
     "defaultMessage": "參考資料"
-  },
-  "replace-action-label": {
-    "defaultMessage": "取代"
-  },
-  "reset-project-action": {
-    "defaultMessage": "重設專案"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "專案重設為預設起始程式碼"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "將專案重設為預設起始程式碼，放棄您的工作"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {沒有結果} one {# 個結果} other {# 個結果}}"
