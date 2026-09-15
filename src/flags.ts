@@ -54,9 +54,10 @@ export type Flag =
    */
   | "translate";
 
-interface FlagMetadata {
+// Exposed for testing.
+export interface FlagMetadata<F extends string = Flag> {
   defaultOnStages: Stage[];
-  name: Flag;
+  name: F;
 }
 
 const allFlags: FlagMetadata[] = [
@@ -75,8 +76,17 @@ const allFlags: FlagMetadata[] = [
 
 type Flags = Record<Flag, boolean>;
 
-// Exposed for testing.
-export const flagsForParams = (stage: Stage, params: URLSearchParams) => {
+/**
+ * Resolves flag values from the stage, query params and local storage.
+ *
+ * The flag metadata is a parameter so tests can exercise the resolution
+ * rules without depending on the real flag defaults.
+ */
+export const flagsForParams = <F extends string = Flag>(
+  stage: Stage,
+  params: URLSearchParams,
+  flagMetadata: FlagMetadata<F>[] = allFlags as FlagMetadata<F>[]
+): Record<F, boolean> => {
   const enableFlags = new Set(params.getAll("flag"));
   try {
     localStorage
@@ -92,15 +102,15 @@ export const flagsForParams = (stage: Stage, params: URLSearchParams) => {
     ? true
     : undefined;
   return Object.fromEntries(
-    allFlags.map((f) => [
+    flagMetadata.map((f) => [
       f.name,
       isEnabled(f, stage, allFlagsDefault, enableFlags.has(f.name)),
     ])
-  ) as Flags;
+  ) as Record<F, boolean>;
 };
 
 const isEnabled = (
-  f: FlagMetadata,
+  f: FlagMetadata<string>,
   stage: Stage,
   allFlagsDefault: boolean | undefined,
   thisFlagOn: boolean
