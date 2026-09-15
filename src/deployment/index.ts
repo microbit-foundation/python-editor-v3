@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import React, { ReactNode, useContext } from "react";
+import React, { ComponentType, ReactNode, useContext } from "react";
 import { createStubCompliance } from "../compliance/stub";
 import { createWebCompliance } from "../compliance/web";
 import { Logger } from "../logging/logger";
@@ -29,6 +29,13 @@ export interface BrandConfig {
   welcomeVideoYouTubeId?: string;
   squareLogo?: ReactNode;
   horizontalLogo?: ReactNode;
+  /**
+   * Product wordmark for the page header, e.g. "Python Editor". Draws in
+   * currentColor. Same shape as ml-trainer's so the brand packages match.
+   */
+  AppLogo?: ComponentType<LogoProps>;
+  /** Organisation logo shown before the wordmark, e.g. the micro:bit logo. */
+  OrgLogo?: ComponentType<LogoProps>;
 
   supportLink?: string;
   guideLink?: string;
@@ -37,6 +44,18 @@ export interface BrandConfig {
   termsOfUseLink?: string;
   privacyPolicyLink?: string;
   translationLink?: string;
+  /**
+   * Name shown after the copyright symbol in the home page footer. Omit it
+   * and no copyright line is shown.
+   */
+  copyrightHolder?: string;
+}
+
+export interface LogoProps {
+  /** CSS height, e.g. "20px". */
+  h?: string;
+  /** CSS color; the logos draw in currentColor. */
+  color?: string;
 }
 
 export type BrandConfigFactory = (env: Record<string, string>) => BrandConfig;

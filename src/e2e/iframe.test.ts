@@ -56,6 +56,20 @@ const openEmbeddedEditor = async (page: Page): Promise<FrameLocator> => {
 const editorText = (frame: FrameLocator) =>
   frame.getByTestId("editor").getByRole("textbox");
 
+// fill() on the CodeMirror contenteditable sometimes inserts rather than
+// replaces, so select everything first.
+const replaceEditorText = async (
+  page: Page,
+  frame: FrameLocator,
+  text: string
+) => {
+  await editorText(frame).click();
+  await page.keyboard.press(
+    process.platform === "darwin" ? "Meta+a" : "Control+a"
+  );
+  await page.keyboard.type(text);
+};
+
 // Set by the host harness page. Evaluate callbacks run in the page, so the
 // cast has to be repeated inside each rather than shared.
 const receivedActions = (page: Page) =>
@@ -89,7 +103,7 @@ test.describe("iframe controller mode", () => {
       "workspaceloaded",
     ]);
 
-    await editorText(frame).fill("display.scroll('edited')");
+    await replaceEditorText(app.page, frame, "display.scroll('edited')");
     await expect
       .poll(() => lastSavedMain(app.page))
       .toEqual("display.scroll('edited')");
@@ -120,7 +134,7 @@ test.describe("iframe controller mode", () => {
     const frame = await openEmbeddedEditor(app.page);
     await expect(editorText(frame)).toContainText("from the host");
 
-    await editorText(frame).fill("display.scroll('edited')");
+    await replaceEditorText(app.page, frame, "display.scroll('edited')");
     await expect(editorText(frame)).toContainText("edited");
 
     await app.closeAndExpectBeforeUnloadPrompt();

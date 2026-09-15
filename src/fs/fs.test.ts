@@ -148,9 +148,11 @@ describe("Filesystem", () => {
     await ufs.write("other.txt", "content", VersionAction.INCREMENT);
     const originalId = ufs.project.id;
 
-    await ufs.replaceWithHexContents(
+    await ufs.replaceWithFiles(
       "new project name",
-      await fsp.readFile("testData/1.0.1.hex", { encoding: "ascii" })
+      await ufs.filesFromHex(
+        await fsp.readFile("testData/1.0.1.hex", { encoding: "ascii" })
+      )
     );
 
     expect(await asString(ufs.read(MAIN_FILE))).toMatch(/PASS1/);
@@ -158,6 +160,28 @@ describe("Filesystem", () => {
     expect(ufs.project.files).toEqual([{ name: MAIN_FILE, version: 2 }]);
     expect(ufs.project.name).toEqual("new project name");
     expect(ufs.project.id === originalId).toEqual(false);
+  });
+
+  it("reads the appended script of an old hex as main.py", async () => {
+    const files = await ufs.filesFromHex(
+      await fsp.readFile("testData/0.9.hex", { encoding: "ascii" })
+    );
+    expect(Object.keys(files)).toEqual([MAIN_FILE]);
+    expect(new TextDecoder().decode(files[MAIN_FILE])).toMatch(/PASS2/);
+  });
+
+  it("rejects a hex with no Python", async () => {
+    await expect(ufs.filesFromHex(hexes[1])).rejects.toThrow(
+      "No appended code found in the hex file"
+    );
+  });
+
+  it("reading a hex leaves the open project alone", async () => {
+    await ufs.initialize();
+    await ufs.filesFromHex(
+      await fsp.readFile("testData/1.0.1.hex", { encoding: "ascii" })
+    );
+    expect(await asString(ufs.read(MAIN_FILE))).not.toMatch(/PASS1/);
   });
 
   it("can order files ascendingly according to their file names", async () => {
@@ -179,9 +203,11 @@ describe("Filesystem", () => {
     await ufs.setProjectName("new name");
     expect(ufs.dirty).toEqual(true);
 
-    await ufs.replaceWithHexContents(
+    await ufs.replaceWithFiles(
       "different name",
-      await fsp.readFile("testData/1.0.1.hex", { encoding: "ascii" })
+      await ufs.filesFromHex(
+        await fsp.readFile("testData/1.0.1.hex", { encoding: "ascii" })
+      )
     );
 
     expect(ufs.dirty).toEqual(false);

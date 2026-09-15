@@ -52,6 +52,7 @@ export default defineConfig({
     // broken non-recipe styling — check the resolved node_modules path.
     "./node_modules/@microbit/ui/src/**/*.{ts,tsx}",
     "./node_modules/@microbit/ui-patterns/src/**/*.{ts,tsx}",
+    "./node_modules/@microbit/ui-carousel/src/**/*.{ts,tsx}",
   ],
   outdir: "styled-system",
 });

@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "Cealaigh"
   },
-  "change-files": {
-    "defaultMessage": "Athraigh comhaid?"
-  },
   "choose-main-add-file": {
     "defaultMessage": "Cuir comhad {name} leis"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "Deimhnigh scrios"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "Cuir iad siúd sa heics in ionad gach comhad?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "Cuir an cód tosaithe réamhshocraithe in ionad gach comhaid?"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "Deimhnigh ionadaigh an tionscadal"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "Cuir {ideaName} in ionad gach comhaid?"
-  },
   "confirm-save-action": {
     "defaultMessage": "Deimhnigh agus sábháil"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "Cealaigh ansin úsáid Sábháil chun cóip de do thionscadal a choinneáil."
   },
   "connect-action": {
     "defaultMessage": "Ceangail"
@@ -392,17 +374,8 @@
   "open-action": {
     "defaultMessage": "Oscail"
   },
-  "open-file-action": {
-    "defaultMessage": "Oscail…"
-  },
   "open-file-dropped": {
     "defaultMessage": "Oscail comhad nuair a thit sé"
-  },
-  "open-hover": {
-    "defaultMessage": "Oscail comhad heicsidheachúlach nó Python nó cuir comhaid eile leis"
-  },
-  "options": {
-    "defaultMessage": "Roghanna"
   },
   "parameter-help": {
     "defaultMessage": "Cabhair pharaiméadair"
@@ -472,18 +445,6 @@
   },
   "reference-tab": {
     "defaultMessage": "Tagairt"
-  },
-  "replace-action-label": {
-    "defaultMessage": "Ionadaigh"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Athshocraigh tionscadal"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Athshocraigh an tionscadal go dtí an cód tosaithe réamhshocraithe"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Athshocraigh an tionscadal chuig an gcód tosaithe réamhshocraithe, ag caitheamh do chuid oibre"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Gan torthaí} one {# toradh} two {# thoradh} few {# torthaí} many {# torthaí} other {# torthaí}}\n"

@@ -17,20 +17,17 @@ import { fileURLToPath } from "url";
 import { readFileSync } from "fs";
 import { DeviceErrorCode } from "@microbit/microbit-connection";
 
-export enum LoadDialogType {
-  CONFIRM,
-  REPLACE,
-  CONFIRM_BUT_LOAD_AS_MODULE,
-  NONE,
-}
-
 export interface BrowserDownload {
   filename: string;
   data: Buffer;
 }
 
 // E2E_PORT points the suite at a server on another port.
-const baseUrl = `http://localhost:${process.env.E2E_PORT ?? "3000"}`;
+export const baseUrl = `http://localhost:${process.env.E2E_PORT ?? "3000"}`;
+
+// We didn't use BASE_URL here as CRA seems to set it to "" before running jest.
+// Maybe can be changed since the Vite upgrade.
+const basePath = process.env.E2E_BASE_URL ?? "/";
 
 export interface UrlOptions {
   flags?: Flag[];
@@ -42,38 +39,6 @@ export interface UrlOptions {
 
 interface SaveOptions {
   waitForDownload: boolean;
-}
-
-class LoadDialog {
-  private confirmButton: Locator;
-  private replaceButton: Locator;
-  private optionsButton: Locator;
-  private type: LoadDialogType;
-
-  constructor(public readonly page: Page, type: LoadDialogType) {
-    this.type = type;
-    this.confirmButton = this.page.getByRole("button", { name: "Confirm" });
-    this.replaceButton = this.page.getByRole("button", { name: "Replace" });
-    this.optionsButton = this.page.getByRole("button", {
-      name: "Options",
-      exact: true,
-    });
-  }
-
-  async submit() {
-    switch (this.type) {
-      case LoadDialogType.CONFIRM:
-        return await this.confirmButton.click();
-      case LoadDialogType.REPLACE:
-        return await this.replaceButton.click();
-      case LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE:
-        await this.optionsButton.click();
-        await this.page.getByText(/^(Add|Replace) file .+\.py$/).click();
-        return await this.confirmButton.click();
-      default:
-        return;
-    }
-  }
 }
 
 class FileActionsMenu {
@@ -103,8 +68,8 @@ class ProjectTabPanel {
   private openButton: Locator;
   constructor(public readonly page: Page) {
     this.openButton = this.page
-      .getByRole("tabpanel", { name: "Project" })
-      .getByTestId("open");
+      .getByRole("tabpanel", { name: "Files" })
+      .getByTestId("add-files");
   }
 
   async openFileActionsMenu(filename: string) {
@@ -336,23 +301,17 @@ export class App {
     }
   }
 
-  async switchTab(tabName: "Project" | "API" | "Reference" | "Ideas") {
+  async switchTab(tabName: "Files" | "API" | "Reference" | "Ideas") {
     await this.page.getByRole("tab", { name: tabName }).click();
   }
 
   async createNewFile(name: string): Promise<void> {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     await this.page.getByRole("button", { name: "Create file" }).click();
     await this.page.getByLabel("Name*").fill(name);
     await this.page
       .getByRole("button", { name: "Create", exact: true })
       .click();
-  }
-
-  async resetProject(): Promise<void> {
-    await this.switchTab("Project");
-    await this.page.getByRole("button", { name: "Reset project" }).click();
-    await this.page.getByRole("button", { name: "Replace" }).click();
   }
 
   async expectEditorContainText(match: RegExp | string) {
@@ -363,32 +322,31 @@ export class App {
   }
 
   async expectProjectFiles(expected: string[]): Promise<void> {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     await expect(this.page.getByRole("listitem")).toHaveText(expected);
   }
 
-  async loadFiles(
-    filePathFromProjectRoot: string,
-    options: { acceptDialog?: LoadDialogType } = {}
-  ) {
-    await this.switchTab("Project");
+  /** Adds files from the Files tab; a hex opens as a new project. */
+  async loadFiles(filePathFromProjectRoot: string) {
+    await this.switchTab("Files");
     await this.projectTab.chooseFile(filePathFromProjectRoot);
-
-    if (options.acceptDialog !== undefined) {
-      const loadDialog = new LoadDialog(this.page, options.acceptDialog);
-      await loadDialog.submit();
-    }
   }
 
+  /**
+   * Drops a file on a drop target. The default is the editor's; the home and
+   * projects pages have their own.
+   */
   async dropFile(
     filePathFromProjectRoot: string,
-    options: { acceptDialog?: LoadDialogType } = {}
+    target: string = "project-drop-target"
   ) {
     const filePath = getAbsoluteFilePath(filePathFromProjectRoot);
     const filename = getFilename(filePathFromProjectRoot);
 
-    // Wait for page to load
-    await this.saveButton.waitFor();
+    if (target === "project-drop-target") {
+      // Wait for page to load
+      await this.saveButton.waitFor();
+    }
 
     // Playwright drag and drop file method taken from
     // https://github.com/microsoft/playwright/issues/10667#issuecomment-998397241
@@ -405,17 +363,25 @@ export class App {
 
     // Drag file over target area to reveal drop zone
     await this.page
-      .getByTestId("project-drop-target")
+      .getByTestId(target)
       .dispatchEvent("dragover", { dataTransfer });
 
-    const dropZone = this.page.getByTestId("project-drop-target-overlay");
+    const dropZone = this.page.getByTestId(`${target}-overlay`);
     await dropZone.waitFor();
     await dropZone.dispatchEvent("drop", { dataTransfer });
+  }
 
-    if (options.acceptDialog !== undefined) {
-      const loadDialog = new LoadDialog(this.page, options.acceptDialog);
-      await loadDialog.submit();
-    }
+  /** No drop overlay left showing after a drop. */
+  async expectNoDropOverlay(): Promise<void> {
+    await expect(this.page.locator('[data-testid$="-overlay"]')).toHaveCount(0);
+  }
+
+  /** Answers the open confirmation dialog. */
+  async answerDialog(buttonName: string): Promise<void> {
+    await this.page
+      .getByRole("alertdialog")
+      .getByRole("button", { name: buttonName })
+      .click();
   }
 
   async expectAlertText(title: string, description?: string): Promise<void> {
@@ -426,19 +392,19 @@ export class App {
   }
 
   async isDeleteFileOptionDisabled(filename: string) {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
     return await fileOptionMenu.deleteButton.isDisabled();
   }
 
   async isEditFileOptionDisabled(filename: string) {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
     return await fileOptionMenu.editButton.isDisabled();
   }
 
   async editFile(filename: string): Promise<void> {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
     await fileOptionMenu.editButton.click();
   }
@@ -483,7 +449,7 @@ export class App {
   }
 
   async deleteFile(filename: string) {
-    await this.switchTab("Project");
+    await this.switchTab("Files");
     const fileOptionMenu = await this.projectTab.openFileActionsMenu(filename);
     await fileOptionMenu.delete();
   }
@@ -776,11 +742,22 @@ export class App {
   }
 
   async expectFocusOnLoad(): Promise<void> {
-    const link = this.page.getByLabel(
-      "visit microbit.org (opens in a new tab)"
-    );
+    // The logo's home link leads the sidebar header.
     await this.page.keyboard.press("Tab");
-    await expect(link).toBeFocused();
+    await expect(this.homeLink).toBeFocused();
+  }
+
+  private get homeLink() {
+    return this.page.getByRole("link", { name: "Home" });
+  }
+
+  /**
+   * Follows the sidebar logo to the home page. Only available with the
+   * projects database active outside iframe mode; otherwise the logo links
+   * to microbit.org.
+   */
+  async goHome(): Promise<void> {
+    await this.homeLink.click();
   }
 
   async assertFocusOnSidebar(): Promise<void> {
@@ -829,12 +806,38 @@ export const getFilename = (filePath: string) => {
   return filename;
 };
 
-const getAbsoluteFilePath = (filePathFromProjectRoot: string) => {
+export const getAbsoluteFilePath = (filePathFromProjectRoot: string) => {
   const dir = path.dirname(fileURLToPath(import.meta.url));
   return path.join(dir.replace("src/e2e", ""), filePathFromProjectRoot);
 };
 
-export const editorUrl = (options: UrlOptions = {}): string => {
+export const editorUrl = (options: UrlOptions = {}): string =>
+  // In controller mode the editor is the only page and stays at the root.
+  appUrl(options.controller ? "" : "project", options);
+
+export const homeUrl = (options: UrlOptions = {}): string =>
+  appUrl("", options);
+
+export const projectsPageUrl = (options: UrlOptions = {}): string =>
+  appUrl("projects", options);
+
+/**
+ * @param path The page's path within the app, without a leading slash.
+ */
+/**
+ * Matches a page's URL, wherever the app is deployed. The base URL's trailing
+ * slash is optional: the app's own links to the home page are without it.
+ *
+ * @param path The page's path within the app, without a leading slash.
+ */
+export const appUrlPattern = (path: string = ""): RegExp => {
+  const prefix = (baseUrl + basePath + path).replace(/\/$/, "");
+  return new RegExp(
+    `^${prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/?([?#]|$)`
+  );
+};
+
+export const appUrl = (path: string, options: UrlOptions = {}): string => {
   const flags = new Set<string>([
     "none",
     "noWelcome",
@@ -852,9 +855,8 @@ export const editorUrl = (options: UrlOptions = {}): string => {
   }
   return (
     baseUrl +
-    // We didn't use BASE_URL here as CRA seems to set it to "" before running jest.
-    // Maybe can be changed since the Vite upgrade.
-    (process.env.E2E_BASE_URL ?? "/") +
+    basePath +
+    path +
     "?" +
     new URLSearchParams(params).toString() +
     (options.fragment ?? "")

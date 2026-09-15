@@ -5,7 +5,6 @@
  */
 import { expect } from "@playwright/test";
 import fs from "fs";
-import { LoadDialogType } from "./app.js";
 import { test } from "./app-test-fixtures.js";
 
 test.describe("save", () => {
@@ -31,10 +30,8 @@ test.describe("save", () => {
   }) => {
     // Set the project name to avoid calling the edit project name input dialog.
     await app.setProjectName("not default name");
-    await app.loadFiles("testData/too-large.py", {
-      acceptDialog: LoadDialogType.CONFIRM,
-    });
-    await app.expectEditorContainText(/# Filler/);
+    await app.loadFiles("testData/too-large.py");
+    await app.expectAlertText("Added file too-large.py");
     await app.save({ waitForDownload: false });
 
     await app.expectAlertText(
@@ -60,9 +57,7 @@ test.describe("save", () => {
     app,
   }) => {
     await app.setProjectName("not default name");
-    await app.loadFiles("testData/module.py", {
-      acceptDialog: LoadDialogType.CONFIRM,
-    });
+    await app.loadFiles("testData/module.py");
     await app.savePythonScript();
     await app.expectDialog("Warning: Only main.py downloaded");
   });

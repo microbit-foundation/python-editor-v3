@@ -37,6 +37,8 @@ const subscribe = (listener: () => void) => {
   return () => listeners.delete(listener);
 };
 
+export const hasStorageVersionError = (): boolean => versionError !== undefined;
+
 export const useStorageVersionError = (): unknown =>
   useSyncExternalStore(subscribe, () => versionError);
 

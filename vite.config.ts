@@ -34,6 +34,23 @@ const theme = "@microbit-foundation/python-editor-v3-microbit";
 const external = `node_modules/${theme}`;
 const internal = "src/deployment/default";
 
+/**
+ * Resolves theme-package/images/* imports per file rather than per package:
+ * the branded package wins when it ships the file, and the OSS default in
+ * src/deployment/default stands in otherwise, so the branded package only
+ * needs to carry images that differ from the defaults. A miss resolves to
+ * the nonexistent default path so the build fails loudly, typos included.
+ */
+const resolveThemeImage = (id: string): string => {
+  if (fs.existsSync(external)) {
+    const branded = path.resolve(__dirname, external, "dist", id);
+    if (fs.existsSync(branded)) {
+      return branded;
+    }
+  }
+  return path.resolve(__dirname, internal, id);
+};
+
 const featurePwa = process.env.FEATURE_PWA === "true";
 const pwaCacheId =
   // v3 vs beta should have distinct caches
@@ -79,6 +96,29 @@ const viteRemoveManifestPlugin = (): Plugin => ({
       }
       return updated;
     },
+  },
+});
+
+/**
+ * Serves the base URL without its trailing slash, which the app's own links
+ * to the home page are: react-router renders the route at "/" as the bare
+ * basename. S3 serves it, vite preview 404s it, and the e2e tests run
+ * against preview.
+ */
+const basePathWithoutTrailingSlashPlugin = (): Plugin => ({
+  name: "base-path-without-trailing-slash",
+  configurePreviewServer(server) {
+    const base = process.env.BASE_URL ?? "/";
+    if (base === "/") {
+      return;
+    }
+    server.middlewares.use((req, _res, next) => {
+      const [path, query] = (req.url ?? "").split("?");
+      if (path === base.replace(/\/$/, "")) {
+        req.url = base + (query ? `?${query}` : "");
+      }
+      next();
+    });
   },
 });
 
@@ -216,28 +256,46 @@ export default defineConfig(({ mode }) => {
         },
       }),
       viteRemoveManifestPlugin(),
+      basePathWithoutTrailingSlashPlugin(),
     ],
     test: unitTest,
     resolve: {
-      alias: {
-        "theme-package": fs.existsSync(external)
-          ? theme
-          : path.resolve(__dirname, internal),
-        // Resolve Panda's generated helpers for all importers, including
-        // @microbit/ui's source (consumed from node_modules). Mirrors the
-        // tsconfig `paths` entry.
-        "styled-system": path.resolve(__dirname, "styled-system"),
-      },
-      // @microbit/ui is consumed as source via a file: symlink, so its
-      // `import "react"` etc. would otherwise resolve to the ui monorepo's own
-      // copies — two Reacts → invalid-hook "useContext of null" crashes. Force
-      // a single copy (the app's) for React and the react-aria stack.
+      alias: [
+        {
+          // Theme images resolve per file so the branded package only ships
+          // images that differ from the OSS defaults. See resolveThemeImage.
+          find: /^theme-package\/(images\/.+)$/,
+          replacement: "$1",
+          customResolver: (id: string) => resolveThemeImage(id),
+        },
+        {
+          find: "theme-package",
+          replacement: fs.existsSync(external)
+            ? theme
+            : path.resolve(__dirname, internal),
+        },
+        {
+          // Resolve Panda's generated helpers for all importers, including
+          // @microbit/ui's source (consumed from node_modules). Mirrors the
+          // tsconfig `paths` entry.
+          find: "styled-system",
+          replacement: path.resolve(__dirname, "styled-system"),
+        },
+      ],
+      // The @microbit/ui packages are consumed as source and, when symlinked
+      // to a local ../ui checkout, their `import "react"` etc. would resolve
+      // to the ui monorepo's own copies — two Reacts → invalid-hook
+      // "useContext of null" crashes, and react-intl's context is per copy
+      // too. Force a single copy (the app's) of everything they share with it.
       dedupe: [
         "react",
         "react-dom",
         "react-aria-components",
         "react-aria",
         "react-stately",
+        "react-intl",
+        "react-icons",
+        "swiper",
       ],
     },
   };
