@@ -66,7 +66,7 @@ const allFlags: FlagMetadata[] = [
   { name: "dndDebug", defaultOnStages: [] },
   { name: "noLang", defaultOnStages: [] },
   { name: "translate", defaultOnStages: [] },
-  { name: "noWelcome", defaultOnStages: ["local", "REVIEW"] },
+  { name: "noWelcome", defaultOnStages: ["local"] },
   {
     name: "pwa",
     defaultOnStages: ["REVIEW", "STAGING", "PRODUCTION"],
