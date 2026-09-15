@@ -737,6 +737,12 @@
   "simulator-touch-logo": {
     "defaultMessage": "터치 로고"
   },
+  "simulator-unit-degrees": {
+    "defaultMessage": "도"
+  },
+  "simulator-unit-milli-g": {
+    "defaultMessage": "밀리지(milli-g)"
+  },
   "simulator-unmute": {
     "defaultMessage": "음소거 해제"
   },

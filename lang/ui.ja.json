@@ -740,6 +740,18 @@
   "simulator-touch-logo": {
     "defaultMessage": "タッチロゴ"
   },
+  "simulator-unit-celsius": {
+    "defaultMessage": "セ氏（セルシウス温度）"
+  },
+  "simulator-unit-degrees": {
+    "defaultMessage": "゜(度)"
+  },
+  "simulator-unit-milli-g": {
+    "defaultMessage": "ミリ秒"
+  },
+  "simulator-unit-nanotesla": {
+    "defaultMessage": "ナノT（テスラ）"
+  },
   "simulator-unmute": {
     "defaultMessage": "ミュート解除"
   },
