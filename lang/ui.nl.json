@@ -419,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "De projectnaam kan niet leeg zijn"
   },
-  "project-tab": {
-    "defaultMessage": "Project"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Bekijk, aanmaken, toevoegen en bewerken van de bestanden in je project"
-  },
   "python-powered": {
     "defaultMessage": "Python actief"
   },

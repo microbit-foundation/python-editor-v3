@@ -331,6 +331,14 @@
     "defaultMessage": "The name cannot contain spaces",
     "description": "Warning text for new Python file name with whitespace"
   },
+  "files-tab": {
+    "defaultMessage": "Files",
+    "description": "Files tab button text. Tab shows the files in the project."
+  },
+  "files-tab-description": {
+    "defaultMessage": "Add Python modules to support micro:bit accessories or organise larger projects",
+    "description": "Files tab description text. Tab shows the files in the project."
+  },
   "firmware-update-link": {
     "defaultMessage": "You must <link>update your firmware</link> before you can connect to this micro:bit.",
     "description": "Text in the firmware update dialog"
@@ -669,14 +677,6 @@
   "project-storage-tooltip": {
     "defaultMessage": "Your data is saved in this browser on this device. Clearing your browser's cookies or site data will delete it. It may also be automatically removed by your browser if your device is low on storage.",
     "description": "Tooltip on the home page projects row heading explaining where projects are stored"
-  },
-  "project-tab": {
-    "defaultMessage": "Files",
-    "description": "Files tab button text (the project's files)"
-  },
-  "project-tab-description": {
-    "defaultMessage": "View, create, add and edit the files in your project",
-    "description": "Project tab description"
   },
   "projects-page-title": {
     "defaultMessage": "Projects",

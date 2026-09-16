@@ -95,7 +95,7 @@ const SideBar = ({
       },
       {
         id: "project" as const,
-        title: intl.formatMessage({ id: "project-tab" }),
+        title: intl.formatMessage({ id: "files-tab" }),
         icon: VscFiles,
         contents: (
           <ProjectArea

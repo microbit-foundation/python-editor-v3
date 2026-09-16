@@ -419,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "プロジェクト名は空にできません"
   },
-  "project-tab": {
-    "defaultMessage": "プロジェクト"
-  },
-  "project-tab-description": {
-    "defaultMessage": "プロジェクト内のファイルの表示、作成、追加、編集"
-  },
   "python-powered": {
     "defaultMessage": "Python搭載"
   },

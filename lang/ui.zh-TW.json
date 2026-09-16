@@ -416,12 +416,6 @@
   "project-name-not-empty": {
     "defaultMessage": "專案名稱不可為空白"
   },
-  "project-tab": {
-    "defaultMessage": "專案"
-  },
-  "project-tab-description": {
-    "defaultMessage": "檢視、建立、新增和編輯專案中的檔案"
-  },
   "python-powered": {
     "defaultMessage": "已啟動 Python"
   },

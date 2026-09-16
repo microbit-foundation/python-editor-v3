@@ -419,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "El nom del projecte no pot estar buit"
   },
-  "project-tab": {
-    "defaultMessage": "Projecte"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Visualitza, crea, afegeix i edita els fitxers del teu projecte"
-  },
   "python-powered": {
     "defaultMessage": "Fet amb Python"
   },
