@@ -419,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "项目名称不能为空"
   },
-  "project-tab": {
-    "defaultMessage": "项目"
-  },
-  "project-tab-description": {
-    "defaultMessage": "查看、创建、添加和编辑您项目中的文件"
-  },
   "python-powered": {
     "defaultMessage": "Python 驱动"
   },
