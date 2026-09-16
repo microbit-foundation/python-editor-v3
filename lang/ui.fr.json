@@ -419,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "Le nom du projet ne peut pas être vide"
   },
-  "project-tab": {
-    "defaultMessage": "Projet"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Visualiser, créer, ajouter et modifier les fichiers de votre projet"
-  },
   "python-powered": {
     "defaultMessage": "Fonctionne avec Python"
   },

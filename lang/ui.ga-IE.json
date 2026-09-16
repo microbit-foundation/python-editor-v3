@@ -419,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "Ní féidir ainm an tionscadail a fholmhú"
   },
-  "project-tab": {
-    "defaultMessage": "Tionscadal"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Amharc ar na comhaid i do thionscadal, iad a chruthú, a chur leis agus a chur in eagar"
-  },
   "python-powered": {
     "defaultMessage": "Python faoi thiomáint"
   },
