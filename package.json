@@ -13,12 +13,12 @@
     "protobufjs": false
   },
   "dependencies": {
-    "@codemirror/autocomplete": "^6.16.0",
-    "@codemirror/commands": "6.11.0",
-    "@codemirror/lang-python": "^6.1.6",
-    "@codemirror/language": "^6.10.1",
-    "@codemirror/state": "^6.7.4",
-    "@codemirror/view": "^6.26.3",
+    "@codemirror/autocomplete": "^6.20.3",
+    "@codemirror/commands": "^6.11.1",
+    "@codemirror/lang-python": "^6.2.1",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/state": "^6.7.5",
+    "@codemirror/view": "^6.43.12",
     "@microbit/microbit-connection": "^1.0.0",
     "@microbit/microbit-fs": "^0.10.0",
     "@microbit/micropython-microbit-stubs": "^1.0.0",
