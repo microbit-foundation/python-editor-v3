@@ -15,7 +15,7 @@ env:
   # renovate: datasource=npm depName=npm
   NPM_VERSION: "11"
   # renovate: datasource=npm depName=@microbit-foundation/python-editor-v3-microbit registryUrl=https://npm.pkg.github.com
-  THEME_VERSION: 0.4.0
+  THEME_VERSION: 0.0.0-home.page.114
   # renovate: datasource=npm depName=@microbit-foundation/website-deploy-aws registryUrl=https://npm.pkg.github.com
   DEPLOY_AWS_VERSION: "0.6.0"
   # renovate: datasource=npm depName=@microbit-foundation/website-deploy-aws-config registryUrl=https://npm.pkg.github.com
@@ -74,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: reports
-          path: reports/
+          path: playwright-report/
           retention-days: 3
       - run: npm run deploy
         if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())

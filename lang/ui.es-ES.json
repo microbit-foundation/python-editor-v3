@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "Cancelar"
   },
-  "change-files": {
-    "defaultMessage": "¿Cambiar archivos?"
-  },
   "choose-main-add-file": {
     "defaultMessage": "Añadir archivo {name}"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "Confirmar eliminación"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "¿Sustituir todos los archivos por los del HEX?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "¿Sustituir todos los archivos por el código de inicio predeterminado?"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "¿Sustituir proyecto?"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "¿Sustituir todos los archivos por {ideaName}?"
-  },
   "confirm-save-action": {
     "defaultMessage": "Confirmar y guardar"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "Cancela y utiliza Guardar para conservar una copia de tu proyecto."
   },
   "connect-action": {
     "defaultMessage": "Conectar"
@@ -392,17 +374,8 @@
   "open-action": {
     "defaultMessage": "Abrir"
   },
-  "open-file-action": {
-    "defaultMessage": "Abrir…"
-  },
   "open-file-dropped": {
     "defaultMessage": "Abrir archivo al soltarlo"
-  },
-  "open-hover": {
-    "defaultMessage": "Abre un archivo HEX o Python o añade otros archivos"
-  },
-  "options": {
-    "defaultMessage": "Opciones"
   },
   "parameter-help": {
     "defaultMessage": "Ayuda con parámetros"
@@ -446,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "El nombre del proyecto no puede estar en blanco"
   },
-  "project-tab": {
-    "defaultMessage": "Proyecto"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Ver, crear, añadir y editar los archivos del proyecto"
-  },
   "python-powered": {
     "defaultMessage": "Funciona con Python"
   },
@@ -472,18 +439,6 @@
   },
   "reference-tab": {
     "defaultMessage": "Referencia"
-  },
-  "replace-action-label": {
-    "defaultMessage": "Sustituir"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Restablecer proyecto"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Proyecto restablecido al código de inicio predeterminado"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Restablece el proyecto al código de inicio predeterminado, descartando tu trabajo"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Ningún resultado} one {# resultado} other {# resultados}}"

@@ -108,26 +108,80 @@ No `destination` param: the editor only downloads. ml-trainer's
 ### `project_import`
 
 User brought files in. Fires once per drop / picker selection, before the
-files are parsed, so it counts attempts.
+files are parsed, so it counts attempts. A hex always becomes a new project.
+Other files join the open project from the editor and become a new project
+from the home and projects pages.
 
-| Param    | Values                                                                                                                                     |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `source` | `drop` / `file_picker` (same values as ml-trainer)                                                                                         |
-| `format` | `hex` (replaces the project) / `py` (Python file added to the project) / `other` (any other single file) / `multiple` (more than one file) |
-
-### `project_reset`
-
-User chose Reset project, replacing everything with the starter program. Fires
-when the menu action is chosen, before the confirm dialog. No params.
+| Param     | Values                                                                                                       |
+| --------- | ------------------------------------------------------------------------------------------------------------ |
+| `source`  | `drop` / `file_picker` (same values as ml-trainer)                                                           |
+| `format`  | `hex` / `py` (a single Python file) / `other` (any other single file) / `multiple` (more than one file)      |
+| `surface` | `editor` (the Files tab or a drop on the editor) / `home` (the projects row's Import button or a drop there) |
 
 ### `project_rename`
 
 User set the project name, from the header or the name-your-project prompt on
-save. No params.
+save, with no params; or from a project card or the projects toolbar, with
+`surface`.
+
+| Param     | Values                                                    |
+| --------- | --------------------------------------------------------- |
+| `surface` | `home` / `projects` (absent when renamed from the editor) |
+
+## Project management events
+
+The home and projects pages, aligned with ml-trainer's events of the same
+names so one set of custom definitions serves both.
+
+### `project_create`
+
+User named and created a new project from the home page.
+
+| Param     | Values |
+| --------- | ------ |
+| `surface` | `home` |
+
+### `project_open`
+
+User opened a project from a card or its menu.
+
+| Param     | Values              |
+| --------- | ------------------- |
+| `surface` | `home` / `projects` |
+
+### `project_duplicate`
+
+| Param     | Values              |
+| --------- | ------------------- |
+| `surface` | `home` / `projects` |
+
+### `project_delete`
+
+Fires once for a single delete and once for a multi-select delete, after the
+user confirms.
+
+| Param     | Values                                                    |
+| --------- | --------------------------------------------------------- |
+| `count`   | int (1 for a card's menu; the selection's size otherwise) |
+| `surface` | `home` / `projects`                                       |
+
+### `project_search`
+
+Projects page only. Fires once per intentional search, 400ms after the last
+keystroke, not per keypress. No params.
+
+### `project_sort`
+
+Projects page only. Fires when the user changes the sort field or direction.
+
+| Param       | Values                                         |
+| ----------- | ---------------------------------------------- |
+| `field`     | `name` / `timestamp` (last modified or opened) |
+| `direction` | `asc` / `desc`                                 |
 
 ### `idea_open`
 
-User opened an idea into the editor.
+User opened an idea from the documentation as a new project.
 
 | Param | Values                     |
 | ----- | -------------------------- |
@@ -234,6 +288,7 @@ reading old dashboards.
 
 | Old name                                                                                           | Status                                                                                                                                |
 | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `project_reset`                                                                                    | Removed with the Reset project action (September 2026); replacing a program means importing from the home page.                       |
 | `boot` → `WebUSB-available`                                                                        | Dropped. Replaced by the `webusb_available` user property. `session_start` auto-fires.                                                |
 | `connect`                                                                                          | Replaced by `device_step` (`task: connect`) and `device_success` / `device_failure` / `device_exit`.                                  |
 | `disconnect`                                                                                       | Renamed `device_disconnect`; widened with `reason` to also capture unexpected drops.                                                  |

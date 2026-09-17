@@ -28,3 +28,12 @@ export const microbitOrgMiciProjectsUrl = (languageId: string) =>
   `https://microbit.org/${langPath(
     languageId
   )}projects/make-it-code-it/?filters=python`;
+
+/** A "make it: code it" project, opened for the Python editor. */
+export const microbitOrgProjectUrl = (slug: string, languageId: string) =>
+  `https://microbit.org/${langPath(
+    languageId
+  )}projects/make-it-code-it/${encodeURIComponent(slug)}/?editor=python`;
+
+export const microbitOrgLessonUrl = (slug: string) =>
+  `https://microbit.org/teach/lessons/${encodeURIComponent(slug)}/`;
