@@ -3,6 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
+// Before everything else so the shims are in place for module initialisation.
+import "./polyfills";
 // The CSS entry point: declares the cascade-layer order Panda's PostCSS
 // plugin fills, and the vendor-layer imports. First so app styles cascade
 // after it.
