@@ -90,7 +90,6 @@
     "ci": "npm run typecheck && npm run test && npm run lint && npm run i18n:tidy -- --check && npm run build",
     "deploy": "website-deploy-aws",
     "dev:link-ui": "rm -rf node_modules/@microbit/ui node_modules/@microbit/ui-patterns node_modules/@microbit/i18n-tools && ln -s ../../../ui/packages/ui node_modules/@microbit/ui && ln -s ../../../ui/packages/ui-patterns node_modules/@microbit/ui-patterns && ln -s ../../../ui/packages/i18n-tools node_modules/@microbit/i18n-tools && ln -sf ../@microbit/i18n-tools/bin/microbit-i18n.mjs node_modules/.bin/microbit-i18n && rm -rf styled-system node_modules/.vite && npm run panda",
-    "fix-licensing-headers": "node bin/fix-licensing-headers.cjs",
     "generate": "npm run panda && npm run i18n:compile && npm run stubs",
     "i18n:compile": "microbit-i18n compile",
     "invalidate": "aws cloudfront create-invalidation --distribution-id $(printenv ${STAGE}_CLOUDFRONT_DISTRIBUTION_ID) --paths \"/*\"",
