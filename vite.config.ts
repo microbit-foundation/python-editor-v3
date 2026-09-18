@@ -110,6 +110,11 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 3000,
+      strictPort: true,
+    },
+    preview: {
+      port: 4000,
+      strictPort: true,
     },
     assetsInclude: ["**/*.hex"],
     plugins: [

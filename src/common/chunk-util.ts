@@ -14,7 +14,7 @@ export const retryAsyncLoad = async <T>(
 ): Promise<T> => {
   let waitTime = 250;
   let attempts = 0;
-   
+
   while (true) {
     try {
       // Must await here!

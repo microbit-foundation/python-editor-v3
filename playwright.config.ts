@@ -1,5 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// The page objects build their absolute URLs from E2E_PORT, so it has to
+// name whichever server this run starts: the dev server locally, or
+// `vite preview` on the production build in CI.
+const port = process.env.CI ? 4000 : 3000;
+process.env.E2E_PORT ??= String(port);
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -35,12 +41,12 @@ export default defineConfig({
   webServer: {
     ...(process.env.CI
       ? {
-          command: `npx vite preview --port 3000 --base ${process.env.BASE_URL}`,
-          url: `http://localhost:3000${process.env.BASE_URL}`,
+          command: `npx vite preview --port ${port} --base ${process.env.BASE_URL}`,
+          url: `http://localhost:${port}${process.env.BASE_URL}`,
         }
       : {
-          command: "npm run start",
-          url: "http://localhost:3000",
+          command: "npm run dev",
+          url: `http://localhost:${port}`,
         }),
     reuseExistingServer: !process.env.CI,
   },
