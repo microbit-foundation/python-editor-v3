@@ -48,13 +48,16 @@ If you have a connected micro:bit device, then setting the environment variable 
 
 ### `npm run test:e2e`
 
-Launches the test runner in the interactive watch mode running the end to end tests.
+Opens the [Playwright](https://playwright.dev/) UI to run the end to end tests.
+`npm run test:e2e:headless` runs them without it.
 
 These are excluded from the normal test run.
 
-The tests expect the app to already be running on http://localhost:3000, for example via `npm run dev`.
+Playwright starts the dev server itself, reusing one already running on
+http://localhost:3000 if there is one.
 
-We use [Playwright](https://playwright.dev/).
+The browsers are a separate download: run `npx playwright install` before the
+first run.
 
 The CI tests run these end-to-end tests against a production build.
 
