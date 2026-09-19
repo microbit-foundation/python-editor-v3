@@ -23,7 +23,7 @@ env:
 
 jobs:
   build:
-    timeout-minutes: 15
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -60,12 +60,9 @@ jobs:
       - run: npm run ci
         env:
           VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-      - run: mkdir -p /tmp/app${BASE_URL} && cp -r build/* /tmp/app${BASE_URL} && npx serve --no-clipboard -l 3000 /tmp/app &
-        if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-      - run: curl --insecure -4 --retry 7 --retry-connrefused http://localhost:3000 1>/dev/null
-        if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
       - name: Run Playwright tests
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
+        timeout-minutes: 10
         uses: docker://mcr.microsoft.com/playwright:v1.63.0-noble
         with:
           args: npx playwright test
@@ -73,8 +70,8 @@ jobs:
         if: (env.STAGE == 'REVIEW' || env.STAGE == 'STAGING') && failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: reports
-          path: reports/
+          name: playwright-report
+          path: playwright-report/
           retention-days: 3
       - run: npm run deploy
         if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())

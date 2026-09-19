@@ -26,9 +26,9 @@ Getting up and running:
 1. Ensure you have a working [Node.js environment](https://nodejs.org/en/download/). We recommend using the LTS version of Node and NPM version 8 or newer.
 2. Checkout this repository with Git. GitHub have some [learning resources for Git](https://docs.github.com/en/get-started/quickstart/git-and-github-learning-resources) that you may find useful.
 3. Install the dependencies by running `npm install` on the command line in the checkout folder.
-4. Choose from the NPM scripts documented below. Try `npm start` if you're not sure.
+4. Choose from the NPM scripts documented below. Try `npm run dev` if you're not sure.
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode.
 
@@ -48,13 +48,16 @@ If you have a connected micro:bit device, then setting the environment variable 
 
 ### `npm run test:e2e`
 
-Launches the test runner in the interactive watch mode running the end to end tests.
+Opens the [Playwright](https://playwright.dev/) UI to run the end to end tests.
+`npm run test:e2e:headless` runs them without it.
 
 These are excluded from the normal test run.
 
-The tests expect the app to already be running on http://localhost:3000, for example via `npm start`.
+Playwright starts the dev server itself, reusing one already running on
+http://localhost:3000 if there is one.
 
-We use [Playwright](https://playwright.dev/).
+The browsers are a separate download: run `npx playwright install` before the
+first run.
 
 The CI tests run these end-to-end tests against a production build.
 
