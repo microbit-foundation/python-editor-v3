@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
 import ejs from "ejs";
 import fs from "node:fs";
@@ -221,6 +222,20 @@ export default defineConfig(({ mode }) => {
         },
       }),
       viteRemoveManifestPlugin(),
+      // Source maps are public (open source) so there's nothing to delete;
+      // uploading them means Sentry doesn't depend on fetching from the CDN.
+      process.env.SENTRY_AUTH_TOKEN
+        ? sentryVitePlugin({
+            org: "microbit",
+            project: "python-editor-next",
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            telemetry: false,
+            release: {
+              // Must match the release passed to Sentry.init in src/logging/sentry.ts.
+              name: `python-editor-v${process.env.VITE_VERSION}`,
+            },
+          })
+        : false,
     ],
     test: unitTest,
     resolve: {

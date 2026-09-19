@@ -6,6 +6,7 @@
   "private": true,
   "type": "module",
   "allowScripts": {
+    "@sentry/cli": true,
     "aws-sdk": false,
     "core-js": false,
     "esbuild": true,
@@ -63,6 +64,7 @@
     "@microbit/i18n-tools": "^0.2.0",
     "@pandacss/dev": "^1.11.4",
     "@playwright/test": "^1.58.2",
+    "@sentry/vite-plugin": "^5.4.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.0.0",
