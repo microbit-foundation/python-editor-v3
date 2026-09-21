@@ -60,6 +60,8 @@ jobs:
       - run: npm run ci
         env:
           VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          # Uploads source maps to Sentry. Review builds don't report to Sentry.
+          SENTRY_AUTH_TOKEN: ${{ env.STAGE != 'REVIEW' && secrets.SENTRY_AUTH_TOKEN || '' }}
       - name: Run Playwright tests
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
         timeout-minutes: 10
