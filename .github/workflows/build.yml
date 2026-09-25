@@ -17,9 +17,7 @@ env:
   # renovate: datasource=npm depName=@microbit-foundation/python-editor-v3-microbit registryUrl=https://npm.pkg.github.com
   THEME_VERSION: 0.4.0
   # renovate: datasource=npm depName=@microbit-foundation/website-deploy-aws registryUrl=https://npm.pkg.github.com
-  DEPLOY_AWS_VERSION: "0.6.0"
-  # renovate: datasource=npm depName=@microbit-foundation/website-deploy-aws-config registryUrl=https://npm.pkg.github.com
-  DEPLOY_AWS_CONFIG_VERSION: "0.10.1"
+  DEPLOY_AWS_VERSION: "1.0.1"
 
 jobs:
   build:
@@ -51,7 +49,7 @@ jobs:
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@${{ env.THEME_VERSION }} @microbit-foundation/website-deploy-aws@${{ env.DEPLOY_AWS_VERSION }} @microbit-foundation/website-deploy-aws-config@${{ env.DEPLOY_AWS_CONFIG_VERSION }}
+      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@${{ env.THEME_VERSION }} @microbit-foundation/website-deploy-aws@${{ env.DEPLOY_AWS_VERSION }}
         if: github.repository_owner == 'microbit-foundation'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -80,6 +78,9 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.WEB_DEPLOY_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.WEB_DEPLOY_AWS_SECRET_ACCESS_KEY }}
+          # Set to 1 for one deploy after changing params in deployment.js,
+          # as unchanged files are otherwise skipped.
+          WEBSITE_DEPLOY_FORCE: 0
       - run: npm run invalidate
         if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())
         env:
