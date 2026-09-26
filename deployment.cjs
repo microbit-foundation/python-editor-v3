@@ -5,7 +5,7 @@
  */
 const {
   createDeploymentDetailsFromOptions,
-} = require("@microbit-foundation/website-deploy-aws-config");
+} = require("@microbit-foundation/website-deploy-aws");
 
 const { s3Config } = createDeploymentDetailsFromOptions({
   production: {
@@ -26,8 +26,6 @@ module.exports = {
   ...s3Config,
   region: "eu-west-1",
   removeNonexistentObjects: true,
-  enableS3StaticWebsiteHosting: true,
-  errorDocumentKey: "index.html",
   redirects: [],
   params: {
     "**/**.html": {
