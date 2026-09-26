@@ -80,7 +80,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.WEB_DEPLOY_AWS_SECRET_ACCESS_KEY }}
           # Set to 1 for one deploy after changing params in deployment.js,
           # as unchanged files are otherwise skipped.
-          WEBSITE_DEPLOY_FORCE: 0
+          WEBSITE_DEPLOY_FORCE: 1
       - run: npm run invalidate
         if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())
         env:
