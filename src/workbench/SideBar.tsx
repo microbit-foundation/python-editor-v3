@@ -3,15 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { usePrevious } from "@microbit/ui";
+import { Icon, usePrevious } from "@microbit/ui";
 import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
 import { TabList, TabPanel, TabPanels, Tabs } from "react-aria-components";
 import { IconType } from "react-icons";
-import { RiLightbulbFlashLine } from "react-icons/ri";
+import { RiHome2Line, RiLightbulbFlashLine } from "react-icons/ri";
 import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
-import { css } from "styled-system/css";
-import { Box, Flex, styled, VStack } from "styled-system/jsx";
+import { Link as RouterLink } from "react-router";
+import { css, cx } from "styled-system/css";
+import { Flex, styled, VStack } from "styled-system/jsx";
+import { button } from "styled-system/recipes";
 import { SystemStyleObject } from "styled-system/types";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
@@ -19,9 +21,12 @@ import ApiArea from "../documentation/ApiArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import { flags } from "../flags";
+import { useProjectsDatabaseActive } from "../fs/storage-status";
+import { useIframeMode } from "../iframe-mode-hooks";
 import ProjectArea from "../project/ProjectArea";
 import { TabName, useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
+import { createHomePageUrl } from "../urls";
 import HelpMenu from "./HelpMenu";
 import PreReleaseNotice, { useReleaseDialogState } from "./PreReleaseNotice";
 import ReleaseDialogs from "./ReleaseDialogs";
@@ -226,7 +231,16 @@ const SideBar = ({
             branded background (a wrapper because react-aria's TabList may
             only contain tabs). */}
         <Flex direction="column" background="sidebarTablistBg">
-          <Box flex="1" maxHeight="8.9rem" minHeight="8"></Box>
+          <VStack
+            flex="1"
+            maxHeight="8.9rem"
+            minHeight="20"
+            pt="5"
+            justifyContent="flex-start"
+            color="white"
+          >
+            <SideBarHomeLink />
+          </VStack>
           <TabList
             // Flexes so the API tab's mb:auto pushes the project tab (and
             // the menus below the list) to the bottom, as in the old
@@ -299,6 +313,32 @@ const SideBar = ({
         dialog={releaseDialog}
       />
     </styled.section>
+  );
+};
+
+/**
+ * Home, above the tabs and apart from them. Only where there is a home page,
+ * as for the header logo.
+ */
+const SideBarHomeLink = () => {
+  const intl = useIntl();
+  const projectsDatabaseActive = useProjectsDatabaseActive();
+  const iframeMode = useIframeMode();
+  if (!projectsDatabaseActive || iframeMode) {
+    return null;
+  }
+  return (
+    <RouterLink
+      to={createHomePageUrl()}
+      aria-label={intl.formatMessage({ id: "home-action" })}
+      className={cx(
+        button({ variant: "sidebar", size: "lg" }),
+        css({ px: "0" })
+      )}
+    >
+      {/* Sized as the tab icons rather than the menus below. */}
+      <Icon as={RiHome2Line} aria-hidden css={{ width: "6", height: "6" }} />
+    </RouterLink>
   );
 };
 
