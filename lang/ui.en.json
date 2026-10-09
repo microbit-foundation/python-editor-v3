@@ -43,6 +43,10 @@
     "defaultMessage": "Added file {changeName}",
     "description": "Change made to file"
   },
+  "all-projects-action": {
+    "defaultMessage": "All projects",
+    "description": "Link beside the home page \"Make it: code it\" row heading leading to all those projects on microbit.org"
+  },
   "api-description": {
     "defaultMessage": "For usage and examples, see <link>Reference</link>",
     "description": "Extended description at the top of the API tab"
@@ -477,6 +481,38 @@
   "loading": {
     "defaultMessage": "Loading…",
     "description": "Shown on loading indicators"
+  },
+  "mici-project-hot-potato-game-title": {
+    "defaultMessage": "Hot potato game",
+    "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
+  },
+  "mici-project-indoor-outdoor-thermometer-title": {
+    "defaultMessage": "Indoor-outdoor thermometer",
+    "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
+  },
+  "mici-project-maxmin-temperature-logger-title": {
+    "defaultMessage": "Max-min temperature logger",
+    "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
+  },
+  "mici-project-sensitive-step-counter-title": {
+    "defaultMessage": "Sensitive step counter",
+    "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
+  },
+  "mici-project-teleporting-duck-title": {
+    "defaultMessage": "Teleporting duck",
+    "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
+  },
+  "mici-project-thermometer-title": {
+    "defaultMessage": "Thermometer",
+    "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
+  },
+  "mici-project-treasure-hunt-title": {
+    "defaultMessage": "Treasure hunt",
+    "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
+  },
+  "mici-projects-row-title": {
+    "defaultMessage": "Make it: code it projects",
+    "description": "Heading of the home page row of \"Make it: code it\" project cards from microbit.org"
   },
   "microbit-hearts-alt": {
     "defaultMessage": "micro:bit board with the 5 by 5 LED grid showing a heart",

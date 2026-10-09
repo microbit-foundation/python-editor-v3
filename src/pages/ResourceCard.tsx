@@ -52,6 +52,7 @@ const ResourceCard = ({
           alt=""
           h="100%"
           w="100%"
+          objectFit="cover"
           // Dynamic, so not extractable as a style prop.
           style={
             imagePadding ? { padding: `${imagePadding * 0.25}rem` } : undefined

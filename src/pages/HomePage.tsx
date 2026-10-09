@@ -26,6 +26,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { Link as RouterLink, useNavigate } from "react-router";
 import FileDropTarget from "../common/FileDropTarget";
 import { useDeployment } from "../deployment";
+import { microbitOrgMiciProjectsUrl } from "../external-links";
 import { useSettings } from "../settings/settings";
 import { createProjectsPageUrl } from "../urls";
 import ActionCard from "./ActionCard";
@@ -41,6 +42,7 @@ import {
 import {
   createHelpCards,
   createLessonCards,
+  createMiciProjectCards,
   createProjectIdeaCards,
 } from "./resource-cards";
 
@@ -74,6 +76,19 @@ const HomePage = () => {
         <CarouselRow
           carouselItems={createLessonCards(intl)}
           title={<FormattedMessage id="teacher-resources-row-title" />}
+          navigation
+        />
+        <CarouselRow
+          carouselItems={createMiciProjectCards(intl, languageId)}
+          title={<FormattedMessage id="mici-projects-row-title" />}
+          actions={
+            <a
+              href={microbitOrgMiciProjectsUrl(languageId)}
+              className={rowLinkClassName}
+            >
+              <FormattedMessage id="all-projects-action" />
+            </a>
+          }
           navigation
         />
         <CarouselRow
@@ -241,20 +256,20 @@ const ViewAllProjectsCard = () => {
   );
 };
 
+/** A text link beside a row heading. */
+const rowLinkClassName = css({
+  color: "brand.700",
+  fontWeight: "semibold",
+  borderRadius: "md",
+  px: 2,
+  py: 1,
+  textDecoration: "none",
+  _hover: { textDecoration: "underline" },
+  _focusVisible: { focusRing: "outline" },
+});
+
 const ViewAllProjectsLink = () => (
-  <RouterLink
-    to={createProjectsPageUrl()}
-    className={css({
-      color: "brand.700",
-      fontWeight: "semibold",
-      borderRadius: "md",
-      px: 2,
-      py: 1,
-      textDecoration: "none",
-      _hover: { textDecoration: "underline" },
-      _focusVisible: { focusRing: "outline" },
-    })}
-  >
+  <RouterLink to={createProjectsPageUrl()} className={rowLinkClassName}>
     <FormattedMessage id="view-all-projects" />
   </RouterLink>
 );

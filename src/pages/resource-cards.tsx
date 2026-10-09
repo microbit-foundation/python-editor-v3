@@ -14,6 +14,13 @@ import firstLessonsImage from "theme-package/images/first-lessons-python.svg";
 import flashingEmotions from "theme-package/images/flashing-emotions.jpg";
 import getSilly from "theme-package/images/get-silly.png";
 import heart from "theme-package/images/heart.png";
+import hotPotatoGame from "theme-package/images/hot-potato-game.jpg";
+import indoorOutdoorThermometer from "theme-package/images/indoor-outdoor-thermometer.png";
+import maxminTemperatureLogger from "theme-package/images/maxmin-temperature-logger.png";
+import sensitiveStepCounter from "theme-package/images/sensitive-step-counter.jpg";
+import teleportingDuck from "theme-package/images/teleporting-duck.jpg";
+import thermometer from "theme-package/images/thermometer.png";
+import treasureHunt from "theme-package/images/treasure-hunt.png";
 import troubleshootingImage from "theme-package/images/troubleshooting.svg";
 import userGuideImage from "theme-package/images/user-guide.svg";
 import { BrandConfig } from "../deployment";
@@ -63,6 +70,61 @@ export const createProjectIdeaCards = (intl: IntlShape, languageId: string) =>
       title={intl.formatMessage({ id: idea.titleId })}
       url={microbitOrgProjectUrl(idea.slug, languageId)}
       imgSrc={idea.imgSrc}
+    />
+  ));
+
+interface MiciProject {
+  titleId: string;
+  /** The "make it: code it" project's slug on microbit.org. */
+  slug: string;
+  imgSrc: string;
+}
+
+const miciProjects: MiciProject[] = [
+  {
+    titleId: "mici-project-thermometer-title",
+    slug: "thermometer",
+    imgSrc: thermometer,
+  },
+  {
+    titleId: "mici-project-sensitive-step-counter-title",
+    slug: "sensitive-step-counter",
+    imgSrc: sensitiveStepCounter,
+  },
+  {
+    titleId: "mici-project-treasure-hunt-title",
+    slug: "treasure-hunt",
+    imgSrc: treasureHunt,
+  },
+  {
+    titleId: "mici-project-maxmin-temperature-logger-title",
+    slug: "maxmin-temperature-logger",
+    imgSrc: maxminTemperatureLogger,
+  },
+  {
+    titleId: "mici-project-indoor-outdoor-thermometer-title",
+    slug: "indoor-outdoor-thermometer",
+    imgSrc: indoorOutdoorThermometer,
+  },
+  {
+    titleId: "mici-project-teleporting-duck-title",
+    slug: "teleporting-duck",
+    imgSrc: teleportingDuck,
+  },
+  {
+    titleId: "mici-project-hot-potato-game-title",
+    slug: "hot-potato-game",
+    imgSrc: hotPotatoGame,
+  },
+];
+
+export const createMiciProjectCards = (intl: IntlShape, languageId: string) =>
+  miciProjects.map((project) => (
+    <ResourceCard
+      key={project.titleId}
+      title={intl.formatMessage({ id: project.titleId })}
+      url={microbitOrgProjectUrl(project.slug, languageId)}
+      imgSrc={project.imgSrc}
     />
   ));
 
