@@ -35,6 +35,7 @@ import ProjectIcon from "./ProjectIcon";
 import HomepageBanner from "./HomepageBanner";
 import HomepageFooter from "./HomepageFooter";
 import {
+  useCreateProject,
   useImportProjectFiles,
   usePageProjects,
   useProjectPageActions,
@@ -54,6 +55,7 @@ const HomePage = () => {
   const intl = useIntl();
   const [{ languageId }] = useSettings();
   const brand = useDeployment();
+  const createProject = useCreateProject("home");
   const importFiles = useImportProjectFiles();
   const handleDrop = useCallback(
     (files: File[]) => void importFiles(files, "drop"),
@@ -69,7 +71,7 @@ const HomePage = () => {
         <HomepageBanner />
         <ProjectsRow />
         <CarouselRow
-          carouselItems={createIdeaCards(intl)}
+          carouselItems={createIdeaCards(intl, createProject)}
           title={<FormattedMessage id="ideas-row-title" />}
           navigation
         />

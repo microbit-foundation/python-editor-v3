@@ -10,10 +10,10 @@ import {
   Image,
   LinkBox,
   LinkOverlay,
+  LinkOverlayButton,
   VStack,
 } from "@microbit/ui";
 import { ReactNode } from "react";
-import { useHref, useLinkClickHandler } from "react-router";
 
 type ResourceCardProps = {
   /** A 2:1 image area instead of 4:3. */
@@ -25,12 +25,12 @@ type ResourceCardProps = {
   imgSrc: string;
   title: ReactNode;
 } & (
-  | { /** A page on another site. */ url: string; to?: undefined }
-  | { /** A path within the app; see urls.ts. */ to: string; url?: undefined }
+  | { /** A page on another site. */ url: string; onClick?: undefined }
+  | { /** An action within the app. */ onClick: () => void; url?: undefined }
 );
 
 /**
- * A card linking to a resource on another site or within the app.
+ * A card linking to a resource on another site, or doing something in the app.
  */
 const ResourceCard = ({
   wide,
@@ -38,7 +38,7 @@ const ResourceCard = ({
   imageFit = "cover",
   imgSrc,
   url,
-  to,
+  onClick,
   title,
 }: ResourceCardProps) => (
   <LinkBox
@@ -76,8 +76,18 @@ const ResourceCard = ({
     </AspectRatio>
     <VStack p={3} py={2} pb={3} flexGrow={1} gap={3} alignItems="stretch">
       <Heading as="h3" fontSize="lg" fontWeight="bold" m={3}>
-        {to !== undefined ? (
-          <RouterLinkOverlay to={to}>{title}</RouterLinkOverlay>
+        {onClick ? (
+          <LinkOverlayButton
+            onClick={onClick}
+            css={{
+              fontSize: "inherit",
+              fontWeight: "inherit",
+              textAlign: "start",
+              whiteSpace: "normal",
+            }}
+          >
+            {title}
+          </LinkOverlayButton>
         ) : (
           <LinkOverlay href={url} _focusVisible={{ focusRing: "outline" }}>
             {title}
@@ -87,26 +97,5 @@ const ResourceCard = ({
     </VStack>
   </LinkBox>
 );
-
-/** LinkOverlay through react-router, so the href respects the basename. */
-const RouterLinkOverlay = ({
-  to,
-  children,
-}: {
-  to: string;
-  children: ReactNode;
-}) => {
-  const href = useHref(to);
-  const handleClick = useLinkClickHandler(to);
-  return (
-    <LinkOverlay
-      href={href}
-      onClick={handleClick}
-      _focusVisible={{ focusRing: "outline" }}
-    >
-      {children}
-    </LinkOverlay>
-  );
-};
 
 export default ResourceCard;

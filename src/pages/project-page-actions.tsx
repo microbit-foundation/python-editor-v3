@@ -6,7 +6,13 @@
  * SPDX-License-Identifier: MIT
  */
 import { ProjectSummary, useProjectActions } from "@microbit/ui-patterns";
-import { useCallback, useMemo } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { useIntl } from "react-intl";
 import { useNavigate } from "react-router";
 import useActionFeedback from "../common/use-action-feedback";
@@ -18,6 +24,7 @@ import {
   isQuotaExceededError,
   useShowStorageError,
 } from "../project/storage-error-toast";
+import { RouterState } from "../router-hooks";
 import { createEditorUrl } from "../urls";
 
 /** Which page an action happened on, for analytics. */
@@ -28,30 +35,62 @@ export interface PageProject extends ProjectSummary {
 }
 
 /**
+ * Set while a new project is created and the editor opened on it, so the
+ * page doesn't show the new card in the moment before it navigates away.
+ * Cleared if that doesn't happen, otherwise when the page unmounts: the
+ * router commits the editor in a transition after navigate resolves.
+ */
+let leavingPage = false;
+const leavingPageListeners = new Set<() => void>();
+
+const setLeavingPage = (value: boolean) => {
+  leavingPage = value;
+  leavingPageListeners.forEach((listener) => listener());
+};
+
+/** Runs `action`, which resolves true if it navigated away. */
+const whileLeavingPage = async (action: () => Promise<boolean>) => {
+  setLeavingPage(true);
+  let left = false;
+  try {
+    left = await action();
+  } finally {
+    if (!left) {
+      setLeavingPage(false);
+    }
+  }
+};
+
+const subscribeLeavingPage = (listener: () => void) => {
+  leavingPageListeners.add(listener);
+  return () => leavingPageListeners.delete(listener);
+};
+
+/**
  * The projects as the shared components want them: every one has a name.
+ * Held while leaving the page for a new project.
  */
 export const usePageProjects = (): PageProject[] => {
   const list = useProjectList();
+  const leaving = useSyncExternalStore(subscribeLeavingPage, () => leavingPage);
+  const [shownList, setShownList] = useState(list);
+  if (!leaving && shownList !== list) {
+    setShownList(list);
+  }
+  useEffect(() => () => setLeavingPage(false), []);
   const intl = useIntl();
   const untitled = intl.formatMessage({ id: "untitled-project" });
   return useMemo(
-    () => list.map((p) => ({ ...p, name: p.name ?? untitled })),
-    [list, untitled]
+    () => shownList.map((p) => ({ ...p, name: p.name ?? untitled })),
+    [shownList, untitled]
   );
 };
 
-export const useProjectPageActions = (
-  surface: ProjectSurface,
-  projects: PageProject[],
-  selectedIds?: string[]
-) => {
-  const store = useProjects();
-  const logging = useLogging();
-  const navigate = useNavigate();
+/** Runs a storage action, reporting failures as toasts. */
+const useAttempt = () => {
   const actionFeedback = useActionFeedback();
-
   const showStorageError = useShowStorageError();
-  const attempt = useCallback(
+  return useCallback(
     async (action: () => Promise<void>) => {
       try {
         await action();
@@ -65,6 +104,41 @@ export const useProjectPageActions = (
     },
     [actionFeedback, showStorageError]
   );
+};
+
+/**
+ * Creates a project and opens the editor on it, optionally at a
+ * documentation tab and anchor.
+ */
+export const useCreateProject = (surface: ProjectSurface) => {
+  const store = useProjects();
+  const logging = useLogging();
+  const navigate = useNavigate();
+  const attempt = useAttempt();
+  return useCallback(
+    (name: string, state?: RouterState) =>
+      attempt(() =>
+        whileLeavingPage(async () => {
+          logging.event({ type: "project_create", detail: { surface } });
+          await store.create(name);
+          await navigate(createEditorUrl(state));
+          return true;
+        })
+      ),
+    [attempt, logging, navigate, store, surface]
+  );
+};
+
+export const useProjectPageActions = (
+  surface: ProjectSurface,
+  projects: PageProject[],
+  selectedIds?: string[]
+) => {
+  const store = useProjects();
+  const logging = useLogging();
+  const navigate = useNavigate();
+  const attempt = useAttempt();
+  const create = useCreateProject(surface);
 
   const actions = useProjectActions({
     projects,
@@ -99,16 +173,6 @@ export const useProjectPageActions = (
     [attempt, logging, navigate, store, surface]
   );
 
-  const create = useCallback(
-    (name: string) =>
-      attempt(async () => {
-        logging.event({ type: "project_create", detail: { surface } });
-        await store.create(name);
-        await navigate(createEditorUrl());
-      }),
-    [attempt, logging, navigate, store, surface]
-  );
-
   return { actions, open, create };
 };
 
@@ -123,11 +187,14 @@ export const useImportProjectFiles = (): ((
   const importer = useProjectImporter();
   const navigate = useNavigate();
   return useCallback(
-    async (files: File[], source: ImportSource) => {
-      if (await importer.importAsNewProject(files, source)) {
-        await navigate(createEditorUrl());
-      }
-    },
+    (files: File[], source: ImportSource) =>
+      whileLeavingPage(async () => {
+        if (await importer.importAsNewProject(files, source)) {
+          await navigate(createEditorUrl());
+          return true;
+        }
+        return false;
+      }),
     [importer, navigate]
   );
 };

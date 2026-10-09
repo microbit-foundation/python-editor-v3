@@ -26,7 +26,7 @@ import troubleshootingImage from "theme-package/images/troubleshooting.svg";
 import userGuideImage from "theme-package/images/user-guide.svg";
 import { BrandConfig } from "../deployment";
 import { microbitOrgLessonUrl, microbitOrgProjectUrl } from "../external-links";
-import { createEditorUrl } from "../urls";
+import { RouterState } from "../router-hooks";
 import ResourceCard from "./ResourceCard";
 
 interface Idea {
@@ -70,12 +70,24 @@ const ideas: Idea[] = [
   },
 ];
 
-export const createIdeaCards = (intl: IntlShape) =>
+/**
+ * Idea cards open the idea in a new project, so following one can't change
+ * the user's existing projects.
+ */
+export const createIdeaCards = (
+  intl: IntlShape,
+  createProject: (name: string, state: RouterState) => Promise<void>
+) =>
   ideas.map((idea) => (
     <ResourceCard
       key={idea.titleId}
       title={intl.formatMessage({ id: idea.titleId })}
-      to={createEditorUrl({ tab: "ideas", slug: { id: idea.slug } })}
+      onClick={() =>
+        void createProject(intl.formatMessage({ id: idea.titleId }), {
+          tab: "ideas",
+          slug: { id: idea.slug },
+        })
+      }
       imgSrc={idea.imgSrc}
       // The ideas tab's images are 2:1; show them whole.
       wide
