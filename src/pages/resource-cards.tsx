@@ -7,13 +7,8 @@
  */
 import { IntlShape } from "react-intl";
 import accessibilityImage from "theme-package/images/accessibility.svg";
-import animatedAnimals from "theme-package/images/animated-animals.jpg";
-import beatingHeart from "theme-package/images/beating-heart.jpg";
-import emotionBadge from "theme-package/images/emotion-badge.png";
 import firstLessonsImage from "theme-package/images/first-lessons-python.svg";
-import flashingEmotions from "theme-package/images/flashing-emotions.jpg";
-import getSilly from "theme-package/images/get-silly.png";
-import heart from "theme-package/images/heart.png";
+import ideaPlaceholder from "theme-package/images/idea-placeholder.png";
 import hotPotatoGame from "theme-package/images/hot-potato-game.jpg";
 import indoorOutdoorThermometer from "theme-package/images/indoor-outdoor-thermometer.png";
 import maxminTemperatureLogger from "theme-package/images/maxmin-temperature-logger.png";
@@ -25,51 +20,33 @@ import troubleshootingImage from "theme-package/images/troubleshooting.svg";
 import userGuideImage from "theme-package/images/user-guide.svg";
 import { BrandConfig } from "../deployment";
 import { microbitOrgLessonUrl, microbitOrgProjectUrl } from "../external-links";
+import { createEditorUrl } from "../urls";
 import ResourceCard from "./ResourceCard";
 
-interface ProjectIdea {
+interface Idea {
   titleId: string;
-  /** The "make it: code it" project's slug on microbit.org. */
+  /** The idea's slug in the editor's ideas tab. */
   slug: string;
-  imgSrc: string;
 }
 
-const projectIdeas: ProjectIdea[] = [
-  { titleId: "project-idea-heart-title", slug: "heart", imgSrc: heart },
-  {
-    titleId: "project-idea-beating-heart-title",
-    slug: "beating-heart",
-    imgSrc: beatingHeart,
-  },
-  {
-    titleId: "project-idea-animated-animals-title",
-    slug: "animated-animals",
-    imgSrc: animatedAnimals,
-  },
-  {
-    titleId: "project-idea-emotion-badge-title",
-    slug: "emotion-badge",
-    imgSrc: emotionBadge,
-  },
-  {
-    titleId: "project-idea-get-silly-title",
-    slug: "get-silly",
-    imgSrc: getSilly,
-  },
-  {
-    titleId: "project-idea-flashing-emotions-title",
-    slug: "flashing-emotions",
-    imgSrc: flashingEmotions,
-  },
+const ideas: Idea[] = [
+  { titleId: "idea-emotion-badge-title", slug: "emotion-badge" },
+  { titleId: "idea-step-counter-title", slug: "step-counter" },
+  { titleId: "idea-activity-picker-title", slug: "activity-picker" },
+  { titleId: "idea-send-a-smile-title", slug: "send-a-smile" },
+  { titleId: "idea-dice-title", slug: "dice" },
+  { titleId: "idea-clap-lights-title", slug: "clap-lights" },
+  { titleId: "idea-frere-jacques-title", slug: "frère-jacques" },
 ];
 
-export const createProjectIdeaCards = (intl: IntlShape, languageId: string) =>
-  projectIdeas.map((idea) => (
+// Placeholder artwork until the idea images are decided.
+export const createIdeaCards = (intl: IntlShape) =>
+  ideas.map((idea) => (
     <ResourceCard
       key={idea.titleId}
       title={intl.formatMessage({ id: idea.titleId })}
-      url={microbitOrgProjectUrl(idea.slug, languageId)}
-      imgSrc={idea.imgSrc}
+      to={createEditorUrl({ tab: "ideas", slug: { id: idea.slug } })}
+      imgSrc={ideaPlaceholder}
     />
   ));
 
@@ -136,6 +113,7 @@ export const createLessonCards = (intl: IntlShape) => [
     })}
     url={microbitOrgLessonUrl("first-lessons-with-python-and-the-microbit")}
     imgSrc={firstLessonsImage}
+    imageFit="contain"
     imagePadding={5}
   />,
 ];
@@ -173,5 +151,6 @@ export const createHelpCards = (
         title={intl.formatMessage({ id: help.titleId })}
         url={help.url}
         imgSrc={help.imgSrc}
+        imageFit="contain"
       />
     ));

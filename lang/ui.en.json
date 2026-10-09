@@ -427,6 +427,38 @@
     "defaultMessage": "The official text-based coding tool for micro:bit",
     "description": "Text under the home page banner heading"
   },
+  "idea-activity-picker-title": {
+    "defaultMessage": "Activity picker",
+    "description": "Title of an idea card; matches the idea name in the ideas tab"
+  },
+  "idea-clap-lights-title": {
+    "defaultMessage": "Clap lights",
+    "description": "Title of an idea card; matches the idea name in the ideas tab"
+  },
+  "idea-dice-title": {
+    "defaultMessage": "Dice",
+    "description": "Title of an idea card; matches the idea name in the ideas tab"
+  },
+  "idea-emotion-badge-title": {
+    "defaultMessage": "Emotion badge",
+    "description": "Title of an idea card; matches the idea name in the ideas tab"
+  },
+  "idea-frere-jacques-title": {
+    "defaultMessage": "Frère Jacques",
+    "description": "Title of an idea card; matches the idea name in the ideas tab"
+  },
+  "idea-send-a-smile-title": {
+    "defaultMessage": "Send a smile",
+    "description": "Title of an idea card; matches the idea name in the ideas tab"
+  },
+  "idea-step-counter-title": {
+    "defaultMessage": "Step counter",
+    "description": "Title of an idea card; matches the idea name in the ideas tab"
+  },
+  "ideas-row-title": {
+    "defaultMessage": "Ideas",
+    "description": "Heading of the home page row of idea cards"
+  },
   "ideas-tab": {
     "defaultMessage": "Ideas",
     "description": "Ideas tab button text. Tab shows programs to give students ideas."
@@ -673,34 +705,6 @@
   "project-header": {
     "defaultMessage": "Project header",
     "description": "Aria label for the project header area"
-  },
-  "project-idea-animated-animals-title": {
-    "defaultMessage": "Animated animals",
-    "description": "Title of a project idea card; matches the microbit.org project name"
-  },
-  "project-idea-beating-heart-title": {
-    "defaultMessage": "Beating heart",
-    "description": "Title of a project idea card; matches the microbit.org project name"
-  },
-  "project-idea-emotion-badge-title": {
-    "defaultMessage": "Emotion badge",
-    "description": "Title of a project idea card; matches the microbit.org project name"
-  },
-  "project-idea-flashing-emotions-title": {
-    "defaultMessage": "Flashing emotions",
-    "description": "Title of a project idea card; matches the microbit.org project name"
-  },
-  "project-idea-get-silly-title": {
-    "defaultMessage": "Get silly",
-    "description": "Title of a project idea card; matches the microbit.org project name"
-  },
-  "project-idea-heart-title": {
-    "defaultMessage": "Heart",
-    "description": "Title of a project idea card; matches the microbit.org project name"
-  },
-  "project-ideas-row-title": {
-    "defaultMessage": "Project ideas",
-    "description": "Heading of the home page row of project idea cards"
   },
   "project-name": {
     "defaultMessage": "Project name",

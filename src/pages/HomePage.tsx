@@ -43,7 +43,7 @@ import {
   createHelpCards,
   createLessonCards,
   createMiciProjectCards,
-  createProjectIdeaCards,
+  createIdeaCards,
 } from "./resource-cards";
 
 const numCardsDisplayed = 10;
@@ -69,8 +69,8 @@ const HomePage = () => {
         <HomepageBanner />
         <ProjectsRow />
         <CarouselRow
-          carouselItems={createProjectIdeaCards(intl, languageId)}
-          title={<FormattedMessage id="project-ideas-row-title" />}
+          carouselItems={createIdeaCards(intl)}
+          title={<FormattedMessage id="ideas-row-title" />}
           navigation
         />
         <CarouselRow

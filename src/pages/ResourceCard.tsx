@@ -13,24 +13,31 @@ import {
   VStack,
 } from "@microbit/ui";
 import { ReactNode } from "react";
+import { useHref, useLinkClickHandler } from "react-router";
 
-interface ResourceCardProps {
+type ResourceCardProps = {
   aspectRatio?: number;
   /** Spacing scale units around the image, for artwork without a margin. */
   imagePadding?: number;
-  url: string;
+  /** `cover` crops photos to the card; `contain` keeps artwork whole. */
+  imageFit?: "cover" | "contain";
   imgSrc: string;
   title: ReactNode;
-}
+} & (
+  | { /** A page on another site. */ url: string; to?: undefined }
+  | { /** A path within the app; see urls.ts. */ to: string; url?: undefined }
+);
 
 /**
- * A card linking out to a resource on another site.
+ * A card linking to a resource on another site or within the app.
  */
 const ResourceCard = ({
   aspectRatio = 4 / 3,
   imagePadding,
+  imageFit = "cover",
   imgSrc,
   url,
+  to,
   title,
 }: ResourceCardProps) => (
   <LinkBox
@@ -52,7 +59,8 @@ const ResourceCard = ({
           alt=""
           h="100%"
           w="100%"
-          objectFit="cover"
+          // Literals so Panda can extract both.
+          objectFit={imageFit === "contain" ? "contain" : "cover"}
           // Dynamic, so not extractable as a style prop.
           style={
             imagePadding ? { padding: `${imagePadding * 0.25}rem` } : undefined
@@ -62,12 +70,37 @@ const ResourceCard = ({
     </AspectRatio>
     <VStack p={3} py={2} pb={3} flexGrow={1} gap={3} alignItems="stretch">
       <Heading as="h3" fontSize="lg" fontWeight="bold" m={3}>
-        <LinkOverlay href={url} _focusVisible={{ focusRing: "outline" }}>
-          {title}
-        </LinkOverlay>
+        {to !== undefined ? (
+          <RouterLinkOverlay to={to}>{title}</RouterLinkOverlay>
+        ) : (
+          <LinkOverlay href={url} _focusVisible={{ focusRing: "outline" }}>
+            {title}
+          </LinkOverlay>
+        )}
       </Heading>
     </VStack>
   </LinkBox>
 );
+
+/** LinkOverlay through react-router, so the href respects the basename. */
+const RouterLinkOverlay = ({
+  to,
+  children,
+}: {
+  to: string;
+  children: ReactNode;
+}) => {
+  const href = useHref(to);
+  const handleClick = useLinkClickHandler(to);
+  return (
+    <LinkOverlay
+      href={href}
+      onClick={handleClick}
+      _focusVisible={{ focusRing: "outline" }}
+    >
+      {children}
+    </LinkOverlay>
+  );
+};
 
 export default ResourceCard;
