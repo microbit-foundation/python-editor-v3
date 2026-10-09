@@ -12,10 +12,12 @@ interface ProjectIconProps {
    * corner, so the glyph drops below it rather than sharing the corner.
    */
   hasCheckbox?: boolean;
+  /** Smaller on short viewports, for the home page carousel. */
+  short?: boolean;
 }
 
 /** The picture on a project card: the Python logo in the top-left corner. */
-const ProjectIcon = ({ hasCheckbox = false }: ProjectIconProps) => (
+const ProjectIcon = ({ hasCheckbox = false, short }: ProjectIconProps) => (
   <Box
     w={16}
     h={16}
@@ -26,6 +28,7 @@ const ProjectIcon = ({ hasCheckbox = false }: ProjectIconProps) => (
     // card's corner; the glyph starts below it.
     ml={hasCheckbox ? 0 : 3}
     mt={hasCheckbox ? 14 : 3}
+    css={short ? { _shortHeight: { w: 12, h: 12 } } : undefined}
   >
     <PythonLogo width="100%" height="100%" />
   </Box>

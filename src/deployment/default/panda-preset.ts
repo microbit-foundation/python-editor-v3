@@ -124,6 +124,14 @@ export const appPreset = definePreset({
       },
     },
   },
+  conditions: {
+    extend: {
+      // Short screens (e.g. 1366x768 Chromebooks); reduces card heights and
+      // spacing in the home page projects row. Matches ml-trainer so the
+      // cards are the same size.
+      shortHeight: "@media (max-height: 800px)",
+    },
+  },
 });
 
 export default appPreset;

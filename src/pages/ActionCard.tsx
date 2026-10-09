@@ -27,13 +27,32 @@ interface ActionCardProps {
  */
 const ActionCard = ({ onClick, icon, children }: ActionCardProps) => (
   <LinkBox h="100%" display="flex">
-    <Card css={{ flexGrow: 1, overflow: "hidden", minH: "233px" }}>
+    <Card
+      css={{
+        flexGrow: 1,
+        overflow: "hidden",
+        minH: "233px",
+        _shortHeight: { minH: "160px" },
+      }}
+    >
       <CardBody
         {...darkSurface}
-        css={{ display: "flex", backgroundColor: "brand.500", color: "white" }}
+        css={{
+          display: "flex",
+          backgroundColor: "brand.500",
+          color: "white",
+          _shortHeight: { p: 3 },
+        }}
       >
         <VStack h="100%" w="100%" gap={0} justifyContent="space-evenly">
-          <Icon as={icon} css={{ width: 20, height: 20 }} />
+          <Icon
+            as={icon}
+            css={{
+              width: 20,
+              height: 20,
+              _shortHeight: { width: 10, height: 10 },
+            }}
+          />
           <LinkOverlayButton onClick={onClick} css={{ h: 8, fontSize: "xl" }}>
             {children}
           </LinkOverlayButton>

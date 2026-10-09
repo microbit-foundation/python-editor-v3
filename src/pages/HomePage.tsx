@@ -46,6 +46,8 @@ import {
 
 const numCardsDisplayed = 10;
 
+const projectsRowClassName = css({ _shortHeight: { py: 4 } });
+
 const HomePage = () => {
   const intl = useIntl();
   const [{ languageId }] = useSettings();
@@ -102,8 +104,9 @@ const ProjectsRow = () => {
         onDelete={actions.delete}
         onRename={actions.rename}
         onDuplicate={actions.duplicate}
+        bodyCss={{ _shortHeight: { p: 3 } }}
       >
-        <ProjectIcon />
+        <ProjectIcon short />
       </ProjectCard>
     )),
     ...(projects.length > numCardsDisplayed
@@ -115,6 +118,7 @@ const ProjectsRow = () => {
       {actions.dialogs}
       <CarouselRow
         carouselItems={cards}
+        className={projectsRowClassName}
         title={<FormattedMessage id="my-projects-row-title" />}
         titleSuffix={
           <TooltipButton
