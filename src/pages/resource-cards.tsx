@@ -8,7 +8,13 @@
 import { IntlShape } from "react-intl";
 import accessibilityImage from "theme-package/images/accessibility.svg";
 import firstLessonsImage from "theme-package/images/first-lessons-python.svg";
-import ideaPlaceholder from "theme-package/images/idea-placeholder.png";
+import ideaEmotionBadge from "theme-package/images/idea-emotion-badge.png";
+import ideaStepCounter from "theme-package/images/idea-step-counter.png";
+import ideaActivityPicker from "theme-package/images/idea-activity-picker.png";
+import ideaSendASmile from "theme-package/images/idea-send-a-smile.png";
+import ideaDice from "theme-package/images/idea-dice.png";
+import ideaClapLights from "theme-package/images/idea-clap-lights.png";
+import ideaFrereJacques from "theme-package/images/idea-frere-jacques.png";
 import hotPotatoGame from "theme-package/images/hot-potato-game.jpg";
 import indoorOutdoorThermometer from "theme-package/images/indoor-outdoor-thermometer.png";
 import maxminTemperatureLogger from "theme-package/images/maxmin-temperature-logger.png";
@@ -27,26 +33,52 @@ interface Idea {
   titleId: string;
   /** The idea's slug in the editor's ideas tab. */
   slug: string;
+  imgSrc: string;
 }
 
 const ideas: Idea[] = [
-  { titleId: "idea-emotion-badge-title", slug: "emotion-badge" },
-  { titleId: "idea-step-counter-title", slug: "step-counter" },
-  { titleId: "idea-activity-picker-title", slug: "activity-picker" },
-  { titleId: "idea-send-a-smile-title", slug: "send-a-smile" },
-  { titleId: "idea-dice-title", slug: "dice" },
-  { titleId: "idea-clap-lights-title", slug: "clap-lights" },
-  { titleId: "idea-frere-jacques-title", slug: "frère-jacques" },
+  {
+    titleId: "idea-emotion-badge-title",
+    slug: "emotion-badge",
+    imgSrc: ideaEmotionBadge,
+  },
+  {
+    titleId: "idea-step-counter-title",
+    slug: "step-counter",
+    imgSrc: ideaStepCounter,
+  },
+  {
+    titleId: "idea-activity-picker-title",
+    slug: "activity-picker",
+    imgSrc: ideaActivityPicker,
+  },
+  {
+    titleId: "idea-send-a-smile-title",
+    slug: "send-a-smile",
+    imgSrc: ideaSendASmile,
+  },
+  { titleId: "idea-dice-title", slug: "dice", imgSrc: ideaDice },
+  {
+    titleId: "idea-clap-lights-title",
+    slug: "clap-lights",
+    imgSrc: ideaClapLights,
+  },
+  {
+    titleId: "idea-frere-jacques-title",
+    slug: "frère-jacques",
+    imgSrc: ideaFrereJacques,
+  },
 ];
 
-// Placeholder artwork until the idea images are decided.
 export const createIdeaCards = (intl: IntlShape) =>
   ideas.map((idea) => (
     <ResourceCard
       key={idea.titleId}
       title={intl.formatMessage({ id: idea.titleId })}
       to={createEditorUrl({ tab: "ideas", slug: { id: idea.slug } })}
-      imgSrc={ideaPlaceholder}
+      imgSrc={idea.imgSrc}
+      // The ideas tab's images are 2:1; show them whole.
+      wide
     />
   ));
 

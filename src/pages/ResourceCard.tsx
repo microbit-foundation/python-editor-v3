@@ -16,7 +16,8 @@ import { ReactNode } from "react";
 import { useHref, useLinkClickHandler } from "react-router";
 
 type ResourceCardProps = {
-  aspectRatio?: number;
+  /** A 2:1 image area instead of 4:3. */
+  wide?: boolean;
   /** Spacing scale units around the image, for artwork without a margin. */
   imagePadding?: number;
   /** `cover` crops photos to the card; `contain` keeps artwork whole. */
@@ -32,7 +33,7 @@ type ResourceCardProps = {
  * A card linking to a resource on another site or within the app.
  */
 const ResourceCard = ({
-  aspectRatio = 4 / 3,
+  wide,
   imagePadding,
   imageFit = "cover",
   imgSrc,
@@ -52,7 +53,12 @@ const ResourceCard = ({
     boxShadow="md"
     alignSelf="stretch"
   >
-    <AspectRatio w="100%" ratio={aspectRatio} position="relative">
+    <AspectRatio
+      w="100%"
+      // Literals so Panda can extract both.
+      ratio={wide ? 2 : 4 / 3}
+      position="relative"
+    >
       <Box>
         <Image
           src={imgSrc}
