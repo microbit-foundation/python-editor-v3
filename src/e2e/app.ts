@@ -748,7 +748,8 @@ export class App {
   }
 
   private get homeLink() {
-    return this.page.getByRole("link", { name: "Home" });
+    // The logo's, ahead of the sidebar's own home link.
+    return this.page.getByRole("link", { name: "Home" }).first();
   }
 
   /**

@@ -26,6 +26,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { Link as RouterLink, useNavigate } from "react-router";
 import FileDropTarget from "../common/FileDropTarget";
 import { useDeployment } from "../deployment";
+import { microbitOrgMiciProjectsUrl } from "../external-links";
 import { useSettings } from "../settings/settings";
 import { createProjectsPageUrl } from "../urls";
 import ActionCard from "./ActionCard";
@@ -34,6 +35,7 @@ import ProjectIcon from "./ProjectIcon";
 import HomepageBanner from "./HomepageBanner";
 import HomepageFooter from "./HomepageFooter";
 import {
+  useCreateProject,
   useImportProjectFiles,
   usePageProjects,
   useProjectPageActions,
@@ -41,15 +43,19 @@ import {
 import {
   createHelpCards,
   createLessonCards,
-  createProjectIdeaCards,
+  createMiciProjectCards,
+  createIdeaCards,
 } from "./resource-cards";
 
 const numCardsDisplayed = 10;
+
+const projectsRowClassName = css({ _shortHeight: { py: 4 } });
 
 const HomePage = () => {
   const intl = useIntl();
   const [{ languageId }] = useSettings();
   const brand = useDeployment();
+  const createProject = useCreateProject("home");
   const importFiles = useImportProjectFiles();
   const handleDrop = useCallback(
     (files: File[]) => void importFiles(files, "drop"),
@@ -65,13 +71,26 @@ const HomePage = () => {
         <HomepageBanner />
         <ProjectsRow />
         <CarouselRow
-          carouselItems={createProjectIdeaCards(intl, languageId)}
-          title={<FormattedMessage id="project-ideas-row-title" />}
+          carouselItems={createIdeaCards(intl, createProject)}
+          title={<FormattedMessage id="ideas-row-title" />}
           navigation
         />
         <CarouselRow
           carouselItems={createLessonCards(intl)}
           title={<FormattedMessage id="teacher-resources-row-title" />}
+          navigation
+        />
+        <CarouselRow
+          carouselItems={createMiciProjectCards(intl, languageId)}
+          title={<FormattedMessage id="mici-projects-row-title" />}
+          actions={
+            <a
+              href={microbitOrgMiciProjectsUrl(languageId)}
+              className={rowLinkClassName}
+            >
+              <FormattedMessage id="all-projects-action" />
+            </a>
+          }
           navigation
         />
         <CarouselRow
@@ -102,8 +121,9 @@ const ProjectsRow = () => {
         onDelete={actions.delete}
         onRename={actions.rename}
         onDuplicate={actions.duplicate}
+        bodyCss={{ _shortHeight: { p: 3 } }}
       >
-        <ProjectIcon />
+        <ProjectIcon short />
       </ProjectCard>
     )),
     ...(projects.length > numCardsDisplayed
@@ -115,6 +135,7 @@ const ProjectsRow = () => {
       {actions.dialogs}
       <CarouselRow
         carouselItems={cards}
+        className={projectsRowClassName}
         title={<FormattedMessage id="my-projects-row-title" />}
         titleSuffix={
           <TooltipButton
@@ -237,20 +258,20 @@ const ViewAllProjectsCard = () => {
   );
 };
 
+/** A text link beside a row heading. */
+const rowLinkClassName = css({
+  color: "brand.700",
+  fontWeight: "semibold",
+  borderRadius: "md",
+  px: 2,
+  py: 1,
+  textDecoration: "none",
+  _hover: { textDecoration: "underline" },
+  _focusVisible: { focusRing: "outline" },
+});
+
 const ViewAllProjectsLink = () => (
-  <RouterLink
-    to={createProjectsPageUrl()}
-    className={css({
-      color: "brand.700",
-      fontWeight: "semibold",
-      borderRadius: "md",
-      px: 2,
-      py: 1,
-      textDecoration: "none",
-      _hover: { textDecoration: "underline" },
-      _focusVisible: { focusRing: "outline" },
-    })}
-  >
+  <RouterLink to={createProjectsPageUrl()} className={rowLinkClassName}>
     <FormattedMessage id="view-all-projects" />
   </RouterLink>
 );
