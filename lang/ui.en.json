@@ -420,7 +420,7 @@
     "description": "Heading of the banner at the top of the home page"
   },
   "homepage-banner-subtitle": {
-    "defaultMessage": "Write a program, try it in the simulator, then send it to your micro:bit.",
+    "defaultMessage": "The official text-based coding tool for micro:bit",
     "description": "Text under the home page banner heading"
   },
   "ideas-tab": {
