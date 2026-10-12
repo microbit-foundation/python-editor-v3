@@ -5,8 +5,12 @@ if (process.env.GITHUB_REPOSITORY_OWNER === "microbit-foundation") {
   const { bucketPrefix, bucketName } = require("../deployment.cjs");
   baseUrl = `/${bucketPrefix}/`;
 
-  const fullUrl = `https://${bucketName}${baseUrl}`;
-  // This is used for og:url and similar. Not quite right for review domain but we don't really care.
+  // Production and staging are served from python.microbit.org rather than
+  // their bucket domains. Review builds are only reachable via the bucket.
+  const host =
+    process.env.STAGE === "REVIEW" ? bucketName : "python.microbit.org";
+  const fullUrl = `https://${host}${baseUrl}`;
+  // Used by index.html for og:image and the Crowdin in-context translation exit URL.
   console.log(`VITE_FULL_URL=${fullUrl}`);
 } else {
   baseUrl = "/";
