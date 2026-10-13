@@ -93,6 +93,11 @@ const workerForLanguage = (language: string) => {
         type: "module",
       });
     }
+    case "pt-br": {
+      return new Worker(new URL(`./search.worker.pt.ts`, import.meta.url), {
+        type: "module",
+      });
+    }
     default:
       return new Worker(new URL(`./search.worker.en.ts`, import.meta.url), {
         type: "module",

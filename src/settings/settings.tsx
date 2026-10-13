@@ -47,6 +47,7 @@ const allLanguages: Language[] = [
   { id: "ja" },
   { id: "ko" },
   { id: "pl" },
+  { id: "pt-BR", preview: true },
   { id: "es-ES" },
 ];
 export const supportedLanguages: Language[] = allLanguages.filter(
