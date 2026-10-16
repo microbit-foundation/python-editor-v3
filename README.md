@@ -74,7 +74,7 @@ The editor is deployed by [GitHub actions](https://github.com/microbit-foundatio
 
 The `main` branch is deployed to https://python.microbit.org/v/beta on each push.
 
-Other branches (e.g. for PRs) are deployed to https://review-python-editor-v3.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens. Deployments will not run in forks.
+Other branches (e.g. for PRs) are deployed to https://review-python.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens. Deployments will not run in forks.
 
 ## License
 

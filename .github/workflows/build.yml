@@ -24,11 +24,12 @@ jobs:
     permissions:
       contents: read
       packages: read
+      # Review deploys assume an AWS role through GitHub OIDC.
+      id-token: write
     env:
       AWS_DEFAULT_REGION: eu-west-1
       PRODUCTION_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
       STAGING_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
-      REVIEW_CLOUDFRONT_DISTRIBUTION_ID: E3267W09ZJHQG9
       VITE_FOUNDATION_BUILD: ${{ github.repository_owner == 'microbit-foundation' }}
       # This feature is also controlled by a client-side feature flag that is disabled by default for the moment
       FEATURE_PWA: ${{ github.repository_owner == 'microbit-foundation' }}
@@ -71,16 +72,30 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 3
+      # Review deploys even when tests fail.
+      # Its bucket and distribution are in microbit-foundation/microbit-org's
+      # apps/python, which also defines this role.
+      - uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4
+        if: ${{ !cancelled() && github.repository_owner == 'microbit-foundation' && env.STAGE == 'REVIEW' }}
+        with:
+          role-to-assume: arn:aws:iam::700731169244:role/github-actions-deploy-python-content
+          aws-region: eu-west-1
       - run: npm run deploy
-        if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())
+        if: ${{ !cancelled() && github.repository_owner == 'microbit-foundation' && env.STAGE == 'REVIEW' }}
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.WEB_DEPLOY_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.WEB_DEPLOY_AWS_SECRET_ACCESS_KEY }}
-          # Set to 1 for one deploy after changing params in deployment.js,
+          # Set to 1 for one deploy after changing params in deployment.cjs,
           # as unchanged files are otherwise skipped.
           WEBSITE_DEPLOY_FORCE: 0
       - run: npm run invalidate
-        if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())
+        if: ${{ !cancelled() && github.repository_owner == 'microbit-foundation' && env.STAGE == 'REVIEW' }}
+      - run: npm run deploy
+        if: github.repository_owner == 'microbit-foundation' && env.STAGE != 'REVIEW' && success()
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.WEB_DEPLOY_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.WEB_DEPLOY_AWS_SECRET_ACCESS_KEY }}
+          WEBSITE_DEPLOY_FORCE: 0
+      - run: npm run invalidate
+        if: github.repository_owner == 'microbit-foundation' && env.STAGE != 'REVIEW' && success()
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.WEB_DEPLOY_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.WEB_DEPLOY_AWS_SECRET_ACCESS_KEY }}

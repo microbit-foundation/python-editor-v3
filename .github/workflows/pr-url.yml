@@ -9,5 +9,5 @@ jobs:
     steps:
       - uses: microbit-foundation/action-pr-url-template@v0.1.2
         with:
-          uri-template: "https://review-python-editor-v3.microbit.org/{branch}/"
+          uri-template: "https://review-python.microbit.org/{branch}/"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
