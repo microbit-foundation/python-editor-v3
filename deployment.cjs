@@ -7,6 +7,8 @@ const {
   createDeploymentDetailsFromOptions,
 } = require("@microbit/website-deploy-s3");
 
+const review = process.env.STAGE === "REVIEW";
+
 const { s3Config } = createDeploymentDetailsFromOptions({
   production: {
     bucket: "python-editor-v3.microbit.org",
@@ -18,7 +20,7 @@ const { s3Config } = createDeploymentDetailsFromOptions({
     prefix: "v/beta",
   },
   review: {
-    bucket: "review-python-editor-v3.microbit.org",
+    bucket: "python-microbit-org-review",
     mode: "branch-prefix",
   },
 });
@@ -27,6 +29,18 @@ module.exports = {
   region: "eu-west-1",
   removeNonexistentObjects: true,
   redirects: [],
+  // Review is a private bucket behind CloudFront, defined in
+  // microbit-foundation/microbit-org's apps/python. Staging and production
+  // are still public website buckets.
+  ...(review
+    ? {
+        acl: null,
+        findDistribution: true,
+        // Open or cached pages may still ask for the previous build's
+        // hashed files.
+        staleObjectsPatterns: ["assets/**", "workers/**"],
+      }
+    : {}),
   params: {
     "**/**.html": {
       CacheControl: "public, max-age=0, must-revalidate",
