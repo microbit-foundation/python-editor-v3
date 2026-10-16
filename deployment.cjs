@@ -5,7 +5,7 @@
  */
 const {
   createDeploymentDetailsFromOptions,
-} = require("@microbit-foundation/website-deploy-aws");
+} = require("@microbit/website-deploy-s3");
 
 const { s3Config } = createDeploymentDetailsFromOptions({
   production: {
