@@ -72,7 +72,7 @@ Most users should use the supported Foundation deployment at https://python.micr
 
 The editor is deployed by [GitHub actions](https://github.com/microbit-foundation/python-editor-v3/actions).
 
-The `main` branch is deployed to https://python.microbit.org/v/beta on each push.
+Releases (`v3.x.y` tags) are deployed to https://python.microbit.org/v/3. The `main` branch is deployed to https://python.microbit.org/v/beta on each push, and to https://stage-python.microbit.org/v/3 for internal testing.
 
 Other branches (e.g. for PRs) are deployed to https://review-python.microbit.org/{branch}. Special characters in the branch name are replaced by hyphens. Deployments will not run in forks.
 

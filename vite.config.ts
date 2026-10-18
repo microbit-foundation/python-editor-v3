@@ -40,6 +40,7 @@ const pwaCacheId =
   // v3 vs beta should have distinct caches
   // for the moment we do this for all review stages too but likely that's too much over time
   process.env.STAGE === "PRODUCTION" ||
+  process.env.STAGE === "BETA" ||
   process.env.STAGE === "STAGING" ||
   process.env.STAGE === "REVIEW"
     ? process.env.BASE_URL.replaceAll("/", "")

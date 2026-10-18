@@ -7,40 +7,41 @@ const {
   createDeploymentDetailsFromOptions,
 } = require("@microbit/website-deploy-s3");
 
-const review = process.env.STAGE === "REVIEW";
-
+// The buckets and their distributions are defined in
+// microbit-foundation/microbit-org (apps/python), which deploys the
+// versioner at the root of the staging and production buckets.
 const { s3Config } = createDeploymentDetailsFromOptions({
   production: {
-    bucket: "python-editor-v3.microbit.org",
+    bucket: "python-microbit-org-production",
+    hostname: "python.microbit.org",
     mode: "major",
     allowPrerelease: true,
   },
-  staging: {
-    bucket: "stage-python-editor-v3.microbit.org",
+  beta: {
+    bucket: "python-microbit-org-production",
+    hostname: "python.microbit.org",
     prefix: "v/beta",
+  },
+  staging: {
+    bucket: "python-microbit-org-staging",
+    hostname: "stage-python.microbit.org",
+    prefix: "v/3",
   },
   review: {
     bucket: "python-microbit-org-review",
+    hostname: "review-python.microbit.org",
     mode: "branch-prefix",
   },
 });
 module.exports = {
   ...s3Config,
   region: "eu-west-1",
+  // The buckets are private (BucketOwnerEnforced), so objects take no ACL.
+  acl: null,
+  findDistribution: true,
   removeNonexistentObjects: true,
-  redirects: [],
-  // Review is a private bucket behind CloudFront, defined in
-  // microbit-foundation/microbit-org's apps/python. Staging and production
-  // are still public website buckets.
-  ...(review
-    ? {
-        acl: null,
-        findDistribution: true,
-        // Open or cached pages may still ask for the previous build's
-        // hashed files.
-        staleObjectsPatterns: ["assets/**", "workers/**"],
-      }
-    : {}),
+  // Open or cached pages may still ask for the previous build's hashed files.
+  staleObjectsPatterns: ["assets/**", "workers/**"],
   params: {
     "**/**.html": {
       CacheControl: "public, max-age=0, must-revalidate",
