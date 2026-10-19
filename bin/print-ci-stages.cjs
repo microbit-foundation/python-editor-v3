@@ -18,9 +18,12 @@ if (ref === "refs/heads/main") {
   stages = ["REVIEW"];
 }
 
-// Playwright runs once per ref, before release.
+// Playwright runs once per ref, before release. When main also builds beta,
+// it tests beta, as users see beta.
+const playwright = (stage) =>
+  stage !== "PRODUCTION" && (stage === "BETA" || !stages.includes("BETA"));
 const include = stages.map((stage) => ({
   stage,
-  playwright: stage === "REVIEW" || stage === "STAGING",
+  playwright: playwright(stage),
 }));
 console.log(`matrix=${JSON.stringify({ include })}`);
