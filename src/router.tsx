@@ -13,6 +13,7 @@ import {
 import { baseUrl } from "./base";
 import { hasProjectLink } from "./fs/migration";
 import HomePage from "./pages/HomePage";
+import { createProjectAction } from "./pages/project-page-actions";
 import ProjectsPage from "./pages/ProjectsPage";
 import { Projects } from "./project/projects";
 import RootLayout from "./RootLayout";
@@ -113,6 +114,7 @@ export const createRouter = ({ projects }: RouterOptions) => {
               {
                 path: editorRoutePath,
                 element: editor,
+                action: createProjectAction(projects),
                 // The editor needs a project; choosing one is the only
                 // asynchronous step, the MicroPython load carries on behind.
                 loader: async ({ request }) => {

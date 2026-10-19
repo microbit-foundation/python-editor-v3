@@ -7,64 +7,212 @@
  */
 import { IntlShape } from "react-intl";
 import accessibilityImage from "theme-package/images/accessibility.svg";
-import animatedAnimals from "theme-package/images/animated-animals.jpg";
-import beatingHeart from "theme-package/images/beating-heart.jpg";
-import emotionBadge from "theme-package/images/emotion-badge.png";
 import firstLessonsImage from "theme-package/images/first-lessons-python.svg";
-import flashingEmotions from "theme-package/images/flashing-emotions.jpg";
-import getSilly from "theme-package/images/get-silly.png";
-import heart from "theme-package/images/heart.png";
+import ideaEmotionBadge from "theme-package/images/idea-emotion-badge.png";
+import ideaStepCounter from "theme-package/images/idea-step-counter.png";
+import ideaActivityPicker from "theme-package/images/idea-activity-picker.png";
+import ideaSendASmile from "theme-package/images/idea-send-a-smile.png";
+import ideaDice from "theme-package/images/idea-dice.png";
+import ideaClapLights from "theme-package/images/idea-clap-lights.png";
+import ideaFrereJacques from "theme-package/images/idea-frere-jacques.png";
+import hotPotatoGame from "theme-package/images/hot-potato-game.jpg";
+import indoorOutdoorThermometer from "theme-package/images/indoor-outdoor-thermometer.png";
+import introducingPythonCourseImage from "theme-package/images/introducing-python-course.png";
+import labellingWorksheetImage from "theme-package/images/microbit-labelling-worksheet.jpg";
+import microbitClassroomImage from "theme-package/images/microbit-classroom.png";
+import posterCreativityImage from "theme-package/images/python-editor-poster-creativity.jpg";
+import posterDebuggingImage from "theme-package/images/python-editor-poster-debugging.jpg";
+import maxminTemperatureLogger from "theme-package/images/maxmin-temperature-logger.png";
+import sensitiveStepCounter from "theme-package/images/sensitive-step-counter.jpg";
+import teleportingDuck from "theme-package/images/teleporting-duck.jpg";
+import thermometer from "theme-package/images/thermometer.png";
+import treasureHunt from "theme-package/images/treasure-hunt.png";
 import troubleshootingImage from "theme-package/images/troubleshooting.svg";
 import userGuideImage from "theme-package/images/user-guide.svg";
 import { BrandConfig } from "../deployment";
-import { microbitOrgLessonUrl, microbitOrgProjectUrl } from "../external-links";
+import {
+  introducingPythonCourseUrl,
+  microbitClassroomUrl,
+  microbitOrgClassroomResourceUrl,
+  microbitOrgLessonUrl,
+  microbitOrgProjectUrl,
+} from "../external-links";
+import { RouterState } from "../router-hooks";
+import { Level } from "./LevelIndicator";
 import ResourceCard from "./ResourceCard";
 
-interface ProjectIdea {
+interface Idea {
   titleId: string;
+  /** The idea's slug in the editor's ideas tab. */
+  slug: string;
+  imgSrc: string;
+}
+
+const ideas: Idea[] = [
+  {
+    titleId: "idea-emotion-badge-title",
+    slug: "emotion-badge",
+    imgSrc: ideaEmotionBadge,
+  },
+  {
+    titleId: "idea-step-counter-title",
+    slug: "step-counter",
+    imgSrc: ideaStepCounter,
+  },
+  {
+    titleId: "idea-activity-picker-title",
+    slug: "activity-picker",
+    imgSrc: ideaActivityPicker,
+  },
+  {
+    titleId: "idea-send-a-smile-title",
+    slug: "send-a-smile",
+    imgSrc: ideaSendASmile,
+  },
+  { titleId: "idea-dice-title", slug: "dice", imgSrc: ideaDice },
+  {
+    titleId: "idea-clap-lights-title",
+    slug: "clap-lights",
+    imgSrc: ideaClapLights,
+  },
+  {
+    titleId: "idea-frere-jacques-title",
+    slug: "frère-jacques",
+    imgSrc: ideaFrereJacques,
+  },
+];
+
+/**
+ * Idea cards open the idea in a new project, so following one can't change
+ * the user's existing projects.
+ */
+export const createIdeaCards = (
+  intl: IntlShape,
+  createProject: (name: string, state: RouterState) => Promise<void>
+) =>
+  ideas.map((idea) => (
+    <ResourceCard
+      key={idea.titleId}
+      title={intl.formatMessage({ id: idea.titleId })}
+      onClick={() =>
+        void createProject(intl.formatMessage({ id: idea.titleId }), {
+          tab: "ideas",
+          slug: { id: idea.slug },
+        })
+      }
+      imgSrc={idea.imgSrc}
+      // The ideas tab's images are 2:1; show them whole.
+      wide
+    />
+  ));
+
+interface MiciProject {
+  titleId: string;
+  descriptionId: string;
+  level: Level;
   /** The "make it: code it" project's slug on microbit.org. */
   slug: string;
   imgSrc: string;
 }
 
-const projectIdeas: ProjectIdea[] = [
-  { titleId: "project-idea-heart-title", slug: "heart", imgSrc: heart },
+const miciProjects: MiciProject[] = [
   {
-    titleId: "project-idea-beating-heart-title",
-    slug: "beating-heart",
-    imgSrc: beatingHeart,
+    titleId: "mici-project-thermometer-title",
+    descriptionId: "mici-project-thermometer-description",
+    level: "beginner",
+    slug: "thermometer",
+    imgSrc: thermometer,
   },
   {
-    titleId: "project-idea-animated-animals-title",
-    slug: "animated-animals",
-    imgSrc: animatedAnimals,
+    titleId: "mici-project-sensitive-step-counter-title",
+    descriptionId: "mici-project-sensitive-step-counter-description",
+    level: "beginner",
+    slug: "sensitive-step-counter",
+    imgSrc: sensitiveStepCounter,
   },
   {
-    titleId: "project-idea-emotion-badge-title",
-    slug: "emotion-badge",
-    imgSrc: emotionBadge,
+    titleId: "mici-project-treasure-hunt-title",
+    descriptionId: "mici-project-treasure-hunt-description",
+    level: "intermediate",
+    slug: "treasure-hunt",
+    imgSrc: treasureHunt,
   },
   {
-    titleId: "project-idea-get-silly-title",
-    slug: "get-silly",
-    imgSrc: getSilly,
+    titleId: "mici-project-maxmin-temperature-logger-title",
+    descriptionId: "mici-project-maxmin-temperature-logger-description",
+    level: "advanced",
+    slug: "maxmin-temperature-logger",
+    imgSrc: maxminTemperatureLogger,
   },
   {
-    titleId: "project-idea-flashing-emotions-title",
-    slug: "flashing-emotions",
-    imgSrc: flashingEmotions,
+    titleId: "mici-project-indoor-outdoor-thermometer-title",
+    descriptionId: "mici-project-indoor-outdoor-thermometer-description",
+    level: "intermediate",
+    slug: "indoor-outdoor-thermometer",
+    imgSrc: indoorOutdoorThermometer,
+  },
+  {
+    titleId: "mici-project-teleporting-duck-title",
+    descriptionId: "mici-project-teleporting-duck-description",
+    level: "beginner",
+    slug: "teleporting-duck",
+    imgSrc: teleportingDuck,
+  },
+  {
+    titleId: "mici-project-hot-potato-game-title",
+    descriptionId: "mici-project-hot-potato-game-description",
+    level: "intermediate",
+    slug: "hot-potato-game",
+    imgSrc: hotPotatoGame,
   },
 ];
 
-export const createProjectIdeaCards = (intl: IntlShape, languageId: string) =>
-  projectIdeas.map((idea) => (
+export const createMiciProjectCards = (intl: IntlShape, languageId: string) =>
+  miciProjects.map((project) => (
     <ResourceCard
-      key={idea.titleId}
-      title={intl.formatMessage({ id: idea.titleId })}
-      url={microbitOrgProjectUrl(idea.slug, languageId)}
-      imgSrc={idea.imgSrc}
+      key={project.titleId}
+      title={intl.formatMessage({ id: project.titleId })}
+      description={intl.formatMessage({ id: project.descriptionId })}
+      level={project.level}
+      url={microbitOrgProjectUrl(project.slug, languageId)}
+      imgSrc={project.imgSrc}
     />
   ));
+
+interface TeacherResource {
+  /** Message id prefix for `-title` and `-description`. */
+  id: string;
+  url: string;
+  imgSrc: string;
+}
+
+const teacherResources: TeacherResource[] = [
+  {
+    id: "introducing-python-course-resource",
+    url: introducingPythonCourseUrl,
+    imgSrc: introducingPythonCourseImage,
+  },
+  {
+    id: "microbit-classroom-resource",
+    url: microbitClassroomUrl,
+    imgSrc: microbitClassroomImage,
+  },
+  {
+    id: "python-editor-poster-creativity-resource",
+    url: microbitOrgClassroomResourceUrl("python-editor-poster-creativity"),
+    imgSrc: posterCreativityImage,
+  },
+  {
+    id: "python-editor-poster-debugging-resource",
+    url: microbitOrgClassroomResourceUrl("python-editor-poster-debugging"),
+    imgSrc: posterDebuggingImage,
+  },
+  {
+    id: "microbit-labelling-worksheet-resource",
+    url: microbitOrgClassroomResourceUrl("microbit-labelling-worksheet"),
+    imgSrc: labellingWorksheetImage,
+  },
+];
 
 export const createLessonCards = (intl: IntlShape) => [
   <ResourceCard
@@ -72,10 +220,23 @@ export const createLessonCards = (intl: IntlShape) => [
     title={intl.formatMessage({
       id: "first-lessons-with-python-resource-title",
     })}
+    description={intl.formatMessage({
+      id: "first-lessons-with-python-resource-description",
+    })}
     url={microbitOrgLessonUrl("first-lessons-with-python-and-the-microbit")}
     imgSrc={firstLessonsImage}
+    imageFit="contain"
     imagePadding={5}
   />,
+  ...teacherResources.map((resource) => (
+    <ResourceCard
+      key={resource.id}
+      title={intl.formatMessage({ id: `${resource.id}-title` })}
+      description={intl.formatMessage({ id: `${resource.id}-description` })}
+      url={resource.url}
+      imgSrc={resource.imgSrc}
+    />
+  )),
 ];
 
 type HelpLinks = Pick<
@@ -111,5 +272,6 @@ export const createHelpCards = (
         title={intl.formatMessage({ id: help.titleId })}
         url={help.url}
         imgSrc={help.imgSrc}
+        imageFit="contain"
       />
     ));
