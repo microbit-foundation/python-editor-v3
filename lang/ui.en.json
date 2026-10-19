@@ -355,6 +355,10 @@
     "defaultMessage": "Firmware update required",
     "description": "Title for the firmware update dialog"
   },
+  "first-lessons-with-python-resource-description": {
+    "defaultMessage": "Move from blocks to text-based coding with six familiar projects",
+    "description": "Description on the teacher resource card for the first lessons unit"
+  },
   "first-lessons-with-python-resource-title": {
     "defaultMessage": "First lessons with Python and the micro:bit",
     "description": "Title of the teacher resource card for the first lessons unit"
@@ -474,6 +478,14 @@
   "insert-code-action": {
     "defaultMessage": "Insert code"
   },
+  "introducing-python-course-resource-description": {
+    "defaultMessage": "Introduces our Python Editor that helps learners to write code for the BBC micro:bit. We will highlight all the great features in our editor that support you and your learners to code the micro:bit successfully using Python",
+    "description": "Description on the teacher resource card for the online course introducing Python and the micro:bit"
+  },
+  "introducing-python-course-resource-title": {
+    "defaultMessage": "Introducing Python & the micro:bit (15 mins)",
+    "description": "Title of the teacher resource card for the online course introducing Python and the micro:bit; matches the resource name"
+  },
   "language": {
     "defaultMessage": "Language",
     "description": "Language option text"
@@ -586,9 +598,25 @@
     "defaultMessage": "Make it: code it projects",
     "description": "Heading of the home page row of \"Make it: code it\" project cards from microbit.org"
   },
+  "microbit-classroom-resource-description": {
+    "defaultMessage": "Run whole class sessions, easily share code with students and save progress",
+    "description": "Description on the teacher resource card for micro:bit classroom"
+  },
+  "microbit-classroom-resource-title": {
+    "defaultMessage": "micro:bit classroom",
+    "description": "Title of the teacher resource card for micro:bit classroom; matches the resource name"
+  },
   "microbit-hearts-alt": {
     "defaultMessage": "micro:bit board with the 5 by 5 LED grid showing a heart",
     "description": "Alt text for micro:bit image in About dialog"
+  },
+  "microbit-labelling-worksheet-resource-description": {
+    "defaultMessage": "Label the features of the micro:bit on this worksheet",
+    "description": "Description on the teacher resource card for the micro:bit labelling worksheet"
+  },
+  "microbit-labelling-worksheet-resource-title": {
+    "defaultMessage": "micro:bit labelling worksheet",
+    "description": "Title of the teacher resource card for the micro:bit labelling worksheet; matches the resource name"
   },
   "micropython-documentation": {
     "defaultMessage": "MicroPython documentation",
@@ -761,6 +789,22 @@
   "projects-page-title": {
     "defaultMessage": "Projects",
     "description": "Title of the page listing all projects"
+  },
+  "python-editor-poster-creativity-resource-description": {
+    "defaultMessage": "Use ideas, reference code and the simulator to get creative",
+    "description": "Description on the teacher resource card for the Python Editor creativity poster"
+  },
+  "python-editor-poster-creativity-resource-title": {
+    "defaultMessage": "Python creativity poster",
+    "description": "Title of the teacher resource card for the Python Editor creativity poster; matches the resource name"
+  },
+  "python-editor-poster-debugging-resource-description": {
+    "defaultMessage": "Spot errors and avoid typing mistakes as you code",
+    "description": "Description on the teacher resource card for the Python Editor debugging poster"
+  },
+  "python-editor-poster-debugging-resource-title": {
+    "defaultMessage": "Python debugging poster",
+    "description": "Title of the teacher resource card for the Python Editor debugging poster; matches the resource name"
   },
   "python-powered": {
     "defaultMessage": "Python powered",

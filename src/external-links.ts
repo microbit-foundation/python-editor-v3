@@ -40,3 +40,11 @@ export const microbitOrgCodeAiPythonUrl =
 
 export const microbitOrgLessonUrl = (slug: string) =>
   `https://microbit.org/teach/lessons/${encodeURIComponent(slug)}/`;
+
+export const microbitOrgClassroomResourceUrl = (slug: string) =>
+  `https://microbit.org/teach/classroom-resources/${encodeURIComponent(slug)}/`;
+
+export const introducingPythonCourseUrl =
+  "https://microbit.thinkific.com/courses/introducing-python-micro-bit";
+
+export const microbitClassroomUrl = "https://classroom.microbit.org/";

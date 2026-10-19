@@ -17,6 +17,11 @@ import ideaClapLights from "theme-package/images/idea-clap-lights.png";
 import ideaFrereJacques from "theme-package/images/idea-frere-jacques.png";
 import hotPotatoGame from "theme-package/images/hot-potato-game.jpg";
 import indoorOutdoorThermometer from "theme-package/images/indoor-outdoor-thermometer.png";
+import introducingPythonCourseImage from "theme-package/images/introducing-python-course.png";
+import labellingWorksheetImage from "theme-package/images/microbit-labelling-worksheet.jpg";
+import microbitClassroomImage from "theme-package/images/microbit-classroom.png";
+import posterCreativityImage from "theme-package/images/python-editor-poster-creativity.jpg";
+import posterDebuggingImage from "theme-package/images/python-editor-poster-debugging.jpg";
 import maxminTemperatureLogger from "theme-package/images/maxmin-temperature-logger.png";
 import sensitiveStepCounter from "theme-package/images/sensitive-step-counter.jpg";
 import teleportingDuck from "theme-package/images/teleporting-duck.jpg";
@@ -25,7 +30,13 @@ import treasureHunt from "theme-package/images/treasure-hunt.png";
 import troubleshootingImage from "theme-package/images/troubleshooting.svg";
 import userGuideImage from "theme-package/images/user-guide.svg";
 import { BrandConfig } from "../deployment";
-import { microbitOrgLessonUrl, microbitOrgProjectUrl } from "../external-links";
+import {
+  introducingPythonCourseUrl,
+  microbitClassroomUrl,
+  microbitOrgClassroomResourceUrl,
+  microbitOrgLessonUrl,
+  microbitOrgProjectUrl,
+} from "../external-links";
 import { RouterState } from "../router-hooks";
 import { Level } from "./LevelIndicator";
 import ResourceCard from "./ResourceCard";
@@ -168,17 +179,64 @@ export const createMiciProjectCards = (intl: IntlShape, languageId: string) =>
     />
   ));
 
+interface TeacherResource {
+  /** Message id prefix for `-title` and `-description`. */
+  id: string;
+  url: string;
+  imgSrc: string;
+}
+
+const teacherResources: TeacherResource[] = [
+  {
+    id: "introducing-python-course-resource",
+    url: introducingPythonCourseUrl,
+    imgSrc: introducingPythonCourseImage,
+  },
+  {
+    id: "microbit-classroom-resource",
+    url: microbitClassroomUrl,
+    imgSrc: microbitClassroomImage,
+  },
+  {
+    id: "python-editor-poster-creativity-resource",
+    url: microbitOrgClassroomResourceUrl("python-editor-poster-creativity"),
+    imgSrc: posterCreativityImage,
+  },
+  {
+    id: "python-editor-poster-debugging-resource",
+    url: microbitOrgClassroomResourceUrl("python-editor-poster-debugging"),
+    imgSrc: posterDebuggingImage,
+  },
+  {
+    id: "microbit-labelling-worksheet-resource",
+    url: microbitOrgClassroomResourceUrl("microbit-labelling-worksheet"),
+    imgSrc: labellingWorksheetImage,
+  },
+];
+
 export const createLessonCards = (intl: IntlShape) => [
   <ResourceCard
     key="first-lessons"
     title={intl.formatMessage({
       id: "first-lessons-with-python-resource-title",
     })}
+    description={intl.formatMessage({
+      id: "first-lessons-with-python-resource-description",
+    })}
     url={microbitOrgLessonUrl("first-lessons-with-python-and-the-microbit")}
     imgSrc={firstLessonsImage}
     imageFit="contain"
     imagePadding={5}
   />,
+  ...teacherResources.map((resource) => (
+    <ResourceCard
+      key={resource.id}
+      title={intl.formatMessage({ id: `${resource.id}-title` })}
+      description={intl.formatMessage({ id: `${resource.id}-description` })}
+      url={resource.url}
+      imgSrc={resource.imgSrc}
+    />
+  )),
 ];
 
 type HelpLinks = Pick<
