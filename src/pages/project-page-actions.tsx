@@ -6,26 +6,28 @@
  * SPDX-License-Identifier: MIT
  */
 import { ProjectSummary, useProjectActions } from "@microbit/ui-patterns";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
-import { useNavigate } from "react-router";
+import {
+  ActionFunctionArgs,
+  redirect,
+  useFetcher,
+  useFetchers,
+  useNavigate,
+  useNavigation,
+} from "react-router";
 import useActionFeedback from "../common/use-action-feedback";
 import { useLogging } from "../logging/logging-hooks";
 import { useProjectImporter } from "../project/project-hooks";
 import { ImportSource } from "../project/project-import";
+import { Projects } from "../project/projects";
 import { useProjectList, useProjects } from "../project/projects-hooks";
 import {
   isQuotaExceededError,
   useShowStorageError,
 } from "../project/storage-error-toast";
 import { RouterState } from "../router-hooks";
-import { createEditorUrl } from "../urls";
+import { createEditorUrl, routerPathFromUrl } from "../urls";
 
 /** Which page an action happened on, for analytics. */
 export type ProjectSurface = "home" | "projects";
@@ -34,50 +36,48 @@ export interface PageProject extends ProjectSummary {
   fileNames: string[];
 }
 
+/** Shared by every create, so pages can see one in progress. */
+const createProjectFetcherKey = "create-project";
+
+/** The editor route's action result when creating a project fails. */
+interface CreateProjectFailure {
+  error: unknown;
+}
+
 /**
- * Set while a new project is created and the editor opened on it, so the
- * page doesn't show the new card in the moment before it navigates away.
- * Cleared if that doesn't happen, otherwise when the page unmounts: the
- * router commits the editor in a transition after navigate resolves.
+ * The editor route's action: creates a project named by the form and opens
+ * the editor on it at the same URL. Part of the navigation, so the router
+ * knows a create is in progress until the editor is showing.
  */
-let leavingPage = false;
-const leavingPageListeners = new Set<() => void>();
-
-const setLeavingPage = (value: boolean) => {
-  leavingPage = value;
-  leavingPageListeners.forEach((listener) => listener());
-};
-
-/** Runs `action`, which resolves true if it navigated away. */
-const whileLeavingPage = async (action: () => Promise<boolean>) => {
-  setLeavingPage(true);
-  let left = false;
-  try {
-    left = await action();
-  } finally {
-    if (!left) {
-      setLeavingPage(false);
+export const createProjectAction =
+  (projects: Projects) =>
+  async ({
+    request,
+  }: ActionFunctionArgs): Promise<Response | CreateProjectFailure> => {
+    const name = (await request.formData()).get("name");
+    try {
+      await projects.create(typeof name === "string" ? name : "");
+    } catch (error) {
+      return { error };
     }
-  }
-};
-
-const subscribeLeavingPage = (listener: () => void) => {
-  leavingPageListeners.add(listener);
-  return () => leavingPageListeners.delete(listener);
-};
+    return redirect(routerPathFromUrl(request.url));
+  };
 
 /**
  * The projects as the shared components want them: every one has a name.
- * Held while leaving the page for a new project.
+ * Held while a create is in progress, so the new card doesn't show in the
+ * moment before the page gives way to the editor.
  */
 export const usePageProjects = (): PageProject[] => {
   const list = useProjectList();
-  const leaving = useSyncExternalStore(subscribeLeavingPage, () => leavingPage);
+  const creating = useFetchers().some(
+    (f) => f.key === createProjectFetcherKey && f.state !== "idle"
+  );
+  const navigating = useNavigation().state !== "idle";
   const [shownList, setShownList] = useState(list);
-  if (!leaving && shownList !== list) {
+  if (!creating && !navigating && shownList !== list) {
     setShownList(list);
   }
-  useEffect(() => () => setLeavingPage(false), []);
   const intl = useIntl();
   const untitled = intl.formatMessage({ id: "untitled-project" });
   return useMemo(
@@ -86,46 +86,64 @@ export const usePageProjects = (): PageProject[] => {
   );
 };
 
-/** Runs a storage action, reporting failures as toasts. */
-const useAttempt = () => {
+/** Reports a failed storage action as a toast. */
+const useReportError = () => {
   const actionFeedback = useActionFeedback();
   const showStorageError = useShowStorageError();
   return useCallback(
-    async (action: () => Promise<void>) => {
-      try {
-        await action();
-      } catch (e) {
-        if (isQuotaExceededError(e)) {
-          showStorageError(e);
-        } else {
-          actionFeedback.unexpectedError(e);
-        }
+    (e: unknown) => {
+      if (isQuotaExceededError(e)) {
+        showStorageError(e);
+      } else {
+        actionFeedback.unexpectedError(e);
       }
     },
     [actionFeedback, showStorageError]
   );
 };
 
+/** Runs a storage action, reporting failures as toasts. */
+const useAttempt = () => {
+  const reportError = useReportError();
+  return useCallback(
+    async (action: () => Promise<void>) => {
+      try {
+        await action();
+      } catch (e) {
+        reportError(e);
+      }
+    },
+    [reportError]
+  );
+};
+
 /**
  * Creates a project and opens the editor on it, optionally at a
- * documentation tab and anchor.
+ * documentation tab and anchor. Goes through the editor route's action
+ * (createProjectAction).
  */
 export const useCreateProject = (surface: ProjectSurface) => {
-  const store = useProjects();
   const logging = useLogging();
-  const navigate = useNavigate();
-  const attempt = useAttempt();
+  const reportError = useReportError();
+  const fetcher = useFetcher<CreateProjectFailure>({
+    key: createProjectFetcherKey,
+  });
+  const failure = fetcher.data;
+  useEffect(() => {
+    if (failure) {
+      reportError(failure.error);
+    }
+  }, [failure, reportError]);
+  const { submit } = fetcher;
   return useCallback(
-    (name: string, state?: RouterState) =>
-      attempt(() =>
-        whileLeavingPage(async () => {
-          logging.event({ type: "project_create", detail: { surface } });
-          await store.create(name);
-          await navigate(createEditorUrl(state));
-          return true;
-        })
-      ),
-    [attempt, logging, navigate, store, surface]
+    async (name: string, state?: RouterState) => {
+      logging.event({ type: "project_create", detail: { surface } });
+      await submit(
+        { name },
+        { method: "post", action: createEditorUrl(state) }
+      );
+    },
+    [logging, submit, surface]
   );
 };
 
@@ -187,14 +205,11 @@ export const useImportProjectFiles = (): ((
   const importer = useProjectImporter();
   const navigate = useNavigate();
   return useCallback(
-    (files: File[], source: ImportSource) =>
-      whileLeavingPage(async () => {
-        if (await importer.importAsNewProject(files, source)) {
-          await navigate(createEditorUrl());
-          return true;
-        }
-        return false;
-      }),
+    async (files: File[], source: ImportSource) => {
+      if (await importer.importAsNewProject(files, source)) {
+        await navigate(createEditorUrl());
+      }
+    },
     [importer, navigate]
   );
 };
