@@ -87,7 +87,10 @@ const ResourceCard = ({
           {onClick ? (
             <LinkOverlayButton
               onClick={onClick}
+              // Undo the button recipe's size, so it matches the link.
               css={{
+                h: "auto",
+                minW: "0",
                 fontSize: "inherit",
                 fontWeight: "inherit",
                 textAlign: "start",
