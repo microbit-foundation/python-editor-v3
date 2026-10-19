@@ -11,9 +11,11 @@ import {
   LinkBox,
   LinkOverlay,
   LinkOverlayButton,
+  Text,
   VStack,
 } from "@microbit/ui";
 import { ReactNode } from "react";
+import LevelIndicator, { Level } from "./LevelIndicator";
 
 type ResourceCardProps = {
   /** A 2:1 image area instead of 4:3. */
@@ -24,6 +26,9 @@ type ResourceCardProps = {
   imageFit?: "cover" | "contain";
   imgSrc: string;
   title: ReactNode;
+  /** A line under the title saying what the resource is. */
+  description?: ReactNode;
+  level?: Level;
 } & (
   | { /** A page on another site. */ url: string; onClick?: undefined }
   | { /** An action within the app. */ onClick: () => void; url?: undefined }
@@ -40,6 +45,8 @@ const ResourceCard = ({
   url,
   onClick,
   title,
+  description,
+  level,
 }: ResourceCardProps) => (
   <LinkBox
     display="flex"
@@ -75,25 +82,49 @@ const ResourceCard = ({
       </Box>
     </AspectRatio>
     <VStack p={3} py={2} pb={3} flexGrow={1} gap={3} alignItems="stretch">
-      <Heading as="h3" fontSize="lg" fontWeight="bold" m={3}>
-        {onClick ? (
-          <LinkOverlayButton
-            onClick={onClick}
-            css={{
-              fontSize: "inherit",
-              fontWeight: "inherit",
-              textAlign: "start",
-              whiteSpace: "normal",
-            }}
+      <VStack m={3} gap={2} flexGrow={1} alignItems="stretch">
+        <Heading as="h3" fontSize="lg" fontWeight="bold">
+          {onClick ? (
+            <LinkOverlayButton
+              onClick={onClick}
+              css={{
+                fontSize: "inherit",
+                fontWeight: "inherit",
+                textAlign: "start",
+                whiteSpace: "normal",
+              }}
+            >
+              {title}
+            </LinkOverlayButton>
+          ) : (
+            <LinkOverlay href={url} _focusVisible={{ focusRing: "outline" }}>
+              {title}
+            </LinkOverlay>
+          )}
+        </Heading>
+        {(description !== undefined || level) && (
+          // As microbit.org's CardContent: the body sits at the bottom with
+          // a fixed-height description, so the spare space in a stretched
+          // card goes under the title and descriptions line up across a row.
+          <VStack
+            flexGrow={1}
+            justifyContent="flex-end"
+            alignItems="stretch"
+            gap={2}
           >
-            {title}
-          </LinkOverlayButton>
-        ) : (
-          <LinkOverlay href={url} _focusVisible={{ focusRing: "outline" }}>
-            {title}
-          </LinkOverlay>
+            {description !== undefined && (
+              <Text lineClamp={2} h="2lh">
+                {description}
+              </Text>
+            )}
+            {level && (
+              <Text fontSize="xs" color="gray.600">
+                <LevelIndicator value={level} />
+              </Text>
+            )}
+          </VStack>
         )}
-      </Heading>
+      </VStack>
     </VStack>
   </LinkBox>
 );

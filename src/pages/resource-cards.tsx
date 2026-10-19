@@ -27,6 +27,7 @@ import userGuideImage from "theme-package/images/user-guide.svg";
 import { BrandConfig } from "../deployment";
 import { microbitOrgLessonUrl, microbitOrgProjectUrl } from "../external-links";
 import { RouterState } from "../router-hooks";
+import { Level } from "./LevelIndicator";
 import ResourceCard from "./ResourceCard";
 
 interface Idea {
@@ -96,6 +97,8 @@ export const createIdeaCards = (
 
 interface MiciProject {
   titleId: string;
+  descriptionId: string;
+  level: Level;
   /** The "make it: code it" project's slug on microbit.org. */
   slug: string;
   imgSrc: string;
@@ -104,36 +107,50 @@ interface MiciProject {
 const miciProjects: MiciProject[] = [
   {
     titleId: "mici-project-thermometer-title",
+    descriptionId: "mici-project-thermometer-description",
+    level: "beginner",
     slug: "thermometer",
     imgSrc: thermometer,
   },
   {
     titleId: "mici-project-sensitive-step-counter-title",
+    descriptionId: "mici-project-sensitive-step-counter-description",
+    level: "beginner",
     slug: "sensitive-step-counter",
     imgSrc: sensitiveStepCounter,
   },
   {
     titleId: "mici-project-treasure-hunt-title",
+    descriptionId: "mici-project-treasure-hunt-description",
+    level: "intermediate",
     slug: "treasure-hunt",
     imgSrc: treasureHunt,
   },
   {
     titleId: "mici-project-maxmin-temperature-logger-title",
+    descriptionId: "mici-project-maxmin-temperature-logger-description",
+    level: "advanced",
     slug: "maxmin-temperature-logger",
     imgSrc: maxminTemperatureLogger,
   },
   {
     titleId: "mici-project-indoor-outdoor-thermometer-title",
+    descriptionId: "mici-project-indoor-outdoor-thermometer-description",
+    level: "intermediate",
     slug: "indoor-outdoor-thermometer",
     imgSrc: indoorOutdoorThermometer,
   },
   {
     titleId: "mici-project-teleporting-duck-title",
+    descriptionId: "mici-project-teleporting-duck-description",
+    level: "beginner",
     slug: "teleporting-duck",
     imgSrc: teleportingDuck,
   },
   {
     titleId: "mici-project-hot-potato-game-title",
+    descriptionId: "mici-project-hot-potato-game-description",
+    level: "intermediate",
     slug: "hot-potato-game",
     imgSrc: hotPotatoGame,
   },
@@ -144,6 +161,8 @@ export const createMiciProjectCards = (intl: IntlShape, languageId: string) =>
     <ResourceCard
       key={project.titleId}
       title={intl.formatMessage({ id: project.titleId })}
+      description={intl.formatMessage({ id: project.descriptionId })}
+      level={project.level}
       url={microbitOrgProjectUrl(project.slug, languageId)}
       imgSrc={project.imgSrc}
     />

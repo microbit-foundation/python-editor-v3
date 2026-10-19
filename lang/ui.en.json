@@ -486,6 +486,18 @@
     "defaultMessage": "Less",
     "description": "Less button text (showing less content)"
   },
+  "level-advanced": {
+    "defaultMessage": "Advanced",
+    "description": "Level of a microbit.org project, shown on its card beside a bars icon; matches microbit.org"
+  },
+  "level-beginner": {
+    "defaultMessage": "Beginner",
+    "description": "Level of a microbit.org project, shown on its card beside a bars icon; matches microbit.org"
+  },
+  "level-intermediate": {
+    "defaultMessage": "Intermediate",
+    "description": "Level of a microbit.org project, shown on its card beside a bars icon; matches microbit.org"
+  },
   "load-error-makecode-info": {
     "defaultMessage": "This hex file cannot be loaded in the Python Editor. The Python Editor cannot open hex files created with Microsoft MakeCode.",
     "description": "Load error message"
@@ -514,29 +526,57 @@
     "defaultMessage": "Loading…",
     "description": "Shown on loading indicators"
   },
+  "mici-project-hot-potato-game-description": {
+    "defaultMessage": "Play ‘hot potato’ using a micro:bit!",
+    "description": "Description on a \"Make it: code it\" project card; matches the microbit.org project listing"
+  },
   "mici-project-hot-potato-game-title": {
     "defaultMessage": "Hot potato game",
     "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
+  },
+  "mici-project-indoor-outdoor-thermometer-description": {
+    "defaultMessage": "Sense how warm or cold it is outside",
+    "description": "Description on a \"Make it: code it\" project card; matches the microbit.org project listing"
   },
   "mici-project-indoor-outdoor-thermometer-title": {
     "defaultMessage": "Indoor-outdoor thermometer",
     "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
   },
+  "mici-project-maxmin-temperature-logger-description": {
+    "defaultMessage": "Store temperature readings",
+    "description": "Description on a \"Make it: code it\" project card; matches the microbit.org project listing"
+  },
   "mici-project-maxmin-temperature-logger-title": {
     "defaultMessage": "Max-min temperature logger",
     "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
+  },
+  "mici-project-sensitive-step-counter-description": {
+    "defaultMessage": "Make your own step counter with a micro:bit",
+    "description": "Description on a \"Make it: code it\" project card; matches the microbit.org project listing"
   },
   "mici-project-sensitive-step-counter-title": {
     "defaultMessage": "Sensitive step counter",
     "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
   },
+  "mici-project-teleporting-duck-description": {
+    "defaultMessage": "Teleport a duck between micro:bits using radio",
+    "description": "Description on a \"Make it: code it\" project card; matches the microbit.org project listing"
+  },
   "mici-project-teleporting-duck-title": {
     "defaultMessage": "Teleporting duck",
     "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
   },
+  "mici-project-thermometer-description": {
+    "defaultMessage": "Make a simple thermometer with your micro:bit",
+    "description": "Description on a \"Make it: code it\" project card; matches the microbit.org project listing"
+  },
   "mici-project-thermometer-title": {
     "defaultMessage": "Thermometer",
     "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
+  },
+  "mici-project-treasure-hunt-description": {
+    "defaultMessage": "Multi-player radio treasure hunt game",
+    "description": "Description on a \"Make it: code it\" project card; matches the microbit.org project listing"
   },
   "mici-project-treasure-hunt-title": {
     "defaultMessage": "Treasure hunt",
