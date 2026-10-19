@@ -594,6 +594,10 @@
     "defaultMessage": "Treasure hunt",
     "description": "Title of a \"Make it: code it\" project card; matches the microbit.org project name"
   },
+  "mici-projects-row-subtitle": {
+    "defaultMessage": "Quick Python projects to help you get the most out of the micro:bit’s features — and have fun!",
+    "description": "Text under the heading of the home page row of \"Make it: code it\" project cards"
+  },
   "mici-projects-row-title": {
     "defaultMessage": "Make it: code it projects",
     "description": "Heading of the home page row of \"Make it: code it\" project cards from microbit.org"

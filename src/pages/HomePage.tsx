@@ -83,6 +83,7 @@ const HomePage = () => {
         <CarouselRow
           carouselItems={createMiciProjectCards(intl, languageId)}
           title={<FormattedMessage id="mici-projects-row-title" />}
+          subtitle={<FormattedMessage id="mici-projects-row-subtitle" />}
           actions={
             <a
               href={microbitOrgMiciProjectsUrl(languageId)}
