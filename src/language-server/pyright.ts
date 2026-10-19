@@ -14,7 +14,7 @@ import { supportedLanguages } from "../settings/settings";
 import { ToastFn } from "@microbit/ui";
 
 // This is modified by bin/update-pyright.sh
-const workerScriptName = "pyright-main-d88c47e1d8506418b899.worker.js";
+const workerScriptName = "pyright-main-3b23940fec1360f4ae85.worker.js";
 
 // Very simple cache to avoid React re-creating pointlessly in development.
 let counter = 0;

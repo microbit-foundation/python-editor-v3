@@ -1,3 +1,4 @@
 src/editor/codemirror/lint/lint.ts
 styled-system
 src/styled-system.css
+src/micropython/main/typeshed.*.json
