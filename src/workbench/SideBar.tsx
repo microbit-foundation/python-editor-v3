@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 import { Icon, usePrevious } from "@microbit/ui";
-import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { TabList, TabPanel, TabPanels, Tabs } from "react-aria-components";
 import { IconType } from "react-icons";
 import { RiHome2Line, RiLightbulbFlashLine } from "react-icons/ri";
@@ -125,7 +132,9 @@ const SideBar = ({
     );
     (activePanel as HTMLElement | null)?.focus();
   };
-  useEffect(() => {
+  // Before paint, so opening the editor on a tab (e.g. an idea from the home
+  // page) doesn't first show the default tab.
+  useLayoutEffect(() => {
     // Initialize from the router state. Start-up and navigation.
     const tabIndex = panes.findIndex((p) => p.id === tab);
     if (tabIndex !== -1) {

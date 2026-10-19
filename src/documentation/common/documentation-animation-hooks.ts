@@ -11,6 +11,8 @@ export type AnimationDirection = "forward" | "back" | "none";
 /**
  * Compute the animation direction based on the change in the anchor.
  *
+ * None for the anchor the panel mounts with (a reload, a link, opening an
+ * idea from the home page), so only navigating within the panel animates.
  * Held until the anchor's id changes: dropping the animation class on an
  * unrelated re-render would cut a running animation short.
  *
@@ -24,7 +26,7 @@ export const useAnimationDirection = (
   const [last, setLast] = useState<{
     id: string | undefined;
     direction: AnimationDirection;
-  }>({ id, direction: id ? "forward" : "none" });
+  }>({ id, direction: "none" });
   if (last.id !== id) {
     const direction: AnimationDirection =
       !last.id && id ? "forward" : last.id && !id ? "back" : "none";
