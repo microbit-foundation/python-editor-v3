@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useMediaQuery } from "@microbit/ui";
+import { useMediaQuery, usePrevious } from "@microbit/ui";
 import { Flex, styled } from "styled-system/jsx";
 import {
   ReactNode,
@@ -130,11 +130,23 @@ const Workbench = () => {
     }
   }, [handleSidebarCollapse]);
   const hideSideBarMediaQueryValue = useMediaQuery(hideSidebarMediaQuery);
+  const previousHideSideBarMediaQueryValue = usePrevious(
+    hideSideBarMediaQueryValue
+  );
   useEffect(() => {
-    if (hideSideBarMediaQueryValue) {
+    // Only on narrowing: the initial state already suits the width, and a
+    // tab in the URL (e.g. an idea from the home page) must stay open.
+    if (
+      hideSideBarMediaQueryValue &&
+      previousHideSideBarMediaQueryValue === false
+    ) {
       handleSidebarCollapse();
     }
-  }, [hideSideBarMediaQueryValue, handleSidebarCollapse]);
+  }, [
+    hideSideBarMediaQueryValue,
+    previousHideSideBarMediaQueryValue,
+    handleSidebarCollapse,
+  ]);
 
   const editor = (
     <styled.section height="100%">
