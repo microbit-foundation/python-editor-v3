@@ -324,7 +324,7 @@ export const buildIndex = async (
   );
 };
 
-type LunrLanguage = "de" | "es" | "fr" | "ja" | "nl" | "ko";
+type LunrLanguage = "de" | "es" | "fr" | "ja" | "nl" | "ko" | "pt";
 
 export class SearchWorker {
   private search: LunrSearch | undefined;

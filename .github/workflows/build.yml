@@ -16,32 +16,45 @@ env:
   NPM_VERSION: "11"
   # renovate: datasource=npm depName=@microbit-foundation/python-editor-v3-microbit registryUrl=https://npm.pkg.github.com
   THEME_VERSION: 0.0.0-home.page.124
-  # renovate: datasource=npm depName=@microbit-foundation/website-deploy-aws registryUrl=https://npm.pkg.github.com
-  DEPLOY_AWS_VERSION: "0.6.0"
-  # renovate: datasource=npm depName=@microbit-foundation/website-deploy-aws-config registryUrl=https://npm.pkg.github.com
-  DEPLOY_AWS_CONFIG_VERSION: "0.10.1"
 
 jobs:
+  stages:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      matrix: ${{ steps.stages.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - id: stages
+        run: node ./bin/print-ci-stages.cjs >> "$GITHUB_OUTPUT"
+
   build:
-    timeout-minutes: 15
+    needs: stages
+    name: build (${{ matrix.stage }})
+    strategy:
+      # Each stage deploys only if its own checks pass.
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.stages.outputs.matrix) }}
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: read
+      # Deploys assume an AWS role through GitHub OIDC.
+      id-token: write
     env:
+      STAGE: ${{ matrix.stage }}
       AWS_DEFAULT_REGION: eu-west-1
-      PRODUCTION_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
-      STAGING_CLOUDFRONT_DISTRIBUTION_ID: E2ELTBTA2OFPY2
-      REVIEW_CLOUDFRONT_DISTRIBUTION_ID: E3267W09ZJHQG9
       VITE_FOUNDATION_BUILD: ${{ github.repository_owner == 'microbit-foundation' }}
       # This feature is also controlled by a client-side feature flag that is disabled by default for the moment
       FEATURE_PWA: ${{ github.repository_owner == 'microbit-foundation' }}
 
     steps:
       # Note: This workflow disables deployment steps and micro:bit branding installation on forks.
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Configure node
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24.x
           cache: "npm"
@@ -51,7 +64,7 @@ jobs:
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@${{ env.THEME_VERSION }} @microbit-foundation/website-deploy-aws@${{ env.DEPLOY_AWS_VERSION }} @microbit-foundation/website-deploy-aws-config@${{ env.DEPLOY_AWS_CONFIG_VERSION }}
+      - run: npm install --no-save @microbit-foundation/python-editor-v3-microbit@${{ env.THEME_VERSION }}
         if: github.repository_owner == 'microbit-foundation'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -60,29 +73,35 @@ jobs:
       - run: npm run ci
         env:
           VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-      - run: mkdir -p /tmp/app${BASE_URL} && cp -r build/* /tmp/app${BASE_URL} && npx serve --no-clipboard -l 3000 /tmp/app &
-        if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-      - run: curl --insecure -4 --retry 7 --retry-connrefused http://localhost:3000 1>/dev/null
-        if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
+          # Uploads source maps to Sentry. Review builds don't report to Sentry.
+          SENTRY_AUTH_TOKEN: ${{ env.STAGE != 'REVIEW' && secrets.SENTRY_AUTH_TOKEN || '' }}
+      # One stage per ref runs Playwright (bin/print-ci-stages.cjs).
       - name: Run Playwright tests
-        if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
-        uses: docker://mcr.microsoft.com/playwright:v1.63.0-noble
+        if: matrix.playwright
+        timeout-minutes: 10
+        uses: docker://mcr.microsoft.com/playwright:v1.64.0-noble
         with:
           args: npx playwright test
       - name: Store reports
-        if: (env.STAGE == 'REVIEW' || env.STAGE == 'STAGING') && failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: matrix.playwright && failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
-          name: reports
+          name: playwright-report
           path: playwright-report/
           retention-days: 3
+      # Review deploys even when tests fail. The buckets, distributions and
+      # roles are in microbit-foundation/microbit-org's apps/python. Only main
+      # and release tags can assume the role for staging, beta and production.
+      - uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4
+        if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' && !cancelled() || success())
+        with:
+          role-to-assume: arn:aws:iam::700731169244:role/github-actions-deploy-python-content${{ env.STAGE != 'REVIEW' && '-release' || '' }}
+          aws-region: eu-west-1
       - run: npm run deploy
-        if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())
+        if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' && !cancelled() || success())
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.WEB_DEPLOY_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.WEB_DEPLOY_AWS_SECRET_ACCESS_KEY }}
+          # Set to 1 for one deploy after changing params in deployment.cjs,
+          # as unchanged files are otherwise skipped.
+          WEBSITE_DEPLOY_FORCE: 0
       - run: npm run invalidate
-        if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' || success())
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.WEB_DEPLOY_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.WEB_DEPLOY_AWS_SECRET_ACCESS_KEY }}
+        if: github.repository_owner == 'microbit-foundation' && (env.STAGE == 'REVIEW' && !cancelled() || success())

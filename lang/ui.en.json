@@ -884,7 +884,7 @@
   },
   "serial-ctrl-d-action": {
     "defaultMessage": "Send Ctrl+D to reset",
-    "description": "Button to reset the micro:bit from the serial area"
+    "description": "Button in the serial area that restarts the program running on the micro:bit"
   },
   "serial-expand": {
     "defaultMessage": "Show serial",
@@ -1004,11 +1004,11 @@
   },
   "simulator-button-hold-label": {
     "defaultMessage": "Hold button {button}",
-    "description": "Aria label for simulator toggle button"
+    "description": "Accessible name of the toggle that keeps simulator button {button} pressed down. 'Hold' is the verb, as in press and hold."
   },
   "simulator-button-press-label": {
     "defaultMessage": "Press button {button}",
-    "description": "Aria label for simulator push button"
+    "description": "Accessible name of the control that presses and releases simulator button {button}."
   },
   "simulator-buttons": {
     "defaultMessage": "Buttons",
@@ -1028,7 +1028,7 @@
   },
   "simulator-compass-heading-one": {
     "defaultMessage": "Heading",
-    "description": "Sub heading for simulator Compass panel"
+    "description": "Compass heading: the direction the micro:bit is pointing, in degrees. Label in the simulator Compass panel, not a UI heading."
   },
   "simulator-compass-heading-two": {
     "defaultMessage": "Magnetic field strength",
@@ -1080,11 +1080,11 @@
   },
   "simulator-gesture-face-down": {
     "defaultMessage": "face down",
-    "description": "Simulator gesture option"
+    "description": "Simulator gesture option: the micro:bit lying flat with the LEDs facing down"
   },
   "simulator-gesture-face-up": {
     "defaultMessage": "face up",
-    "description": "Simulator gesture option"
+    "description": "Simulator gesture option: the micro:bit lying flat with the LEDs facing up"
   },
   "simulator-gesture-freefall": {
     "defaultMessage": "freefall",
@@ -1120,11 +1120,11 @@
   },
   "simulator-input-hold": {
     "defaultMessage": "Hold",
-    "description": "Label for UI toggles to hold simulator buttons or pins"
+    "description": "Label for the toggles that keep a simulator button or pin pressed down. 'Hold' is the verb, as in press and hold."
   },
   "simulator-input-press": {
     "defaultMessage": "Press",
-    "description": "Label for UI buttons to press simulator buttons or pins"
+    "description": "Label for the controls that press and release a simulator button or pin."
   },
   "simulator-light-level": {
     "defaultMessage": "Light level",
@@ -1144,11 +1144,11 @@
   },
   "simulator-pin-hold-label": {
     "defaultMessage": "Hold pin {pin}",
-    "description": "Aria label for simulator pin control"
+    "description": "Accessible name of the toggle that keeps simulator pin {pin} pressed down. 'Hold' is the verb, as in press and hold."
   },
   "simulator-pin-press-label": {
     "defaultMessage": "Press pin {pin}",
-    "description": "Aria label for simulator pin control"
+    "description": "Accessible name of the control that presses and releases simulator pin {pin}."
   },
   "simulator-pins": {
     "defaultMessage": "Pins",
@@ -1164,7 +1164,7 @@
   },
   "simulator-radio-code": {
     "defaultMessage": "micro:bit sent:",
-    "description": "Visually hidden text for a radio message sent from the simulated micro:bit. Text of the message follows."
+    "description": "Visually hidden text read as a sentence, \"micro:bit sent: <message>\", for a radio message the simulated micro:bit sent. The micro:bit is the sender."
   },
   "simulator-radio-group-notice": {
     "defaultMessage": "Radio group set to {groupNumber}",
@@ -1192,7 +1192,7 @@
   },
   "simulator-radio-user": {
     "defaultMessage": "You sent:",
-    "description": "Visually hidden text for a radio message sent from the user to the simulated micro:bit. Text of the message follows."
+    "description": "Visually hidden text read as a sentence, \"You sent: <message>\", for a radio message the user sent to the simulated micro:bit."
   },
   "simulator-reference-link": {
     "defaultMessage": "Link to Reference section",
@@ -1200,7 +1200,7 @@
   },
   "simulator-reset": {
     "defaultMessage": "Reset",
-    "description": "Aria label for the reset simulator button"
+    "description": "Aria label for the simulator button that restarts the program from the beginning"
   },
   "simulator-serial-terminal": {
     "defaultMessage": "Simulator serial terminal",
@@ -1384,7 +1384,7 @@
   },
   "webusb-error-reconnect-microbit-description": {
     "defaultMessage": "<p>Please follow these steps, then try again:</p><ul><li>unplug the USB cable</li><li>unplug the battery pack if one is attached</li><li>reconnect the USB cable</li><li>reconnect the battery pack if one was attached</li></ul>",
-    "description": "Part of WebUSB error message"
+    "description": "Part of WebUSB error message. HTML: a paragraph then a list of four steps. Keep each step in its own <li></li>."
   },
   "webusb-not-supported": {
     "defaultMessage": "Unfortunately, WebUSB is not supported in this browser and your program will be saved to your computer instead. Follow the steps on the next screen to transfer it to your micro:bit. We recommend Google Chrome or Microsoft Edge so you can connect directly to your micro:bit.",

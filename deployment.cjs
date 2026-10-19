@@ -5,35 +5,48 @@
  */
 const {
   createDeploymentDetailsFromOptions,
-} = require("@microbit-foundation/website-deploy-aws-config");
+} = require("@microbit/website-deploy-s3");
 
+// The buckets and their distributions are defined in
+// microbit-foundation/microbit-org (apps/python), which deploys the
+// versioner at the root of the staging and production buckets.
 const { s3Config } = createDeploymentDetailsFromOptions({
   production: {
-    bucket: "python-editor-v3.microbit.org",
+    bucket: "python-microbit-org-production",
+    hostname: "python.microbit.org",
     mode: "major",
     allowPrerelease: true,
   },
-  staging: {
-    bucket: "stage-python-editor-v3.microbit.org",
+  beta: {
+    bucket: "python-microbit-org-production",
+    hostname: "python.microbit.org",
     prefix: "v/beta",
   },
+  staging: {
+    bucket: "python-microbit-org-staging",
+    hostname: "stage-python.microbit.org",
+    prefix: "v/3",
+  },
   review: {
-    bucket: "review-python-editor-v3.microbit.org",
+    bucket: "python-microbit-org-review",
+    hostname: "review-python.microbit.org",
     mode: "branch-prefix",
   },
 });
 module.exports = {
   ...s3Config,
   region: "eu-west-1",
+  // The buckets are private (BucketOwnerEnforced), so objects take no ACL.
+  acl: null,
+  findDistribution: true,
   removeNonexistentObjects: true,
-  enableS3StaticWebsiteHosting: true,
-  errorDocumentKey: "index.html",
-  redirects: [],
+  // Open or cached pages may still ask for the previous build's hashed files.
+  staleObjectsPatterns: ["assets/**", "workers/**"],
   params: {
     "**/**.html": {
       CacheControl: "public, max-age=0, must-revalidate",
     },
-    "static/**": { CacheControl: "public, max-age=31536000, immutable" },
+    "**/assets/**": { CacheControl: "public, max-age=31536000, immutable" },
     "**/**/!(sw).js": { CacheControl: "public, max-age=31536000, immutable" },
     "**/**.css": { CacheControl: "public, max-age=31536000, immutable" },
   },

@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
 import ejs from "ejs";
 import fs from "node:fs";
@@ -56,6 +57,7 @@ const pwaCacheId =
   // v3 vs beta should have distinct caches
   // for the moment we do this for all review stages too but likely that's too much over time
   process.env.STAGE === "PRODUCTION" ||
+  process.env.STAGE === "BETA" ||
   process.env.STAGE === "STAGING" ||
   process.env.STAGE === "REVIEW"
     ? process.env.BASE_URL.replaceAll("/", "")
@@ -150,6 +152,11 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 3000,
+      strictPort: true,
+    },
+    preview: {
+      port: 4000,
+      strictPort: true,
     },
     assetsInclude: ["**/*.hex"],
     plugins: [
@@ -257,6 +264,20 @@ export default defineConfig(({ mode }) => {
       }),
       viteRemoveManifestPlugin(),
       basePathWithoutTrailingSlashPlugin(),
+      // Source maps are public (open source) so there's nothing to delete;
+      // uploading them means Sentry doesn't depend on fetching from the CDN.
+      process.env.SENTRY_AUTH_TOKEN
+        ? sentryVitePlugin({
+            org: "microbit",
+            project: "python-editor-next",
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            telemetry: false,
+            release: {
+              // Must match the release passed to Sentry.init in src/logging/sentry.ts.
+              name: `python-editor-v${process.env.VITE_VERSION}`,
+            },
+          })
+        : false,
     ],
     test: unitTest,
     resolve: {

@@ -1,13 +1,10 @@
 #!/usr/bin/env node
-const ref = process.env.GITHUB_REF;
-let stage;
-if (ref === "refs/heads/main") {
-  stage = "STAGING";
-} else if (ref.startsWith("refs/tags/v")) {
-  stage = "PRODUCTION";
-} else {
-  stage = "REVIEW";
+// STAGE is the deployment stage, set by the build matrix
+// (bin/print-ci-stages.cjs). Beta is main's build for public use, so it
+// behaves as staging: same simulator, analytics and flags.
+const stage = process.env.STAGE;
+if (!stage) {
+  throw new Error("STAGE must be set by the build matrix");
 }
 
-console.log(`STAGE=${stage}`);
-console.log(`VITE_STAGE=${stage}`);
+console.log(`VITE_STAGE=${stage === "BETA" ? "STAGING" : stage}`);

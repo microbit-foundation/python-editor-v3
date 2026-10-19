@@ -2,12 +2,10 @@
 let baseUrl;
 if (process.env.GITHUB_REPOSITORY_OWNER === "microbit-foundation") {
   // STAGE must be defined before this is imported
-  const { bucketPrefix, bucketName } = require("../deployment.cjs");
+  const { bucketPrefix, hostname } = require("../deployment.cjs");
   baseUrl = `/${bucketPrefix}/`;
-
-  const fullUrl = `https://${bucketName}${baseUrl}`;
-  // This is used for og:url and similar. Not quite right for review domain but we don't really care.
-  console.log(`VITE_FULL_URL=${fullUrl}`);
+  // Used by index.html for og:image and the Crowdin in-context translation exit URL.
+  console.log(`VITE_FULL_URL=https://${hostname}${baseUrl}`);
 } else {
   baseUrl = "/";
 }
