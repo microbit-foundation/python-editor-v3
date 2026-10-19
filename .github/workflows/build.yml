@@ -62,7 +62,7 @@ jobs:
       - name: Run Playwright tests
         if: env.STAGE == 'REVIEW' || env.STAGE == 'STAGING'
         timeout-minutes: 10
-        uses: docker://mcr.microsoft.com/playwright:v1.63.0-noble
+        uses: docker://mcr.microsoft.com/playwright:v1.64.0-noble
         with:
           args: npx playwright test
       - name: Store reports
