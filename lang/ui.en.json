@@ -245,7 +245,7 @@
   },
   "create-project-action": {
     "defaultMessage": "Create",
-    "description": "Confirm button of the dialog naming a new project"
+    "description": "Button creating a new project: confirms the dialog naming a new project, and creates one from the home page idea dialog"
   },
   "create-python": {
     "defaultMessage": "Create a new Python file in this project",
@@ -390,6 +390,10 @@
   "guide-link": {
     "defaultMessage": "For more support, see the <link>Python Editor guide</link>",
     "description": "Text with an external link to support/help content"
+  },
+  "guide-tab": {
+    "defaultMessage": "Guide",
+    "description": "Sidebar tab button text. Tab shows the guide for the idea the project was opened from."
   },
   "help": {
     "defaultMessage": "Help",

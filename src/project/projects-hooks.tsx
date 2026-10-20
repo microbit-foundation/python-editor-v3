@@ -49,3 +49,19 @@ export const useProjectList = (): ProjectListEntry[] => {
   );
   return useSyncExternalStore(subscribe, () => projects.projects);
 };
+
+/**
+ * The idea the editor's open project was opened from, if any. Undefined in
+ * iframe controller mode, which has no projects.
+ */
+export const useOpenIdeaSlug = (): string | undefined => {
+  const projects = useProjectsIfAvailable();
+  const subscribe = useCallback(
+    (listener: () => void) => {
+      projects?.addEventListener("open", listener);
+      return () => projects?.removeEventListener("open", listener);
+    },
+    [projects]
+  );
+  return useSyncExternalStore(subscribe, () => projects?.currentIdeaSlug);
+};

@@ -181,7 +181,8 @@ Projects page only. Fires when the user changes the sort field or direction.
 
 ### `idea_open`
 
-User opened an idea from the documentation as a new project.
+User opened an idea as a new project, from the home page idea dialog or the
+documentation.
 
 | Param | Values                     |
 | ----- | -------------------------- |

@@ -14,7 +14,7 @@ import {
 } from "react";
 import { TabList, TabPanel, TabPanels, Tabs } from "react-aria-components";
 import { IconType } from "react-icons";
-import { RiHome2Line, RiLightbulbFlashLine } from "react-icons/ri";
+import { RiBookOpenLine, RiHome2Line } from "react-icons/ri";
 import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import { Link as RouterLink } from "react-router";
@@ -25,12 +25,13 @@ import { SystemStyleObject } from "styled-system/types";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
 import ApiArea from "../documentation/ApiArea";
-import IdeasArea from "../documentation/IdeasArea";
+import GuideArea from "../documentation/GuideArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import { flags } from "../flags";
 import { useProjectsDatabaseActive } from "../fs/storage-status";
 import { useIframeMode } from "../iframe-mode-hooks";
 import ProjectArea from "../project/ProjectArea";
+import { useOpenIdeaSlug } from "../project/projects-hooks";
 import { TabName, useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import { createHomePageUrl } from "../urls";
@@ -81,20 +82,26 @@ const SideBar = ({
 }: SideBarProps) => {
   const intl = useIntl();
   const [releaseDialog, setReleaseDialog] = useReleaseDialogState();
+  // Only projects opened from an idea have its guide.
+  const hasGuide = useOpenIdeaSlug() !== undefined;
   const panes: Pane[] = useMemo(() => {
-    const result = [
+    const result: Pane[] = [
+      ...(hasGuide
+        ? [
+            {
+              id: "guide" as const,
+              title: intl.formatMessage({ id: "guide-tab" }),
+              icon: RiBookOpenLine,
+              contents: <GuideArea />,
+              color: "gray.75",
+            },
+          ]
+        : []),
       {
         id: "reference" as const,
         title: intl.formatMessage({ id: "reference-tab" }),
         icon: VscLibrary,
         contents: <ReferenceArea />,
-        color: "gray.75",
-      },
-      {
-        id: "ideas" as const,
-        title: intl.formatMessage({ id: "ideas-tab" }),
-        icon: RiLightbulbFlashLine,
-        contents: <IdeasArea />,
         color: "gray.75",
       },
       {
@@ -119,7 +126,7 @@ const SideBar = ({
       },
     ];
     return result;
-  }, [onSelectedFileChanged, selectedFile, intl]);
+  }, [hasGuide, onSelectedFileChanged, selectedFile, intl]);
   const [{ tab, slug, focus }, setParams] = useRouterState();
   const tabPanelsRef = useRef<HTMLDivElement>(null);
   const setPanelFocus = () => {
