@@ -92,6 +92,7 @@ const ReferenceTopicEntry = ({
       parentSlug={entry.slug.current}
       toolkitType={toolkitType}
       isExpanded={disclosure.isOpen}
+      title={topic.name}
     >
       <Highlight
         anchor={anchor}

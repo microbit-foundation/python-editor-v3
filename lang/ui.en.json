@@ -159,6 +159,10 @@
     "defaultMessage": "Confirm replace project",
     "description": "Confirmation message title for replacing project dialog"
   },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Replace all files with {ideaName}?",
+    "description": "Confirmation message body for replacing project dialog with an idea"
+  },
   "confirm-save-action": {
     "defaultMessage": "Confirm and save",
     "description": "Confirm and save action label"
@@ -463,6 +467,14 @@
     "defaultMessage": "Ideas",
     "description": "Heading of the home page row of idea cards"
   },
+  "ideas-tab": {
+    "defaultMessage": "Ideas",
+    "description": "Ideas tab button text. Tab shows programs to give students ideas."
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "Try out these projects, modify them and get inspired",
+    "description": "Ideas tab description text. Tab shows programs to give students ideas."
+  },
   "import-file-action": {
     "defaultMessage": "Import",
     "description": "Import file action"
@@ -634,6 +646,10 @@
     "defaultMessage": "More connect options",
     "description": "Aria label for the additional actions menu to the right of the Send to micro:bit button"
   },
+  "more-ideas": {
+    "defaultMessage": "<link>More ideas</link>",
+    "description": "Link to more ideas on the microbit.org website at the end of the ideas section"
+  },
   "more-save-options": {
     "defaultMessage": "More save options",
     "description": "Aria label for the additional actions menu to the right of the Save button"
@@ -709,6 +725,10 @@
   "offline-image-alt": {
     "defaultMessage": "Image unavailable offline",
     "description": "Alt text for an image placeholder when the user is offline"
+  },
+  "open-action": {
+    "defaultMessage": "Open",
+    "description": "Open button text"
   },
   "open-file-dropped": {
     "defaultMessage": "Open file when dropped",

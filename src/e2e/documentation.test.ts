@@ -68,4 +68,19 @@ test.describe("documentation", () => {
       "Count and repeat sets of instructions"
     );
   });
+
+  test("Ideas tab navigation", async ({ app }) => {
+    await app.switchTab("Ideas");
+    await app.expectDocumentationTopLevelHeading(
+      "Ideas",
+      "Try out these projects, modify them and get inspired"
+    );
+  });
+
+  test("Select an idea", async ({ app }) => {
+    const ideaName = "Emotion badge";
+    await app.switchTab("Ideas");
+    await app.selectDocumentationIdea(ideaName);
+    await app.expectDocumentationTopLevelHeading(ideaName);
+  });
 });

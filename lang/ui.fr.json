@@ -266,6 +266,12 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "Simple"
   },
+  "ideas-tab": {
+    "defaultMessage": "Idées"
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "Essayez ces projets, modifiez-les et inspirez-vous en"
+  },
   "insert-code-action": {
     "defaultMessage": "Insérer le code"
   },
@@ -314,6 +320,9 @@
   "more-connect-options": {
     "defaultMessage": "Plus d'options de connexion"
   },
+  "more-ideas": {
+    "defaultMessage": "<link>Plus d'idées</link>"
+  },
   "more-save-options": {
     "defaultMessage": "Plus d'options d'enregistrement"
   },
@@ -361,6 +370,9 @@
   },
   "offline-image-alt": {
     "defaultMessage": "Image indisponible hors ligne"
+  },
+  "open-action": {
+    "defaultMessage": "Ouvrir"
   },
   "open-file-dropped": {
     "defaultMessage": "Ouvrir le fichier lorsqu’il est déposé"

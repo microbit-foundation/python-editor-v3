@@ -555,6 +555,7 @@ const DraggableSignature = ({
         toDefault={() => setHighlighted(false)}
         codeAction={handleCopyCode}
         borderAdjustment={false}
+        toolkitType="api"
       />
     </Box>
   );

@@ -266,6 +266,12 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "Senzill"
   },
+  "ideas-tab": {
+    "defaultMessage": "Idees"
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "Prova aquests projectes, modifica'ls i inspira't"
+  },
   "insert-code-action": {
     "defaultMessage": "Insereix codi"
   },
@@ -314,6 +320,9 @@
   "more-connect-options": {
     "defaultMessage": "Més opcions de connexió"
   },
+  "more-ideas": {
+    "defaultMessage": "<link>Més idees</link>"
+  },
   "more-save-options": {
     "defaultMessage": "Més opcions de desar"
   },
@@ -361,6 +370,9 @@
   },
   "offline-image-alt": {
     "defaultMessage": "La imatge no està disponible fora de línia"
+  },
+  "open-action": {
+    "defaultMessage": "Obert"
   },
   "open-file-dropped": {
     "defaultMessage": "Obre el fitxer quan es deixa anar"

@@ -301,7 +301,7 @@ export class App {
     }
   }
 
-  async switchTab(tabName: "Files" | "API" | "Reference" | "Guide") {
+  async switchTab(tabName: "Files" | "API" | "Reference" | "Ideas" | "Guide") {
     await this.page.getByRole("tab", { name: tabName }).click();
   }
 
@@ -624,6 +624,10 @@ export class App {
     // wait for results to show
     await results.first().waitFor();
     await results.first().click();
+  }
+
+  async selectDocumentationIdea(name: string): Promise<void> {
+    await this.page.getByRole("button", { name }).click();
   }
 
   async connect(): Promise<void> {

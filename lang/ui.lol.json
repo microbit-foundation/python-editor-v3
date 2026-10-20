@@ -266,6 +266,12 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "crwdns331540:0crwdne331540:0"
   },
+  "ideas-tab": {
+    "defaultMessage": "crwdns331542:0crwdne331542:0"
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "crwdns331544:0crwdne331544:0"
+  },
   "insert-code-action": {
     "defaultMessage": "crwdns331546:0crwdne331546:0"
   },
@@ -314,6 +320,9 @@
   "more-connect-options": {
     "defaultMessage": "crwdns331576:0crwdne331576:0"
   },
+  "more-ideas": {
+    "defaultMessage": "crwdns331578:0crwdne331578:0"
+  },
   "more-save-options": {
     "defaultMessage": "crwdns331580:0crwdne331580:0"
   },
@@ -361,6 +370,9 @@
   },
   "offline-image-alt": {
     "defaultMessage": "crwdns359874:0crwdne359874:0"
+  },
+  "open-action": {
+    "defaultMessage": "crwdns331610:0crwdne331610:0"
   },
   "open-file-dropped": {
     "defaultMessage": "crwdns331614:0crwdne331614:0"

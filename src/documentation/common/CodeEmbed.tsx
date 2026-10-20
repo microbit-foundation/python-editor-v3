@@ -23,6 +23,7 @@ import { useActiveEditorActions } from "../../editor/active-editor-hooks";
 import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useLogging } from "../../logging/logging-hooks";
+import { useProjectActions } from "../../project/project-hooks";
 import { useSessionSettings } from "../../settings/session-settings";
 import { useClipboard } from "@microbit/ui";
 import DragHandle from "../common/DragHandle";
@@ -35,6 +36,7 @@ interface CodeEmbedProps {
   code: string;
   parentSlug?: string;
   toolkitType?: string;
+  title?: string;
 }
 
 type CodeEmbedState =
@@ -55,6 +57,7 @@ const CodeEmbed = ({
   code: codeWithImports,
   toolkitType,
   parentSlug,
+  title,
 }: CodeEmbedProps) => {
   const [copyCodeOpen, setCopyCodeOpen] = useState(false);
   const [state, originalSetState] = useState<CodeEmbedState>("default");
@@ -119,6 +122,10 @@ const CodeEmbed = ({
       toolkitType
     );
   }, [actions, code, codeWithImports, onCopy, parentSlug, toolkitType]);
+  const projectActions = useProjectActions();
+  const handleOpenIdea = useCallback(async () => {
+    projectActions.openIdea(parentSlug, codeWithImports, title!);
+  }, [codeWithImports, parentSlug, projectActions, title]);
   const lineCount = code.trim().split("\n").length;
   const codeRef = useRef<HTMLDivElement>(null);
   const textHeight = lineCount * 1.375 + "em";
@@ -127,7 +134,8 @@ const CodeEmbed = ({
   const hotKeysRef = useHotkeys(keyboardShortcuts.copyCode, handleCopyCode, {
     preventDefault: true,
   }) as Ref<HTMLDivElement>;
-  const raisedLook = state !== "default";
+  const raisedLook =
+    toolkitType === "ideas" ? state === "highlighted" : state !== "default";
   return (
     <Box position="relative">
       <Box
@@ -172,11 +180,12 @@ const CodeEmbed = ({
         )}
       </Box>
       <CodeActionButton
-        isOpen={copyCodeOpen}
+        isOpen={toolkitType === "ideas" ? true : copyCodeOpen}
         toHighlighted={toHighlighted}
         toDefault={toDefault}
-        codeAction={handleCopyCode}
+        codeAction={toolkitType === "ideas" ? handleOpenIdea : handleCopyCode}
         borderAdjustment={true}
+        toolkitType={toolkitType}
       />
     </Box>
   );
@@ -210,7 +219,7 @@ const CodePopUp = ({
       concise={concise}
       full={full}
       // We're always "raised" as this is the pop-up.
-      raisedLook
+      raisedLook={toolkitType !== "ideas"}
       highlightDragHandle
       toolkitType={toolkitType}
       parentSlug={parentSlug}
@@ -289,13 +298,14 @@ const Code = React.forwardRef<HTMLDivElement, CodeProps>(
     );
     const intl = useIntl();
     const [{ dragDropSuccess }] = useSessionSettings();
-    const tooltipDisabled = Boolean(dragDropSuccess);
+    const tooltipDisabled =
+      toolkitType === "ideas" ? true : Boolean(dragDropSuccess);
     const content = (
       <HStack
         // Interactive: click toggles the action button, drag inserts code
         // (also required by react-aria's Focusable tooltip trigger).
         role="button"
-        draggable
+        draggable={toolkitType === "ideas" ? false : true}
         transition="background .2s, box-shadow .2s"
         borderWidth="1px"
         borderColor="blimpTeal.300"
@@ -305,9 +315,9 @@ const Code = React.forwardRef<HTMLDivElement, CodeProps>(
         ref={ref}
         gap="0"
         onClick={() => onToggle(!isOpen)}
-        onDragStart={handleDragStart}
+        onDragStart={toolkitType === "ideas" ? () => {} : handleDragStart}
         onDragEnd={handleDragEnd}
-        cursor="grab"
+        cursor={toolkitType === "ideas" ? "default" : "grab"}
         position="absolute"
         fontSize={isPopUp ? "md" : undefined}
         zIndex={isPopUp ? "codePopUp" : "code"}
@@ -322,10 +332,12 @@ const Code = React.forwardRef<HTMLDivElement, CodeProps>(
         <VisuallyHidden>
           <FormattedMessage id="code-example" />
         </VisuallyHidden>
-        <DragHandle
-          css={{ borderTopLeftRadius: "lg", p: "1", alignSelf: "stretch" }}
-          highlight={highlightDragHandle}
-        />
+        {toolkitType !== "ideas" && (
+          <DragHandle
+            css={{ borderTopLeftRadius: "lg", p: "1", alignSelf: "stretch" }}
+            highlight={highlightDragHandle}
+          />
+        )}
 
         <CodeMirrorView
           css={{

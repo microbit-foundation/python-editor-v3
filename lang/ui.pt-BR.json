@@ -101,6 +101,9 @@
   "confirm-replace-title": {
     "defaultMessage": "Confirmar substituição do projeto"
   },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Substituir todos os arquivos por {ideaName}?"
+  },
   "confirm-save-action": {
     "defaultMessage": "Confirmar e salvar"
   },
@@ -275,6 +278,12 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "Simples"
   },
+  "ideas-tab": {
+    "defaultMessage": "Ideias"
+  },
+  "ideas-tab-description": {
+    "defaultMessage": "Experimente estes projetos, modifique-os e inspire-se"
+  },
   "insert-code-action": {
     "defaultMessage": "Inserir código"
   },
@@ -323,6 +332,9 @@
   "more-connect-options": {
     "defaultMessage": "Mais opções de conexão"
   },
+  "more-ideas": {
+    "defaultMessage": "<link>Mais ideias</link>"
+  },
   "more-save-options": {
     "defaultMessage": "Mais opções de salvamento"
   },
@@ -370,6 +382,9 @@
   },
   "offline-image-alt": {
     "defaultMessage": "Imagem indisponível offline"
+  },
+  "open-action": {
+    "defaultMessage": "Abrir"
   },
   "open-file-dropped": {
     "defaultMessage": "Abrir arquivo ao soltá-lo"

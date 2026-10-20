@@ -42,6 +42,7 @@ interface DocumentationContextValue {
   isExpanded?: boolean;
   parentSlug?: string;
   toolkitType?: string;
+  title?: string;
   /**
    * Links to Reference and API, which navigate the editor's sidebar. False
    * outside the editor, where they show as plain text.
@@ -67,8 +68,8 @@ const useIsExpanded = () => {
 };
 
 const useCodeEmbedContext = () => {
-  const { parentSlug, toolkitType } = useContext(DocumentationContext);
-  return { parentSlug, toolkitType };
+  const { parentSlug, toolkitType, title } = useContext(DocumentationContext);
+  return { parentSlug, toolkitType, title };
 };
 
 const useEditorLinks = () =>
