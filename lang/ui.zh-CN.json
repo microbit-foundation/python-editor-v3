@@ -266,12 +266,6 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "简单"
   },
-  "ideas-tab": {
-    "defaultMessage": "创意"
-  },
-  "ideas-tab-description": {
-    "defaultMessage": "尝试这些项目，修改它们并获得灵感"
-  },
   "insert-code-action": {
     "defaultMessage": "插入代码"
   },
@@ -320,9 +314,6 @@
   "more-connect-options": {
     "defaultMessage": "更多连接选项"
   },
-  "more-ideas": {
-    "defaultMessage": "<link>More ideas</link>"
-  },
   "more-save-options": {
     "defaultMessage": "更多保存选项"
   },
@@ -370,9 +361,6 @@
   },
   "offline-image-alt": {
     "defaultMessage": "图片无法离线使用图像"
-  },
-  "open-action": {
-    "defaultMessage": "打开"
   },
   "open-file-dropped": {
     "defaultMessage": "放下时打开文件"

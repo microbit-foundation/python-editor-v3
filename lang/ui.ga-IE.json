@@ -266,12 +266,6 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "Simplí"
   },
-  "ideas-tab": {
-    "defaultMessage": "Smaointe"
-  },
-  "ideas-tab-description": {
-    "defaultMessage": "Bain triail as na tionscadail seo, athraigh iad agus spreag iad"
-  },
   "insert-code-action": {
     "defaultMessage": "Ionsáigh cód"
   },
@@ -320,9 +314,6 @@
   "more-connect-options": {
     "defaultMessage": "Tuilleadh roghanna ceangail"
   },
-  "more-ideas": {
-    "defaultMessage": "<link>Tuilleadh smaointe</link>"
-  },
   "more-save-options": {
     "defaultMessage": "Tuilleadh roghanna sábhála"
   },
@@ -370,9 +361,6 @@
   },
   "offline-image-alt": {
     "defaultMessage": "Níl an íomhá ar fáil as líne"
-  },
-  "open-action": {
-    "defaultMessage": "Oscail"
   },
   "open-file-dropped": {
     "defaultMessage": "Oscail comhad nuair a thit sé"

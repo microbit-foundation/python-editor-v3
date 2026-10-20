@@ -263,12 +263,6 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "簡單"
   },
-  "ideas-tab": {
-    "defaultMessage": "靈感"
-  },
-  "ideas-tab-description": {
-    "defaultMessage": "嘗試這些專案，進行修改並獲得靈感"
-  },
   "insert-code-action": {
     "defaultMessage": "插入程式碼"
   },
@@ -317,9 +311,6 @@
   "more-connect-options": {
     "defaultMessage": "更多連線選項"
   },
-  "more-ideas": {
-    "defaultMessage": "<link>更多構想</link>"
-  },
   "more-save-options": {
     "defaultMessage": "更多儲存選項"
   },
@@ -367,9 +358,6 @@
   },
   "offline-image-alt": {
     "defaultMessage": "圖像無法離線使用"
-  },
-  "open-action": {
-    "defaultMessage": "開啟"
   },
   "open-file-dropped": {
     "defaultMessage": "放置時開啟檔案"

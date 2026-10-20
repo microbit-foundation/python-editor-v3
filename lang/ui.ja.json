@@ -266,12 +266,6 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "簡易"
   },
-  "ideas-tab": {
-    "defaultMessage": "アイデア"
-  },
-  "ideas-tab-description": {
-    "defaultMessage": "これらのプロジェクトを試し、修正し、インスピレーションを得ることができます。"
-  },
   "insert-code-action": {
     "defaultMessage": "コードを挿入"
   },
@@ -320,9 +314,6 @@
   "more-connect-options": {
     "defaultMessage": "その他の接続オプション"
   },
-  "more-ideas": {
-    "defaultMessage": "<link>他のアイデア</link>"
-  },
   "more-save-options": {
     "defaultMessage": "その他の保存オプション"
   },
@@ -370,9 +361,6 @@
   },
   "offline-image-alt": {
     "defaultMessage": "画像がオフラインで利用できません"
-  },
-  "open-action": {
-    "defaultMessage": "開く"
   },
   "open-file-dropped": {
     "defaultMessage": "ドロップ時にファイルを開く"

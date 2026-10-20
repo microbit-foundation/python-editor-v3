@@ -263,12 +263,6 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "단순"
   },
-  "ideas-tab": {
-    "defaultMessage": "아이디어들"
-  },
-  "ideas-tab-description": {
-    "defaultMessage": "다양한 프로젝트를 체험해보고 수정하며 아이디어를 얻어보세요"
-  },
   "insert-code-action": {
     "defaultMessage": "코드 삽입"
   },
@@ -317,9 +311,6 @@
   "more-connect-options": {
     "defaultMessage": "연결 옵션 더 보기"
   },
-  "more-ideas": {
-    "defaultMessage": "<link>아이디어 더 보기</link>"
-  },
   "more-save-options": {
     "defaultMessage": "저장 옵션 더 보기"
   },
@@ -367,9 +358,6 @@
   },
   "offline-image-alt": {
     "defaultMessage": "이미지는 오프라인에서 사용할 수 없습니다."
-  },
-  "open-action": {
-    "defaultMessage": "열기"
   },
   "open-file-dropped": {
     "defaultMessage": "드롭될 때 파일 열기"
