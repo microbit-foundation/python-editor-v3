@@ -251,37 +251,6 @@ export class ProjectActions {
     this.importer.importIntoEditor(files, source);
 
   /**
-   * Opens an idea from the documentation as a new project.
-   */
-  openIdea = async (slug: string | undefined, code: string, title: string) => {
-    this.logging.event({
-      type: "idea_open",
-      detail: { id: slug },
-    });
-    try {
-      const opened = await this.importer.newProject(
-        title,
-        { [MAIN_FILE]: new TextEncoder().encode(code) },
-        this.intl.formatMessage(
-          { id: "confirm-replace-with-idea" },
-          { ideaName: title }
-        )
-      );
-      if (!opened) {
-        return;
-      }
-      this.actionFeedback.success({
-        title: this.intl.formatMessage(
-          { id: "loaded-file-feedback" },
-          { filename: title }
-        ),
-      });
-    } catch (e) {
-      this.actionFeedback.unexpectedError(e);
-    }
-  };
-
-  /**
    * Flash the device, reporting progress via a dialog.
    */
   flash = async (

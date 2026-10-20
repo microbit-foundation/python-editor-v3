@@ -15,15 +15,9 @@ import { useLogging } from "./logging/logging-hooks";
 import { createEditorUrl, createIframeEditorUrl } from "./urls";
 import { useIframeMode } from "./iframe-mode-hooks";
 
-export type TabName = "api" | "guide" | "ideas" | "reference" | "project";
+export type TabName = "api" | "guide" | "reference" | "project";
 
-const tabNames: readonly string[] = [
-  "api",
-  "guide",
-  "ideas",
-  "reference",
-  "project",
-];
+const tabNames: readonly string[] = ["api", "guide", "reference", "project"];
 
 export const isTabName = (value: string | undefined): value is TabName =>
   value !== undefined && tabNames.includes(value);

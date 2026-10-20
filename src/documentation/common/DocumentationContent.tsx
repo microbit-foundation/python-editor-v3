@@ -42,7 +42,6 @@ interface DocumentationContextValue {
   isExpanded?: boolean;
   parentSlug?: string;
   toolkitType?: string;
-  title?: string;
 }
 
 const DocumentationContext = React.createContext<DocumentationContextValue>({});
@@ -63,8 +62,8 @@ const useIsExpanded = () => {
 };
 
 const useCodeEmbedContext = () => {
-  const { parentSlug, toolkitType, title } = useContext(DocumentationContext);
-  return { parentSlug, toolkitType, title };
+  const { parentSlug, toolkitType } = useContext(DocumentationContext);
+  return { parentSlug, toolkitType };
 };
 
 const DocumentationApiLinkMark = (

@@ -112,7 +112,7 @@ describe("useRouterState", () => {
   it("does not log without a source", async () => {
     const { logging } = renderAt("/project");
     await act(async () => {
-      setState({ tab: "ideas" });
+      setState({ tab: "guide" });
     });
     expect(logging.events).toEqual([]);
   });

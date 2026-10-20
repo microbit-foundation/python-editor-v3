@@ -5,7 +5,7 @@
  */
 import { Button, Collapse, Icon } from "@microbit/ui";
 import { useState } from "react";
-import { RiFileCopy2Line, RiFolderOpenLine } from "react-icons/ri";
+import { RiFileCopy2Line } from "react-icons/ri";
 import { FormattedMessage } from "react-intl";
 import { HStack } from "styled-system/jsx";
 
@@ -15,7 +15,6 @@ interface CodeActionButtonProps {
   toDefault: () => void;
   codeAction: () => void;
   borderAdjustment: boolean;
-  toolkitType?: string;
 }
 
 const CodeActionButton = ({
@@ -24,7 +23,6 @@ const CodeActionButton = ({
   toDefault,
   codeAction,
   borderAdjustment,
-  toolkitType,
 }: CodeActionButtonProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
   return (
@@ -51,16 +49,9 @@ const CodeActionButton = ({
             ml: "5",
           }}
           onPress={codeAction}
-          startIcon={
-            toolkitType === "ideas" ? <Icon as={RiFolderOpenLine} /> : undefined
-          }
-          endIcon={
-            toolkitType !== "ideas" ? <Icon as={RiFileCopy2Line} /> : undefined
-          }
+          endIcon={<Icon as={RiFileCopy2Line} />}
         >
-          <FormattedMessage
-            id={toolkitType === "ideas" ? "open-action" : "copy-code-action"}
-          />
+          <FormattedMessage id="copy-code-action" />
         </Button>
       </HStack>
     </Collapse>

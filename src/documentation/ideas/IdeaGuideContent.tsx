@@ -58,7 +58,6 @@ const IdeaGuideContent = ({
       <DocumentationContextProvider
         parentSlug={idea.slug.current}
         toolkitType="ideas"
-        title={idea.name}
       >
         <DocumentationContent blocks={withoutCode(idea.content)} />
       </DocumentationContextProvider>
