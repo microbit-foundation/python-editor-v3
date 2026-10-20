@@ -42,6 +42,11 @@ interface DocumentationContextValue {
   isExpanded?: boolean;
   parentSlug?: string;
   toolkitType?: string;
+  /**
+   * Links to Reference and API, which navigate the editor's sidebar. False
+   * outside the editor, where they show as plain text.
+   */
+  editorLinks?: boolean;
 }
 
 const DocumentationContext = React.createContext<DocumentationContextValue>({});
@@ -66,10 +71,17 @@ const useCodeEmbedContext = () => {
   return { parentSlug, toolkitType };
 };
 
+const useEditorLinks = () =>
+  useContext(DocumentationContext).editorLinks !== false;
+
 const DocumentationApiLinkMark = (
   props: SerializerMarkProps<ToolkitApiLink>
 ) => {
   const [, setState] = useRouterState();
+  const editorLinks = useEditorLinks();
+  if (!editorLinks) {
+    return <>{props.children}</>;
+  }
   return (
     <Link
       color="brand.600"
@@ -90,6 +102,10 @@ const DocumentationInternalLinkMark = (
   props: SerializerMarkProps<ToolkitInternalLink>
 ) => {
   const [state, setState] = useRouterState();
+  const editorLinks = useEditorLinks();
+  if (!editorLinks) {
+    return <>{props.children}</>;
+  }
   return (
     <Link
       color="brand.600"

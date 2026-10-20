@@ -51,7 +51,7 @@ const IdeaDialog = ({ slug, title, onClose }: IdeaDialogProps) => {
         <Grid columns={{ base: 1, md: 2 }} gap="6" alignItems="start">
           {/* Always rendered, so the code stays in the right-hand column. */}
           <Stack gap="3" fontSize="sm" className={docStylesClass}>
-            {idea && <IdeaGuideContent idea={idea} showImage={false} />}
+            {idea && <IdeaGuideContent idea={idea} inEditor={false} />}
           </Stack>
           <Box
             // As the code examples in Reference and API.
