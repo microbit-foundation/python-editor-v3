@@ -54,7 +54,6 @@ export interface Pane {
   title: string;
   contents: ReactNode;
   color: string;
-  mb?: string;
 }
 
 interface SideBarProps {
@@ -127,7 +126,6 @@ const SideBar = ({
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
         color: "gray.75",
-        mb: "auto",
       },
       {
         id: "project" as const,
@@ -266,9 +264,7 @@ const SideBar = ({
         <Flex direction="column" background="sidebarTablistBg">
           <Box flex="1" maxHeight="8.9rem" minHeight="8"></Box>
           <TabList
-            // Flexes so the API tab's mb:auto pushes the project tab (and
-            // the menus below the list) to the bottom, as in the old
-            // single-column tablist.
+            // Flexes so the menus below the list sit at the bottom.
             className={css({
               display: "flex",
               flexDirection: "column",
