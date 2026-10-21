@@ -12,7 +12,6 @@ import { cornerSize, Pane } from "./SideBar";
 
 interface SideBarTabProps extends Pane {
   color: string;
-  mb?: string;
   handleTabClick: (id: Pane["id"]) => void;
   active: boolean;
   tabIndex: number;
@@ -23,7 +22,6 @@ const SideBarTab = ({
   icon,
   title,
   color,
-  mb,
   handleTabClick,
   active,
 }: SideBarTabProps) => {
@@ -51,7 +49,6 @@ const SideBarTab = ({
             p: "0",
             position: "relative",
             ml: "6px",
-            mb: mb ? "auto" : "0",
             borderRadius: "32px 0 0 32px",
             transition: "none",
             cursor: "pointer",

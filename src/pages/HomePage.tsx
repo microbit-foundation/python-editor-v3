@@ -31,11 +31,11 @@ import { useSettings } from "../settings/settings";
 import { createProjectsPageUrl } from "../urls";
 import ActionCard from "./ActionCard";
 import DefaultPageLayout from "./DefaultPageLayout";
+import IdeaDialog from "./IdeaDialog";
 import ProjectIcon from "./ProjectIcon";
 import HomepageBanner from "./HomepageBanner";
 import HomepageFooter from "./HomepageFooter";
 import {
-  useCreateProject,
   useImportProjectFiles,
   usePageProjects,
   useProjectPageActions,
@@ -55,7 +55,14 @@ const HomePage = () => {
   const intl = useIntl();
   const [{ languageId }] = useSettings();
   const brand = useDeployment();
-  const createProject = useCreateProject("home");
+  const [selectedIdea, setSelectedIdea] = useState<{
+    slug: string;
+    title: string;
+  }>();
+  const selectIdea = useCallback(
+    (slug: string, title: string) => setSelectedIdea({ slug, title }),
+    []
+  );
   const importFiles = useImportProjectFiles();
   const handleDrop = useCallback(
     (files: File[]) => void importFiles(files, "drop"),
@@ -63,6 +70,12 @@ const HomePage = () => {
   );
   return (
     <DefaultPageLayout>
+      {selectedIdea && (
+        <IdeaDialog
+          {...selectedIdea}
+          onClose={() => setSelectedIdea(undefined)}
+        />
+      )}
       <FileDropTarget
         data-testid="home-drop-target"
         onFileDrop={handleDrop}
@@ -71,7 +84,7 @@ const HomePage = () => {
         <HomepageBanner />
         <ProjectsRow />
         <CarouselRow
-          carouselItems={createIdeaCards(intl, createProject)}
+          carouselItems={createIdeaCards(intl, selectIdea)}
           title={<FormattedMessage id="ideas-row-title" />}
           navigation
         />

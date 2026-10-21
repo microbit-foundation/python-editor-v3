@@ -107,6 +107,42 @@ describe("Projects", () => {
     expect(fileNames(fs)).toEqual([MAIN_FILE, "helper.py"]);
   });
 
+  it("knows the idea the open project came from", async () => {
+    const { fs, projects } = await setup();
+    await projects.openCurrent();
+    await fs.initialize();
+    const plain = projects.currentId!;
+    const opened = vi.fn();
+    projects.addEventListener("open", opened);
+
+    await projects.createFromFiles(
+      "Dice",
+      { [MAIN_FILE]: new TextEncoder().encode("# dice") },
+      "dice"
+    );
+    expect(projects.currentIdeaSlug).toEqual("dice");
+    expect(opened).toHaveBeenCalledTimes(1);
+
+    await projects.open(plain);
+    expect(projects.currentIdeaSlug).toBeUndefined();
+    expect(opened).toHaveBeenCalledTimes(2);
+  });
+
+  it("duplicates keep the idea", async () => {
+    const { db, fs, projects } = await setup();
+    await projects.openCurrent();
+    await fs.initialize();
+    const idea = await projects.createFromFiles(
+      "Dice",
+      { [MAIN_FILE]: new TextEncoder().encode("# dice") },
+      "dice"
+    );
+
+    const copy = await projects.duplicate(idea, "Dice copy");
+
+    expect((await db!.get(copy))?.ideaSlug).toEqual("dice");
+  });
+
   it("renames the open project through the file system and others directly", async () => {
     const { db, fs, projects } = await setup();
     await projects.openCurrent();

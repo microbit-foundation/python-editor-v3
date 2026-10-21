@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Icon, usePrevious } from "@microbit/ui";
+import { usePrevious } from "@microbit/ui";
 import {
   ReactNode,
   useCallback,
@@ -14,23 +14,29 @@ import {
 } from "react";
 import { TabList, TabPanel, TabPanels, Tabs } from "react-aria-components";
 import { IconType } from "react-icons";
-import { RiHome2Line, RiLightbulbFlashLine } from "react-icons/ri";
+import {
+  RiBookOpenLine,
+  RiHome2Line,
+  RiLightbulbFlashLine,
+} from "react-icons/ri";
 import { VscFiles, VscLibrary } from "react-icons/vsc";
 import { useIntl } from "react-intl";
 import { Link as RouterLink } from "react-router";
 import { css, cx } from "styled-system/css";
-import { Flex, styled, VStack } from "styled-system/jsx";
+import { Box, Flex, styled, VStack } from "styled-system/jsx";
 import { button } from "styled-system/recipes";
 import { SystemStyleObject } from "styled-system/types";
 import ErrorBoundary from "../common/ErrorBoundary";
 import PythonLogo from "../common/PythonLogo";
 import ApiArea from "../documentation/ApiArea";
+import GuideArea from "../documentation/GuideArea";
 import IdeasArea from "../documentation/IdeasArea";
 import ReferenceArea from "../documentation/ReferenceArea";
 import { flags } from "../flags";
 import { useProjectsDatabaseActive } from "../fs/storage-status";
 import { useIframeMode } from "../iframe-mode-hooks";
 import ProjectArea from "../project/ProjectArea";
+import { useOpenIdeaSlug } from "../project/projects-hooks";
 import { TabName, useRouterState } from "../router-hooks";
 import SettingsMenu from "../settings/SettingsMenu";
 import { createHomePageUrl } from "../urls";
@@ -48,7 +54,6 @@ export interface Pane {
   title: string;
   contents: ReactNode;
   color: string;
-  mb?: string;
 }
 
 interface SideBarProps {
@@ -81,8 +86,22 @@ const SideBar = ({
 }: SideBarProps) => {
   const intl = useIntl();
   const [releaseDialog, setReleaseDialog] = useReleaseDialogState();
+  // Projects opened from an idea on the home page have its guide instead of
+  // the list of ideas.
+  const hasGuide = useOpenIdeaSlug() !== undefined;
   const panes: Pane[] = useMemo(() => {
-    const result = [
+    const result: Pane[] = [
+      ...(hasGuide
+        ? [
+            {
+              id: "guide" as const,
+              title: intl.formatMessage({ id: "guide-tab" }),
+              icon: RiBookOpenLine,
+              contents: <GuideArea />,
+              color: "gray.75",
+            },
+          ]
+        : []),
       {
         id: "reference" as const,
         title: intl.formatMessage({ id: "reference-tab" }),
@@ -90,20 +109,23 @@ const SideBar = ({
         contents: <ReferenceArea />,
         color: "gray.75",
       },
-      {
-        id: "ideas" as const,
-        title: intl.formatMessage({ id: "ideas-tab" }),
-        icon: RiLightbulbFlashLine,
-        contents: <IdeasArea />,
-        color: "gray.75",
-      },
+      ...(hasGuide
+        ? []
+        : [
+            {
+              id: "ideas" as const,
+              title: intl.formatMessage({ id: "ideas-tab" }),
+              icon: RiLightbulbFlashLine,
+              contents: <IdeasArea />,
+              color: "gray.75",
+            },
+          ]),
       {
         id: "api" as const,
         title: intl.formatMessage({ id: "api-tab" }),
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
         color: "gray.75",
-        mb: "auto",
       },
       {
         id: "project" as const,
@@ -119,7 +141,7 @@ const SideBar = ({
       },
     ];
     return result;
-  }, [onSelectedFileChanged, selectedFile, intl]);
+  }, [hasGuide, onSelectedFileChanged, selectedFile, intl]);
   const [{ tab, slug, focus }, setParams] = useRouterState();
   const tabPanelsRef = useRef<HTMLDivElement>(null);
   const setPanelFocus = () => {
@@ -240,20 +262,9 @@ const SideBar = ({
             branded background (a wrapper because react-aria's TabList may
             only contain tabs). */}
         <Flex direction="column" background="sidebarTablistBg">
-          <VStack
-            flex="1"
-            maxHeight="8.9rem"
-            minHeight="20"
-            pt="5"
-            justifyContent="flex-start"
-            color="white"
-          >
-            <SideBarHomeLink />
-          </VStack>
+          <Box flex="1" maxHeight="8.9rem" minHeight="8"></Box>
           <TabList
-            // Flexes so the API tab's mb:auto pushes the project tab (and
-            // the menus below the list) to the bottom, as in the old
-            // single-column tablist.
+            // Flexes so the menus below the list sit at the bottom.
             className={css({
               display: "flex",
               flexDirection: "column",
@@ -271,6 +282,7 @@ const SideBar = ({
             ))}
           </TabList>
           <VStack mt="4" mb="1" gap="0.5" color="white">
+            <SideBarHomeLink />
             <SettingsMenu size="lg" />
             <HelpMenu size="lg" />
           </VStack>
@@ -326,8 +338,8 @@ const SideBar = ({
 };
 
 /**
- * Home, above the tabs and apart from them. Only where there is a home page,
- * as for the header logo.
+ * Home, above the settings and help menus and styled as they are. Only where
+ * there is a home page, as for the header logo.
  */
 const SideBarHomeLink = () => {
   const intl = useIntl();
@@ -342,11 +354,11 @@ const SideBarHomeLink = () => {
       aria-label={intl.formatMessage({ id: "home-action" })}
       className={cx(
         button({ variant: "sidebar", size: "lg" }),
-        css({ px: "0" })
+        // As IconButton (px) and the menus' fontSize.
+        css({ px: "0", fontSize: "xl" })
       )}
     >
-      {/* Sized as the tab icons rather than the menus below. */}
-      <Icon as={RiHome2Line} aria-hidden css={{ width: "6", height: "6" }} />
+      <RiHome2Line aria-hidden />
     </RouterLink>
   );
 };
