@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "取消"
   },
-  "change-files": {
-    "defaultMessage": "更改文件？"
-  },
   "choose-main-add-file": {
     "defaultMessage": "添加文件 {name}"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "确认删除"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "将所有文件替换成 hex 文件？"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "用默认启动代码替换所有文件？"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "确认替换项目"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "用 {ideaName} 替换所有文件？"
-  },
   "confirm-save-action": {
     "defaultMessage": "确认并保存"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "取消然后使用 Save （保存）来保留您的项目副本。"
   },
   "connect-action": {
     "defaultMessage": "连接"
@@ -392,17 +374,8 @@
   "open-action": {
     "defaultMessage": "打开"
   },
-  "open-file-action": {
-    "defaultMessage": "打开…"
-  },
   "open-file-dropped": {
     "defaultMessage": "放下时打开文件"
-  },
-  "open-hover": {
-    "defaultMessage": "打开一 份 hex 或 Python 文件，或添加其他文件"
-  },
-  "options": {
-    "defaultMessage": "选项"
   },
   "parameter-help": {
     "defaultMessage": "参数帮助"
@@ -446,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "项目名称不能为空"
   },
-  "project-tab": {
-    "defaultMessage": "项目"
-  },
-  "project-tab-description": {
-    "defaultMessage": "查看、创建、添加和编辑您项目中的文件"
-  },
   "python-powered": {
     "defaultMessage": "Python 驱动"
   },
@@ -472,18 +439,6 @@
   },
   "reference-tab": {
     "defaultMessage": "参考"
-  },
-  "replace-action-label": {
-    "defaultMessage": "替换"
-  },
-  "reset-project-action": {
-    "defaultMessage": "重置项目"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "项目重置为默认启动代码"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "将项目重置为默认启动代码，放弃您的工作"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {No results} other {# results}}"

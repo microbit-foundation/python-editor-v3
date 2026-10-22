@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "crwdns331388:0crwdne331388:0"
   },
-  "change-files": {
-    "defaultMessage": "crwdns331390:0crwdne331390:0"
-  },
   "choose-main-add-file": {
     "defaultMessage": "crwdns331392:0{name}crwdne331392:0"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "crwdns331418:0crwdne331418:0"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "crwdns331420:0crwdne331420:0"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "crwdns331422:0crwdne331422:0"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "crwdns331424:0crwdne331424:0"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "crwdns331426:0{ideaName}crwdne331426:0"
-  },
   "confirm-save-action": {
     "defaultMessage": "crwdns331428:0crwdne331428:0"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "crwdns331430:0crwdne331430:0"
   },
   "connect-action": {
     "defaultMessage": "crwdns331432:0crwdne331432:0"
@@ -392,17 +374,8 @@
   "open-action": {
     "defaultMessage": "crwdns331610:0crwdne331610:0"
   },
-  "open-file-action": {
-    "defaultMessage": "crwdns331612:0crwdne331612:0"
-  },
   "open-file-dropped": {
     "defaultMessage": "crwdns331614:0crwdne331614:0"
-  },
-  "open-hover": {
-    "defaultMessage": "crwdns331616:0crwdne331616:0"
-  },
-  "options": {
-    "defaultMessage": "crwdns331618:0crwdne331618:0"
   },
   "parameter-help": {
     "defaultMessage": "crwdns331620:0crwdne331620:0"
@@ -446,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "crwdns331644:0crwdne331644:0"
   },
-  "project-tab": {
-    "defaultMessage": "crwdns331646:0crwdne331646:0"
-  },
-  "project-tab-description": {
-    "defaultMessage": "crwdns331648:0crwdne331648:0"
-  },
   "python-powered": {
     "defaultMessage": "crwdns331650:0crwdne331650:0"
   },
@@ -472,18 +439,6 @@
   },
   "reference-tab": {
     "defaultMessage": "crwdns331662:0crwdne331662:0"
-  },
-  "replace-action-label": {
-    "defaultMessage": "crwdns331664:0crwdne331664:0"
-  },
-  "reset-project-action": {
-    "defaultMessage": "crwdns331666:0crwdne331666:0"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "crwdns331668:0crwdne331668:0"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "crwdns331670:0crwdne331670:0"
   },
   "results-count": {
     "defaultMessage": "crwdns331672:0count={count}crwdne331672:0"

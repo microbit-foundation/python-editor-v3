@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 import { expect } from "@playwright/test";
-import { LoadDialogType } from "./app.js";
 import { test } from "./app-test-fixtures.js";
 
 test.describe("multiple-files", () => {
@@ -30,23 +29,18 @@ test.describe("multiple-files", () => {
   });
 
   test("Copes with non-main file being updated", async ({ app }) => {
-    await app.loadFiles("testData/usermodule.py", {
-      acceptDialog: LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE,
-    });
+    await app.loadFiles("testData/usermodule.py");
     await app.editFile("usermodule.py");
     await app.expectEditorContainText(/b_works/);
 
-    await app.loadFiles("testData/updated/usermodule.py", {
-      acceptDialog: LoadDialogType.CONFIRM_BUT_LOAD_AS_MODULE,
-    });
+    await app.loadFiles("testData/updated/usermodule.py");
+    await app.answerDialog("Replace");
 
     await app.expectEditorContainText(/c_works/);
   });
 
   test("Shows warning for third-party module", async ({ app }) => {
-    await app.loadFiles("testData/module.py", {
-      acceptDialog: LoadDialogType.CONFIRM,
-    });
+    await app.loadFiles("testData/module.py");
     await app.editFile("module.py");
     await app.expectThirdPartModuleWarning("a", "1.0.0");
 
@@ -57,16 +51,13 @@ test.describe("multiple-files", () => {
       await app.toggleSettingThirdPartyModuleEditing();
     }
 
-    await app.loadFiles("testData/updated/module.py", {
-      acceptDialog: LoadDialogType.CONFIRM,
-    });
+    await app.loadFiles("testData/updated/module.py");
+    await app.answerDialog("Replace");
     await app.expectThirdPartModuleWarning("a", "1.1.0");
   });
 
   test("Copes with currently open file being deleted", async ({ app }) => {
-    await app.loadFiles("testData/module.py", {
-      acceptDialog: LoadDialogType.CONFIRM,
-    });
+    await app.loadFiles("testData/module.py");
     await app.editFile("module.py");
     await app.deleteFile("module.py");
     await app.expectEditorContainText(/Hello/);

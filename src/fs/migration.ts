@@ -35,6 +35,13 @@ interface MigrationParseResult {
   postMigrationUrl: string;
 }
 
+/**
+ * True if the URL carries a #project: link. On microbit.org links it sits
+ * behind the v2 editor's #import: prefix, so it isn't always the whole hash.
+ */
+export const hasProjectLink = (url: string): boolean =>
+  url.includes("#project:");
+
 export const parseMigrationFromUrl = (
   url: string
 ): MigrationParseResult | undefined => {
@@ -56,3 +63,30 @@ export const parseMigrationFromUrl = (
   }
   return undefined;
 };
+
+/**
+ * The #project: link the app booted with, if any, handed out once.
+ *
+ * With the projects database the link becomes a new project when the editor
+ * chooses one; without it the host writes the program into the single
+ * implicit project. Whichever runs first takes it. The taker also sees to
+ * removing the hash from the URL, so a reload opens what is stored rather
+ * than importing again.
+ */
+export class PendingMigration {
+  private migration: Migration | undefined;
+
+  constructor(url: string) {
+    this.migration = parseMigrationFromUrl(url)?.migration;
+  }
+
+  get pending(): boolean {
+    return this.migration !== undefined;
+  }
+
+  take(): Migration | undefined {
+    const migration = this.migration;
+    this.migration = undefined;
+    return migration;
+  }
+}
