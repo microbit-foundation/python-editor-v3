@@ -9,7 +9,7 @@ import { isStageWithAnalytics } from "../logging/stage";
 
 /**
  * Surface of the shared-assets `commonConsent` API
- * (https://shared-assets.microbit.org/common/v2/common.js) that we depend
+ * (https://shared-assets.microbit.org/common/v3/common.js) that we depend
  * on. Defined here only to give the compliance code a typed handle on
  * `window` — the script itself is the authoritative source of behaviour.
  */
