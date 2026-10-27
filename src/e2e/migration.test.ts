@@ -12,7 +12,7 @@ const sunlightSensorMigrationFragment =
   "#project:XQAAgAByAQAAAAAAAAA9iImmlGSt1R++5LD+ZJ36cRz46B+lhYtNRoWF0nijpaVyZlK7ACfSpeoQpgfk21st4ty06R4PEOW6kOsIEMK7SL0Qco7jgsHFKZXfjv/XcHWvXG9qyz1a/a3NUulFDj/FDJxVAIV+WZLpRoo4E6MbW70FOgIfBPWP2hDVsojpoLc7ZfKI8SHxv54FSfB5bkbzaAKO+8CO73t6Odtv691JGjJ9MExFighY6GxyM/DoNInDDpAjFeaqCWrYdwENX7ZVM3we8f4swI71tL28N7sg588aB//A78AA";
 
 test.describe("migration", () => {
-  test("Loads the project from the URL", async ({ app }) => {
+  test("Loads the project from the URL", async ({ app, homePage }) => {
     await app.goto({ fragment: heartMigrationFragment });
     await app.page.reload();
     await app.expectProjectName("Hearts");
@@ -29,5 +29,9 @@ test.describe("migration", () => {
     // wait for page to load
     await app.saveButton.waitFor();
     await app.expectEditorContainText("display.read_light_level");
+
+    // Each link made a project rather than replacing the last.
+    await app.goHome();
+    await homePage.cards.expectVisible("Hearts");
   });
 });

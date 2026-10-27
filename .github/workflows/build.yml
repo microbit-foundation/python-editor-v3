@@ -15,7 +15,7 @@ env:
   # renovate: datasource=npm depName=npm
   NPM_VERSION: "11"
   # renovate: datasource=npm depName=@microbit-foundation/python-editor-v3-microbit registryUrl=https://npm.pkg.github.com
-  THEME_VERSION: 0.4.0
+  THEME_VERSION: 0.0.0-home.page.124
 
 jobs:
   stages:

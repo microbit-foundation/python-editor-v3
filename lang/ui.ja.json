@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "キャンセル"
   },
-  "change-files": {
-    "defaultMessage": "ファイルを変更しますか？"
-  },
   "choose-main-add-file": {
     "defaultMessage": "ファイル {name} を追加"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "削除の確認"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "すべてのファイルを hex に置き換えますか？"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "すべてのファイルをデフォルトのスターターコードに置き換えますか？"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "プロジェクトの置き換えを確認"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "すべてのファイルを {ideaName} に置き換えますか？"
-  },
   "confirm-save-action": {
     "defaultMessage": "確認して保存"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "キャンセルして、保存を使ってプロジェクトのコピーを保持します。"
   },
   "connect-action": {
     "defaultMessage": "接続"
@@ -392,17 +374,8 @@
   "open-action": {
     "defaultMessage": "開く"
   },
-  "open-file-action": {
-    "defaultMessage": "開く…"
-  },
   "open-file-dropped": {
     "defaultMessage": "ドロップ時にファイルを開く"
-  },
-  "open-hover": {
-    "defaultMessage": "hex ファイルまたは Python ファイルを開くか、他のファイルを追加する"
-  },
-  "options": {
-    "defaultMessage": "オプション"
   },
   "parameter-help": {
     "defaultMessage": "パラメータのヘルプ"
@@ -446,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "プロジェクト名は空にできません"
   },
-  "project-tab": {
-    "defaultMessage": "プロジェクト"
-  },
-  "project-tab-description": {
-    "defaultMessage": "プロジェクト内のファイルの表示、作成、追加、編集"
-  },
   "python-powered": {
     "defaultMessage": "Python搭載"
   },
@@ -472,18 +439,6 @@
   },
   "reference-tab": {
     "defaultMessage": "リファレンス"
-  },
-  "replace-action-label": {
-    "defaultMessage": "置換"
-  },
-  "reset-project-action": {
-    "defaultMessage": "プロジェクトをリセット"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "プロジェクトがデフォルトのスターターコードにリセットされました"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "プロジェクトをデフォルトのスターターコードにリセットし、作業を破棄します"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {結果なし} other {#件の結果}}"
