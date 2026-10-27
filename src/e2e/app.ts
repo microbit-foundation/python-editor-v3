@@ -301,7 +301,7 @@ export class App {
     }
   }
 
-  async switchTab(tabName: "Files" | "API" | "Reference" | "Ideas" | "Guide") {
+  async switchTab(tabName: "Files" | "API" | "Reference" | "Ideas") {
     await this.page.getByRole("tab", { name: tabName }).click();
   }
 

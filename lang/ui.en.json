@@ -391,10 +391,6 @@
     "defaultMessage": "For more support, see the <link>Python Editor guide</link>",
     "description": "Text with an external link to support/help content"
   },
-  "guide-tab": {
-    "defaultMessage": "Guide",
-    "description": "Sidebar tab button text. Tab shows the guide for the idea the project was opened from."
-  },
   "help": {
     "defaultMessage": "Help",
     "description": "Help menu label"

@@ -14,6 +14,6 @@ const isCode = (
 export const ideaCode = (idea: Idea): string | undefined =>
   idea.content?.find(isCode)?.main;
 
-/** The idea's content without its code, for the guide beside the editor. */
+/** The idea's content without its code, for showing beside the code. */
 export const withoutCode = (content: PortableText | undefined): PortableText =>
   (content ?? []).filter((block) => !isCode(block));

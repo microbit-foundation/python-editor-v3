@@ -107,25 +107,21 @@ describe("Projects", () => {
     expect(fileNames(fs)).toEqual([MAIN_FILE, "helper.py"]);
   });
 
-  it("knows the idea the open project came from", async () => {
+  it("lists the idea a project was created from", async () => {
     const { fs, projects } = await setup();
     await projects.openCurrent();
     await fs.initialize();
     const plain = projects.currentId!;
-    const opened = vi.fn();
-    projects.addEventListener("open", opened);
 
-    await projects.createFromFiles(
+    const idea = await projects.createFromFiles(
       "Dice",
       { [MAIN_FILE]: new TextEncoder().encode("# dice") },
       "dice"
     );
-    expect(projects.currentIdeaSlug).toEqual("dice");
-    expect(opened).toHaveBeenCalledTimes(1);
 
-    await projects.open(plain);
-    expect(projects.currentIdeaSlug).toBeUndefined();
-    expect(opened).toHaveBeenCalledTimes(2);
+    const listed = new Map(projects.projects.map((p) => [p.id, p.ideaSlug]));
+    expect(listed.get(idea)).toEqual("dice");
+    expect(listed.get(plain)).toBeUndefined();
   });
 
   it("duplicates keep the idea", async () => {

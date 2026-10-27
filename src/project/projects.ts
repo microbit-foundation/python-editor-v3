@@ -41,17 +41,9 @@ export class ProjectSaveErrorEvent extends Event {
   }
 }
 
-/** The editor's open project changed. */
-export class ProjectOpenedEvent extends Event {
-  constructor() {
-    super("open");
-  }
-}
-
 interface EventMap {
   change: ProjectsChangedEvent;
   saveerror: ProjectSaveErrorEvent;
-  open: ProjectOpenedEvent;
 }
 
 /**
@@ -80,7 +72,6 @@ export class Projects extends TypedEventTarget<EventMap> {
   private readonly ready: Promise<void>;
   private firstStorageResolved = false;
   private openId: string | undefined;
-  private openIdeaSlug: string | undefined;
   private openStorage: IndexedDBFSStorage | undefined;
   private opening: Promise<boolean> | undefined;
   private cachedList: ProjectListEntry[] = [];
@@ -133,12 +124,6 @@ export class Projects extends TypedEventTarget<EventMap> {
   get currentId(): string | undefined {
     return this.openId;
   }
-
-  /** The idea the open project was opened from, if any. */
-  get currentIdeaSlug(): string | undefined {
-    return this.openIdeaSlug;
-  }
-
   async refresh(): Promise<ProjectListEntry[]> {
     await this.ready;
     this.cachedList = this.db ? await this.db.listWithFileNames() : [];
@@ -287,10 +272,8 @@ export class Projects extends TypedEventTarget<EventMap> {
       this.logging
     );
     this.openId = id;
-    this.openIdeaSlug = (await db.get(id))?.ideaSlug;
     this.openStorage = indexed;
     setCurrentProjectId(this.session, id);
-    this.dispatchTypedEvent("open", new ProjectOpenedEvent());
     if (this.firstStorageResolved) {
       await this.fs.switchStorage(storage);
     } else {
@@ -305,7 +288,6 @@ export class Projects extends TypedEventTarget<EventMap> {
    */
   private letGoOfOpenProject(): void {
     this.openId = undefined;
-    this.openIdeaSlug = undefined;
     this.openStorage = undefined;
     if (getCurrentProjectId(this.session)) {
       setCurrentProjectId(this.session, undefined);

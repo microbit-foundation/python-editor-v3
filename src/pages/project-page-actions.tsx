@@ -35,6 +35,8 @@ export type ProjectSurface = "home" | "projects";
 
 export interface PageProject extends ProjectSummary {
   fileNames: string[];
+  /** The idea the project was created from, if any. */
+  ideaSlug?: string;
 }
 
 /** Shared by every create, so pages can see one in progress. */
@@ -158,8 +160,8 @@ export const useCreateProject = (surface: ProjectSurface) => {
 };
 
 /**
- * Opens an idea as a new project with its program in main.py, showing its
- * guide beside the editor.
+ * Opens an idea as a new project with its program in main.py, showing the
+ * idea in the Ideas tab beside the editor.
  */
 export const useOpenIdea = () => {
   const logging = useLogging();
@@ -167,11 +169,17 @@ export const useOpenIdea = () => {
   return useCallback(
     async (name: string, slug: string, code: string) => {
       logging.event({ type: "idea_open", detail: { id: slug } });
-      await submit({ name, idea: { code, slug } }, { tab: "guide" });
+      await submit({ name, idea: { code, slug } }, ideaRouterState(slug));
     },
     [logging, submit]
   );
 };
+
+/** The editor showing an idea in the Ideas tab. */
+const ideaRouterState = (slug: string): RouterState => ({
+  tab: "ideas",
+  slug: { id: slug },
+});
 
 /**
  * Submits to the editor route's action (createProjectAction), reporting a
@@ -244,9 +252,13 @@ export const useProjectPageActions = (
       attempt(async () => {
         logging.event({ type: "project_open", detail: { surface } });
         await store.open(id);
-        await navigate(createEditorUrl());
+        // A project from an idea opens with the idea beside it.
+        const ideaSlug = projects.find((p) => p.id === id)?.ideaSlug;
+        await navigate(
+          createEditorUrl(ideaSlug ? ideaRouterState(ideaSlug) : undefined)
+        );
       }),
-    [attempt, logging, navigate, store, surface]
+    [attempt, logging, navigate, projects, store, surface]
   );
 
   return { actions, open, create };
