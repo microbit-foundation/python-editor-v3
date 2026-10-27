@@ -26,6 +26,11 @@ type ResourceCardProps = {
   imageFit?: "cover" | "contain";
   imgSrc: string;
   title: ReactNode;
+  /**
+   * A small label above the title saying what kind of resource it is, e.g.
+   * "Unit of work".
+   */
+  resourceType?: ReactNode;
   /** A line under the title saying what the resource is. */
   description?: ReactNode;
   level?: Level;
@@ -45,6 +50,7 @@ const ResourceCard = ({
   url,
   onClick,
   title,
+  resourceType,
   description,
   level,
 }: ResourceCardProps) => (
@@ -83,6 +89,11 @@ const ResourceCard = ({
     </AspectRatio>
     <VStack p={3} py={2} pb={3} flexGrow={1} gap={3} alignItems="stretch">
       <VStack m={3} gap={2} flexGrow={1} alignItems="stretch">
+        {resourceType !== undefined && (
+          <Text fontSize="xs" lineHeight="1.27" letterSpacing="0.2px" mb={1}>
+            {resourceType}
+          </Text>
+        )}
         <Heading as="h3" fontSize="lg" fontWeight="bold">
           {onClick ? (
             <LinkOverlayButton

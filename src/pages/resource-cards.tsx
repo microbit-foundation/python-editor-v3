@@ -182,6 +182,8 @@ export const createMiciProjectCards = (intl: IntlShape, languageId: string) =>
 interface TeacherResource {
   /** Message id prefix for `-title` and `-description`. */
   id: string;
+  /** Message id of the label saying what kind of resource it is. */
+  typeId: string;
   url: string;
   imgSrc: string;
 }
@@ -189,26 +191,31 @@ interface TeacherResource {
 const teacherResources: TeacherResource[] = [
   {
     id: "introducing-python-course-resource",
+    typeId: "resource-type-professional-development",
     url: introducingPythonCourseUrl,
     imgSrc: introducingPythonCourseImage,
   },
   {
     id: "microbit-classroom-resource",
+    typeId: "resource-type-teaching-tool",
     url: microbitClassroomUrl,
     imgSrc: microbitClassroomImage,
   },
   {
     id: "python-editor-poster-creativity-resource",
+    typeId: "resource-type-classroom-resource",
     url: microbitOrgClassroomResourceUrl("python-editor-poster-creativity"),
     imgSrc: posterCreativityImage,
   },
   {
     id: "python-editor-poster-debugging-resource",
+    typeId: "resource-type-classroom-resource",
     url: microbitOrgClassroomResourceUrl("python-editor-poster-debugging"),
     imgSrc: posterDebuggingImage,
   },
   {
     id: "microbit-labelling-worksheet-resource",
+    typeId: "resource-type-classroom-resource",
     url: microbitOrgClassroomResourceUrl("microbit-labelling-worksheet"),
     imgSrc: labellingWorksheetImage,
   },
@@ -220,6 +227,7 @@ export const createLessonCards = (intl: IntlShape) => [
     title={intl.formatMessage({
       id: "first-lessons-with-python-resource-title",
     })}
+    resourceType={intl.formatMessage({ id: "resource-type-unit-of-work" })}
     description={intl.formatMessage({
       id: "first-lessons-with-python-resource-description",
     })}
@@ -232,6 +240,7 @@ export const createLessonCards = (intl: IntlShape) => [
     <ResourceCard
       key={resource.id}
       title={intl.formatMessage({ id: `${resource.id}-title` })}
+      resourceType={intl.formatMessage({ id: resource.typeId })}
       description={intl.formatMessage({ id: `${resource.id}-description` })}
       url={resource.url}
       imgSrc={resource.imgSrc}

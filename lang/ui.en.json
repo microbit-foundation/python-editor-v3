@@ -842,6 +842,22 @@
     "defaultMessage": "Replace",
     "description": "Action label for replacing project dialog"
   },
+  "resource-type-classroom-resource": {
+    "defaultMessage": "Classroom resource",
+    "description": "Small label above a home page teacher resource card's title saying what kind of resource it is, e.g. a poster or worksheet"
+  },
+  "resource-type-professional-development": {
+    "defaultMessage": "Professional development",
+    "description": "Small label above a home page teacher resource card's title saying what kind of resource it is, e.g. a teacher training course"
+  },
+  "resource-type-teaching-tool": {
+    "defaultMessage": "Teaching tool",
+    "description": "Small label above a home page teacher resource card's title saying what kind of resource it is, e.g. micro:bit classroom"
+  },
+  "resource-type-unit-of-work": {
+    "defaultMessage": "Unit of work",
+    "description": "Small label above a home page teacher resource card's title saying what kind of resource it is, e.g. a series of lessons"
+  },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
     "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
