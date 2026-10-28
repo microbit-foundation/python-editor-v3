@@ -9,7 +9,7 @@ import { Box } from "styled-system/jsx";
 
 interface AreaHeadingProps {
   name: string;
-  description: ReactNode;
+  description?: ReactNode;
 }
 
 const AreaHeading = ({ name, description }: AreaHeadingProps) => (
@@ -17,7 +17,7 @@ const AreaHeading = ({ name, description }: AreaHeadingProps) => (
     <Text as="h2" fontSize="3xl" fontWeight="semibold">
       {name}
     </Text>
-    <Text fontSize="md">{description}</Text>
+    {description !== undefined && <Text fontSize="md">{description}</Text>}
   </Box>
 );
 

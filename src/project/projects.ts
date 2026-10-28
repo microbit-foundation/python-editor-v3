@@ -41,9 +41,17 @@ export class ProjectSaveErrorEvent extends Event {
   }
 }
 
+/** The editor's open project changed. */
+export class ProjectOpenedEvent extends Event {
+  constructor() {
+    super("open");
+  }
+}
+
 interface EventMap {
   change: ProjectsChangedEvent;
   saveerror: ProjectSaveErrorEvent;
+  open: ProjectOpenedEvent;
 }
 
 /**
@@ -72,6 +80,7 @@ export class Projects extends TypedEventTarget<EventMap> {
   private readonly ready: Promise<void>;
   private firstStorageResolved = false;
   private openId: string | undefined;
+  private openIdeaSlug: string | undefined;
   private openStorage: IndexedDBFSStorage | undefined;
   private opening: Promise<boolean> | undefined;
   private cachedList: ProjectListEntry[] = [];
@@ -123,6 +132,11 @@ export class Projects extends TypedEventTarget<EventMap> {
   /** The project the editor has open in this tab, if any. */
   get currentId(): string | undefined {
     return this.openId;
+  }
+
+  /** The idea the open project was opened from, if any. */
+  get currentIdeaSlug(): string | undefined {
+    return this.openIdeaSlug;
   }
 
   async refresh(): Promise<ProjectListEntry[]> {
@@ -182,16 +196,17 @@ export class Projects extends TypedEventTarget<EventMap> {
   }
 
   /**
-   * Creates a project with the given files, e.g. from an imported hex, and
-   * opens it in the editor.
+   * Creates a project with the given files, e.g. from an imported hex or an
+   * idea, and opens it in the editor.
    */
   async createFromFiles(
     name: string | undefined,
-    files: Record<string, Uint8Array>
+    files: Record<string, Uint8Array>,
+    ideaSlug?: string
   ): Promise<string> {
     const db = await this.requireDb();
     const id = generateId();
-    await db.create({ id, name, timestamp: Date.now() }, files);
+    await db.create({ id, name, timestamp: Date.now(), ideaSlug }, files);
     await this.switchTo(id);
     await this.changed([id]);
     return id;
@@ -215,7 +230,13 @@ export class Projects extends TypedEventTarget<EventMap> {
       await this.openStorage?.flush();
     }
     const newId = generateId();
-    await db.duplicate(id, { id: newId, name, timestamp: Date.now() });
+    const { ideaSlug } = (await db.get(id)) ?? {};
+    await db.duplicate(id, {
+      id: newId,
+      name,
+      timestamp: Date.now(),
+      ideaSlug,
+    });
     await this.changed([newId]);
     return newId;
   }
@@ -266,8 +287,10 @@ export class Projects extends TypedEventTarget<EventMap> {
       this.logging
     );
     this.openId = id;
+    this.openIdeaSlug = (await db.get(id))?.ideaSlug;
     this.openStorage = indexed;
     setCurrentProjectId(this.session, id);
+    this.dispatchTypedEvent("open", new ProjectOpenedEvent());
     if (this.firstStorageResolved) {
       await this.fs.switchStorage(storage);
     } else {
@@ -282,6 +305,7 @@ export class Projects extends TypedEventTarget<EventMap> {
    */
   private letGoOfOpenProject(): void {
     this.openId = undefined;
+    this.openIdeaSlug = undefined;
     this.openStorage = undefined;
     if (getCurrentProjectId(this.session)) {
       setCurrentProjectId(this.session, undefined);

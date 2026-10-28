@@ -17,6 +17,8 @@ export interface ProjectMeta {
   name: string | undefined;
   /** Last modified or opened, for ordering by recency. */
   timestamp: number;
+  /** The idea the project was opened from, whose guide it shows. */
+  ideaSlug?: string;
 }
 
 /** A project as listed on the pages: its metadata plus what it contains. */

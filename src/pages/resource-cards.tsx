@@ -37,13 +37,12 @@ import {
   microbitOrgLessonUrl,
   microbitOrgProjectUrl,
 } from "../external-links";
-import { RouterState } from "../router-hooks";
 import { Level } from "./LevelIndicator";
 import ResourceCard from "./ResourceCard";
 
 interface Idea {
   titleId: string;
-  /** The idea's slug in the editor's ideas tab. */
+  /** The idea's slug in the CMS ideas. */
   slug: string;
   imgSrc: string;
 }
@@ -82,23 +81,17 @@ const ideas: Idea[] = [
   },
 ];
 
-/**
- * Idea cards open the idea in a new project, so following one can't change
- * the user's existing projects.
- */
+/** Idea cards show the idea, by slug, for the user to open or not. */
 export const createIdeaCards = (
   intl: IntlShape,
-  createProject: (name: string, state: RouterState) => Promise<void>
+  onSelect: (slug: string, title: string) => void
 ) =>
   ideas.map((idea) => (
     <ResourceCard
       key={idea.titleId}
       title={intl.formatMessage({ id: idea.titleId })}
       onClick={() =>
-        void createProject(intl.formatMessage({ id: idea.titleId }), {
-          tab: "ideas",
-          slug: { id: idea.slug },
-        })
+        onSelect(idea.slug, intl.formatMessage({ id: idea.titleId }))
       }
       imgSrc={idea.imgSrc}
       // The ideas tab's images are 2:1; show them whole.
