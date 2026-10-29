@@ -11,7 +11,7 @@ import React, {
   Dispatch,
   ReactNode,
   SetStateAction,
-  useContext,
+  use,
   useState,
 } from "react";
 import { ActionFeedback } from "../common/use-action-feedback";
@@ -107,9 +107,9 @@ const ActiveEditorStateProvider = ({ children }: { children: ReactNode }) => {
   // eslint-disable-next-line @eslint-react/use-state -- the tuple is handed to context as-is
   const value = useState<EditorInfo>(defaultEditorInfo);
   return (
-    <ActiveEditorStateContext.Provider value={value}>
+    <ActiveEditorStateContext value={value}>
       {children}
-    </ActiveEditorStateContext.Provider>
+    </ActiveEditorStateContext>
   );
 };
 interface ActiveEditorProviderProps {
@@ -122,9 +122,9 @@ export const ActiveEditorProvider = ({
   // eslint-disable-next-line @eslint-react/use-state -- the tuple is handed to context as-is
   const actions = useState<EditorActions>();
   return (
-    <ActiveEditorActionsContext.Provider value={actions}>
+    <ActiveEditorActionsContext value={actions}>
       <ActiveEditorStateProvider>{children}</ActiveEditorStateProvider>
-    </ActiveEditorActionsContext.Provider>
+    </ActiveEditorActionsContext>
   );
 };
 
@@ -133,7 +133,7 @@ export const ActiveEditorProvider = ({
  * Prefer {@link useActiveEditorActions} or {@link useActiveEditorInfoState}.
  */
 export const useActiveEditorActionsState = (): UseActiveEditorReturn => {
-  const value = useContext(ActiveEditorActionsContext);
+  const value = use(ActiveEditorActionsContext);
   if (!value) {
     throw new Error("Missing provider");
   }
@@ -145,7 +145,7 @@ export const useActiveEditorActionsState = (): UseActiveEditorReturn => {
  * Prefer {@link useActiveEditorActions} or {@link useActiveEditorInfoState}.
  */
 export const useActiveEditorInfoState = (): UseActiveEditorInfoReturn => {
-  const context = useContext(ActiveEditorStateContext);
+  const context = use(ActiveEditorStateContext);
   if (!context) {
     throw new Error("Missing provider!");
   }

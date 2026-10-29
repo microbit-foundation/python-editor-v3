@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 import { Icon } from "@microbit/ui";
-import React, { ForwardedRef } from "react";
+import React from "react";
 import { RiDownloadLine } from "react-icons/ri";
 import { Box } from "styled-system/jsx";
 import { SystemStyleObject } from "styled-system/types";
 import CollapsibleButton from "../CollapsibleButton";
 
 interface HideSplitViewButtonProps {
+  ref?: React.Ref<HTMLButtonElement>;
   "aria-label": string;
   onClick: () => void;
   direction: "expandLeft" | "expandRight";
@@ -19,80 +20,76 @@ interface HideSplitViewButtonProps {
   css?: SystemStyleObject;
 }
 
-const HideSplitViewButton = React.forwardRef(
-  (
-    {
-      onClick,
-      direction,
-      splitViewShown,
-      text = "",
-      css: cssProp,
-      ...props
-    }: HideSplitViewButtonProps,
-    ref: ForwardedRef<HTMLButtonElement>
-  ) => {
-    const mode = text ? "button" : "icon";
-    const expanded =
-      (direction === "expandRight" && splitViewShown) ||
-      (direction === "expandLeft" && !splitViewShown);
-    return (
-      <Box position="relative">
-        {/* Hack to cover divider box shadow on right hand side. */}
-        {direction === "expandLeft" && splitViewShown && (
-          <Box
-            width="10px"
-            height="60px"
-            background="#eaecf1"
-            zIndex={5}
-            position="absolute"
-            left="-10px"
-            top="-10px"
-            pointerEvents="none"
-          />
-        )}
-        <CollapsibleButton
-          ref={ref}
-          mode={mode}
-          text={text}
-          icon={
-            <Icon
-              as={RiDownloadLine}
-              css={{
-                transform: expanded ? "rotate(90deg)" : "rotate(270deg)",
-              }}
-            />
-          }
-          onPress={onClick}
-          size="md"
-          variant="ghost"
-          css={{
-            fontSize: "lg",
-            transition: "none",
-            borderTopRightRadius: expanded ? "0" : "6px",
-            borderBottomRightRadius: expanded ? "0" : "6px",
-            borderTopLeftRadius: expanded ? "6px" : "0",
-            borderBottomLeftRadius: expanded ? "6px" : "0",
-            py: "3",
-            borderColor: "black",
-            minW: "unset",
-            // Test `text`, not `mode`: Panda can't see both values of a
-            // variable initialised with a ternary, so it would only emit
-            // one width (chakra-ui/panda#4056).
-            width: text ? "auto" : "20px",
-            background: "#eaecf1",
-            // The flat background is a utility, which beats the ghost
-            // variant's recipe-layer hover/active — restate them.
-            _hover: { background: "gray.100" },
-            _active: { background: "gray.200" },
-            color: "brand.500",
-            zIndex: "splitViewHideButton",
-            ...cssProp,
-          }}
-          {...props}
+const HideSplitViewButton = ({
+  onClick,
+  direction,
+  splitViewShown,
+  text = "",
+  css: cssProp,
+  ref,
+  ...props
+}: HideSplitViewButtonProps) => {
+  const mode = text ? "button" : "icon";
+  const expanded =
+    (direction === "expandRight" && splitViewShown) ||
+    (direction === "expandLeft" && !splitViewShown);
+  return (
+    <Box position="relative">
+      {/* Hack to cover divider box shadow on right hand side. */}
+      {direction === "expandLeft" && splitViewShown && (
+        <Box
+          width="10px"
+          height="60px"
+          background="#eaecf1"
+          zIndex={5}
+          position="absolute"
+          left="-10px"
+          top="-10px"
+          pointerEvents="none"
         />
-      </Box>
-    );
-  }
-);
+      )}
+      <CollapsibleButton
+        ref={ref}
+        mode={mode}
+        text={text}
+        icon={
+          <Icon
+            as={RiDownloadLine}
+            css={{
+              transform: expanded ? "rotate(90deg)" : "rotate(270deg)",
+            }}
+          />
+        }
+        onPress={onClick}
+        size="md"
+        variant="ghost"
+        css={{
+          fontSize: "lg",
+          transition: "none",
+          borderTopRightRadius: expanded ? "0" : "6px",
+          borderBottomRightRadius: expanded ? "0" : "6px",
+          borderTopLeftRadius: expanded ? "6px" : "0",
+          borderBottomLeftRadius: expanded ? "6px" : "0",
+          py: "3",
+          borderColor: "black",
+          minW: "unset",
+          // Test `text`, not `mode`: Panda can't see both values of a
+          // variable initialised with a ternary, so it would only emit
+          // one width (chakra-ui/panda#4056).
+          width: text ? "auto" : "20px",
+          background: "#eaecf1",
+          // The flat background is a utility, which beats the ghost
+          // variant's recipe-layer hover/active — restate them.
+          _hover: { background: "gray.100" },
+          _active: { background: "gray.200" },
+          color: "brand.500",
+          zIndex: "splitViewHideButton",
+          ...cssProp,
+        }}
+        {...props}
+      />
+    </Box>
+  );
+};
 
 export default HideSplitViewButton;

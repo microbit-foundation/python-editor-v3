@@ -67,7 +67,7 @@ const useClipboard = (text: string) => {
 interface AboutDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  finalFocusRef: React.RefObject<HTMLButtonElement>;
+  finalFocusRef: React.RefObject<HTMLButtonElement | null>;
 }
 
 /**

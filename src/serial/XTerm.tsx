@@ -51,7 +51,7 @@ const ptToPixelRatio = 96 / 72;
  * one instance is permitted without changing that design.
  */
 const useManagedTermimal = (
-  ref: React.RefObject<HTMLDivElement>,
+  ref: React.RefObject<HTMLDivElement | null>,
   tabOutRef: HTMLElement,
   fontSizePt: number
 ): void => {

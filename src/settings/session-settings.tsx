@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, use } from "react";
 import { useStorage } from "../common/use-storage";
 
 export interface SessionSettings {
@@ -26,7 +26,7 @@ const SessionSettingsContext = createContext<
 >(undefined);
 
 export const useSessionSettings = (): SessionSettingsContextValue => {
-  const sessionSettings = useContext(SessionSettingsContext);
+  const sessionSettings = use(SessionSettingsContext);
   if (!sessionSettings) {
     throw new Error("Missing provider");
   }
@@ -40,9 +40,9 @@ const SessionSettingsProvider = ({ children }: { children: ReactNode }) => {
     defaultSessionSettings
   );
   return (
-    <SessionSettingsContext.Provider value={sessionSettings}>
+    <SessionSettingsContext value={sessionSettings}>
       {children}
-    </SessionSettingsContext.Provider>
+    </SessionSettingsContext>
   );
 };
 

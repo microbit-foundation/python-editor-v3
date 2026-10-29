@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, use, useState } from "react";
 
 type SimSerialTabControl = [
   tabOutRef: HTMLElement | null,
@@ -15,7 +15,7 @@ const SimSerialTabControlContext = createContext<
 >(undefined);
 
 export const useSimSerialTabControl = (): SimSerialTabControl => {
-  const simSerialTabControl = useContext(SimSerialTabControlContext);
+  const simSerialTabControl = use(SimSerialTabControlContext);
   if (!simSerialTabControl) {
     throw new Error("Missing provider");
   }
@@ -26,9 +26,9 @@ const SimSerialTabControlProvider = ({ children }: { children: ReactNode }) => {
   // eslint-disable-next-line @eslint-react/use-state -- the tuple is handed to context as-is
   const value = useState<HTMLElement | null>(null);
   return (
-    <SimSerialTabControlContext.Provider value={value}>
+    <SimSerialTabControlContext value={value}>
       {children}
-    </SimSerialTabControlContext.Provider>
+    </SimSerialTabControlContext>
   );
 };
 

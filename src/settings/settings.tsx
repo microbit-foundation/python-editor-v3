@@ -7,7 +7,7 @@ import {
   getDefaultLanguageId,
   type KnownLanguageId,
 } from "@microbit/ui-patterns";
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, use } from "react";
 import { useStorage } from "../common/use-storage";
 import { defaultCodeFontSizePt } from "../deployment/misc";
 import { stage } from "../environment";
@@ -165,7 +165,7 @@ const SettingsContext = createContext<SettingsContextValue | undefined>(
 );
 
 export const useSettings = (): SettingsContextValue => {
-  const settings = useContext(SettingsContext);
+  const settings = use(SettingsContext);
   if (!settings) {
     throw new Error("Missing provider");
   }
@@ -185,9 +185,9 @@ const SettingsProvider = ({ children }: { children: ReactNode }) => {
       : {}
   );
   return (
-    <SettingsContext.Provider value={[settings, setSettings]}>
+    <SettingsContext value={[settings, setSettings]}>
       {children}
-    </SettingsContext.Provider>
+    </SettingsContext>
   );
 };
 

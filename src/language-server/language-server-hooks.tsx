@@ -3,13 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, use, useEffect, useState } from "react";
 import { useFileSystem } from "../fs/fs-hooks";
 import { useSettings } from "../settings/settings";
 import { LanguageServerClient } from "./client";
@@ -26,7 +20,7 @@ const LanguageServerClientContext = createContext<
 >(undefined);
 
 export const useLanguageServerClient = (): LanguageServerClient | undefined => {
-  return useContext(LanguageServerClientContext);
+  return use(LanguageServerClientContext);
 };
 
 interface LanguageServerClientProviderProps {
@@ -64,8 +58,8 @@ export const LanguageServerClientProvider = ({
     };
   }, [fs, languageId, toast]);
   return (
-    <LanguageServerClientContext.Provider value={clientState}>
+    <LanguageServerClientContext value={clientState}>
       {children}
-    </LanguageServerClientContext.Provider>
+    </LanguageServerClientContext>
   );
 };

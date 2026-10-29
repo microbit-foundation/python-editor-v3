@@ -10,7 +10,7 @@ const stubConsentValue: CookieConsent = {
   analytics: false,
   functional: true,
 };
-const stubConsentContext = createContext<CookieConsent | undefined>(
+const StubConsentContext = createContext<CookieConsent | undefined>(
   stubConsentValue
 );
 
@@ -21,10 +21,8 @@ const stubConsentContext = createContext<CookieConsent | undefined>(
  */
 export const createStubCompliance = (): DeploymentConfig["compliance"] => ({
   ConsentProvider: ({ children }: { children: ReactNode }) => (
-    <stubConsentContext.Provider value={stubConsentValue}>
-      {children}
-    </stubConsentContext.Provider>
+    <StubConsentContext value={stubConsentValue}>{children}</StubConsentContext>
   ),
-  consentContext: stubConsentContext,
+  consentContext: StubConsentContext,
   manageCookies: undefined,
 });

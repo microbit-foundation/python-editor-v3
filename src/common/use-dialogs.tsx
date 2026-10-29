@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import React, { ReactNode, useContext, useMemo } from "react";
+import React, { ReactNode, use, useMemo } from "react";
 import useRafState from "./use-raf-state";
 import ProgressDialog, { ProgressDialogParameters } from "./ProgressDialog";
 
@@ -25,7 +25,7 @@ export const DialogProvider = ({ children }: DialogProviderProps) => {
     [setDialogState, setProgressDialogState]
   );
   return (
-    <DialogContext.Provider value={dialogs}>
+    <DialogContext value={dialogs}>
       <>
         {dialogState}
         {progressDialogState && (
@@ -33,7 +33,7 @@ export const DialogProvider = ({ children }: DialogProviderProps) => {
         )}
         {children}
       </>
-    </DialogContext.Provider>
+    </DialogContext>
   );
 };
 
@@ -77,7 +77,7 @@ export class Dialogs {
  * A hook providing common dialog functionality.
  */
 export const useDialogs = () => {
-  const dialogs = useContext(DialogContext);
+  const dialogs = use(DialogContext);
   if (!dialogs) {
     throw new Error("Missing provider!");
   }

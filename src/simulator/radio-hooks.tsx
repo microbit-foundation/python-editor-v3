@@ -1,11 +1,5 @@
 import { usePrevious } from "@microbit/ui";
-import React, {
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactNode, useCallback, use, useEffect, useState } from "react";
 import { useSimulator } from "../device/device-hooks";
 import { RadioData } from "../device/simulator";
 
@@ -143,15 +137,11 @@ export const RadioChatProvider = ({
   children: ReactNode;
 }) => {
   const items = useRadioChatItemsInternal(group);
-  return (
-    <RadioChatContext.Provider value={items}>
-      {children}
-    </RadioChatContext.Provider>
-  );
+  return <RadioChatContext value={items}>{children}</RadioChatContext>;
 };
 
 export const useRadioChatItems = () => {
-  const result = useContext(RadioChatContext);
+  const result = use(RadioChatContext);
   if (!result) {
     throw new Error("Missing provider!");
   }

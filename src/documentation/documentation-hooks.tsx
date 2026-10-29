@@ -7,7 +7,7 @@ import {
   createContext,
   ReactNode,
   RefObject,
-  useContext,
+  use,
   useEffect,
   useMemo,
   useRef,
@@ -100,7 +100,7 @@ const DocumentationContext = createContext<
  * Aggregated documentation.
  */
 export const useDocumentation = (): DocumentationContextValue => {
-  const value = useContext(DocumentationContext);
+  const value = use(DocumentationContext);
   if (!value) {
     throw new Error("Missing provider!");
   }
@@ -115,11 +115,7 @@ const DocumentationProvider = ({ children }: { children: ReactNode }) => {
   const value: DocumentationContextValue = useMemo(() => {
     return { reference, api, ideas, apiReferenceMap };
   }, [reference, api, ideas, apiReferenceMap]);
-  return (
-    <DocumentationContext.Provider value={value}>
-      {children}
-    </DocumentationContext.Provider>
-  );
+  return <DocumentationContext value={value}>{children}</DocumentationContext>;
 };
 
 export default DocumentationProvider;
@@ -127,7 +123,7 @@ export default DocumentationProvider;
 let dragImageRefCount = 0;
 
 export const useCodeDragImage = (): RefObject<HTMLImageElement | undefined> => {
-  const ref = useRef<HTMLImageElement>();
+  const ref = useRef<HTMLImageElement>(undefined);
   useEffect(() => {
     const id = "code-drag-image";
     let img = document.getElementById(id) as HTMLImageElement | null;

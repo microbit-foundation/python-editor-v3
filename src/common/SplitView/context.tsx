@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 import { SizedMode } from "./SplitView";
 
 export const separatorPixels = 10;
@@ -25,7 +25,7 @@ export const dimensionProps = (
   };
 };
 
-export interface SplitViewContext {
+export interface SplitViewContextValue {
   dragging: boolean;
   mode: SizedMode;
   compactSize: number;
@@ -37,10 +37,12 @@ export interface SplitViewContext {
   handleTouchEndOrMouseUp: () => void;
 }
 
-export const splitViewContext = createContext<SplitViewContext | null>(null);
+export const SplitViewContext = createContext<SplitViewContextValue | null>(
+  null
+);
 
-export const useSplitViewContext = (): SplitViewContext => {
-  const v = useContext(splitViewContext);
+export const useSplitViewContext = (): SplitViewContextValue => {
+  const v = use(SplitViewContext);
   if (!v) {
     throw new Error("Missing provider");
   }
