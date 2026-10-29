@@ -4,14 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { vi, expect, afterEach } from "vitest";
-import { cleanup } from "@testing-library/react";
-import matchers from "@testing-library/jest-dom/matchers";
-expect.extend(matchers);
-
-afterEach(() => {
-  cleanup();
-});
+import { vi } from "vitest";
+import "@testing-library/jest-dom/vitest";
 
 vi.stubEnv("VITE_SANITY_PROJECT", "project");
 vi.stubEnv("VITE_SANITY_DATASET", "dataset");
