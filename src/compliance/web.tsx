@@ -42,7 +42,7 @@ type CommonConsentWindow = Window & {
 export const createWebCompliance = (
   env: Record<string, string>
 ): DeploymentConfig["compliance"] => {
-  const consentContext = createContext<CookieConsent | undefined>(undefined);
+  const ConsentContext = createContext<CookieConsent | undefined>(undefined);
 
   const config: ConsentConfig = {
     ga: isStageWithAnalytics(env.VITE_STAGE) ? {} : undefined,
@@ -111,14 +111,10 @@ export const createWebCompliance = (
       };
     }, []);
 
-    return (
-      <consentContext.Provider value={value}>
-        {children}
-      </consentContext.Provider>
-    );
+    return <ConsentContext value={value}>{children}</ConsentContext>;
   };
 
-  return { ConsentProvider, consentContext, manageCookies };
+  return { ConsentProvider, consentContext: ConsentContext, manageCookies };
 };
 
 const inIframe = () => {

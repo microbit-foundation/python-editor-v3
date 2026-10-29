@@ -191,7 +191,7 @@ interface EditorProps {
 
 interface EditorWithSimulatorProps extends EditorProps {
   simulatorShown: boolean;
-  showSimulatorButtonRef: React.RefObject<HTMLButtonElement>;
+  showSimulatorButtonRef: React.RefObject<HTMLButtonElement | null>;
   onSimulatorHide: () => void;
   simFocus: boolean;
 }

@@ -84,7 +84,7 @@ import reconnectMp4 from "../workbench/connect-dialogs/reconnect.mp4";
  */
 export type LoadType = "drop-load" | "file-upload";
 
-export type FinalFocusRef = React.RefObject<HTMLElement> | undefined;
+export type FinalFocusRef = React.RefObject<HTMLElement | null> | undefined;
 
 export interface MainScriptChoice {
   main: string | undefined;
@@ -698,7 +698,9 @@ export class ProjectActions {
    * There's some debate as to whether this action is more confusing than helpful
    * but leaving it around for a bit so we can try out different UI arrangements.
    */
-  saveMainFile = async (finalFocusRef: React.RefObject<HTMLButtonElement>) => {
+  saveMainFile = async (
+    finalFocusRef: React.RefObject<HTMLButtonElement | null>
+  ) => {
     this.logging.event({
       type: "project_save",
       detail: { format: "py", ...statsParams(await this.projectStats()) },

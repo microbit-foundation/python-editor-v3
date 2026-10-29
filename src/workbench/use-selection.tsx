@@ -7,7 +7,7 @@ import React, {
   Dispatch,
   ReactNode,
   SetStateAction,
-  useContext,
+  use,
   useState,
 } from "react";
 
@@ -42,7 +42,7 @@ export interface FileLocation {
  * Hook exposing the context selection.
  */
 export const useSelection = () => {
-  const value = useContext(Selection);
+  const value = use(Selection);
   if (!value) {
     throw new Error("Missing provider!");
   }
@@ -55,5 +55,5 @@ export const SelectionProvider = ({ children }: { children: ReactNode }) => {
     file: MAIN_FILE,
     location: { line: undefined },
   });
-  return <Selection.Provider value={state}>{children}</Selection.Provider>;
+  return <Selection value={state}>{children}</Selection>;
 };

@@ -8,7 +8,7 @@ import {
 
 export const useAutoScrollToBottom = (
   dependency: any
-): [React.RefObject<HTMLDivElement>, UIEventHandler] => {
+): [React.RefObject<HTMLDivElement | null>, UIEventHandler] => {
   const first = useRef(true);
   const [enabled, setEnabled] = useState<boolean>(true);
   const ref = useRef<HTMLDivElement>(null);

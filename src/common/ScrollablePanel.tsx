@@ -3,11 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import React, { ReactNode, RefObject, useContext, useRef } from "react";
+import React, { ReactNode, RefObject, use, useRef } from "react";
 import { Box } from "styled-system/jsx";
 
 const ScrollablePanelContext =
-  React.createContext<RefObject<HTMLDivElement> | null>(null);
+  React.createContext<RefObject<HTMLDivElement | null> | null>(null);
 
 /**
  * Exposes the ancesor scrollable panel.
@@ -15,7 +15,7 @@ const ScrollablePanelContext =
  * This should be rarely used but is needed in some circumstanced for absolute positioning.
  */
 export const useScrollablePanelAncestor = () => {
-  const value = useContext(ScrollablePanelContext);
+  const value = use(ScrollablePanelContext);
   if (!value) {
     throw new Error();
   }
@@ -42,9 +42,7 @@ const ScrollablePanel = ({ children }: ScrollablePanelProps) => {
       position="relative"
       data-testid="scrollable-panel"
     >
-      <ScrollablePanelContext.Provider value={ref}>
-        {children}
-      </ScrollablePanelContext.Provider>
+      <ScrollablePanelContext value={ref}>{children}</ScrollablePanelContext>
     </Box>
   );
 };

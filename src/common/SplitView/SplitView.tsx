@@ -16,8 +16,8 @@ import useRafState from "../use-raf-state";
 import {
   Direction,
   separatorPixels,
+  SplitViewContextValue,
   SplitViewContext,
-  splitViewContext,
 } from "./context";
 import SplitViewSized from "./SplitViewSized";
 
@@ -25,7 +25,7 @@ export type SizedMode = "collapsed" | "compact" | "open";
 
 interface SplitViewProps {
   mode?: SizedMode;
-  children: [JSX.Element, JSX.Element, JSX.Element];
+  children: [React.JSX.Element, React.JSX.Element, React.JSX.Element];
   direction: Direction;
   compactSize?: number;
   initialSize?: number;
@@ -144,7 +144,7 @@ export const SplitView = ({
     };
   }, [handleMouseMove, handleTouchMove, handleTouchEndOrMouseUp]);
 
-  const context: SplitViewContext = useMemo(() => {
+  const context: SplitViewContextValue = useMemo(() => {
     return {
       dragging,
       mode,
@@ -171,7 +171,7 @@ export const SplitView = ({
   ]);
 
   return (
-    <splitViewContext.Provider value={context}>
+    <SplitViewContext value={context}>
       <Flex
         ref={splitViewRef}
         direction={direction === "row" ? "row" : "column"}
@@ -180,7 +180,7 @@ export const SplitView = ({
       >
         {children}
       </Flex>
-    </splitViewContext.Provider>
+    </SplitViewContext>
   );
 };
 

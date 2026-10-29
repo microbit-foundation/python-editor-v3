@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useEffect, useRef } from "react";
+import { JSX, useEffect, useRef } from "react";
 import { Box } from "styled-system/jsx";
 import { dimensionPropName, useSplitViewContext } from "./context";
 
