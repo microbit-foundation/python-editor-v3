@@ -191,8 +191,11 @@ const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
         bg="brand.200"
         height="2"
         width="2"
-        borderLeft="1px solid"
-        borderRight="1px solid"
+        // Separate width/style/color: a side shorthand like borderLeft
+        // resets the side's colour, and Panda doesn't order it relative to
+        // borderColor.
+        borderWidth="0 1px"
+        borderStyle="solid"
         borderColor="gray.75"
         // Track position is a runtime value.
         style={{ left: percentLeft }}
