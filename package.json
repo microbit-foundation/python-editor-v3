@@ -48,7 +48,7 @@
     "react-dom": "^18.3.1",
     "react-hotkeys-hook": "^4.5.0",
     "react-icons": "^4.12.0",
-    "react-intl": "^6.6.8",
+    "react-intl": "^12.1.5",
     "react-router": "^7.18.3",
     "vite": "^7.3.1",
     "vscode-jsonrpc": "^9.0.0",
@@ -59,7 +59,7 @@
   "devDependencies": {
     "@csstools/postcss-cascade-layers": "^6.0.0",
     "@microbit/eslint-config": "^0.2.1",
-    "@microbit/i18n-tools": "^0.2.0",
+    "@microbit/i18n-tools": "^0.2.5",
     "@microbit/website-deploy-s3": "^1.2.0",
     "@pandacss/dev": "^2.4.0",
     "@pandacss/preset-base": "^2.4.0",
