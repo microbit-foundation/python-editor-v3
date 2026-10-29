@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { css, cx } from "@microbit/ui";
 import React from "react";
+import { css, cx } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 import { SystemStyleObject } from "styled-system/types";
 import { renderMarkdown } from "../../editor/codemirror/language-server/documentation";

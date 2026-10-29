@@ -5,7 +5,10 @@
  */
 import { basePreset } from "@microbit/ui/base-preset";
 import { densePreset } from "@microbit/ui/dense-preset";
-import { defineConfig } from "@pandacss/dev";
+import { defineConfig, Preset } from "@pandacss/dev";
+import { createRequire } from "node:module";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { appPreset } from "./src/deployment/default/panda-preset";
 
 // Optionally pull in the private brand preset, mirroring the `theme-package`
@@ -14,23 +17,29 @@ import { appPreset } from "./src/deployment/default/panda-preset";
 // otherwise the OSS default preset stands alone. Panda merges them at codegen
 // time.
 //
-// Panda loads this config as CommonJS, so `require` is the real (sync) require;
-// Node 24 resolves the ESM private package through it.
-let brandPreset: unknown;
-try {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const mod = require("@microbit-foundation/python-editor-v3-microbit/panda-preset");
-  brandPreset = (mod as { default: unknown }).default;
-} catch {
-  brandPreset = undefined;
-}
+// Panda bundles this config into a `data:` URL module, where a bare specifier
+// has no base to resolve against, and a static import would fail the OSS build
+// that lacks the package. So resolve it against the cwd (the app root, where
+// the npm scripts run) and import it by absolute file URL.
+const loadBrandPreset = async (): Promise<Preset | undefined> => {
+  let resolved: string;
+  try {
+    resolved = createRequire(path.join(process.cwd(), "package.json")).resolve(
+      "@microbit-foundation/python-editor-v3-microbit/panda-preset"
+    );
+  } catch {
+    return undefined;
+  }
+  const mod = (await import(pathToFileURL(resolved).href)) as {
+    default: Preset;
+  };
+  return mod.default;
+};
+const brandPreset = await loadBrandPreset();
 
 export default defineConfig({
   preflight: true,
   jsxFramework: "react",
-  // Drop Panda's default theme preset; the preset stack below supplies the full
-  // token system. preset-base still provides the utilities.
-  eject: true,
   // Later presets override earlier ones: @microbit/ui's base preset (the
   // complete design system + recipes, OSS default brand values), the shared
   // dense preset (this app's × 0.88 spacing / × 0.9 font-size density, shared

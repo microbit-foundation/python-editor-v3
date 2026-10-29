@@ -75,7 +75,10 @@ const HideSplitViewButton = React.forwardRef(
             py: "3",
             borderColor: "black",
             minW: "unset",
-            width: mode === "icon" ? "20px" : "auto",
+            // Test `text`, not `mode`: Panda can't see both values of a
+            // variable initialised with a ternary, so it would only emit
+            // one width (chakra-ui/panda#4056).
+            width: text ? "auto" : "20px",
             background: "#eaecf1",
             // The flat background is a utility, which beats the ghost
             // variant's recipe-layer hover/active — restate them.
