@@ -46,6 +46,19 @@ const HideSplitViewButton = ({
           left="-10px"
           top="-10px"
           pointerEvents="none"
+          css={{
+            // Track SplitViewSplitter's hover and pressed fills; this pane
+            // follows the splitter it covers.
+            transitionProperty: "background",
+            transitionDuration: "ultra-fast",
+            transitionTimingFunction: "ease-in",
+            "[data-splitter]:hover:not([data-pressed]) ~ [data-primary] &": {
+              background: "gray.100",
+            },
+            "[data-splitter][data-pressed] ~ [data-primary] &": {
+              background: "gray.200",
+            },
+          }}
         />
       )}
       <CollapsibleButton
