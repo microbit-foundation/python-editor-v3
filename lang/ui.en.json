@@ -742,6 +742,10 @@
     "defaultMessage": "Serial terminal",
     "description": "Aria label for the serial terminal"
   },
+  "serial-terminal-resize": {
+    "defaultMessage": "Resize serial terminal",
+    "description": "Aria label for the draggable splitter that resizes the serial terminal"
+  },
   "setting-allow-editing-third-party": {
     "defaultMessage": "Allow editing third-party modules",
     "description": "Checkbox setting label"
@@ -793,6 +797,10 @@
   "sidebar-expand": {
     "defaultMessage": "Expand sidebar",
     "description": "Aria label for the expand sidebar button"
+  },
+  "sidebar-resize": {
+    "defaultMessage": "Resize sidebar",
+    "description": "Aria label for the draggable splitter that resizes the sidebar"
   },
   "simulator-accelerometer": {
     "defaultMessage": "Accelerometer",
@@ -1009,6 +1017,10 @@
   "simulator-reset": {
     "defaultMessage": "Reset",
     "description": "Aria label for the simulator button that restarts the program from the beginning"
+  },
+  "simulator-resize": {
+    "defaultMessage": "Resize simulator",
+    "description": "Aria label for the draggable splitter that resizes the simulator"
   },
   "simulator-serial-terminal": {
     "defaultMessage": "Simulator serial terminal",
