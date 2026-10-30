@@ -3,16 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { SplitView, SplitViewMode, SplitViewPane } from "@microbit/ui";
 import { useState } from "react";
 import { useIntl } from "react-intl";
 import { Flex, VStack } from "styled-system/jsx";
-import {
-  SplitView,
-  SplitViewDivider,
-  SplitViewRemainder,
-  SplitViewSized,
-} from "../common/SplitView";
-import { SizedMode } from "../common/SplitView/SplitView";
+import SplitViewSplitter from "../common/SplitView/SplitViewSplitter";
 import { ConnectionStatus } from "@microbit/microbit-connection";
 import { useConnectionStatus } from "../device/device-hooks";
 import SerialArea from "../serial/SerialArea";
@@ -28,18 +23,19 @@ const SimulatorSplitView = ({ simRunning }: SimulatorSplitViewProps) => {
   const intl = useIntl();
   const connected = useConnectionStatus() === ConnectionStatus.Connected;
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
-    useState<SizedMode>("compact");
+    useState<SplitViewMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [tabOutRef] = useSimSerialTabControl();
   return (
     <SplitView
-      direction="column"
-      minimums={[150, 200]}
+      orientation="horizontal"
+      primaryMinSize={150}
+      secondaryMinSize={200}
       compactSize={SerialArea.compactSize}
-      css={{ height: "0", flexGrow: 1 }}
+      css={{ width: "100%", height: "0", flexGrow: 1 }}
       mode={serialSizedMode}
     >
-      <SplitViewSized>
+      <SplitViewPane primary>
         <SerialArea
           terminalFontSizePt={12}
           compact={serialStateWhenOpen === "compact"}
@@ -53,15 +49,17 @@ const SimulatorSplitView = ({ simRunning }: SimulatorSplitViewProps) => {
           showHintsAndTips={false}
           tabOutRef={tabOutRef!}
         />
-      </SplitViewSized>
-      <SplitViewDivider />
-      <SplitViewRemainder css={{ overflowY: "auto" }}>
+      </SplitViewPane>
+      <SplitViewSplitter
+        aria-label={intl.formatMessage({ id: "serial-terminal-resize" })}
+      />
+      <SplitViewPane css={{ overflowY: "auto" }}>
         <Flex flexDirection="column" height="100%">
           <VStack gap="5" bg="gray.75" flex="1 1 auto">
             <SimulatorModules css={{ flex: "1 1 auto" }} running={simRunning} />
           </VStack>
         </Flex>
-      </SplitViewRemainder>
+      </SplitViewPane>
     </SplitView>
   );
 };
