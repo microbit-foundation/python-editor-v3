@@ -101,8 +101,6 @@ export const createIdeaCards = (
         })
       }
       imgSrc={idea.imgSrc}
-      // The ideas tab's images are 2:1; show them whole.
-      wide
     />
   ));
 
