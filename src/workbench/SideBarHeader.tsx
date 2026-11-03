@@ -14,7 +14,7 @@ import {
   ModalBody,
 } from "@microbit/ui";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
+import { RiCloseLine, RiHome2Line, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { Link as RouterLink } from "react-router";
 import { css } from "styled-system/css";
@@ -141,7 +141,30 @@ const SideBarHeader = ({
     ? faceLogoRef.current.getBoundingClientRect().right + paddingX
     : 0;
   const modalWidth = contentWidth - modalOffset + "px";
-  const logo = (
+  const OrgLogo = brand.OrgLogo;
+  const logo = logoLinksHome ? (
+    <HStack gap="0.875rem">
+      <Box
+        width="3.56875rem"
+        color="white"
+        display="flex"
+        justifyContent="center"
+        ref={faceLogoRef}
+      >
+        <Icon
+          as={RiHome2Line}
+          aria-hidden
+          // A stroke thickens the outline to sit with the logo's face.
+          css={{ width: "24px", height: "24px", strokeWidth: "1" }}
+        />
+      </Box>
+      {!query && sidebarShown && OrgLogo && (
+        <Box color="white">
+          <OrgLogo h="40px" />
+        </Box>
+      )}
+    </HStack>
+  ) : (
     <HStack gap="0.875rem">
       <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
         {brand.squareLogo}
