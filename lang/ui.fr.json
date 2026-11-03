@@ -53,9 +53,6 @@
   "cancel-action": {
     "defaultMessage": "Annuler"
   },
-  "change-files": {
-    "defaultMessage": "Changer de fichiers ?"
-  },
   "choose-main-add-file": {
     "defaultMessage": "Ajouter le fichier {name}"
   },
@@ -98,23 +95,8 @@
   "confirm-delete": {
     "defaultMessage": "Confirmer la suppression"
   },
-  "confirm-replace-body": {
-    "defaultMessage": "Remplacer tous les fichiers par ceux de l’hex ?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "Remplacer tous les fichiers avec le code de départ par défaut ?"
-  },
-  "confirm-replace-title": {
-    "defaultMessage": "Confirmer le remplacement du projet"
-  },
-  "confirm-replace-with-idea": {
-    "defaultMessage": "Remplacer tous les fichiers par {ideaName} ?"
-  },
   "confirm-save-action": {
     "defaultMessage": "Confirmer et enregistrer"
-  },
-  "confirm-save-hint": {
-    "defaultMessage": "Annulez et utilisez Enregistrer pour conserver une copie de votre projet."
   },
   "connect-action": {
     "defaultMessage": "Connecter"
@@ -392,17 +374,8 @@
   "open-action": {
     "defaultMessage": "Ouvrir"
   },
-  "open-file-action": {
-    "defaultMessage": "Ouvrir…"
-  },
   "open-file-dropped": {
     "defaultMessage": "Ouvrir le fichier lorsqu’il est déposé"
-  },
-  "open-hover": {
-    "defaultMessage": "Ouvrir un fichier hex ou Python, ou ajouter d'autres fichiers"
-  },
-  "options": {
-    "defaultMessage": "Options"
   },
   "parameter-help": {
     "defaultMessage": "Aide aux paramètres"
@@ -446,12 +419,6 @@
   "project-name-not-empty": {
     "defaultMessage": "Le nom du projet ne peut pas être vide"
   },
-  "project-tab": {
-    "defaultMessage": "Projet"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Visualiser, créer, ajouter et modifier les fichiers de votre projet"
-  },
   "python-powered": {
     "defaultMessage": "Fonctionne avec Python"
   },
@@ -472,18 +439,6 @@
   },
   "reference-tab": {
     "defaultMessage": "Référence"
-  },
-  "replace-action-label": {
-    "defaultMessage": "Remplacer"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Réinitialiser le projet"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Le projet a été réinitialisé au code de départ par défaut"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Réinitialise le projet au code de départ par défaut, supprimant ainsi votre travail"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}"

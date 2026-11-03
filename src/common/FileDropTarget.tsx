@@ -6,9 +6,9 @@
 import { ReactNode, useCallback, useState } from "react";
 import { RiFolderOpenLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
-import { Box, Center } from "styled-system/jsx";
+import { Box, BoxProps, Center } from "styled-system/jsx";
 
-interface FileDropTargetProps {
+interface FileDropTargetProps extends BoxProps {
   children: ReactNode;
   onFileDrop: (files: File[]) => void;
   "data-testid"?: string;
@@ -16,11 +16,15 @@ interface FileDropTargetProps {
 
 /**
  * An area that handles multiple dropped files.
+ *
+ * The drop overlay covers this element's box, so size it to the content it
+ * wraps: the editor fills its parent, the pages grow with their content.
  */
 const FileDropTarget = ({
   children,
   onFileDrop,
   "data-testid": dataTestId,
+  ...props
 }: FileDropTargetProps) => {
   const [dragOver, setDragOver] = useState(false);
 
@@ -56,7 +60,7 @@ const FileDropTarget = ({
       data-testid={dataTestId}
       onDragOver={handleDragOver}
       position="relative"
-      height="100%"
+      {...props}
     >
       {dragOver && (
         <Center

@@ -12,13 +12,14 @@
 import { useCallback, useMemo } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useLogging } from "./logging/logging-hooks";
-import { createEditorUrl } from "./urls";
+import { createEditorUrl, createIframeEditorUrl } from "./urls";
+import { useIframeMode } from "./iframe-mode-hooks";
 
 export type TabName = "api" | "ideas" | "reference" | "project";
 
 const tabNames: readonly string[] = ["api", "ideas", "reference", "project"];
 
-const isTabName = (value: string | undefined): value is TabName =>
+export const isTabName = (value: string | undefined): value is TabName =>
   value !== undefined && tabNames.includes(value);
 
 /**
@@ -65,6 +66,7 @@ export const useRouterState = (): RouterContextValue => {
   const location = useLocation();
   const navigate = useNavigate();
   const logging = useLogging();
+  const iframeMode = useIframeMode();
 
   const focus = (location.state as LocationState | null)?.focus ?? false;
   const state = useMemo<RouterState>(
@@ -87,9 +89,12 @@ export const useRouterState = (): RouterContextValue => {
         });
       }
       const locationState: LocationState = { focus: newState.focus };
-      void navigate(createEditorUrl(newState), { state: locationState });
+      const url = iframeMode
+        ? createIframeEditorUrl(newState)
+        : createEditorUrl(newState);
+      void navigate(url, { state: locationState });
     },
-    [logging, navigate]
+    [iframeMode, logging, navigate]
   );
 
   return useMemo(() => [state, setState], [state, setState]);

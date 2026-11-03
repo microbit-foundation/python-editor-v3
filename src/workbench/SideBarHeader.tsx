@@ -14,8 +14,10 @@ import {
   ModalBody,
 } from "@microbit/ui";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
+import { RiCloseLine, RiHome2Line, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { Link as RouterLink } from "react-router";
+import { css } from "styled-system/css";
 import { Box, Flex, HStack, styled } from "styled-system/jsx";
 import CollapsibleButton from "../common/CollapsibleButton";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
@@ -26,9 +28,12 @@ import { supportedSearchLanguages } from "../documentation/search/search.worker"
 import { useSearch } from "../documentation/search/search-hooks";
 import SearchDialog from "../documentation/search/SearchDialog";
 import { microbitOrgUrl } from "../external-links";
+import { useProjectsDatabaseActive } from "../fs/storage-status";
+import { useIframeMode } from "../iframe-mode-hooks";
 import { useLogging } from "../logging/logging-hooks";
 import { RouterState, useRouterState } from "../router-hooks";
 import { useSettings } from "../settings/settings";
+import { createHomePageUrl } from "../urls";
 import { useHotkeys } from "react-hotkeys-hook";
 import {
   globalShortcutConfig,
@@ -73,6 +78,11 @@ const SideBarHeader = ({
 
   const [{ languageId }] = useSettings();
   const searchAvailable = supportedSearchLanguages.includes(languageId);
+  // Without the projects database there is nothing on the home page, so
+  // the logo keeps its link to microbit.org.
+  const projectsDatabaseActive = useProjectsDatabaseActive();
+  const iframeMode = useIframeMode();
+  const logoLinksHome = projectsDatabaseActive && !iframeMode;
 
   const handleSearchShortcut = useCallback(() => {
     if (searchAvailable) {
@@ -131,6 +141,41 @@ const SideBarHeader = ({
     ? faceLogoRef.current.getBoundingClientRect().right + paddingX
     : 0;
   const modalWidth = contentWidth - modalOffset + "px";
+  const OrgLogo = brand.OrgLogo;
+  const logo = logoLinksHome ? (
+    <HStack gap="0.875rem">
+      <Box
+        width="3.56875rem"
+        color="white"
+        display="flex"
+        justifyContent="center"
+        ref={faceLogoRef}
+      >
+        <Icon
+          as={RiHome2Line}
+          aria-hidden
+          // A stroke thickens the outline to sit with the logo's face.
+          css={{ width: "24px", height: "24px", strokeWidth: "1" }}
+        />
+      </Box>
+      {!query && sidebarShown && OrgLogo && (
+        <Box color="white">
+          <OrgLogo h="40px" />
+        </Box>
+      )}
+    </HStack>
+  ) : (
+    <HStack gap="0.875rem">
+      <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
+        {brand.squareLogo}
+      </Box>
+      {!query && sidebarShown && (
+        <Box width="9.098rem" role="img" color="white">
+          {brand.horizontalLogo}
+        </Box>
+      )}
+    </HStack>
+  );
   return (
     <>
       {searchAvailable && searchModalOpen && (
@@ -181,30 +226,32 @@ const SideBarHeader = ({
               searchAvailable && searchModalOpen ? "4.95rem" : topBarHeight,
           }}
         >
-          <Link
-            display="block"
-            href={microbitOrgUrl(languageId)}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={intl.formatMessage({ id: "visit-dot-org" })}
-            mx="1rem"
-          >
-            <HStack gap="0.875rem">
-              <Box
-                width="3.56875rem"
-                color="white"
-                role="img"
-                ref={faceLogoRef}
-              >
-                {brand.squareLogo}
-              </Box>
-              {!query && sidebarShown && (
-                <Box width="9.098rem" role="img" color="white">
-                  {brand.horizontalLogo}
-                </Box>
-              )}
-            </HStack>
-          </Link>
+          {logoLinksHome ? (
+            <RouterLink
+              to={createHomePageUrl()}
+              aria-label={intl.formatMessage({ id: "home-action" })}
+              className={css({
+                display: "block",
+                mx: "1rem",
+                borderRadius: "md",
+                outline: "none",
+                _focusVisible: { focusRing: "outline" },
+              })}
+            >
+              {logo}
+            </RouterLink>
+          ) : (
+            <Link
+              display="block"
+              href={microbitOrgUrl(languageId)}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={intl.formatMessage({ id: "visit-dot-org" })}
+              mx="1rem"
+            >
+              {logo}
+            </Link>
+          )}
           {searchAvailable && !query && sidebarShown && (
             <CollapsibleButton
               onPress={handleModalOpened}

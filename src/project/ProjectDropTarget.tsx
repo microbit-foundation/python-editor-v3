@@ -15,12 +15,16 @@ const ProjectDropTarget = ({ children }: ProjectDropTargetProps) => {
   const actions = useProjectActions();
   const handleDrop = useCallback(
     (files: File[]) => {
-      actions.load(files, "drop-load");
+      actions.load(files, "drop");
     },
     [actions]
   );
   return (
-    <FileDropTarget data-testid="project-drop-target" onFileDrop={handleDrop}>
+    <FileDropTarget
+      data-testid="project-drop-target"
+      onFileDrop={handleDrop}
+      height="100%"
+    >
       {children}
     </FileDropTarget>
   );

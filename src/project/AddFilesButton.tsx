@@ -3,35 +3,39 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { RiFolderOpenLine } from "react-icons/ri";
+import { RiFileAddLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { CollapsibleButtonComposableProps } from "../common/CollapsibleButton";
 import FileInputButton from "../common/FileInputButton";
 import { useProjectActions } from "./project-hooks";
 
-interface OpenButtonProps extends CollapsibleButtonComposableProps {}
+interface AddFilesButtonProps extends CollapsibleButtonComposableProps {}
 
 /**
  * Open HEX button, with an associated input field.
  */
-const OpenButton = (props: OpenButtonProps) => {
+/**
+ * Adds files to the open project from the Files tab. A hex file becomes a
+ * new project instead.
+ */
+const AddFilesButton = (props: AddFilesButtonProps) => {
   const actions = useProjectActions();
   const intl = useIntl();
   return (
     <FileInputButton
       {...props}
       text={intl.formatMessage({
-        id: "open-file-action",
+        id: "add-files-action",
       })}
       onOpen={actions.load}
-      data-testid="open"
+      data-testid="add-files"
       multiple
-      icon={<RiFolderOpenLine />}
+      icon={<RiFileAddLine />}
       tooltip={intl.formatMessage({
-        id: "open-hover",
+        id: "add-files-hover",
       })}
     />
   );
 };
 
-export default OpenButton;
+export default AddFilesButton;
