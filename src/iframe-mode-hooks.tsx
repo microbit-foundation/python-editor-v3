@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 
 const IframeModeContext = createContext(false);
 
@@ -13,4 +13,4 @@ const IframeModeContext = createContext(false);
  */
 export const IframeModeProvider = IframeModeContext.Provider;
 
-export const useIframeMode = (): boolean => useContext(IframeModeContext);
+export const useIframeMode = (): boolean => use(IframeModeContext);
