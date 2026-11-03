@@ -245,7 +245,7 @@
   },
   "create-project-action": {
     "defaultMessage": "Create",
-    "description": "Confirm button of the dialog naming a new project"
+    "description": "Button creating a new project: confirms the dialog naming a new project, and creates one from the home page idea dialog"
   },
   "create-python": {
     "defaultMessage": "Create a new Python file in this project",

@@ -42,6 +42,31 @@ test.describe("home page", () => {
     await app.expectEditorContainText("from microbit import");
   });
 
+  test("opens an idea from its dialog as a project showing the idea", async ({
+    app,
+    homePage,
+  }) => {
+    const ideaName = "Emotion badge";
+    await homePage.goto();
+    await homePage.page.getByRole("button", { name: ideaName }).click();
+    const dialog = homePage.page.getByRole("dialog");
+    await expect(
+      dialog.getByRole("heading", { name: ideaName, exact: true })
+    ).toBeVisible();
+
+    await dialog.getByRole("button", { name: "Create", exact: true }).click();
+
+    await expect(app.page).toHaveURL(
+      appUrlPattern("project/ideas/emotion-badge")
+    );
+    await app.expectProjectName(ideaName);
+    await expect(
+      app.page.getByRole("tab", { name: "Ideas", selected: true })
+    ).toBeVisible();
+    await app.expectDocumentationTopLevelHeading(ideaName);
+    await app.expectEditorContainText("from microbit import");
+  });
+
   test("returns home from the editor with the project listed", async ({
     app,
     homePage,

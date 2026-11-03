@@ -182,8 +182,8 @@ export class Projects extends TypedEventTarget<EventMap> {
   }
 
   /**
-   * Creates a project with the given files, e.g. from an imported hex, and
-   * opens it in the editor.
+   * Creates a project with the given files, e.g. from an imported hex or an
+   * idea, and opens it in the editor.
    */
   async createFromFiles(
     name: string | undefined,

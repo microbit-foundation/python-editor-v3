@@ -17,6 +17,7 @@ import {
   useNavigation,
 } from "react-router";
 import useActionFeedback from "../common/use-action-feedback";
+import { MAIN_FILE } from "../fs/fs";
 import { useLogging } from "../logging/logging-hooks";
 import { useProjectImporter } from "../project/project-hooks";
 import { ImportSource } from "../project/project-import";
@@ -44,19 +45,38 @@ interface CreateProjectFailure {
   error: unknown;
 }
 
+/** What the editor route's action reads from its form. */
+interface CreateProjectFields {
+  name: string;
+  /** main.py, e.g. an idea's program, instead of the default. */
+  code?: string;
+}
+
 /**
- * The editor route's action: creates a project named by the form and opens
- * the editor on it at the same URL. Part of the navigation, so the router
- * knows a create is in progress until the editor is showing.
+ * The editor route's action: creates a project from the form and opens the
+ * editor on it at the same URL. Part of the navigation, so the router knows
+ * a create is in progress until the editor is showing.
  */
 export const createProjectAction =
   (projects: Projects) =>
   async ({
     request,
   }: ActionFunctionArgs): Promise<Response | CreateProjectFailure> => {
-    const name = (await request.formData()).get("name");
+    const form = await request.formData();
+    const field = (key: string) => {
+      const value = form.get(key);
+      return typeof value === "string" ? value : undefined;
+    };
+    const name = field("name") ?? "";
+    const code = field("code");
     try {
-      await projects.create(typeof name === "string" ? name : "");
+      if (code !== undefined) {
+        await projects.createFromFiles(name, {
+          [MAIN_FILE]: new TextEncoder().encode(code),
+        });
+      } else {
+        await projects.create(name);
+      }
     } catch (error) {
       return { error };
     }
@@ -117,13 +137,40 @@ const useAttempt = () => {
   );
 };
 
-/**
- * Creates a project and opens the editor on it, optionally at a
- * documentation tab and anchor. Goes through the editor route's action
- * (createProjectAction).
- */
+/** Creates a project and opens the editor on it. */
 export const useCreateProject = (surface: ProjectSurface) => {
   const logging = useLogging();
+  const submit = useSubmitCreateProject();
+  return useCallback(
+    async (name: string) => {
+      logging.event({ type: "project_create", detail: { surface } });
+      await submit({ name });
+    },
+    [logging, submit, surface]
+  );
+};
+
+/**
+ * Opens an idea as a new project with its program in main.py, showing the
+ * idea in the Ideas tab beside the editor.
+ */
+export const useOpenIdea = () => {
+  const logging = useLogging();
+  const submit = useSubmitCreateProject();
+  return useCallback(
+    async (name: string, slug: string, code: string) => {
+      logging.event({ type: "idea_open", detail: { id: slug } });
+      await submit({ name, code }, { tab: "ideas", slug: { id: slug } });
+    },
+    [logging, submit]
+  );
+};
+
+/**
+ * Submits to the editor route's action (createProjectAction), reporting a
+ * failure as a toast.
+ */
+const useSubmitCreateProject = () => {
   const reportError = useReportError();
   const fetcher = useFetcher<CreateProjectFailure>({
     key: createProjectFetcherKey,
@@ -136,14 +183,15 @@ export const useCreateProject = (surface: ProjectSurface) => {
   }, [failure, reportError]);
   const { submit } = fetcher;
   return useCallback(
-    async (name: string, state?: RouterState) => {
-      logging.event({ type: "project_create", detail: { surface } });
-      await submit(
-        { name },
+    (fields: CreateProjectFields, state?: RouterState) =>
+      submit(
+        {
+          name: fields.name,
+          ...(fields.code !== undefined && { code: fields.code }),
+        },
         { method: "post", action: createEditorUrl(state) }
-      );
-    },
-    [logging, submit, surface]
+      ),
+    [submit]
   );
 };
 
