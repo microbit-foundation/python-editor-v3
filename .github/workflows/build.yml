@@ -79,7 +79,7 @@ jobs:
       - name: Run Playwright tests
         if: matrix.playwright
         timeout-minutes: 10
-        uses: docker://mcr.microsoft.com/playwright:v1.64.0-noble
+        uses: docker://mcr.microsoft.com/playwright:v1.64.1-noble
         with:
           args: npx playwright test
       - name: Store reports

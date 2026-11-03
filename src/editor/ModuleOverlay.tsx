@@ -48,16 +48,14 @@ const ModuleOverlay = ({ moduleData }: ModuleOverlayProps) => {
                   color="gray.500"
                   px="6"
                   py="3"
-                  borderBottom="1px solid"
-                  borderColor="gray.100"
+                  borderBottom="1px solid {colors.gray.100}"
                 >
                   Module name
                 </styled.th>
                 <styled.td
                   px="6"
                   py="4"
-                  borderBottom="1px solid"
-                  borderColor="gray.100"
+                  borderBottom="1px solid {colors.gray.100}"
                 >
                   {moduleData.name}
                 </styled.td>
@@ -73,16 +71,14 @@ const ModuleOverlay = ({ moduleData }: ModuleOverlayProps) => {
                   color="gray.500"
                   px="6"
                   py="3"
-                  borderBottom="1px solid"
-                  borderColor="gray.100"
+                  borderBottom="1px solid {colors.gray.100}"
                 >
                   Module version
                 </styled.th>
                 <styled.td
                   px="6"
                   py="4"
-                  borderBottom="1px solid"
-                  borderColor="gray.100"
+                  borderBottom="1px solid {colors.gray.100}"
                 >
                   {moduleData.version}
                 </styled.td>

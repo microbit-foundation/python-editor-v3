@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import React, { ReactNode, useContext, useMemo, useRef } from "react";
+import React, { ReactNode, use, useMemo, useRef } from "react";
 import { Terminal } from "xterm";
 import { useDevice } from "../device/device-hooks";
 import { useLogging } from "../logging/logging-hooks";
@@ -37,9 +37,9 @@ const InternalTerminalContext = React.createContext<
 export const TerminalContext = ({ children }: { children: ReactNode }) => {
   const terminal = useRef<Terminal | undefined>(undefined);
   return (
-    <InternalTerminalContext.Provider value={terminal}>
+    <InternalTerminalContext value={terminal}>
       {children}
-    </InternalTerminalContext.Provider>
+    </InternalTerminalContext>
   );
 };
 
@@ -51,7 +51,7 @@ export const TerminalContext = ({ children }: { children: ReactNode }) => {
  * @returns The terminal.
  */
 export const useCurrentTerminalRef = () => {
-  const ref = useContext(InternalTerminalContext);
+  const ref = use(InternalTerminalContext);
   if (!ref) {
     throw new Error("Missing provider.");
   }

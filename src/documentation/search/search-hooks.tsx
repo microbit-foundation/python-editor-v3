@@ -7,7 +7,7 @@ import { debounce } from "../../common/debounce-util";
 import {
   createContext,
   ReactNode,
-  useContext,
+  use,
   useEffect,
   useMemo,
   useRef,
@@ -29,7 +29,7 @@ type UseSearch = {
 const SearchContext = createContext<UseSearch | undefined>(undefined);
 
 export const useSearch = (): UseSearch => {
-  const value = useContext(SearchContext);
+  const value = use(SearchContext);
   if (!value) {
     throw new Error("Missing provider!");
   }
@@ -43,7 +43,7 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
   const isUnmounted = useIsUnmounted();
   const logging = useLogging();
   const [{ languageId }] = useSettings();
-  const search = useRef<WorkerSearch>();
+  const search = useRef<WorkerSearch>(undefined);
 
   useEffect(() => {
     if (languageId !== search.current?.language) {
@@ -93,9 +93,7 @@ const SearchProvider = ({ children }: { children: ReactNode }) => {
     () => ({ results, query, setQuery }),
     [results, query, setQuery]
   );
-  return (
-    <SearchContext.Provider value={value}>{children}</SearchContext.Provider>
-  );
+  return <SearchContext value={value}>{children}</SearchContext>;
 };
 
 export default SearchProvider;

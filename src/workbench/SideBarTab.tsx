@@ -106,9 +106,8 @@ const SideBarTab = ({
               // in Chromium, and react-aria's data-focus-visible does so in
               // Firefox. Keyboard focus sets both in all modern browsers.
               ".sidebar-tab[data-focus-visible]:focus-visible &": {
-                borderBottom: "3px solid",
                 // To match the active/inactive colour.
-                borderColor: active ? "brand.300" : "gray.75",
+                borderBottomColor: active ? "brand.300" : "gray.75",
               },
             }}
           >

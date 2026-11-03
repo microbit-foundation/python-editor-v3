@@ -3,11 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Divider, styled, Text } from "@microbit/ui";
+import { Divider, Text } from "@microbit/ui";
 import { ComponentProps } from "react";
 import { FormattedMessage } from "react-intl";
 import { Link as RouterLink } from "react-router";
-import { Stack } from "styled-system/jsx";
+import { Stack, styled } from "styled-system/jsx";
 import { link } from "styled-system/recipes";
 import { RouterState } from "../../router-hooks";
 import { createEditorUrl } from "../../urls";

@@ -3,7 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { useMediaQuery, usePrevious } from "@microbit/ui";
+import {
+  SplitView,
+  SplitViewMode,
+  SplitViewPane,
+  useMediaQuery,
+  usePrevious,
+} from "@microbit/ui";
 import { Flex, styled } from "styled-system/jsx";
 import {
   ReactNode,
@@ -20,13 +26,7 @@ import {
   simulatorToWidthRatio,
   widthToHideSidebar,
 } from "../common/screenWidthUtils";
-import {
-  SplitView,
-  SplitViewDivider,
-  SplitViewRemainder,
-  SplitViewSized,
-} from "../common/SplitView";
-import { SizedMode } from "../common/SplitView/SplitView";
+import SplitViewSplitter from "../common/SplitView/SplitViewSplitter";
 import { ConnectionStatus } from "@microbit/microbit-connection";
 import { useConnectionStatus } from "../device/device-hooks";
 import EditorArea from "../editor/EditorArea";
@@ -167,9 +167,9 @@ const Workbench = () => {
     <Flex className="WorkbenchContainer" direction="column">
       <Flex className="Workbench">
         <SplitView
-          direction="row"
-          minimums={minimums}
-          initialSize={Math.min(
+          primaryMinSize={minimums[0]}
+          secondaryMinSize={minimums[1]}
+          defaultSize={Math.min(
             700,
             Math.max(
               minimums[0],
@@ -178,8 +178,9 @@ const Workbench = () => {
           )}
           compactSize={86}
           mode={sidebarShown ? "open" : "compact"}
+          css={{ width: "100%" }}
         >
-          <SplitViewSized>
+          <SplitViewPane primary>
             <SideBar
               aria-label={intl.formatMessage({ id: "sidebar" })}
               selectedFile={selection.file}
@@ -191,9 +192,11 @@ const Workbench = () => {
               onSidebarCollapse={handleSidebarCollapse}
               onSidebarExpand={handleSidebarExpand}
             />
-          </SplitViewSized>
-          <SplitViewDivider />
-          <SplitViewRemainder>
+          </SplitViewPane>
+          <SplitViewSplitter
+            aria-label={intl.formatMessage({ id: "sidebar-resize" })}
+          />
+          <SplitViewPane>
             <EditorWithSimulator
               editor={editor}
               onSimulatorHide={handleSimulatorHide}
@@ -201,7 +204,7 @@ const Workbench = () => {
               showSimulatorButtonRef={simulatorButtonRef}
               simFocus={simFocus}
             />
-          </SplitViewRemainder>
+          </SplitViewPane>
         </SplitView>
       </Flex>
       <Overlay />
@@ -215,7 +218,7 @@ interface EditorProps {
 
 interface EditorWithSimulatorProps extends EditorProps {
   simulatorShown: boolean;
-  showSimulatorButtonRef: React.RefObject<HTMLButtonElement>;
+  showSimulatorButtonRef: React.RefObject<HTMLButtonElement | null>;
   onSimulatorHide: () => void;
   simFocus: boolean;
 }
@@ -227,13 +230,14 @@ const EditorWithSimulator = ({
   onSimulatorHide,
   simFocus,
 }: EditorWithSimulatorProps) => {
+  const intl = useIntl();
   return (
     <SplitView
-      direction="row"
-      minimums={simulatorMinimums}
-      css={{ height: "100%" }}
+      primaryMinSize={simulatorMinimums[0]}
+      secondaryMinSize={simulatorMinimums[1]}
+      css={{ width: "100%", height: "100%" }}
       mode={simulatorShown ? "open" : "collapsed"}
-      initialSize={Math.min(
+      defaultSize={Math.min(
         350,
         Math.max(
           simulatorMinimums[0],
@@ -241,11 +245,14 @@ const EditorWithSimulator = ({
         )
       )}
     >
-      <SplitViewRemainder>
+      <SplitViewPane>
         <Editor editor={editor} />
-      </SplitViewRemainder>
-      <SplitViewDivider showBoxShadow={true} />
-      <SplitViewSized>
+      </SplitViewPane>
+      <SplitViewSplitter
+        aria-label={intl.formatMessage({ id: "simulator-resize" })}
+        showBoxShadow={true}
+      />
+      <SplitViewPane primary>
         <Simulator
           shown={simulatorShown}
           onSimulatorHide={onSimulatorHide}
@@ -253,7 +260,7 @@ const EditorWithSimulator = ({
           minWidth={simulatorMinimums[0]}
           simFocus={simFocus}
         />
-      </SplitViewSized>
+      </SplitViewPane>
     </SplitView>
   );
 };
@@ -262,7 +269,7 @@ const Editor = ({ editor }: EditorProps) => {
   const intl = useIntl();
   const connected = useConnectionStatus() === ConnectionStatus.Connected;
   const [serialStateWhenOpen, setSerialStateWhenOpen] =
-    useState<SizedMode>("compact");
+    useState<SplitViewMode>("compact");
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [{ fontSize: settingsFontSizePt }] = useSettings();
   const ref = useRef<HTMLButtonElement>(null);
@@ -275,15 +282,18 @@ const Editor = ({ editor }: EditorProps) => {
       boxShadow="4px 0px 24px #00000033"
     >
       <SplitView
-        direction="column"
-        minimums={[248, 200]}
+        orientation="horizontal"
+        primaryMinSize={248}
+        secondaryMinSize={200}
         compactSize={SerialArea.compactSize}
-        css={{ height: "100%" }}
+        css={{ width: "100%", height: "100%" }}
         mode={serialSizedMode}
       >
-        <SplitViewRemainder>{editor}</SplitViewRemainder>
-        <SplitViewDivider />
-        <SplitViewSized>
+        <SplitViewPane>{editor}</SplitViewPane>
+        <SplitViewSplitter
+          aria-label={intl.formatMessage({ id: "serial-terminal-resize" })}
+        />
+        <SplitViewPane primary>
           <SerialArea
             compact={serialSizedMode === "compact"}
             onSizeChange={setSerialStateWhenOpen}
@@ -295,7 +305,7 @@ const Editor = ({ editor }: EditorProps) => {
             tabOutRef={ref.current!}
             terminalFontSizePt={settingsFontSizePt}
           />
-        </SplitViewSized>
+        </SplitViewPane>
       </SplitView>
       <ProjectActionBar
         ref={ref}

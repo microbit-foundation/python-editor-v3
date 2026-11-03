@@ -10,7 +10,7 @@ import { useIntl } from "react-intl";
 interface FeedbackFormProps {
   isOpen: boolean;
   onClose: () => void;
-  finalFocusRef?: React.RefObject<HTMLButtonElement>;
+  finalFocusRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 /**

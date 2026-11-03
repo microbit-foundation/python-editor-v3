@@ -3,7 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Box, Button, css, darkSurface, HStack, VStack } from "@microbit/ui";
+import { Box, Button, darkSurface, HStack, VStack } from "@microbit/ui";
+import { css } from "styled-system/css";
 import { ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import { Link as RouterLink, useNavigate } from "react-router";

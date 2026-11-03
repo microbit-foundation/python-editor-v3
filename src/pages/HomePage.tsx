@@ -5,7 +5,6 @@
  */
 import {
   Button,
-  css,
   Icon,
   IconButton,
   Text,
@@ -13,6 +12,7 @@ import {
   useBreakpointValue,
   VStack,
 } from "@microbit/ui";
+import { css } from "styled-system/css";
 import { CarouselRow } from "@microbit/ui-carousel";
 import { NameProjectDialog, ProjectCard } from "@microbit/ui-patterns";
 import { ChangeEvent, useCallback, useRef, useState } from "react";

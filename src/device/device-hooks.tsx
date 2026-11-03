@@ -7,7 +7,7 @@ import React, {
   Dispatch,
   ReactNode,
   SetStateAction,
-  useContext,
+  use,
   useEffect,
   useState,
 } from "react";
@@ -33,7 +33,7 @@ const DeviceContext = React.createContext<undefined | MicrobitUSBConnection>(
  * @returns The device.
  */
 export const useDevice = () => {
-  const device = useContext(DeviceContext);
+  const device = use(DeviceContext);
   if (!device) {
     throw new Error("Missing provider.");
   }
@@ -223,7 +223,7 @@ type UseSyncStatus = [SyncStatus, Dispatch<SetStateAction<SyncStatus>>];
 const SyncContext = React.createContext<undefined | UseSyncStatus>(undefined);
 
 export const useSyncStatus = (): SyncStatus => {
-  const value = useContext(SyncContext);
+  const value = use(SyncContext);
   if (!value) {
     throw new Error("Missing provider!");
   }
@@ -256,10 +256,8 @@ export const DeviceContextProvider = ({
     };
   }, [fs, device, setSyncStatus]);
   return (
-    <DeviceContext.Provider value={device}>
-      <SyncContext.Provider value={syncStatusState}>
-        {children}
-      </SyncContext.Provider>
-    </DeviceContext.Provider>
+    <DeviceContext value={device}>
+      <SyncContext value={syncStatusState}>{children}</SyncContext>
+    </DeviceContext>
   );
 };

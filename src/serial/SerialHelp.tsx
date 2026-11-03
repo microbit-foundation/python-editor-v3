@@ -20,7 +20,7 @@ import { VStack } from "styled-system/jsx";
 interface SerialHelpDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  finalFocusRef?: React.RefObject<HTMLButtonElement>;
+  finalFocusRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 const formatValues = {

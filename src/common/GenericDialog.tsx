@@ -78,7 +78,9 @@ export const GenericDialogFooter = ({
           variant="link"
           size="lg"
           onPress={onCloseDontShowAgain}
-          css={{ color: "brand.500", mr: "auto" }}
+          // The link variant has no padding; inset it to line up with the
+          // dialog title.
+          css={{ color: "brand.500", mr: "auto", px: "6" }}
         >
           <FormattedMessage id="dont-show-again" />
         </Button>

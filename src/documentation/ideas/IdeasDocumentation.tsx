@@ -78,8 +78,6 @@ const ActiveLevel = ({
   const ref = useRef<HTMLDivElement>(null);
   const contentRect = useResizeObserverContentRect(ref);
   const contentWidth = contentRect?.width ?? 0;
-  const numCols =
-    !contentWidth || contentWidth > 1100 ? 3 : contentWidth > 550 ? 2 : 1;
   if (activeIdea) {
     // Runtime value derived from the image reference.
     const imagePadding = activeIdea.image
@@ -155,7 +153,12 @@ const ActiveLevel = ({
       }
     >
       <Grid
-        columns={numCols === 3 ? 3 : numCols === 2 ? 2 : 1}
+        // Inline rather than via a variable: Panda can't see both values of
+        // a variable initialised with a ternary, so it would only emit one
+        // column count (chakra-ui/panda#4056).
+        columns={
+          !contentWidth || contentWidth > 1100 ? 3 : contentWidth > 550 ? 2 : 1
+        }
         gap="5"
         p="5"
         ref={ref}

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 import { FileSystem } from "./fs";
 
 const FileSystemContext = createContext<FileSystem | undefined>(undefined);
@@ -18,7 +18,7 @@ export const FileSystemProvider = FileSystemContext.Provider;
  * @returns The file system.
  */
 export const useFileSystem = () => {
-  const fs = useContext(FileSystemContext);
+  const fs = use(FileSystemContext);
   if (!fs) {
     throw new Error("Missing provider");
   }

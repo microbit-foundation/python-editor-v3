@@ -5,8 +5,6 @@
  */
 import {
   Box,
-  css,
-  cx,
   Flex,
   Grid,
   Heading,
@@ -17,6 +15,7 @@ import {
   useBreakpointValue,
   VStack,
 } from "@microbit/ui";
+import { css, cx } from "styled-system/css";
 import {
   defaultSortDirection,
   ProjectCard,

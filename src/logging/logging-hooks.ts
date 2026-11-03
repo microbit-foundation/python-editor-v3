@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 import { Logging } from "./logging";
 
 // Exported for class-based error boundary.
@@ -15,7 +15,7 @@ export const LoggingProvider = LoggingContext.Provider;
  * Hook exposing logging.
  */
 export const useLogging = (): Logging => {
-  const logging = useContext(LoggingContext);
+  const logging = use(LoggingContext);
   if (!logging) {
     throw new Error("Missing provider");
   }

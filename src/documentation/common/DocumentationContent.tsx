@@ -5,7 +5,7 @@
  */
 import { Collapse, Icon, Link, Text } from "@microbit/ui";
 import BlockContent from "@sanity/block-content-to-react";
-import React, { ReactNode, useContext, useMemo } from "react";
+import React, { ReactNode, use, useMemo } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { Box, Stack } from "styled-system/jsx";
 import { runtimeAspectRatioClass } from "../../common/documentation-styles";
@@ -51,19 +51,15 @@ export const DocumentationContextProvider = ({
   children,
   ...other
 }: DocumentationContextValue & { children: ReactNode }) => {
-  return (
-    <DocumentationContext.Provider value={other}>
-      {children}
-    </DocumentationContext.Provider>
-  );
+  return <DocumentationContext value={other}>{children}</DocumentationContext>;
 };
 
 const useIsExpanded = () => {
-  return useContext(DocumentationContext).isExpanded;
+  return use(DocumentationContext).isExpanded;
 };
 
 const useCodeEmbedContext = () => {
-  const { parentSlug, toolkitType, title } = useContext(DocumentationContext);
+  const { parentSlug, toolkitType, title } = use(DocumentationContext);
   return { parentSlug, toolkitType, title };
 };
 

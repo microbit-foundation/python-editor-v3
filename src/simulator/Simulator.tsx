@@ -26,7 +26,7 @@ export enum RunningStatus {
 interface SimulatorProps {
   shown: boolean;
   onSimulatorHide: () => void;
-  showSimulatorButtonRef: React.RefObject<HTMLButtonElement>;
+  showSimulatorButtonRef: React.RefObject<HTMLButtonElement | null>;
   minWidth: number;
   simFocus: boolean;
 }

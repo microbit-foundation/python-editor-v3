@@ -6,7 +6,7 @@
 import { RefObject, useEffect, useState } from "react";
 
 export const useResizeObserverContentRect = (
-  ref: RefObject<HTMLElement>
+  ref: RefObject<HTMLElement | null>
 ): DOMRectReadOnly | undefined => {
   const [contentRect, setContentRect] = useState<DOMRectReadOnly | undefined>(
     undefined

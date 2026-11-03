@@ -14,7 +14,7 @@ import { supportedLanguages, useSettings } from "./settings";
 interface LanguageDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  finalFocusRef: RefObject<HTMLButtonElement>;
+  finalFocusRef: RefObject<HTMLButtonElement | null>;
 }
 
 /**

@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect } from "react";
+import React, { ReactNode, use, useEffect } from "react";
 import useRafState from "../common/use-raf-state";
 import { useSimulator } from "../device/device-hooks";
 import { DataLog, LogData } from "../device/simulator";
@@ -22,13 +22,11 @@ const DataLogContext = React.createContext<DataLog | undefined>(undefined);
 
 export const DataLogProvider = ({ children }: { children: ReactNode }) => {
   const table = useDataLogInternal();
-  return (
-    <DataLogContext.Provider value={table}>{children}</DataLogContext.Provider>
-  );
+  return <DataLogContext value={table}>{children}</DataLogContext>;
 };
 
 export const useDataLog = () => {
-  const result = useContext(DataLogContext);
+  const result = use(DataLogContext);
   if (!result) {
     throw new Error("Missing provider!");
   }
