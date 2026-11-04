@@ -550,6 +550,14 @@
     "defaultMessage": "Manual ({shortcut})",
     "description": "Parameter help setting for when the user must press a key combination to open the parameter documentation"
   },
+  "parameter-help-shortcut": {
+    "defaultMessage": "Ctrl+Shift+Space",
+    "description": "Keyboard shortcut that opens parameter help on Windows, Linux and ChromeOS. Shown in brackets after the Manual parameter help setting. Use the key names printed on keyboards in your language."
+  },
+  "parameter-help-shortcut-mac": {
+    "defaultMessage": "Cmd+Shift+Space",
+    "description": "Keyboard shortcut that opens parameter help on a Mac. Shown in brackets after the Manual parameter help setting. Use the key names printed on Mac keyboards in your language."
+  },
   "permanently-delete": {
     "defaultMessage": "Permanently delete {filename}?",
     "description": "Confirmation question to permanently delete file"
