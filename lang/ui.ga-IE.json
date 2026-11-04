@@ -842,6 +842,9 @@
   "unexpected-error-description": {
     "defaultMessage": "Bain triail eile as nó <link>ardaigh iarratas tacaíochta</link>"
   },
+  "unexpected-error-title": {
+    "defaultMessage": "Tharla earráid gan choinne"
+  },
   "untitled-project": {
     "defaultMessage": "Tionscadal gan teideal"
   },

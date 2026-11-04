@@ -413,6 +413,12 @@
   "parameter-help-manual": {
     "defaultMessage": "crwdns331624:0{shortcut}crwdne331624:0"
   },
+  "parameter-help-shortcut": {
+    "defaultMessage": "crwdns371572:0crwdne371572:0"
+  },
+  "parameter-help-shortcut-mac": {
+    "defaultMessage": "crwdns371574:0crwdne371574:0"
+  },
   "permanently-delete": {
     "defaultMessage": "crwdns331626:0{filename}crwdne331626:0"
   },
@@ -557,6 +563,9 @@
   "serial-terminal": {
     "defaultMessage": "crwdns331718:0crwdne331718:0"
   },
+  "serial-terminal-resize": {
+    "defaultMessage": "crwdns371576:0crwdne371576:0"
+  },
   "setting-allow-editing-third-party": {
     "defaultMessage": "crwdns331720:0crwdne331720:0"
   },
@@ -595,6 +604,9 @@
   },
   "sidebar-expand": {
     "defaultMessage": "crwdns331740:0crwdne331740:0"
+  },
+  "sidebar-resize": {
+    "defaultMessage": "crwdns371578:0crwdne371578:0"
   },
   "simulator-accelerometer": {
     "defaultMessage": "crwdns334504:0crwdne334504:0"
@@ -758,6 +770,9 @@
   "simulator-reset": {
     "defaultMessage": "crwdns334584:0crwdne334584:0"
   },
+  "simulator-resize": {
+    "defaultMessage": "crwdns371580:0crwdne371580:0"
+  },
   "simulator-serial-terminal": {
     "defaultMessage": "crwdns334586:0crwdne334586:0"
   },
@@ -841,6 +856,9 @@
   },
   "unexpected-error-description": {
     "defaultMessage": "crwdns331774:0crwdne331774:0"
+  },
+  "unexpected-error-title": {
+    "defaultMessage": "crwdns371582:0crwdne371582:0"
   },
   "untitled-project": {
     "defaultMessage": "crwdns331778:0crwdne331778:0"

@@ -842,6 +842,9 @@
   "unexpected-error-description": {
     "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>"
   },
+  "unexpected-error-title": {
+    "defaultMessage": "Une erreur inattendue est survenue"
+  },
   "untitled-project": {
     "defaultMessage": "Projet sans titre"
   },

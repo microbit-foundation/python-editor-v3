@@ -842,6 +842,9 @@
   "unexpected-error-description": {
     "defaultMessage": "Probeer het opnieuw of <link>doe een ondersteunings verzoek</link>"
   },
+  "unexpected-error-title": {
+    "defaultMessage": "Er is een onverwachte fout opgetreden"
+  },
   "untitled-project": {
     "defaultMessage": "Naamloos Project"
   },
