@@ -24,8 +24,9 @@ interface DefaultPageLayoutProps {
 }
 
 /**
- * Organisation logo, divider, product wordmark, as ml-trainer's header.
- * Sizes are the prototype's; the OSS build has only the wordmark.
+ * Organisation logo, divider, product wordmark, as ml-trainer's header:
+ * its sizes and 0.93 scale, in px/rem as the dense preset would shrink
+ * tokens. The OSS build has only the wordmark.
  */
 const Branding = () => {
   const { AppLogo, OrgLogo } = useDeployment();
@@ -35,7 +36,9 @@ const Branding = () => {
       className={css({
         display: "flex",
         alignItems: "center",
-        gap: "0.875rem",
+        gap: "1rem",
+        transform: "scale(0.93)",
+        transformOrigin: "left",
         color: "white",
         borderRadius: "md",
         outline: "none",
@@ -45,16 +48,18 @@ const Branding = () => {
     >
       {OrgLogo ? (
         <>
-          <OrgLogo h="30px" />
+          <OrgLogo h="40px" />
           <Box
             aria-hidden
-            h="28px"
-            borderLeftWidth="1px"
-            borderColor="whiteAlpha.600"
+            h="33px"
+            borderWidth="1px"
+            borderStyle="solid"
+            borderColor="white"
+            opacity={0.6}
           />
         </>
       ) : null}
-      {AppLogo ? <AppLogo h="20px" /> : null}
+      {AppLogo ? <AppLogo h="22.8px" /> : null}
     </RouterLink>
   );
 };

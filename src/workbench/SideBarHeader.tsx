@@ -160,7 +160,7 @@ const SideBarHeader = ({
       </Box>
       {!query && sidebarShown && OrgLogo && (
         <Box color="white">
-          <OrgLogo h="40px" />
+          <OrgLogo h="37.2px" />
         </Box>
       )}
     </HStack>
