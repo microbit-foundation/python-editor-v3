@@ -842,6 +842,9 @@
   "unexpected-error-description": {
     "defaultMessage": "Por favor, tente novamente ou <link>abra um pedido de suporte</link>"
   },
+  "unexpected-error-title": {
+    "defaultMessage": "Ocorreu um erro inesperado"
+  },
   "untitled-project": {
     "defaultMessage": "Projeto sem título"
   },

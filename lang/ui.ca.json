@@ -842,6 +842,9 @@
   "unexpected-error-description": {
     "defaultMessage": "Si us plau, torna-ho a provar o <link>plantejar una solicitud de suport</link> ."
   },
+  "unexpected-error-title": {
+    "defaultMessage": "S'ha produït un error inesperat"
+  },
   "untitled-project": {
     "defaultMessage": "Projecte sense títol"
   },
