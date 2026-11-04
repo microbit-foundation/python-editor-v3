@@ -24,7 +24,7 @@ const ActiveFileInfo = ({
   onSelectedFileChanged,
 }: ActiveFileInfoProps) => {
   return (
-    <HStack>
+    <HStack flexShrink={0}>
       {filename !== MAIN_FILE && (
         <>
           <Text
@@ -40,7 +40,11 @@ const ActiveFileInfo = ({
           <Text as="span">—</Text>
           <Button
             variant="unstyled"
-            css={{ fontWeight: "normal", textDecoration: "underline" }}
+            css={{
+              fontWeight: "normal",
+              textDecoration: "underline",
+              whiteSpace: "nowrap",
+            }}
             onPress={() => onSelectedFileChanged(MAIN_FILE)}
           >
             <FormattedMessage id="back-to-main" />

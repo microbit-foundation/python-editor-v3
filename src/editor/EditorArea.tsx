@@ -12,10 +12,9 @@ import { widthXl } from "../common/media-queries";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
 import ZoomControls from "../editor/ZoomControls";
-import ProjectNameEditable from "../project/ProjectNameEditable";
 import { WorkbenchSelection } from "../workbench/use-selection";
-import ActiveFileInfo from "./ActiveFileInfo";
 import EditorContainer from "./EditorContainer";
+import ProjectBreadcrumb from "./ProjectBreadcrumb";
 import UndoRedoControls from "./UndoRedoControls";
 
 interface EditorAreaProps {
@@ -57,18 +56,11 @@ const EditorArea = ({
           height: topBarHeight,
         }}
       >
-        <ProjectNameEditable
-          color="gray.700"
-          opacity="80%"
-          fontSize="xl"
-          data-testid="project-name"
-          clickToEdit
-        />
-        <ActiveFileInfo
+        <ProjectBreadcrumb
           filename={selection.file}
           onSelectedFileChanged={onSelectedFileChanged}
         />
-        <Flex alignItems="center">
+        <Flex alignItems="center" flexShrink={0} ml="5">
           <ZoomControls css={{ display: ["none", "none", "none", "flex"] }} />
           {!simulatorShown && (
             <HideSplitViewButton

@@ -5,7 +5,7 @@
  */
 import { IconButton, Text, Tooltip } from "@microbit/ui";
 import { ComponentProps, useCallback } from "react";
-import { RiEdit2Line } from "react-icons/ri";
+import { RiEdit2Line, RiMoreLine } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { HStack } from "styled-system/jsx";
 import { useProject, useProjectActions } from "./project-hooks";
@@ -17,6 +17,11 @@ interface ProjectNameEditableProps extends ComponentProps<typeof Text> {
   clickToEdit?: boolean;
   justifyContent?: HStackProps["justifyContent"];
   alignItems?: HStackProps["alignItems"];
+  /**
+   * How it gives way when space is short: the name truncates with an
+   * ellipsis, or collapses to a button that still opens the rename.
+   */
+  squeeze?: "none" | "truncate" | "collapse";
 }
 
 /**
@@ -27,6 +32,7 @@ const ProjectNameEditable = ({
   justifyContent,
   alignItems = "center",
   clickToEdit = false,
+  squeeze = "none",
   ...props
 }: ProjectNameEditableProps) => {
   const project = useProject();
@@ -52,22 +58,35 @@ const ProjectNameEditable = ({
         onPress={handleClick}
         aria-label={intl.formatMessage({ id: "edit-project-name-action" })}
       >
-        <RiEdit2Line />
+        {squeeze === "collapse" ? <RiMoreLine /> : <RiEdit2Line />}
       </IconButton>
     </Tooltip>
   );
+  if (squeeze === "collapse") {
+    return editButton;
+  }
   const text = (
     <Text
       key="text"
       cursor={clickToEdit ? "pointer" : undefined}
       onClick={clickToEdit ? handleClick : undefined}
+      whiteSpace="nowrap"
+      // Literals so Panda can extract both.
+      overflow={squeeze === "truncate" ? "hidden" : "visible"}
+      textOverflow={squeeze === "truncate" ? "ellipsis" : "clip"}
+      minW={squeeze === "truncate" ? "8ch" : "auto"}
       {...props}
     >
       {project.name}
     </Text>
   );
   return (
-    <HStack gap="2.5" justifyContent={justifyContent} alignItems={alignItems}>
+    <HStack
+      gap="2.5"
+      justifyContent={justifyContent}
+      alignItems={alignItems}
+      flexShrink={squeeze === "truncate" ? 1 : 0}
+    >
       {button === "before" ? [editButton, text] : [text, editButton]}
     </HStack>
   );
