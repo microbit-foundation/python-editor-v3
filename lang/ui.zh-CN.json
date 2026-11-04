@@ -836,9 +836,6 @@
   "unexpected-error-description": {
     "defaultMessage": "请重试或 <link>raise a support request</link>"
   },
-  "unexpected-error-title": {
-    "defaultMessage": "请重试或 <link>raise a support request</link>"
-  },
   "untitled-project": {
     "defaultMessage": "未命名的项目"
   },

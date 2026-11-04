@@ -85,7 +85,7 @@ export class ActionFeedback {
   unexpectedError(error: any) {
     this.logging.error("Unexpected error", error);
     this.toast({
-      title: this.intl.formatMessage({ id: "unexpected-error-description" }),
+      title: this.intl.formatMessage({ id: "unexpected-error-title" }),
       status: "error",
       description: (
         <>

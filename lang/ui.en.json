@@ -1143,8 +1143,8 @@
     "description": "Text shown for unexpected error scenarios"
   },
   "unexpected-error-title": {
-    "defaultMessage": "Please try again or <link>raise a support request</link>",
-    "description": "Text shown for unexpected error scenarios"
+    "defaultMessage": "An unexpected error occurred",
+    "description": "Title of the notification shown for unexpected error scenarios"
   },
   "untitled-project": {
     "defaultMessage": "Untitled project",

@@ -833,9 +833,6 @@
   "unexpected-error-description": {
     "defaultMessage": "다시 시도하거나 <link>지원 요청을 접수하세요</link>"
   },
-  "unexpected-error-title": {
-    "defaultMessage": "다시 시도하거나 <link>지원 요청을 접수하세요</link>"
-  },
   "untitled-project": {
     "defaultMessage": "이름 없는 프로젝트"
   },

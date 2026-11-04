@@ -833,9 +833,6 @@
   "unexpected-error-description": {
     "defaultMessage": "請重試或<link>提出支援要求</link>"
   },
-  "unexpected-error-title": {
-    "defaultMessage": "請重試或<link>提出支援要求</link>"
-  },
   "untitled-project": {
     "defaultMessage": "未命名的專案"
   },
