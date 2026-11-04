@@ -842,9 +842,6 @@
   "unexpected-error-description": {
     "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>"
   },
-  "unexpected-error-title": {
-    "defaultMessage": "Veuillez réessayer ou <link>soumettre une demande d’assistance</link>"
-  },
   "untitled-project": {
     "defaultMessage": "Projet sans titre"
   },
