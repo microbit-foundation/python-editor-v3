@@ -36,7 +36,8 @@ export class EditorActions {
     codeWithImports: string,
     type: CodeInsertType,
     id?: string,
-    tab?: string
+    tab?: string,
+    sectionId?: string
   ): Promise<void> => {
     this.logging.event({
       type: "code_copy",
@@ -48,6 +49,7 @@ export class EditorActions {
       type,
       tab,
       id,
+      sectionId,
     });
     this.actionFeedback.success({
       title: this.intl.formatMessage({ id: "copy-snippet-advice" }),

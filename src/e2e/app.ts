@@ -335,7 +335,7 @@ export class App {
   }
 
   async switchTab(tabName: "Project" | "Reference" | "Ideas") {
-    await this.page.getByRole("tab", { name: tabName }).click();
+    await this.page.getByRole("tab", { name: tabName, exact: true }).click();
   }
 
   async createNewFile(name: string): Promise<void> {

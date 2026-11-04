@@ -11,6 +11,7 @@ import { EditorState, Text } from "@codemirror/state";
 import { SyntaxNode, Tree } from "@lezer/common";
 import { CodeInsertType } from "./dnd";
 import { indentBy, removeCommonIndent } from "./indent";
+import { prepareSensorSnippet } from "./sensor-snippets";
 
 export interface RequiredImport {
   module: string;
@@ -65,7 +66,8 @@ export const calculateChanges = (
   type: CodeInsertType,
   line?: number,
   indentLevelHint?: number,
-  paste?: boolean
+  paste?: boolean,
+  combineSensorSetup: boolean = false
 ) => {
   const parser = python().language.parser;
   const sourceTree = parser.parse(source);
@@ -92,6 +94,17 @@ export const calculateChanges = (
     // Two blank lines separating the imports from everything else.
     importChanges[importChanges.length - 1].insert += "\n\n";
   }
+  const sensorSnippet = combineSensorSetup
+    ? prepareSensorSnippet(
+        state.doc.toString(),
+        mainCode,
+        source.slice(0, sourceImportsTo)
+      )
+    : undefined;
+  if (sensorSnippet) mainCode = sensorSnippet.main;
+  const setupChange = sensorSnippet?.setup
+    ? { from: sensorSnippet.setupFrom, insert: sensorSnippet.setup }
+    : undefined;
   const importLines = importChanges
     .map((c) => c.insert.split("\n").length - 1)
     .reduce((acc, cur) => acc + cur, 0);
@@ -120,6 +133,21 @@ export const calculateChanges = (
       mainFrom = skipWhitespaceLines(state.doc, importInsertPoint.from);
     }
 
+    // A measurement must follow module-level initialization. New setup is
+    // inserted separately, so dropping into a loop never allocates a bus on
+    // every iteration.
+    if (sensorSnippet) mainFrom = Math.max(mainFrom, sensorSnippet.setupFrom);
+
+    if (
+      sensorSnippet &&
+      !setupChange &&
+      mainFrom > 0 &&
+      state.doc.sliceString(mainFrom - 1, mainFrom) !== "\n" &&
+      !mainPreceedingWhitespace
+    ) {
+      mainPreceedingWhitespace = "\n";
+    }
+
     const whileTrueLine = "while True:\n";
     if (
       mainCode.startsWith(whileTrueLine) &&
@@ -137,20 +165,26 @@ export const calculateChanges = (
   }
 
   if (importInsertPoint.used) {
-    const firstChange = importChanges[0] ?? mainChange;
-    firstChange.insert = importInsertPoint.prefix + firstChange.insert;
+    const firstChange = importChanges[0] ?? setupChange ?? mainChange;
+    if (firstChange) {
+      firstChange.insert = importInsertPoint.prefix + firstChange.insert;
+    }
   }
   const selection = calculateNewSelection(
     mainCode,
     type,
-    importChanges,
-    mainChange,
+    mainChange && setupChange ? [...importChanges, setupChange] : importChanges,
+    mainChange ?? setupChange,
     mainPreceedingWhitespace,
     mainIndent
   );
   return state.update({
     userEvent: `dnd.drop.${type}`,
-    changes: [...importChanges, ...(mainChange ? [mainChange] : [])],
+    changes: [
+      ...importChanges,
+      ...(setupChange ? [setupChange] : []),
+      ...(mainChange ? [mainChange] : []),
+    ],
     scrollIntoView: true,
     selection,
   });

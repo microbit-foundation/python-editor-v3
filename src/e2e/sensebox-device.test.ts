@@ -12,7 +12,7 @@ const replaceEditorCode = async (
   page: import("@playwright/test").Page,
   code: string
 ) => {
-  const editor = page.locator(".cm-content").first();
+  const editor = page.getByTestId("editor").getByRole("textbox");
   await editor.click();
   await page.keyboard.press("Control+A");
   await page.keyboard.insertText(code);
@@ -34,6 +34,8 @@ declare global {
       writes: number;
       hostFlushes: number;
       directoryName: string;
+      pauseVerification: boolean;
+      releaseVerification?: () => void;
     };
   }
 }
@@ -64,6 +66,7 @@ test.beforeEach(async ({ page, context }) => {
       writes: 0,
       hostFlushes: 0,
       directoryName: "CIRCUITPY",
+      pauseVerification: false,
     };
     window.senseboxTest = state;
     Object.defineProperty(navigator, "serial", {
@@ -95,11 +98,15 @@ test.beforeEach(async ({ page, context }) => {
                     new TextEncoder().encode("raw REPL; CTRL-B to exit\r\n>")
                   );
                 } else if (command === "\x04") {
-                  if (raw)
-                    controller.enqueue(
-                      new TextEncoder().encode("OK1\r\n\x04\x04>")
-                    );
-                  else {
+                  if (raw) {
+                    const respond = () =>
+                      controller.enqueue(
+                        new TextEncoder().encode("OK1\r\n\x04\x04>")
+                      );
+                    if (state.pauseVerification)
+                      state.releaseVerification = respond;
+                    else respond();
+                  } else {
                     state.restarts++;
                     controller.enqueue(
                       new TextEncoder().encode(
@@ -180,7 +187,7 @@ test.beforeEach(async ({ page, context }) => {
     await route.fulfill({ status: 204 });
   });
   await page.goto(`http://localhost:${process.env.E2E_PORT ?? "3000"}/?l=de`);
-  await expect(page.locator(".cm-content").first()).toBeVisible({
+  await expect(page.getByTestId("editor").getByRole("textbox")).toBeVisible({
     timeout: 60000,
   });
 });
@@ -244,7 +251,7 @@ test("connects without writing and transfers the latest code only from the lower
     firstWrites
   );
   expect(await page.evaluate(() => window.senseboxTest.hostFlushes)).toBe(
-    process.env.CI ? 0 : 1
+    process.env.CI ? 0 : 2
   );
   await expect(page.getByTestId("serial-output")).toContainText(
     "PROGRAM STARTED"
@@ -252,6 +259,45 @@ test("connects without writing and transfers the latest code only from the lower
   expect(await page.evaluate(() => window.senseboxTest.folderSelections)).toBe(
     1
   );
+});
+
+test("shows MCU verification as an unfinished phase and starts only after acknowledgement", async ({
+  page,
+}, testInfo) => {
+  await page
+    .getByRole("button", { name: "senseBox verbinden", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "CIRCUITPY-Verzeichnis auswählen" })
+    .click();
+  await page.evaluate(() => {
+    window.senseboxTest.pauseVerification = true;
+  });
+  await page
+    .getByRole("button", { name: "Code übertragen", exact: true })
+    .click();
+  const dialog = page.getByRole("dialog", { name: "Code wird übertragen" });
+  await expect(dialog.locator('[aria-current="step"]')).toContainText(
+    "Dateien auf der senseBox prüfen"
+  );
+  await expect(dialog).toContainText("Das kann bis zu 60 Sekunden dauern");
+  await expect(dialog.getByRole("progressbar")).toHaveCount(0);
+  await expect(
+    dialog.getByRole("status", { name: "Dateien auf der senseBox prüfen" })
+  ).toBeVisible();
+  expect(await page.evaluate(() => window.senseboxTest.restarts)).toBe(0);
+  await dialog.screenshot({
+    path: testInfo.outputPath("transfer-verification.png"),
+  });
+  await page.evaluate(() => {
+    window.senseboxTest.pauseVerification = false;
+    window.senseboxTest.releaseVerification?.();
+  });
+  await expect(dialog.locator('[aria-current="step"]')).toContainText(
+    "Programm starten"
+  );
+  await expect(dialog).toBeHidden();
+  expect(await page.evaluate(() => window.senseboxTest.restarts)).toBe(1);
 });
 
 test("accepts a Windows drive-root display name and enables the separate transfer button", async ({
@@ -371,7 +417,10 @@ test("reports the immediate post-reboot read error after saving instead of trans
   await page.evaluate(() => {
     window.senseboxTest.startFailure = true;
   });
-  await page.locator(".cm-content").first().fill('print("load-error-test")');
+  await page
+    .getByTestId("editor")
+    .getByRole("textbox")
+    .fill('print("load-error-test")');
   await page
     .getByRole("button", { name: "CIRCUITPY-Verzeichnis auswählen" })
     .click();
@@ -405,7 +454,10 @@ test("falls back to MCU verification when the optional local flush is unavailabl
   await page
     .getByRole("button", { name: "senseBox verbinden", exact: true })
     .click();
-  await page.locator(".cm-content").first().fill('print("flush-fallback")');
+  await page
+    .getByTestId("editor")
+    .getByRole("textbox")
+    .fill('print("flush-fallback")');
   await page
     .getByRole("button", { name: "CIRCUITPY-Verzeichnis auswählen" })
     .click();
@@ -430,8 +482,8 @@ test("installs imported libraries, their dependencies and resources before code.
     .getByRole("button", { name: "senseBox verbinden", exact: true })
     .click();
   await page
-    .locator(".cm-content")
-    .first()
+    .getByTestId("editor")
+    .getByRole("textbox")
     .fill("import board\nimport adafruit_ssd1306\n");
   await page
     .getByRole("button", { name: "CIRCUITPY-Verzeichnis auswählen" })
@@ -474,7 +526,10 @@ test("reports a library download failure before changing the board or requesting
   await page
     .getByRole("button", { name: "senseBox verbinden", exact: true })
     .click();
-  await page.locator(".cm-content").first().fill("import neopixel\n");
+  await page
+    .getByTestId("editor")
+    .getByRole("textbox")
+    .fill("import neopixel\n");
   await page
     .getByRole("button", { name: "CIRCUITPY-Verzeichnis auswählen" })
     .click();

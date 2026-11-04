@@ -139,9 +139,9 @@ export class TracebackScrollback {
     this.scrollback = this.scrollback + data;
     const limit = 4096;
     if (this.scrollback.length > limit) {
-      this.scrollback = this.scrollback.slice(data.length - limit);
+      this.scrollback = this.scrollback.slice(-limit);
     }
-    const lines = this.scrollback.split("\r\n");
+    const lines = this.scrollback.split(/\r?\n/);
     for (let i = lines.length - 1; i >= 0; --i) {
       if (lines[i].startsWith("Traceback (most recent call last):")) {
         // Start of last traceback
@@ -161,7 +161,8 @@ export class TracebackScrollback {
             // User entered code at the REPL, discard.
             return undefined;
           }
-          const error = lines[endOfIndent];
+          const error = lines[endOfIndent].replace(/\r$/, "");
+          if (!error.trim()) return undefined;
           if (error.startsWith("KeyboardInterrupt")) {
             // User interrupted the program (we assume), discard.
             return undefined;

@@ -1,0 +1,463 @@
+{
+  "inputs": {
+    "circuitpython_stubs-10.3.0-py3-none-any.whl": [
+      "https://files.pythonhosted.org/packages/23/63/9b3f360683f3af97a1331a57e4c75865f3c491af12902edc1c60b2c3d215/circuitpython_stubs-10.3.0-py3-none-any.whl",
+      "ca877a877508b466af3d6f1090528ebe0330592e850f28d09707f952844e1ddd"
+    ],
+    "sensebox-stub-source.zip": [
+      "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "9ce340d9d64ef05d10c7828096a883245715874ab4adb1ab3eb454e2794555b4"
+    ],
+    "adafruit_circuitpython_typing-1.13.0-py3-none-any.whl": [
+      "https://files.pythonhosted.org/packages/ea/36/405f36287611e587b3077e5f6f2d4f73fedac6d710907ceeec61abdc7c42/adafruit_circuitpython_typing-1.13.0-py3-none-any.whl",
+      "6bfb25ae818a81d569a0048a179815f5944b846edf8f3a2043a84622d8610434"
+    ],
+    "circuitpython-stubs-LICENSE.txt": [
+      "https://raw.githubusercontent.com/adafruit/circuitpython/10.3.0/LICENSE",
+      "f8d44b948113cff390f6454e59069139a92da75227a7b50bb3589499d4b5fe1b"
+    ]
+  },
+  "libraries": {
+    "adafruit_bme680.py": {
+      "version": "3.7.16",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2017 ladyada for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT AND BSD-3-Clause"
+      ]
+    },
+    "adafruit_bus_device/__init__.py": {
+      "version": "5.2.17",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": []
+    },
+    "adafruit_bus_device/i2c_device.py": {
+      "version": "5.2.17",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2016 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_bus_device/spi_device.py": {
+      "version": "5.2.17",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2016 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_dps310/__init__.py": {
+      "version": "2.1.22",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Bryan Siepert for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_dps310/advanced.py": {
+      "version": "2.1.22",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Bryan Siepert for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_dps310/basic.py": {
+      "version": "2.1.22",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Bryan Siepert for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_framebuf.py": {
+      "version": "1.6.12",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: <text> 2018 Kattni Rembor, Melissa LeBlanc-Williams",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_icm20x.py": {
+      "version": "2.1.10",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Bryan Siepert for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/__init__.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/__init__.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/blink.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/chase.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/colorcycle.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/comet.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/customcolorchase.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-FileCopyrightText: 2020 Connie Sieh for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/grid_rain.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/multicolor_comet.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2022 Tim Cocks",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/pacman.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2025 Bob Loeffler",
+        "# SPDX-FileCopyrightText: 2025 Jose D. Montoya",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/pulse.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/rainbow.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/rainbowchase.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/rainbowcomet.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/rainbowsparkle.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/solid.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/sparkle.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/sparklepulse.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/animation/volume.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Gamblor21",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/color.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2019 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/grid.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/group.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/helper.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2019 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/pulse_generator.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2019 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/sequence.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Kattni Rembor for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_led_animation/timedsequence.py": {
+      "version": "2.12.6",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2020 Gamblor21",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_ntp.py": {
+      "version": "3.4.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2022 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_pixel_framebuf.py": {
+      "version": "1.1.20",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries",
+        "# SPDX-FileCopyrightText: Copyright (c) 2020 Melissa LeBlanc-Williams for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_pixelbuf.py": {
+      "version": "2.1.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries",
+        "# SPDX-FileCopyrightText: Copyright (c) 2021 Rose Hooper for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/__init__.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2016 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/i2c_bcd_alarm.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2016 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/i2c_bcd_datetime.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2016 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/i2c_bit.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2016 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/i2c_bits.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2016 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/i2c_struct.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2016 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/i2c_struct_array.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2017 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/register_accessor.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: Copyright (c) 2022 Max Holliday",
+        "# SPDX-FileCopyrightText: Copyright (c) 2025 Tim Cocks for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/register_bit.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: Copyright (c) 2025 Tim Cocks for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/register_bits.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: Copyright (c) 2025 Tim Cocks for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_register/register_struct.py": {
+      "version": "1.13.0",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: Copyright (c) 2026 Tim Cocks for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_ssd1306.py": {
+      "version": "2.12.24",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2017 Michael McWethy for Adafruit Industries",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "adafruit_veml6070.py": {
+      "version": "3.1.27",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2018 Michael Schroeder(sommersoft)",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "neopixel.py": {
+      "version": "6.4.2",
+      "source": "https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/20261016/adafruit-circuitpython-bundle-py-20261016.zip",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2016 Damien P. George",
+        "# SPDX-FileCopyrightText: 2017 Scott Shawcroft for Adafruit Industries",
+        "# SPDX-FileCopyrightText: 2019 Carter Nelson",
+        "# SPDX-FileCopyrightText: 2019 Roy Hooper",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "hdc1080.py": {
+      "version": "1.0.0",
+      "source": "Bundled, hash-verified library payload",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries",
+        "# SPDX-FileCopyrightText: Copyright (c) 2024 sensebox",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    },
+    "vl53lxcx/__init__.py": {
+      "version": "0.0.5",
+      "source": "Bundled, hash-verified library payload",
+      "headers": [
+        "# SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries",
+        "# SPDX-FileCopyrightText: Copyright (c) 2025 senseBox for senseBox",
+        "# SPDX-License-Identifier: MIT"
+      ]
+    }
+  },
+  "board": "sensebox_mcu_esp32s2",
+  "firmware": "10.3.0"
+}

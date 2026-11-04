@@ -17,6 +17,7 @@ export interface PasteContext {
    * Analytics identity of the snippet, as for DragContext.
    */
   tab?: string;
+  sectionId?: string;
   id?: string;
 }
 
@@ -66,10 +67,12 @@ const copyPasteHandlers = () => [
           pasteContext.type,
           lineNumber,
           Math.floor(column / 4),
-          true
+          true,
+          pasteContext.sectionId === "sensoren"
         )
       );
       view.focus();
+      return true;
     },
   }),
 ];

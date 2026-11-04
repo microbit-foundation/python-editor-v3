@@ -6,3 +6,6 @@ src/micropython/main/typeshed.*.json
 # Reproducible, hash-verified third-party library assets.
 /public/circuitpython/
 /src/device/libraries/catalog.json
+
+# Reproducible CircuitPython editor types.
+/src/language-server/circuitpython/typeshed.json

@@ -87,7 +87,7 @@
     "defaultMessage": "CIRCUITPY-Verzeichnis auswählen"
   },
   "circuitpython-error-connect": {
-    "defaultMessage": "Der serielle Port konnte nicht geöffnet werden. Prüfe das USB-Kabel, wähle die senseBox und schließe andere Programme, die ihren seriellen Port verwenden. Verbinde dich danach erneut oben rechts."
+    "defaultMessage": "Der serielle Port konnte nicht geöffnet werden. Prüfe das USB-Kabel, wähle die senseBox und schließe andere Programme, die ihren seriellen Port verwenden. Verbinde dich danach erneut mit dem Button unten links."
   },
   "circuitpython-error-directory": {
     "defaultMessage": "Auf das CIRCUITPY-Verzeichnis konnte nicht zugegriffen werden. Prüfe, ob das Laufwerk verbunden ist, und erlaube den Schreibzugriff. Wähle das Verzeichnis erneut aus."
@@ -99,7 +99,7 @@
     "defaultMessage": "Die benötigte Bibliothek {moduleName} konnte nicht vorbereitet werden. Prüfe die Verbindung zum Editor und ob die senseBox CircuitPython 10.x verwendet. code.py wurde nicht neu geschrieben."
   },
   "circuitpython-error-not-connected": {
-    "defaultMessage": "Verbinde die senseBox zuerst mit dem Button oben rechts. Übertrage den Code danach mit dem unteren Button."
+    "defaultMessage": "Verbinde die senseBox zuerst mit dem Button unten links. Übertrage den Code danach mit dem unteren Button."
   },
   "circuitpython-error-permission": {
     "defaultMessage": "Der Browser hat keine Schreibberechtigung mehr für {fileName}. Übertrage erneut, wähle das CIRCUITPY-Hauptverzeichnis und erlaube den Schreibzugriff."
@@ -524,6 +524,180 @@
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Keine Ergebnisse} one {# Ergebnis} other {# Ergebnisse}}"
   },
+  "runtime-error-attribute-description": {
+    "defaultMessage": "Das Objekt bietet die angeforderte Eigenschaft oder Methode nicht an. Name, Objekt oder Bibliotheksversion können vom Beispiel abweichen."
+  },
+  "runtime-error-check-attribute-spelling": {
+    "defaultMessage": "Prüfe den Eigenschafts- oder Methodennamen und welches Objekt in der Variablen vor dem Punkt gespeichert ist."
+  },
+  "runtime-error-check-bus-reuse": {
+    "defaultMessage": "Verwende das vorhandene Bus- oder Anschlussobjekt weiter. Setze die Initialisierung vor die Hauptschleife, damit sie nur einmal ausgeführt wird."
+  },
+  "runtime-error-check-division-zero": {
+    "defaultMessage": "Prüfe den Nenner vor der Division und behandle den Fall, dass er null ist."
+  },
+  "runtime-error-check-file-backup": {
+    "defaultMessage": "Sichere deine Dateien, bevor du Speichereinstellungen änderst, und verwende dafür die Dokumentation des Boards."
+  },
+  "runtime-error-check-file-path": {
+    "defaultMessage": "Prüfe Dateinamen, Groß- und Kleinschreibung und den Pfad auf CIRCUITPY."
+  },
+  "runtime-error-check-file-transfer": {
+    "defaultMessage": "Stelle sicher, dass benötigte Datendateien ebenfalls übertragen wurden und das Programm im richtigen Verzeichnis sucht."
+  },
+  "runtime-error-check-indent-level": {
+    "defaultMessage": "Richte Anweisungen desselben Blocks gleich aus und rücke den Inhalt nach einem Doppelpunkt ein."
+  },
+  "runtime-error-check-indent-spaces": {
+    "defaultMessage": "Verwende durchgehend Leerzeichen, üblicherweise vier pro Ebene, und mische keine Tabs und Leerzeichen."
+  },
+  "runtime-error-check-index-length": {
+    "defaultMessage": "Vergleiche den Index mit len(folge). Bei einer nicht leeren Folge ist die erste Position 0 und die letzte len(folge) - 1."
+  },
+  "runtime-error-check-index-loop": {
+    "defaultMessage": "Prüfe die Grenzen deiner Schleife und ob die Folge leer oder kürzer als erwartet sein kann."
+  },
+  "runtime-error-check-io-connection": {
+    "defaultMessage": "Prüfe anhand der Fehlerstelle, ob die fehlgeschlagene Operation auf einen Sensor, ein anderes Gerät oder eine Datei zugreift. Kontrolliere zuerst diese Verbindung."
+  },
+  "runtime-error-check-io-files": {
+    "defaultMessage": "Prüfe bei Dateizugriffen den Pfad, freien Speicherplatz und ob der Computer noch Dateien schreibt. Prüfe bei einem Sensor Anschluss und Stromversorgung."
+  },
+  "runtime-error-check-key-exists": {
+    "defaultMessage": "Prüfe vor dem Zugriff, ob der Schlüssel existiert, oder verwende get() mit einem passenden Standardwert."
+  },
+  "runtime-error-check-key-spelling": {
+    "defaultMessage": "Vergleiche die genaue Schreibweise und den Datentyp des Schlüssels mit den Schlüsseln im Dictionary."
+  },
+  "runtime-error-check-memory-data": {
+    "defaultMessage": "Verkleinere große Listen, Bilder oder Puffer und lade nur die Daten, die du für den nächsten Schritt brauchst."
+  },
+  "runtime-error-check-memory-loop": {
+    "defaultMessage": "Prüfe, ob eine Schleife immer mehr Daten sammelt oder neue Objekte anlegt, ohne alte freizugeben."
+  },
+  "runtime-error-check-module-name": {
+    "defaultMessage": "Prüfe den Modulnamen in der Import-Anweisung und die Schreibweise eines daraus importierten Namens."
+  },
+  "runtime-error-check-module-transfer": {
+    "defaultMessage": "Übertrage das Projekt erneut. Bekannte Bibliotheken für statische Imports werden automatisch installiert; andere Bibliotheken musst du gegebenenfalls selbst in CIRCUITPY/lib ablegen."
+  },
+  "runtime-error-check-module-version": {
+    "defaultMessage": "Verwende eine zu CircuitPython passende Bibliotheksversion. Die automatisch installierten kompilierten Bibliotheken dieses Editors sind für CircuitPython 10.x vorgesehen."
+  },
+  "runtime-error-check-name-initialize": {
+    "defaultMessage": "Weise der Variablen vor ihrer Verwendung einen Wert zu. Füge bei einem Sensor zuerst seinen Initialisierungsbaustein ein und verwende denselben Objektnamen."
+  },
+  "runtime-error-check-name-spelling": {
+    "defaultMessage": "Vergleiche die Schreibweise einschließlich Groß- und Kleinschreibung bei der Definition und an der Fehlerstelle."
+  },
+  "runtime-error-check-pin-setup": {
+    "defaultMessage": "Suche nach mehrfacher Initialisierung desselben Anschlusses oder derselben I²C-Verbindung."
+  },
+  "runtime-error-check-power-address": {
+    "defaultMessage": "Prüfe die Stromversorgung des Sensors und ob seine I²C-Adresse mit der im Code übereinstimmt."
+  },
+  "runtime-error-check-readonly-mode": {
+    "defaultMessage": "Prüfe, ob die Datei vom Computer oder vom Board geschrieben werden soll. Die CircuitPython-Speicherkonfiguration bestimmt den Schreibzugriff."
+  },
+  "runtime-error-check-sensor-driver": {
+    "defaultMessage": "Prüfe, ob Sensormodell, Treiber und Eigenschaftsnamen zum Beispiel und zur installierten Bibliotheksversion passen."
+  },
+  "runtime-error-check-syntax-previous": {
+    "defaultMessage": "Prüfe auch die vorherige Zeile: Das fehlende Zeichen kann oberhalb der gemeldeten Stelle liegen."
+  },
+  "runtime-error-check-syntax-punctuation": {
+    "defaultMessage": "Prüfe Doppelpunkte, zusammengehörige Klammern und Anführungszeichen."
+  },
+  "runtime-error-check-type-arguments": {
+    "defaultMessage": "Vergleiche Anzahl, Reihenfolge und Datentypen der Argumente mit dem Funktionsbeispiel."
+  },
+  "runtime-error-check-type-conversion": {
+    "defaultMessage": "Prüfe die tatsächlichen Werte, zum Beispiel mit print(type(wert)). Wandle Text und Zahlen nur um, wenn die Operation das erfordert."
+  },
+  "runtime-error-check-unknown-isolate": {
+    "defaultMessage": "Prüfe deine letzten Änderungen und versuche ein kleineres Beispiel, um die auslösende Operation einzugrenzen."
+  },
+  "runtime-error-check-unknown-location": {
+    "defaultMessage": "Prüfe die letzte passende Projektzeile in der Fehlermeldung und die abschließende Fehlernachricht."
+  },
+  "runtime-error-check-value-input": {
+    "defaultMessage": "Gib die Eingabewerte direkt vor der Berechnung oder dem Aufruf aus und prüfe, wie sie entstanden sind."
+  },
+  "runtime-error-check-value-range": {
+    "defaultMessage": "Prüfe erlaubte Werte, Einheiten und Grenzen des betroffenen Arguments."
+  },
+  "runtime-error-check-wiring": {
+    "defaultMessage": "Prüfe das Kabel und die SDA-/SCL-Anschlüsse anhand des Sensorbeispiels."
+  },
+  "runtime-error-checks-title": {
+    "defaultMessage": "Das kannst du prüfen"
+  },
+  "runtime-error-division-description": {
+    "defaultMessage": "Bei einer Berechnung wurde versucht, durch null zu teilen."
+  },
+  "runtime-error-file-description": {
+    "defaultMessage": "Eine angeforderte Datei oder ein Verzeichnis wurde auf dem Board nicht gefunden."
+  },
+  "runtime-error-help-action": {
+    "defaultMessage": "Fehler erklären"
+  },
+  "runtime-error-help-title": {
+    "defaultMessage": "Diesen Fehler verstehen"
+  },
+  "runtime-error-i2c-description": {
+    "defaultMessage": "Die Meldung weist auf ein Problem beim Erreichen eines I²C-Geräts oder beim Erkennen der I²C-Leitungen hin. Die genaue Ursache lässt sich daraus allein nicht bestimmen."
+  },
+  "runtime-error-import-description": {
+    "defaultMessage": "Python konnte ein angefordertes Modul oder einen Namen daraus nicht importieren. Schreibweise, Installation oder Version passen möglicherweise nicht zum Code."
+  },
+  "runtime-error-indentation-description": {
+    "defaultMessage": "Python kann die Einrückung nicht zuordnen. Die Einrückung bestimmt, welche Anweisungen zu einer Schleife, Bedingung oder Funktion gehören."
+  },
+  "runtime-error-index-description": {
+    "defaultMessage": "Das Programm hat eine Position abgefragt, die es in einer Folge wie einer Liste oder einem Text nicht gibt."
+  },
+  "runtime-error-io-description": {
+    "defaultMessage": "Ein Ein- oder Ausgabevorgang ist fehlgeschlagen. Das kann eine Hardwareverbindung oder eine Datei betreffen; diese Meldung allein beweist keinen Sensorfehler."
+  },
+  "runtime-error-key-description": {
+    "defaultMessage": "Der angeforderte Schlüssel ist in diesem Dictionary nicht vorhanden."
+  },
+  "runtime-error-memory-description": {
+    "defaultMessage": "Auf dem Board steht für diese Operation nicht genügend Arbeitsspeicher zur Verfügung."
+  },
+  "runtime-error-name-description": {
+    "defaultMessage": "Ein Name hat an dieser Stelle im Programm noch keinen Wert. Er ist möglicherweise falsch geschrieben, noch nicht initialisiert oder nur in einem anderen Gültigkeitsbereich definiert."
+  },
+  "runtime-error-no-project-location": {
+    "defaultMessage": "Diese Fehlermeldung enthält keine passende Datei aus deinem Projekt. Die ursprüngliche Meldung unten zeigt, welche Bibliothek oder welcher Code beteiligt ist."
+  },
+  "runtime-error-open-location": {
+    "defaultMessage": "{file}, Zeile {line} öffnen"
+  },
+  "runtime-error-original": {
+    "defaultMessage": "Ursprüngliche Fehlermeldung"
+  },
+  "runtime-error-pins-description": {
+    "defaultMessage": "Ein Anschluss wird bereits verwendet. Möglicherweise versucht das Programm, dieselbe Verbindung mehrfach zu initialisieren."
+  },
+  "runtime-error-readonly-description": {
+    "defaultMessage": "Das Programm wollte auf ein Dateisystem schreiben, auf das es momentan nur lesend zugreifen darf."
+  },
+  "runtime-error-stale": {
+    "defaultMessage": "Das Projekt wurde geändert oder seit dem Verbinden noch nicht übertragen. Die Zeilenangaben können zu anderem Code gehören. Übertrage den aktuellen Stand und prüfe die neue Fehlermeldung, bevor du eine Fehlerstelle öffnest."
+  },
+  "runtime-error-syntax-description": {
+    "defaultMessage": "Python kann die Schreibweise dieses Codes nicht verstehen. Möglicherweise fehlt ein Satzzeichen oder ein Teil einer Anweisung."
+  },
+  "runtime-error-type-description": {
+    "defaultMessage": "Eine Operation hat einen Wert mit unpassendem Datentyp erhalten, oder eine Funktion wurde mit unpassenden Argumenten aufgerufen."
+  },
+  "runtime-error-unknown-description": {
+    "defaultMessage": "Für diese Meldung gibt es noch keine spezielle Erklärung. Die ursprüngliche Fehlermeldung ist der Ausgangspunkt für die Fehlersuche."
+  },
+  "runtime-error-value-description": {
+    "defaultMessage": "Ein Wert hat einen unpassenden Inhalt oder liegt außerhalb des erlaubten Bereichs. Die ursprüngliche Meldung nennt möglicherweise das betroffene Argument."
+  },
   "save-action": {
     "defaultMessage": "Speichern"
   },
@@ -547,6 +721,12 @@
   },
   "send-hover": {
     "defaultMessage": "Projektdateien auf das CIRCUITPY-Laufwerk der verbundenen senseBox übertragen"
+  },
+  "sensor-initialization-missing": {
+    "defaultMessage": "Initialisiere {variable} zuerst mit dem Baustein „{block}“ unter Sensoren."
+  },
+  "sensor-initialization-show": {
+    "defaultMessage": "Initialisierung anzeigen"
   },
   "serial-collapse": {
     "defaultMessage": "Serielle Ausgabe ausblenden"
@@ -854,6 +1034,24 @@
   "toolkit-view-documentation": {
     "defaultMessage": "{name}-Dokumentation anzeigen"
   },
+  "transfer-detail-board": {
+    "defaultMessage": "Das laufende Programm wird für die Übertragung angehalten."
+  },
+  "transfer-detail-flush": {
+    "defaultMessage": "Gespeicherte Dateien werden mit dem Laufwerk synchronisiert. Gleiche Dateien werden nicht neu geschrieben."
+  },
+  "transfer-detail-libraries": {
+    "defaultMessage": "Benötigte Bibliotheken werden vorbereitet, bevor Dateien geschrieben werden."
+  },
+  "transfer-detail-start": {
+    "defaultMessage": "Nach erfolgreicher Prüfung wird das Programm neu gestartet. Seine Ausgabe erscheint in der Konsole."
+  },
+  "transfer-detail-verify": {
+    "defaultMessage": "Die senseBox muss den gespeicherten Inhalt bestätigen, bevor das Programm startet. Das kann bis zu 60 Sekunden dauern."
+  },
+  "transfer-files-count": {
+    "defaultMessage": "{completed} von {total} Dateien bearbeitet."
+  },
   "transfer-hex-message-one": {
     "defaultMessage": "Ziehe die hex-Datei aus deinem <strong>Download-Ordner</strong> auf das <strong>CIRCUITPY-Laufwerk</strong>."
   },
@@ -862,6 +1060,24 @@
   },
   "transfer-hex-title": {
     "defaultMessage": "Gespeicherte Hex-Datei an senseBox übertragen"
+  },
+  "transfer-phase-board": {
+    "defaultMessage": "Board vorbereiten"
+  },
+  "transfer-phase-files": {
+    "defaultMessage": "Dateien schreiben"
+  },
+  "transfer-phase-flush": {
+    "defaultMessage": "Speichern abschließen"
+  },
+  "transfer-phase-libraries": {
+    "defaultMessage": "Bibliotheken vorbereiten"
+  },
+  "transfer-phase-start": {
+    "defaultMessage": "Programm starten"
+  },
+  "transfer-phase-verify": {
+    "defaultMessage": "Dateien auf der senseBox prüfen"
   },
   "try-again-action": {
     "defaultMessage": "Erneut versuchen"

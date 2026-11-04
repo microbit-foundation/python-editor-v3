@@ -218,6 +218,56 @@ it("connects once without selecting a folder or transferring any code", async ()
   expect(operations).toEqual([]);
 });
 
+it("reports ordered transfer phases and file-local progress before confirming success", async () => {
+  const transferProgress = vi.fn();
+  const { device, operations } = setup();
+  await device.connect();
+  await device.selectDirectory();
+  vi.useFakeTimers();
+  const transfer = device.flash(vi.fn(), { transferProgress });
+  await vi.advanceTimersByTimeAsync(4000);
+  await transfer;
+  expect(transferProgress.mock.calls.map(([state]) => state.phase)).toEqual([
+    "libraries",
+    "board",
+    "files",
+    "files",
+    "files",
+    "flush",
+    "verify",
+    "start",
+  ]);
+  expect(
+    transferProgress.mock.calls
+      .filter(([state]) => state.phase === "files")
+      .map(([state]) => [state.completed, state.total])
+  ).toEqual([
+    [0, 2],
+    [1, 2],
+    [2, 2],
+  ]);
+  expect(operations).toContain("verify-files");
+  expect(operations).toContain("soft-reboot");
+});
+
+it("never reports program start when file verification fails", async () => {
+  const transferProgress = vi.fn();
+  const { device, operations } = setup({ syncMismatches: 1000 });
+  await device.connect();
+  await device.selectDirectory();
+  vi.useFakeTimers();
+  const transfer = expect(
+    device.flash(vi.fn(), { transferProgress })
+  ).rejects.toMatchObject({ code: "sync" });
+  await vi.advanceTimersByTimeAsync(65000);
+  await transfer;
+  expect(
+    transferProgress.mock.calls[transferProgress.mock.calls.length - 1]?.[0]
+      .phase
+  ).toBe("verify");
+  expect(operations).not.toContain("soft-reboot");
+});
+
 it("forwards terminal input and device output over the same connection", async () => {
   const { device, operations, incoming } = setup();
   const listener = vi.fn();
@@ -725,7 +775,7 @@ it.each(["modified", "deleted"])(
   }
 );
 
-it("flushes only changed host files after close and before MCU verification", async () => {
+it("flushes changed and identical required files before MCU verification without rewriting identical bytes", async () => {
   const flushHostFiles = vi.fn<
     NonNullable<
       ConstructorParameters<typeof WebFileSystemConnection>[0]["flushHostFiles"]
@@ -739,6 +789,7 @@ it("flushes only changed host files after close and before MCU verification", as
   await device.selectDirectory();
   await device.flash(vi.fn(), {});
   expect(flushHostFiles.mock.calls[0][1]).toEqual([
+    ["sensor.py", (await files())["sensor.py"]],
     ["code.py", (await files())["code.py"]],
   ]);
   expect(operations.indexOf("flush-host")).toBeGreaterThan(
@@ -748,11 +799,49 @@ it("flushes only changed host files after close and before MCU verification", as
     operations.indexOf("verify-files")
   );
   flushHostFiles.mockClear();
+  operations.length = 0;
   vi.useFakeTimers();
   const repeat = device.flash(vi.fn(), {});
   await vi.advanceTimersByTimeAsync(4000);
   await repeat;
-  expect(flushHostFiles).not.toHaveBeenCalled();
+  expect(flushHostFiles).toHaveBeenCalledOnce();
+  expect(flushHostFiles.mock.calls[0][1]).toHaveLength(2);
+  expect(operations.some((entry) => entry.startsWith("close:"))).toBe(false);
+  expect(operations.indexOf("flush-host")).toBeLessThan(
+    operations.indexOf("verify-files")
+  );
+});
+
+it("flushes pending equal files on retry after an unavailable helper and failed MCU verification", async () => {
+  const syncResults: number[] = [];
+  let attempts = 0;
+  const flushHostFiles = vi.fn(async () => {
+    if (++attempts === 1)
+      throw new Error("Local helper temporarily unavailable");
+    syncResults.push(...Array<number>(10).fill(1));
+  });
+  const { device, operations } = setup({
+    flushHostFiles,
+    syncResults,
+    syncMismatches: 1000,
+  });
+  await device.connect();
+  await device.selectDirectory();
+  vi.useFakeTimers();
+  const first = expect(device.flash(vi.fn(), {})).rejects.toMatchObject({
+    code: "sync",
+  });
+  await vi.advanceTimersByTimeAsync(65000);
+  await first;
+  expect(operations).not.toContain("soft-reboot");
+  operations.length = 0;
+  const retry = device.flash(vi.fn(), {});
+  await vi.advanceTimersByTimeAsync(4000);
+  await retry;
+  expect(flushHostFiles).toHaveBeenCalledTimes(2);
+  expect(operations.some((entry) => entry.startsWith("close:"))).toBe(false);
+  expect(operations).toContain("verify-files");
+  expect(operations).toContain("soft-reboot");
 });
 
 it("still verifies the MCU when the optional host flush fails", async () => {

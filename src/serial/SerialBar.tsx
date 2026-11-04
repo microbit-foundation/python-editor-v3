@@ -23,6 +23,7 @@ import { SerialHelpDialog } from "./SerialHelp";
 import SerialIndicators from "./SerialIndicators";
 import SerialMenu from "./SerialMenu";
 import { useCurrentTerminalRef } from "./serial-hooks";
+import RuntimeErrorHelp from "./RuntimeErrorHelp";
 
 interface SerialBarProps {
   compact?: boolean;
@@ -96,6 +97,14 @@ const SerialBar = ({
         />
 
         <HStack>
+          {traceback?.error.trim() && (
+            <RuntimeErrorHelp
+              key={JSON.stringify([traceback.trace, traceback.error])}
+              traceback={traceback}
+              compact={compact}
+              current={syncStatus === SyncStatus.IN_SYNC}
+            />
+          )}
           <CollapsibleButton
             mode="button"
             variant="unstyled"

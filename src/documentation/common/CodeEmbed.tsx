@@ -36,6 +36,7 @@ interface CodeEmbedProps {
   code: string;
   parentSlug?: string;
   toolkitType?: string;
+  sectionId?: string;
   title?: string;
 }
 
@@ -56,6 +57,7 @@ type CodeEmbedState =
 const CodeEmbed = ({
   code: codeWithImports,
   toolkitType,
+  sectionId,
   parentSlug,
   title,
 }: CodeEmbedProps) => {
@@ -119,9 +121,18 @@ const CodeEmbed = ({
       codeWithImports,
       "example",
       parentSlug,
-      toolkitType
+      toolkitType,
+      sectionId
     );
-  }, [actions, code, codeWithImports, onCopy, parentSlug, toolkitType]);
+  }, [
+    actions,
+    code,
+    codeWithImports,
+    onCopy,
+    parentSlug,
+    toolkitType,
+    sectionId,
+  ]);
   const projectActions = useProjectActions();
   const handleOpenIdea = useCallback(async () => {
     projectActions.openIdea(parentSlug, codeWithImports, title!);
@@ -158,6 +169,7 @@ const CodeEmbed = ({
           highlightDragHandle={state === "raised"}
           parentSlug={parentSlug}
           toolkitType={toolkitType}
+          sectionId={sectionId}
           isPopUp={false}
         />
         {state === "raised" && (
@@ -175,6 +187,7 @@ const CodeEmbed = ({
             concise={code}
             full={codeWithImports}
             toolkitType={toolkitType}
+            sectionId={sectionId}
             parentSlug={parentSlug}
           />
         )}
@@ -195,6 +208,7 @@ interface CodePopUpProps {
   concise: string;
   full: string;
   toolkitType?: string;
+  sectionId?: string;
   parentSlug?: string;
   onCodeDragEnd: () => void;
   onMouseLeave: React.MouseEventHandler<HTMLElement>;
@@ -211,6 +225,7 @@ const CodePopUp = ({
   concise,
   full,
   toolkitType,
+  sectionId,
   parentSlug,
   ...props
 }: CodePopUpProps) => {
@@ -223,6 +238,7 @@ const CodePopUp = ({
       highlightDragHandle
       toolkitType={toolkitType}
       parentSlug={parentSlug}
+      sectionId={sectionId}
       isPopUp
       {...props}
     />,
@@ -235,6 +251,7 @@ interface CodeProps {
   full: string;
   highlightDragHandle: boolean;
   toolkitType?: string;
+  sectionId?: string;
   parentSlug?: string;
   onCodeDragEnd: () => void;
   onMouseEnter?: React.MouseEventHandler<HTMLElement>;
@@ -254,6 +271,7 @@ const Code = React.forwardRef<HTMLDivElement, CodeProps>(
       full,
       highlightDragHandle,
       toolkitType,
+      sectionId,
       parentSlug,
       onCodeDragEnd,
       isOpen,
@@ -279,6 +297,7 @@ const Code = React.forwardRef<HTMLDivElement, CodeProps>(
           code: full,
           type: "example",
           tab: toolkitType,
+          sectionId,
           id: parentSlug,
         });
         event.dataTransfer.setData(pythonSnippetMediaType, full);
@@ -286,7 +305,7 @@ const Code = React.forwardRef<HTMLDivElement, CodeProps>(
           event.dataTransfer.setDragImage(dragImage.current, 0, 0);
         }
       },
-      [full, dragImage, parentSlug, toolkitType, logging]
+      [full, dragImage, parentSlug, toolkitType, sectionId, logging]
     );
     const handleDragEnd = useCallback(
       (_event: React.DragEvent) => {

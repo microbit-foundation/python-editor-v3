@@ -3,12 +3,16 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { vi } from "vitest";
 import { Text } from "@codemirror/state";
 import { ConnectionStatus } from "@microbit/microbit-connection";
 import { MicrobitUSBConnection } from "@microbit/microbit-connection/usb";
 import * as LSP from "vscode-languageserver-protocol";
 import { Action } from "../lint/lint";
 import { diagnosticsMapping } from "./diagnostics";
+import { createIntl } from "react-intl";
+import english from "../../../../lang/ui.en.json";
+import german from "../../../../lang/ui.de.json";
 
 const createDevice = (
   status: ConnectionStatus,
@@ -59,6 +63,91 @@ const map = (
   );
 
 describe("diagnosticsMapping", () => {
+  it.each([
+    ["en", english],
+    ["de", german],
+  ] as const)(
+    "explains missing sensor initialization in %s and links to the block",
+    (locale, catalog) => {
+      const intl = createIntl({
+        locale,
+        messages: Object.fromEntries(
+          Object.entries(catalog).map(([id, message]) => [
+            id,
+            message.defaultMessage,
+          ])
+        ),
+      });
+      const diagnostics = diagnosticsMapping(
+        Text.of(["print(bme680.temperature)"]),
+        [
+          lspDiagnostic({
+            code: "reportUndefinedVariable",
+            severity: LSP.DiagnosticSeverity.Error,
+            range: {
+              start: { line: 0, character: 6 },
+              end: { line: 0, character: 12 },
+            },
+          }),
+        ],
+        disconnectedDevice,
+        true,
+        () => action,
+        intl
+      );
+      expect(diagnostics[0].message).toBe(
+        intl.formatMessage(
+          { id: "sensor-initialization-missing" },
+          {
+            variable: "bme680",
+            block:
+              locale === "de" ? "BME680 initialisieren" : "Initialise BME680",
+          }
+        )
+      );
+      expect(diagnostics[0].severity).toBe("error");
+      const listener = vi.fn();
+      window.document.addEventListener("cm/openDocs", listener);
+      try {
+        diagnostics[0].actions![0].apply({} as never, 6, 12);
+        expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener.mock.calls[0][0].detail).toEqual({
+          tab: "sensoren",
+          id: "bme680-initialisieren",
+        });
+      } finally {
+        window.document.removeEventListener("cm/openDocs", listener);
+      }
+    }
+  );
+
+  it("keeps unrelated diagnostics unchanged", () => {
+    const intl = createIntl({ locale: "en", messages: {} });
+    for (const [source, code] of [
+      ["bme680.temperature", "reportAttributeAccessIssue"],
+      ["value.temperature", "reportUndefinedVariable"],
+      ["bme680 = 1", "reportUndefinedVariable"],
+    ]) {
+      const result = diagnosticsMapping(
+        Text.of([source]),
+        [
+          lspDiagnostic({
+            code,
+            range: {
+              start: { line: 0, character: 0 },
+              end: { line: 0, character: source.startsWith("value") ? 5 : 6 },
+            },
+          }),
+        ],
+        disconnectedDevice,
+        true,
+        () => action,
+        intl
+      );
+      expect(result[0]).toMatchObject({ message: "Oops", actions: [] });
+    }
+  });
+
   it("maps position, message and severity", () => {
     expect(
       map([lspDiagnostic({ severity: LSP.DiagnosticSeverity.Error })])
@@ -161,7 +250,7 @@ describe("diagnosticsMapping", () => {
   });
 
   it.each(["monotonic", "struct_time", "mktime"])(
-    "suppresses the CircuitPython time.%s diagnostic",
+    "keeps genuine CircuitPython time.%s diagnostics visible",
     (functionName) => {
       const source = Text.of([`start = time.${functionName}()`]);
       expect(
@@ -179,12 +268,12 @@ describe("diagnosticsMapping", () => {
           true,
           source
         )
-      ).toEqual([]);
+      ).toHaveLength(1);
     }
   );
 
   it.each(["brightness", "pixel_order", "auto_write", "GRB"])(
-    "suppresses CircuitPython NeoPixel diagnostic for %s",
+    "keeps genuine CircuitPython NeoPixel diagnostics for %s",
     (name) => {
       const source = Text.of([
         "pixels = neopixel.NeoPixel(",
@@ -211,7 +300,7 @@ describe("diagnosticsMapping", () => {
           true,
           source
         )
-      ).toEqual([]);
+      ).toHaveLength(1);
       expect(from).toBeGreaterThan(0);
     }
   );

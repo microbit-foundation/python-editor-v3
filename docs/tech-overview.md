@@ -57,7 +57,11 @@ Modern code intelligence features depend on a good understanding of types in the
 
 The content in the API tab, lint messages/diagnostics, autocomplete and parameter help are all provided by a fork of Microsoft's Open Source Pyright language server that runs as a Web Worker integrated with CodeMirror using a custom language server client.
 
-We use this together with our type stubs for [micro:bit MicroPython](https://github.com/microbit-foundation/micropython-microbit-stubs/).
+The senseBox deployment uses pinned CircuitPython 10.3 core types, MCU-S2 board
+pins and the drivers used by the bundled examples. Common Python builtins and
+typing definitions are retained from the upstream type environment. See
+[CircuitPython code help](circuitpython-code-help.md) for the sources, coverage
+and reproducible generation process.
 
 We've written [notes on our Pyright changes in its Git repository](https://github.com/microbit-foundation/pyright/blob/microbit/THIS_FORK.md). The micro:bit usecases are simple relative to general purpose Web-based Pyright as we have a small code size and a fixed API.
 

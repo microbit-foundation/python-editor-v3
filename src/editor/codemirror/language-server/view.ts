@@ -33,7 +33,8 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
         params.diagnostics,
         this.device,
         this.warnOnV2OnlyFeatures,
-        this.warnOnV2OnlyFeaturesAction
+        this.warnOnV2OnlyFeaturesAction,
+        this.intl
       );
       this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
     }
@@ -45,7 +46,8 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
       this.client.allDiagnostics(),
       this.device,
       this.warnOnV2OnlyFeatures,
-      this.warnOnV2OnlyFeaturesAction
+      this.warnOnV2OnlyFeaturesAction,
+      this.intl
     );
     this.view.dispatch(setDiagnostics(this.view.state, diagnostics));
   };
@@ -74,12 +76,18 @@ class LanguageServerView extends BaseLanguageServerView implements PluginValue {
     // It would be best to do this with initial state and avoid the dispatch.
     setTimeout(() => {
       if (!this.destroyed) {
+        // Editing can begin before the worker is ready. Resync the active
+        // document when attaching, so its diagnostics include those edits too.
+        this.client.didChangeTextDocument(this.uri, [
+          { text: view.state.doc.toString() },
+        ]);
         const diagnostics = diagnosticsMapping(
           view.state.doc,
           this.client.currentDiagnostics(this.uri),
           device,
           warnOnV2OnlyFeatures,
-          this.warnOnV2OnlyFeaturesAction
+          this.warnOnV2OnlyFeaturesAction,
+          this.intl
         );
         view.dispatch(setDiagnostics(view.state, diagnostics));
       }

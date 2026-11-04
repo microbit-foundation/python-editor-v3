@@ -56,6 +56,7 @@ export interface DragContext {
    * and its slug / API name. See code_drag / code_drop.
    */
   tab?: string;
+  sectionId?: string;
   id?: string;
 }
 
@@ -188,7 +189,9 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) =>
             dragContext.code,
             dragContext.type,
             logicalPosition.line,
-            logicalPosition.indent
+            logicalPosition.indent,
+            false,
+            dragContext.sectionId === "sensoren"
           );
           this.lastDragPos = {
             logicalPosition,
@@ -268,7 +271,8 @@ const dndHandlers = ({ sessionSettings, setSessionSettings }: DragTracker) =>
             dragContext.type,
             logicalPosition.line,
             logicalPosition.indent,
-            false
+            false,
+            dragContext.sectionId === "sensoren"
           )
         );
         view.focus();

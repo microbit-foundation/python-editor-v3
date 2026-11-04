@@ -116,7 +116,7 @@
     "description": "CircuitPython connection, console and project transfer UI"
   },
   "circuitpython-error-connect": {
-    "defaultMessage": "Could not open the serial port. Check the USB cable, select the senseBox and close other programs using its serial port. Then connect again at the top right.",
+    "defaultMessage": "Could not open the serial port. Check the USB cable, select the senseBox and close other programs using its serial port. Then connect again using the button at the bottom left.",
     "description": "CircuitPython connection, console and project transfer UI"
   },
   "circuitpython-error-directory": {
@@ -131,7 +131,7 @@
     "defaultMessage": "The required library {moduleName} could not be prepared. Check the connection to the editor and that the senseBox uses CircuitPython 10.x. code.py has not been rewritten."
   },
   "circuitpython-error-not-connected": {
-    "defaultMessage": "First connect the senseBox using the button at the top right. Then use the lower button to transfer code.",
+    "defaultMessage": "First connect the senseBox using the button at the bottom left. Then use the lower button to transfer code.",
     "description": "CircuitPython connection, console and project transfer UI"
   },
   "circuitpython-error-permission": {
@@ -696,6 +696,238 @@
     "defaultMessage": "{count, plural, =0 {No results} one {# result} other {# results}}",
     "description": "Number of results from a search. Uses ICU syntax for pluralisation: https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format."
   },
+  "runtime-error-attribute-description": {
+    "defaultMessage": "The object does not provide the requested property or method. The name, object or library version may be different from the example.",
+    "description": "Local runtime error help: attribute-description."
+  },
+  "runtime-error-check-attribute-spelling": {
+    "defaultMessage": "Check the property or method name and which object is stored in the variable before the dot.",
+    "description": "Local runtime error help: check-attribute-spelling."
+  },
+  "runtime-error-check-bus-reuse": {
+    "defaultMessage": "Reuse the existing bus or pin object. Put initialisation before the main loop so it runs only once.",
+    "description": "Local runtime error help: check-bus-reuse."
+  },
+  "runtime-error-check-division-zero": {
+    "defaultMessage": "Check the denominator before dividing and handle the case where it is zero.",
+    "description": "Local runtime error help: check-division-zero."
+  },
+  "runtime-error-check-file-backup": {
+    "defaultMessage": "Save a copy of your files before changing storage settings, and use the board documentation for that configuration.",
+    "description": "Local runtime error help: check-file-backup."
+  },
+  "runtime-error-check-file-path": {
+    "defaultMessage": "Check the filename, uppercase/lowercase letters and path on CIRCUITPY.",
+    "description": "Local runtime error help: check-file-path."
+  },
+  "runtime-error-check-file-transfer": {
+    "defaultMessage": "Make sure required data files were transferred too and that the program reads from the expected directory.",
+    "description": "Local runtime error help: check-file-transfer."
+  },
+  "runtime-error-check-indent-level": {
+    "defaultMessage": "Align instructions in the same block and indent the body after a colon.",
+    "description": "Local runtime error help: check-indent-level."
+  },
+  "runtime-error-check-indent-spaces": {
+    "defaultMessage": "Use spaces consistently, usually four per level, and avoid mixing tabs with spaces.",
+    "description": "Local runtime error help: check-indent-spaces."
+  },
+  "runtime-error-check-index-length": {
+    "defaultMessage": "Compare the index with len(sequence). In a non-empty sequence, the first position is 0 and the last is len(sequence) - 1.",
+    "description": "Local runtime error help: check-index-length."
+  },
+  "runtime-error-check-index-loop": {
+    "defaultMessage": "Check the limits of your loop and whether the sequence can be empty or shorter than expected.",
+    "description": "Local runtime error help: check-index-loop."
+  },
+  "runtime-error-check-io-connection": {
+    "defaultMessage": "Use the traceback to check whether the failing operation accesses a sensor, another device or a file. Check that connection first.",
+    "description": "Local runtime error help: check-io-connection."
+  },
+  "runtime-error-check-io-files": {
+    "defaultMessage": "For file access, check the path, available space and whether the computer is still writing files. For a sensor, check its connection and power.",
+    "description": "Local runtime error help: check-io-files."
+  },
+  "runtime-error-check-key-exists": {
+    "defaultMessage": "Check whether the key exists before accessing it, or use get() with a suitable default.",
+    "description": "Local runtime error help: check-key-exists."
+  },
+  "runtime-error-check-key-spelling": {
+    "defaultMessage": "Compare the key’s exact spelling and type with the keys in the dictionary.",
+    "description": "Local runtime error help: check-key-spelling."
+  },
+  "runtime-error-check-memory-data": {
+    "defaultMessage": "Reduce large lists, images or buffers, and load only the data needed for the next step.",
+    "description": "Local runtime error help: check-memory-data."
+  },
+  "runtime-error-check-memory-loop": {
+    "defaultMessage": "Check whether a loop keeps collecting data or creating new objects without releasing old ones.",
+    "description": "Local runtime error help: check-memory-loop."
+  },
+  "runtime-error-check-module-name": {
+    "defaultMessage": "Check the module name in the import statement and the spelling of any imported name.",
+    "description": "Local runtime error help: check-module-name."
+  },
+  "runtime-error-check-module-transfer": {
+    "defaultMessage": "Transfer the project again. Known libraries for static imports are installed automatically; other libraries may need manual installation in CIRCUITPY/lib.",
+    "description": "Local runtime error help: check-module-transfer."
+  },
+  "runtime-error-check-module-version": {
+    "defaultMessage": "Use a CircuitPython-compatible library version. The editor’s automatic compiled libraries target CircuitPython 10.x.",
+    "description": "Local runtime error help: check-module-version."
+  },
+  "runtime-error-check-name-initialize": {
+    "defaultMessage": "Assign the variable before using it. For a sensor, insert its initialisation block first and keep the same object name.",
+    "description": "Local runtime error help: check-name-initialize."
+  },
+  "runtime-error-check-name-spelling": {
+    "defaultMessage": "Compare the spelling, including uppercase and lowercase letters, at the definition and at the error location.",
+    "description": "Local runtime error help: check-name-spelling."
+  },
+  "runtime-error-check-pin-setup": {
+    "defaultMessage": "Find repeated initialisation of the same pin or I²C connection.",
+    "description": "Local runtime error help: check-pin-setup."
+  },
+  "runtime-error-check-power-address": {
+    "defaultMessage": "Check that the sensor is powered and that the configured I²C address matches the sensor.",
+    "description": "Local runtime error help: check-power-address."
+  },
+  "runtime-error-check-readonly-mode": {
+    "defaultMessage": "Check whether the file should be written by the computer or by the board. CircuitPython’s storage configuration controls write access.",
+    "description": "Local runtime error help: check-readonly-mode."
+  },
+  "runtime-error-check-sensor-driver": {
+    "defaultMessage": "Check that the sensor model, driver and property names match the example and the installed library version.",
+    "description": "Local runtime error help: check-sensor-driver."
+  },
+  "runtime-error-check-syntax-previous": {
+    "defaultMessage": "Also inspect the previous line: the missing character may be above the reported location.",
+    "description": "Local runtime error help: check-syntax-previous."
+  },
+  "runtime-error-check-syntax-punctuation": {
+    "defaultMessage": "Check colons, matching brackets and quotation marks.",
+    "description": "Local runtime error help: check-syntax-punctuation."
+  },
+  "runtime-error-check-type-arguments": {
+    "defaultMessage": "Compare the number, order and types of arguments with the function example.",
+    "description": "Local runtime error help: check-type-arguments."
+  },
+  "runtime-error-check-type-conversion": {
+    "defaultMessage": "Inspect the actual values, for example with print(type(value)). Convert text and numbers only when the operation requires it.",
+    "description": "Local runtime error help: check-type-conversion."
+  },
+  "runtime-error-check-unknown-isolate": {
+    "defaultMessage": "Review your latest changes and try a smaller example to find which operation triggers the error.",
+    "description": "Local runtime error help: check-unknown-isolate."
+  },
+  "runtime-error-check-unknown-location": {
+    "defaultMessage": "Inspect the last matching project line in the traceback and the final error message.",
+    "description": "Local runtime error help: check-unknown-location."
+  },
+  "runtime-error-check-value-input": {
+    "defaultMessage": "Print the input values immediately before the calculation or call, and check how they were obtained.",
+    "description": "Local runtime error help: check-value-input."
+  },
+  "runtime-error-check-value-range": {
+    "defaultMessage": "Check the allowed values, units and limits of the affected argument.",
+    "description": "Local runtime error help: check-value-range."
+  },
+  "runtime-error-check-wiring": {
+    "defaultMessage": "Check the cable and the SDA/SCL connections against the sensor example.",
+    "description": "Local runtime error help: check-wiring."
+  },
+  "runtime-error-checks-title": {
+    "defaultMessage": "What you can check",
+    "description": "Local runtime error help: checks-title."
+  },
+  "runtime-error-division-description": {
+    "defaultMessage": "A calculation attempted to divide by zero.",
+    "description": "Local runtime error help: division-description."
+  },
+  "runtime-error-file-description": {
+    "defaultMessage": "A requested file or directory could not be found on the board.",
+    "description": "Local runtime error help: file-description."
+  },
+  "runtime-error-help-action": {
+    "defaultMessage": "Explain error",
+    "description": "Local runtime error help: help-action."
+  },
+  "runtime-error-help-title": {
+    "defaultMessage": "Understand this error",
+    "description": "Local runtime error help: help-title."
+  },
+  "runtime-error-i2c-description": {
+    "defaultMessage": "The message indicates a problem reaching an I²C device or detecting the I²C lines. It does not by itself identify the exact cause.",
+    "description": "Local runtime error help: i2c-description."
+  },
+  "runtime-error-import-description": {
+    "defaultMessage": "Python could not import a requested module or name. Its spelling, installation or version may not match the code.",
+    "description": "Local runtime error help: import-description."
+  },
+  "runtime-error-indentation-description": {
+    "defaultMessage": "Python cannot interpret the indentation. Indentation determines which instructions belong to a loop, condition or function.",
+    "description": "Local runtime error help: indentation-description."
+  },
+  "runtime-error-index-description": {
+    "defaultMessage": "The program tried to access a position that does not exist in a sequence, such as a list or text.",
+    "description": "Local runtime error help: index-description."
+  },
+  "runtime-error-io-description": {
+    "defaultMessage": "An input/output operation failed. This can involve hardware communication or a file; this message alone does not prove a sensor fault.",
+    "description": "Local runtime error help: io-description."
+  },
+  "runtime-error-key-description": {
+    "defaultMessage": "The requested key does not exist in this dictionary.",
+    "description": "Local runtime error help: key-description."
+  },
+  "runtime-error-memory-description": {
+    "defaultMessage": "The board does not have enough available working memory for this operation.",
+    "description": "Local runtime error help: memory-description."
+  },
+  "runtime-error-name-description": {
+    "defaultMessage": "A name has no value at this point in the program. It may be misspelled, not yet initialised or only defined in another scope.",
+    "description": "Local runtime error help: name-description."
+  },
+  "runtime-error-no-project-location": {
+    "defaultMessage": "This traceback has no matching file in your project. Use the original traceback below to identify the library or code involved.",
+    "description": "Local runtime error help: no-project-location."
+  },
+  "runtime-error-open-location": {
+    "defaultMessage": "Open {file}, line {line}",
+    "description": "Local runtime error help: open-location."
+  },
+  "runtime-error-original": {
+    "defaultMessage": "Original traceback",
+    "description": "Local runtime error help: original."
+  },
+  "runtime-error-pins-description": {
+    "defaultMessage": "A pin is already being used. The program may be trying to initialise the same connection more than once.",
+    "description": "Local runtime error help: pins-description."
+  },
+  "runtime-error-readonly-description": {
+    "defaultMessage": "The program tried to write to a filesystem that is currently read-only.",
+    "description": "Local runtime error help: readonly-description."
+  },
+  "runtime-error-stale": {
+    "defaultMessage": "The project has changed or has not been transferred since connecting. Line numbers may refer to different code. Transfer the current project and check the new error before opening a location.",
+    "description": "Local runtime error help: stale."
+  },
+  "runtime-error-syntax-description": {
+    "defaultMessage": "Python cannot read the structure of this code. A punctuation mark or part of an instruction may be missing.",
+    "description": "Local runtime error help: syntax-description."
+  },
+  "runtime-error-type-description": {
+    "defaultMessage": "An operation received a value of the wrong type, or a function was called with unsuitable arguments.",
+    "description": "Local runtime error help: type-description."
+  },
+  "runtime-error-unknown-description": {
+    "defaultMessage": "There is no specific explanation for this message yet. The original traceback remains the starting point for finding the cause.",
+    "description": "Local runtime error help: unknown-description."
+  },
+  "runtime-error-value-description": {
+    "defaultMessage": "A value has an unsuitable content or lies outside the accepted range. The original message may name the affected argument.",
+    "description": "Local runtime error help: value-description."
+  },
   "save-action": {
     "defaultMessage": "Save",
     "description": "Save button text"
@@ -727,6 +959,14 @@
   "send-hover": {
     "defaultMessage": "Transfer project files to the connected senseBox CIRCUITPY drive",
     "description": "Send button hover text"
+  },
+  "sensor-initialization-missing": {
+    "defaultMessage": "Initialize {variable} first using the “{block}” block under Sensors.",
+    "description": "Unresolved sensor object; block is the title of the initialization block in the sensor documentation."
+  },
+  "sensor-initialization-show": {
+    "defaultMessage": "Show initialization block",
+    "description": "Diagnostic action that opens the required sensor initialization block."
   },
   "serial-collapse": {
     "defaultMessage": "Hide serial",
@@ -1144,6 +1384,30 @@
     "defaultMessage": "View {name} documentation",
     "description": "Aria label for the toolkit topic right arrow"
   },
+  "transfer-detail-board": {
+    "defaultMessage": "The running program is stopped for the transfer.",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
+  "transfer-detail-flush": {
+    "defaultMessage": "Saved files are synchronized with the drive. Identical files are not rewritten.",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
+  "transfer-detail-libraries": {
+    "defaultMessage": "Required libraries are prepared before any files are written.",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
+  "transfer-detail-start": {
+    "defaultMessage": "The confirmed program is restarted. Its output will appear in the console.",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
+  "transfer-detail-verify": {
+    "defaultMessage": "The senseBox must confirm the saved contents before the program starts. This can take up to 60 seconds.",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
+  "transfer-files-count": {
+    "defaultMessage": "{completed} of {total} files processed.",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
   "transfer-hex-message-one": {
     "defaultMessage": "Drag the hex file from your <strong>Downloads folder</strong> to the <strong>CIRCUITPY drive</strong>.",
     "description": "Text in the transfer hex dialog"
@@ -1155,6 +1419,30 @@
   "transfer-hex-title": {
     "defaultMessage": "Transfer saved hex file to senseBox",
     "description": "Title for the transfer hex dialog"
+  },
+  "transfer-phase-board": {
+    "defaultMessage": "Prepare board",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
+  "transfer-phase-files": {
+    "defaultMessage": "Write files",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
+  "transfer-phase-flush": {
+    "defaultMessage": "Finish saving",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
+  "transfer-phase-libraries": {
+    "defaultMessage": "Prepare libraries",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
+  "transfer-phase-start": {
+    "defaultMessage": "Start program",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
+  },
+  "transfer-phase-verify": {
+    "defaultMessage": "Check files on the senseBox",
+    "description": "CircuitPython transfer progress; phase-local counts do not indicate that MCU verification has finished."
   },
   "try-again-action": {
     "defaultMessage": "Try again",

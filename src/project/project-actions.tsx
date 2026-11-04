@@ -76,8 +76,10 @@ import ProjectNameQuestion from "./ProjectNameQuestion";
 import WebUSBErrorDialog from "../workbench/connect-dialogs/WebUSBErrorDialog";
 import {
   CircuitPythonError,
+  CircuitPythonFlashOptions,
   WebFileSystemConnection,
 } from "../device/web-file-system-device";
+import CircuitPythonTransferProgress from "./CircuitPythonTransferProgress";
 import reconnectWebm from "../workbench/connect-dialogs/reconnect.webm";
 import reconnectMp4 from "../workbench/connect-dialogs/reconnect.mp4";
 
@@ -575,6 +577,7 @@ export class ProjectActions {
         </Text>
       );
       const progress = (stage: ProgressStage, value?: number) => {
+        if (this.device instanceof WebFileSystemConnection) return;
         const isPartial = stage === ProgressStage.PartialFlashing;
         const isFlashing = isPartial || stage === ProgressStage.FullFlashing;
         // An undefined value for a flashing stage signals completion; hold the
@@ -587,10 +590,25 @@ export class ProjectActions {
           });
         }
       };
-      await this.device.flash(this.fs.asFlashDataSource(), {
+      const flashOptions: CircuitPythonFlashOptions = {
         partial: true,
         progress,
-      });
+      };
+      if (this.device instanceof WebFileSystemConnection) {
+        flashOptions.transferProgress = (state) =>
+          this.dialogs.progress({
+            header: flashingCode,
+            body: <CircuitPythonTransferProgress {...state} />,
+            progress: state.total
+              ? (state.completed ?? 0) / state.total
+              : undefined,
+            indeterminate: state.phase !== "files" || !state.total,
+            progressLabel: this.intl.formatMessage({
+              id: `transfer-phase-${state.phase}`,
+            }),
+          });
+      }
+      await this.device.flash(this.fs.asFlashDataSource(), flashOptions);
       this.actionFeedback.success({
         title: this.intl.formatMessage({
           id: "circuitpython-transfer-complete",

@@ -64,8 +64,9 @@ const useIsExpanded = () => {
 };
 
 const useCodeEmbedContext = () => {
-  const { parentSlug, toolkitType, title } = useContext(DocumentationContext);
-  return { parentSlug, toolkitType, title };
+  const { parentSlug, toolkitType, title, sectionId } =
+    useContext(DocumentationContext);
+  return { parentSlug, toolkitType, title, sectionId };
 };
 
 const DocumentationApiLinkMark = (

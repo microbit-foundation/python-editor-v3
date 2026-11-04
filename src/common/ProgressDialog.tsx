@@ -3,7 +3,13 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Modal, ModalBody, ModalHeader, ProgressBar } from "@microbit/ui";
+import {
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ProgressBar,
+  Spinner,
+} from "@microbit/ui";
 import { ReactNode } from "react";
 import { useIntl } from "react-intl";
 import { VStack } from "styled-system/jsx";
@@ -14,6 +20,8 @@ export interface ProgressDialogParameters {
   header: ReactNode;
   body?: ReactNode;
   progress?: number;
+  indeterminate?: boolean;
+  progressLabel?: string;
 }
 
 interface ProgressDialogProps extends ProgressDialogParameters {
@@ -28,6 +36,8 @@ const ProgressDialog = ({
   header,
   body,
   progress,
+  indeterminate,
+  progressLabel,
 }: ProgressDialogProps) => {
   const intl = useIntl();
   return (
@@ -53,10 +63,20 @@ const ProgressDialog = ({
           alignItems="flex-start"
         >
           {body}
-          <ProgressBar
-            value={(progress ?? 0) * 100}
-            aria-label={intl.formatMessage({ id: "loading" })}
-          />
+          {indeterminate ? (
+            <Spinner
+              aria-label={
+                progressLabel ?? intl.formatMessage({ id: "loading" })
+              }
+            />
+          ) : (
+            <ProgressBar
+              value={(progress ?? 0) * 100}
+              aria-label={
+                progressLabel ?? intl.formatMessage({ id: "loading" })
+              }
+            />
+          )}
         </VStack>
       </ModalBody>
     </Modal>

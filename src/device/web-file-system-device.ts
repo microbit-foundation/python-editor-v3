@@ -38,6 +38,25 @@ type FileWriteOperation =
   | "write-file"
   | "close-file";
 
+export const circuitPythonTransferPhases = [
+  "libraries",
+  "board",
+  "files",
+  "flush",
+  "verify",
+  "start",
+] as const;
+export type CircuitPythonTransferPhase =
+  typeof circuitPythonTransferPhases[number];
+export interface CircuitPythonTransferProgress {
+  phase: CircuitPythonTransferPhase;
+  completed?: number;
+  total?: number;
+}
+export interface CircuitPythonFlashOptions extends FlashOptions {
+  transferProgress?: (progress: CircuitPythonTransferProgress) => void;
+}
+
 interface FileWriteDetails {
   fileName: string;
   operation: FileWriteOperation;
@@ -237,7 +256,7 @@ export class WebFileSystemConnection
 
   async flash(
     _dataSource: FlashDataSource,
-    options: FlashOptions
+    options: CircuitPythonFlashOptions
   ): Promise<void> {
     if (this.flashing) return;
     if (!this.port) throw new CircuitPythonError("not-connected");
@@ -245,6 +264,7 @@ export class WebFileSystemConnection
     this.flashing = true;
     this.options.logging.event({ type: "webfilesystem-flash" });
     try {
+      options.transferProgress?.({ phase: "libraries" });
       const project = await this.options.files();
       let libraries: Record<string, Uint8Array> = {};
       try {
@@ -265,20 +285,34 @@ export class WebFileSystemConnection
       entries.sort(
         ([a], [b]) => Number(a === "code.py") - Number(b === "code.py")
       );
+      options.transferProgress?.({ phase: "board" });
       await this.enterRepl();
       let completed = 0;
-      const changed: [string, Uint8Array][] = [];
+      options.transferProgress?.({
+        phase: "files",
+        completed,
+        total: entries.length,
+      });
       for (const [name, content] of entries) {
-        if (await this.writeProjectFile(this.directoryHandle, name, content))
-          changed.push([name, content]);
+        await this.writeProjectFile(this.directoryHandle, name, content);
+        completed++;
         options.progress?.(
           ProgressStage.PartialFlashing,
-          ++completed / entries.length
+          completed / entries.length
         );
+        options.transferProgress?.({
+          phase: "files",
+          completed,
+          total: entries.length,
+        });
       }
-      if (changed.length && this.options.flushHostFiles) {
+      // Equal host bytes may still be dirty in the OS cache, especially after
+      // a previous verification timeout or a save through another editor.
+      // Flush every required file, while still skipping identical writes.
+      options.transferProgress?.({ phase: "flush" });
+      if (entries.length && this.options.flushHostFiles) {
         try {
-          await this.options.flushHostFiles(this.directoryHandle, changed);
+          await this.options.flushHostFiles(this.directoryHandle, entries);
         } catch (cause) {
           this.options.logging.error(
             "Local CircuitPython host flush unavailable",
@@ -287,12 +321,14 @@ export class WebFileSystemConnection
         }
       }
       // Keep internal read/checksum commands out of the user's terminal.
+      options.transferProgress?.({ phase: "verify" });
       this.checkingFiles = true;
       try {
         await this.waitForDeviceFiles(entries);
       } finally {
         this.checkingFiles = false;
       }
+      options.transferProgress?.({ phase: "start" });
       await this.restartAfterTransfer();
       options.progress?.(ProgressStage.PartialFlashing, undefined);
       this.options.logging.event({ type: "webfilesystem-flash-complete" });

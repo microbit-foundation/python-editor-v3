@@ -266,7 +266,7 @@ reading old dashboards.
 
 ### CircuitPython / senseBox connection flow
 
-The top-right button opens the shared Web Serial connection (`task: connect`)
+The bottom-left connection button opens the shared Web Serial connection (`task: connect`)
 without transferring project files. Cancelling the serial picker does not emit
 `device_success`. The lower **Transfer code** button writes project files through
 File System Access (`task: download`). The legacy `transport: web_usb` value is

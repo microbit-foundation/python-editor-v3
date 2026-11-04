@@ -35,7 +35,9 @@ Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 On Linux, this local development server also accelerates senseBox transfers by
-flushing the changed CIRCUITPY files and their directory after the browser save.
+flushing all required CIRCUITPY files and their directories after the browser save,
+including byte-identical files skipped during writing. This also flushes pending
+OS writes when retrying a previous transfer.
 This avoids waiting for delayed Linux writeback without changing mount options.
 The helper accepts only local requests from the same origin and checks the selected
 board identity and file hashes. MCU verification still runs before restarting.
@@ -56,10 +58,45 @@ The bundled third-party assets retain their individual licenses and notices unde
 Regenerate the pinned assets with `python3 tools/prepare-circuitpython-libraries.py`;
 the script verifies the upstream archives and regenerates the catalog and hashes.
 
+Autocomplete, parameter help and diagnostics use CircuitPython 10.3 type data for
+the senseBox MCU-S2 and the drivers used in the bundled sensor/module examples.
+Transfers display each preparation, writing, verification and startup phase.
+See [CircuitPython code help and transfer phases](docs/circuitpython-code-help.md)
+for coverage, sources and regeneration instructions.
+
 The page will reload if you make edits.
 
 This does not show TypeScript or lint errors.
 Use the eslint plugin for your editor and consider also running `npm run typecheck:watch` to see full type checking errors.
+
+### Linux: the serial port cannot be opened
+
+The browser needs operating-system permission to read and write the senseBox
+serial device, in addition to the browser's device-selection permission. If the
+device (for example `/dev/ttyACM0`) belongs to `root:dialout` with mode `0660`,
+your user must be a member of `dialout` or have an explicit ACL granting access.
+
+For ongoing access on a system using `dialout`:
+
+```sh
+sudo usermod -aG dialout "$USER"
+```
+
+Sign out of the desktop session and sign in again, then reopen the browser.
+Opening a new terminal alone does not update the groups of an already running
+browser.
+
+For immediate access without restarting the desktop session, an administrator can
+grant access to just the currently attached device:
+
+```sh
+sudo setfacl -m u:"$USER":rw /dev/ttyACM0
+```
+
+Verify that `/dev/ttyACM0` is the senseBox first (for example through
+`/dev/serial/by-id/`). This ACL is temporary and is lost when the device is
+removed or its device node is recreated. Reconnect with **Connect senseBox** at
+the bottom left. Connecting does not transfer code.
 
 ### `npm test`
 

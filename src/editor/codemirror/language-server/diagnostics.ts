@@ -10,6 +10,8 @@ import { positionToOffset } from "./positions";
 import { MicrobitUSBConnection } from "@microbit/microbit-connection/usb";
 import { ConnectionStatus } from "@microbit/microbit-connection";
 import circuitPythonLibraryCatalog from "../../../device/libraries/catalog.json";
+import { IntlShape } from "react-intl";
+import { missingSensorInitialization } from "../sensor-snippets";
 
 const reportMicrobitVersionApiUnsupported =
   "reportMicrobitVersionApiUnsupported";
@@ -61,27 +63,13 @@ const isCircuitPythonImport = (line: string) => {
 const isCircuitPythonDiagnostic = (
   document: Text,
   from: number,
-  to: number,
+  _to: number,
   code: LSP.Diagnostic["code"]
 ) => {
   const line = document.lineAt(from).text;
-  const highlighted = document.sliceString(from, to);
-  const timeFunction = /\btime\.(?:monotonic|struct_time|mktime)\b/;
-  const neoPixelOption = /^(?:brightness|pixel_order|auto_write|GRB)$/.test(
-    highlighted
-  );
-  const precedingSource = document.sliceString(Math.max(0, from - 1_000), from);
-  return (
-    (code === "reportMissingImports" && isCircuitPythonImport(line)) ||
-    ((code === "reportAttributeAccessIssue" ||
-      code === "reportGeneralTypeIssues" ||
-      code === "reportCallIssue" ||
-      code === "reportArgumentType") &&
-      (timeFunction.test(line) ||
-        (neoPixelOption &&
-          precedingSource.lastIndexOf("neopixel.NeoPixel(") >
-            precedingSource.lastIndexOf(")"))))
-  );
+  // Catalog-only libraries may not have editor types yet. Real attribute/call
+  // diagnostics for typed CircuitPython APIs must remain visible.
+  return code === "reportMissingImports" && isCircuitPythonImport(line);
 };
 
 const severityMapping = {
@@ -96,7 +84,8 @@ export const diagnosticsMapping = (
   lspDiagnostics: LSP.Diagnostic[],
   device: MicrobitUSBConnection,
   warnOnV2OnlyFeatures: boolean,
-  warnOnV2OnlyFeaturesAction: () => Action
+  warnOnV2OnlyFeaturesAction: () => Action,
+  intl?: IntlShape
 ): Diagnostic[] =>
   lspDiagnostics
     .map(({ range, message, severity, tags, code }): Diagnostic | undefined => {
@@ -118,15 +107,47 @@ export const diagnosticsMapping = (
         if (isCircuitPythonDiagnostic(document, from, to, code)) {
           return undefined;
         }
+        const sensor =
+          code === "reportUndefinedVariable"
+            ? missingSensorInitialization(document.toString(), from, to)
+            : undefined;
         return {
           from,
           to,
           // Missing severity is client defined. Warn for now.
           severity: severityMapping[severity ?? LSP.DiagnosticSeverity.Warning],
-          message: typeof message === "string" ? message : message.value,
+          message:
+            sensor && intl
+              ? intl.formatMessage(
+                  { id: "sensor-initialization-missing" },
+                  {
+                    variable: sensor.variable,
+                    block: intl.locale.startsWith("de")
+                      ? sensor.block
+                      : sensor.englishBlock,
+                  }
+                )
+              : typeof message === "string"
+              ? message
+              : message.value,
           tags: tags ? tags.map(convertTag) : undefined,
           actions:
-            code === reportMicrobitVersionApiUnsupported
+            sensor && intl
+              ? [
+                  {
+                    name: intl.formatMessage({
+                      id: "sensor-initialization-show",
+                    }),
+                    apply: () => {
+                      window.document.dispatchEvent(
+                        new CustomEvent("cm/openDocs", {
+                          detail: { tab: "sensoren", id: sensor.slug },
+                        })
+                      );
+                    },
+                  },
+                ]
+              : code === reportMicrobitVersionApiUnsupported
               ? [warnOnV2OnlyFeaturesAction()]
               : [],
         };

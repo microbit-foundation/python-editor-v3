@@ -137,6 +137,36 @@ for i in range(10): print(i)
 - Slugs must be unique within a section. A duplicate entry slug is
   automatically prefixed with the topic slug.
 
+## Combining sensor blocks
+
+Dragging a block from the `sensoren` section into the editor, or copying it with
+the editor's **Copy code** action and pasting it there, combines its setup with
+the current file. Ordinary clipboard text and blocks from other sections retain
+their existing insertion behavior.
+
+- Recognized initialization is placed at module level before the main loop.
+- Identical buses, power-pin objects and sensor constructors are reused, including
+  objects with different variable names. Comparisons use Python syntax and imported
+  names, not a text search. Different pins, addresses or bus configurations are
+  kept separate, with a fresh variable name when necessary.
+- Measurement blocks can use an existing sensor under another name when exactly
+  one matching sensor constructor is found. Multiple matching sensors require
+  the author to choose the object explicitly.
+- Only unconditional setup before the first compound statement is reused. Local,
+  conditional, reassigned and deinitialized objects are not assumed reusable.
+  Incomplete Python and snippets with locally rebound setup names retain ordinary
+  insertion behavior. Existing project text is never rewritten by the combination.
+- An undefined sensor object reported by the language server gets a localized
+  initialization hint and an action opening the corresponding documentation block.
+  These hints do not check whether physical hardware is connected.
+
+The supported constructor names, default object names and initialization links are
+listed in `src/editor/codemirror/sensor-snippets.ts`. Update that list when adding
+a sensor, and keep its block title/slug in sync with the content. The shipped
+initialization blocks are exercised in pairwise combination tests. Generic Python
+dependency analysis and arbitrary custom initialization routines are outside this
+feature.
+
 ## Cards
 
 One Markdown file per card:

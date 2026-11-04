@@ -1,5 +1,78 @@
 # senseBox connection and code transfer
 
+## 2026-11-04 — CircuitPython code help and transfer phases
+
+- The language server now uses bundled CircuitPython 10.3.0 core type data, the
+  official MCU-S2 pin definition and 15 sidebar driver/dependency modules instead
+  of micro:bit-only APIs. The local types retain source provenance and licenses;
+  generation parses pinned sources without executing them or changing transfer
+  assets. User project modules and project `lib/` take priority over driver types.
+- Removed the old blanket time/NeoPixel diagnostic suppression. Valid
+  CircuitPython APIs are described by actual types; genuine argument and
+  attribute mistakes remain visible. Detailed coverage and maintenance notes:
+  [CircuitPython code help](circuitpython-code-help.md).
+- The optional transfer callback reports library preparation, board preparation,
+  file processing, host synchronization, MCU verification and program start.
+  The dialog highlights the current phase, shows file-local counts while writing
+  and labeled spinners during work of unknown duration. The verification phase
+  explains the existing 60-second deadline. File completion does not imply that
+  the board has verified the project or started the program.
+- Serial connection, directory selection, byte comparison, library preparation
+  before writes, host flushing, checksum/size gate, normal REPL acknowledgement
+  and restart behavior are retained. New editor type files are never installed
+  on the board. No new analytics events or program-content logging were added.
+- Validation: all 535 unit tests, five headless Chrome code-help/progress cases,
+  TypeScript, ESLint, translation checks and production build passed. Browser
+  cases exercise the real language-server worker and simulated board APIs.
+  The verification dialog was visually inspected. Regenerating the type data
+  produced identical bytes; all 198 generated type files parse without execution.
+
+## 2026-11-04 — Flush equal required files before MCU verification
+
+- The user reported a 30–45-second local Linux transfer ending in a `sync` error.
+  The host volume was writable and visible to the Vite server. A request using
+  the exact boot marker and the existing 162-byte `code.py` received HTTP 204
+  from the flush helper in 79 ms. The user reported a successful transfer after
+  that diagnostic flush. This is consistent with delayed host writeback, but is
+  not proof of the cause of the earlier failure.
+- The transfer previously called the optional host helper only for newly written
+  files. If the prior attempt had saved the bytes but timed out verifying them,
+  a retry could see equal host bytes, skip writing and skip flushing as well.
+  Other editors can leave equal bytes pending in the OS cache too.
+- The local helper now receives all required project/library entries after the
+  existing fresh byte comparison and writes. Equal files remain unwritten.
+  Helper validation still checks board identity, paths, sizes and SHA-256 before
+  synchronizing files and directories. Hosted builds retain their normal path.
+- The authoritative MCU size/checksum gate, repeated matching interval, 60-second
+  visibility deadline, normal REPL confirmation and restart checks remain in place.
+  A host-flush acknowledgement cannot cause a restart without MCU confirmation.
+- Regression coverage includes all-equal transfers, a retry after helper failure
+  and a verification timeout, and unchanged browser writes on a second transfer.
+  Physical diagnostics only synchronized the existing file; they did not change
+  the user's program or request a restart.
+- Validation: 61 targeted device/host-flush unit tests and two headless Chrome
+  transfer/library scenarios passed. Browser tests use simulated serial and drive
+  APIs; the actual helper endpoint was checked separately on the host. TypeScript,
+  ESLint, formatting/diff checks and the production build passed.
+
+## 2026-11-04 — Connection button location and Linux serial permissions
+
+- German and English connection-error messages now point to the connection
+  button at the bottom left, matching the current action bar. The shared serial
+  connection and separate directory-selection / transfer actions are unchanged.
+- A host-side read-only investigation found the attached senseBox MCU-S2 as
+  `/dev/ttyACM0`, with the expected USB vendor/product IDs `303a:81b9`.
+  The device node was owned by `root:dialout` with mode `0660`, without a user
+  ACL. The current user was not in `dialout`, so it lacked OS-level serial access.
+- README documents permanent group membership with a fresh desktop login and
+  a temporary per-device ACL for immediate access. Setting either requires
+  administrator authentication; the editor cannot grant itself those rights.
+  No board files or serial commands were written during this investigation.
+- After the user applied the per-device ACL, the host confirmed read/write
+  permission and successfully opened and closed the serial port without sending
+  any data. The port was left closed for the browser to reconnect. This verifies
+  OS-level access; the browser's physical-device chooser was not automated.
+
 ## 2026-10-23 — Recognise CircuitPython modules in editor diagnostics
 
 - Suppressed missing-import diagnostics only for CircuitPython built-ins and

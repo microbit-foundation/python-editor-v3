@@ -28,7 +28,6 @@ import {
   TextDocumentItem,
 } from "vscode-languageserver-protocol";
 import { retryAsyncLoad } from "../common/chunk-util";
-import { microPythonConfig } from "../micropython/micropython";
 import {
   isErrorDueToDispose,
   OfflineError,
@@ -207,25 +206,25 @@ export class LanguageServerClient extends TypedEventTarget<EventMap> {
   }
 
   private async getInitializationOptions(): Promise<any> {
-    const branch = microPythonConfig.stubs;
     let typeshed;
     try {
       typeshed = await retryAsyncLoad(() => {
-        return import(`../micropython/${branch}/typeshed.${this.locale}.json`);
+        return import(`../micropython/main/typeshed.${this.locale}.json`);
       });
     } catch (err) {
       if (err instanceof OfflineError) {
         showOfflineLanguageToast(this.toast);
         typeshed = await import(
-          `../micropython/${branch}/typeshed.${fallbackLocale}.json`
+          `../micropython/main/typeshed.${fallbackLocale}.json`
         );
       } else {
         throw err;
       }
     }
+    const { circuitPythonTypeshed } = await import("./circuitpython/typeshed");
     return {
       // Shallow copy as it's an ESM that can't be serialized
-      files: { files: typeshed.files },
+      files: { files: circuitPythonTypeshed(typeshed.files) },
       // Custom option in our Pyright version
       diagnosticStyle: "simplified",
     };
