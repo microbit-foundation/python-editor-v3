@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { usePrevious } from "@microbit/ui";
+import { darkSurface, usePrevious } from "@microbit/ui";
 import {
   ReactNode,
   useCallback,
@@ -256,7 +256,7 @@ const SideBar = ({
               />
             ))}
           </TabList>
-          <VStack mt="4" mb="1" gap="0.5" color="white">
+          <VStack {...darkSurface} mt="4" mb="1" gap="0.5" color="white">
             <SettingsMenu size="lg" />
             <HelpMenu size="lg" />
           </VStack>
