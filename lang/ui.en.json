@@ -87,6 +87,10 @@
     "defaultMessage": "Cancel",
     "description": "Cancel button text"
   },
+  "choose-file-menu": {
+    "defaultMessage": "{filename}, choose a file",
+    "description": "Accessible name of the open file's name above the editor, which opens a menu of the project's files"
+  },
   "choose-main-add-file": {
     "defaultMessage": "Add file {name}",
     "description": "Shown in load dialog to confirm actions"
@@ -386,6 +390,10 @@
   "font-size": {
     "defaultMessage": "Font size",
     "description": "Font size option text"
+  },
+  "go-to-files-action": {
+    "defaultMessage": "Go to files",
+    "description": "Item in the menu of the project's files above the editor; opens the Files tab"
   },
   "guide-link": {
     "defaultMessage": "For more support, see the <link>Python Editor guide</link>",

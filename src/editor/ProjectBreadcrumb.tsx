@@ -3,9 +3,23 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Icon } from "@microbit/ui";
-import { useLayoutEffect, useRef, useState } from "react";
-import { RiArrowRightSLine, RiHome2Line } from "react-icons/ri";
+import {
+  Button,
+  Icon,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
+  Text,
+} from "@microbit/ui";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import {
+  RiArrowDownSLine,
+  RiArrowRightSLine,
+  RiCheckLine,
+  RiHome2Line,
+} from "react-icons/ri";
+import { VscFiles } from "react-icons/vsc";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link as RouterLink } from "react-router";
 import { css, cx } from "styled-system/css";
@@ -14,9 +28,10 @@ import { button } from "styled-system/recipes";
 import { MAIN_FILE } from "../fs/fs";
 import { useProjectsDatabaseActive } from "../fs/storage-status";
 import { useIframeMode } from "../iframe-mode-hooks";
+import { useProject } from "../project/project-hooks";
 import ProjectNameEditable from "../project/ProjectNameEditable";
+import { useRouterState } from "../router-hooks";
 import { createHomePageUrl } from "../urls";
-import ActiveFileInfo from "./ActiveFileInfo";
 
 /**
  * How far the crumbs have given way to fit: Home loses its label, then the
@@ -73,24 +88,29 @@ const ProjectBreadcrumb = ({
 
   const crumbs = { filename, onSelectedFileChanged };
   return (
-    <Box
-      ref={containerRef}
-      position="relative"
-      flex="1 1 0"
-      minW="0"
-      overflow="hidden"
-    >
+    <Box ref={containerRef} position="relative" flex="1 1 0" minW="0">
       <Crumbs {...crumbs} squeeze={squeeze} shown />
-      <Measure ref={fullRef}>
-        <Crumbs {...crumbs} squeeze={0} />
-      </Measure>
-      <Measure ref={homeIconRef}>
-        <Crumbs {...crumbs} squeeze={1} />
-      </Measure>
-      {/* No width, so the name shrinks to its narrowest. */}
-      <Measure ref={narrowestRef} narrowest>
-        <Crumbs {...crumbs} squeeze={2} />
-      </Measure>
+      {/* Clips the copies, which can be wider than the space, here rather
+          than on the crumbs, whose focus rings it would cut off. */}
+      <Box
+        position="absolute"
+        top="0"
+        left="0"
+        width="0"
+        height="0"
+        overflow="hidden"
+      >
+        <Measure ref={fullRef}>
+          <Crumbs {...crumbs} squeeze={0} />
+        </Measure>
+        <Measure ref={homeIconRef}>
+          <Crumbs {...crumbs} squeeze={1} />
+        </Measure>
+        {/* No width, so the name shrinks to its narrowest. */}
+        <Measure ref={narrowestRef} narrowest>
+          <Crumbs {...crumbs} squeeze={2} />
+        </Measure>
+      </Box>
     </Box>
   );
 };
@@ -155,13 +175,28 @@ const Crumbs = ({
           squeeze === 3 ? "collapse" : squeeze === 2 ? "truncate" : "none"
         }
       />
+      <Separator />
+      <FileCrumb
+        filename={filename}
+        onSelectedFileChanged={onSelectedFileChanged}
+      />
       {filename !== MAIN_FILE && (
         <>
-          <Separator />
-          <ActiveFileInfo
-            filename={filename}
-            onSelectedFileChanged={onSelectedFileChanged}
-          />
+          <Text as="span" flexShrink={0}>
+            —
+          </Text>
+          <Button
+            variant="unstyled"
+            css={{
+              flexShrink: 0,
+              fontWeight: "normal",
+              textDecoration: "underline",
+              whiteSpace: "nowrap",
+            }}
+            onPress={() => onSelectedFileChanged(MAIN_FILE)}
+          >
+            <FormattedMessage id="back-to-main" />
+          </Button>
         </>
       )}
     </HStack>
@@ -190,6 +225,79 @@ const HomeCrumb = ({ showLabel }: { showLabel: boolean }) => {
       <RiHome2Line aria-hidden />
       {showLabel && <FormattedMessage id="home-action" />}
     </RouterLink>
+  );
+};
+
+/**
+ * The open file, as a menu of the project's files and a way to the Files
+ * tab.
+ */
+const FileCrumb = ({
+  filename,
+  onSelectedFileChanged,
+}: ProjectBreadcrumbProps) => {
+  const intl = useIntl();
+  const { files } = useProject();
+  const [, setRouterState] = useRouterState();
+  const goToFiles = useCallback(() => {
+    // After the menu has returned focus to this trigger, so the Files
+    // panel keeps it.
+    requestAnimationFrame(() =>
+      setTimeout(() => setRouterState({ tab: "project", focus: true }, "user"))
+    );
+  }, [setRouterState]);
+  const isMain = filename === MAIN_FILE;
+  return (
+    <MenuTrigger>
+      <Button
+        variant="ghost"
+        size="md"
+        aria-label={intl.formatMessage(
+          { id: "choose-file-menu" },
+          { filename }
+        )}
+        endIcon={<Icon as={RiArrowDownSLine} />}
+        css={{
+          flexShrink: 0,
+          px: "2",
+          // Literals so Panda can extract both.
+          fontWeight: isMain ? "normal" : "semibold",
+          color: isMain ? "gray.600" : "gray.800",
+        }}
+      >
+        <Text
+          as="span"
+          maxWidth="15ch"
+          textOverflow="ellipsis"
+          overflowX="hidden"
+          whiteSpace="nowrap"
+        >
+          {filename}
+        </Text>
+      </Button>
+      <MenuList>
+        {files.map((file) => (
+          <MenuItem
+            key={file.name}
+            id={file.name}
+            textValue={file.name}
+            icon={file.name === filename ? <Icon as={RiCheckLine} /> : <Box />}
+            onAction={() => onSelectedFileChanged(file.name)}
+          >
+            {file.name}
+          </MenuItem>
+        ))}
+        <MenuDivider />
+        <MenuItem
+          id="go-to-files"
+          textValue={intl.formatMessage({ id: "go-to-files-action" })}
+          icon={<Icon as={VscFiles} />}
+          onAction={goToFiles}
+        >
+          <FormattedMessage id="go-to-files-action" />
+        </MenuItem>
+      </MenuList>
+    </MenuTrigger>
   );
 };
 
