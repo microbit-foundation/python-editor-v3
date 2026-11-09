@@ -1,8 +1,13 @@
-[Settings]
 [build]
-command = "npm run ci"
+  command = "npm run build"
+  publish = "build"
+
 [build.environment]
+  NODE_VERSION = "24"
+  NPM_VERSION = "11.18.0"
   CI = "true"
+  BASE_URL = "/"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
