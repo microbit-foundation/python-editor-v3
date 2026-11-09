@@ -413,6 +413,12 @@
   "parameter-help-manual": {
     "defaultMessage": "Ręczny ({shortcut})"
   },
+  "parameter-help-shortcut": {
+    "defaultMessage": "Ctrl+Shift+Space"
+  },
+  "parameter-help-shortcut-mac": {
+    "defaultMessage": "Cmd+Shift+Space"
+  },
   "permanently-delete": {
     "defaultMessage": "Usuń na stałe {filename}?"
   },
@@ -557,6 +563,9 @@
   "serial-terminal": {
     "defaultMessage": "Terminal szeregowy"
   },
+  "serial-terminal-resize": {
+    "defaultMessage": "Zmień rozmiar terminala szeregowego"
+  },
   "setting-allow-editing-third-party": {
     "defaultMessage": "Zezwalaj na edycję modułów innych firm"
   },
@@ -595,6 +604,9 @@
   },
   "sidebar-expand": {
     "defaultMessage": "Poszerz pasek boczny"
+  },
+  "sidebar-resize": {
+    "defaultMessage": "Zmień rozmiar paska bocznego"
   },
   "simulator-accelerometer": {
     "defaultMessage": "Akcelerometr"
@@ -757,6 +769,9 @@
   },
   "simulator-reset": {
     "defaultMessage": "Reset"
+  },
+  "simulator-resize": {
+    "defaultMessage": "Zmień rozmiar symulatora"
   },
   "simulator-serial-terminal": {
     "defaultMessage": "Terminal szeregowy symulatora"
