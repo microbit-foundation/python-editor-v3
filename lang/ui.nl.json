@@ -413,6 +413,12 @@
   "parameter-help-manual": {
     "defaultMessage": "Handleiding ({shortcut})"
   },
+  "parameter-help-shortcut": {
+    "defaultMessage": "Ctrl+Shift+Spatie"
+  },
+  "parameter-help-shortcut-mac": {
+    "defaultMessage": "Cmd+Shift+Spatie"
+  },
   "permanently-delete": {
     "defaultMessage": "Definitief verwijderen {filename}?"
   },
@@ -557,6 +563,9 @@
   "serial-terminal": {
     "defaultMessage": "Seriële terminal"
   },
+  "serial-terminal-resize": {
+    "defaultMessage": "Formaat seriële terminal wijzigen"
+  },
   "setting-allow-editing-third-party": {
     "defaultMessage": "Sta modules van derden toe"
   },
@@ -595,6 +604,9 @@
   },
   "sidebar-expand": {
     "defaultMessage": "Zijbalk uitvouwen"
+  },
+  "sidebar-resize": {
+    "defaultMessage": "Formaat zijbalk wijzigen"
   },
   "simulator-accelerometer": {
     "defaultMessage": "Acceleratiemeter"
@@ -757,6 +769,9 @@
   },
   "simulator-reset": {
     "defaultMessage": "Resetten"
+  },
+  "simulator-resize": {
+    "defaultMessage": "Formaat simulator wijzigen"
   },
   "simulator-serial-terminal": {
     "defaultMessage": "Simulator seriële terminal"
