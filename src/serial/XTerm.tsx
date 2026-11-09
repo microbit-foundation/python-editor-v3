@@ -14,6 +14,7 @@ import useIsUnmounted from "../common/use-is-unmounted";
 import { backgroundColorTerm } from "../deployment/misc";
 import { SerialData } from "@microbit/microbit-connection/usb";
 import { parseTraceLine, useDevice } from "../device/device-hooks";
+import { SimulatorDeviceConnection } from "../device/simulator";
 import { useSelection } from "../workbench/use-selection";
 import { WebLinkProvider } from "./link-provider";
 import { useCurrentTerminalRef } from "./serial-hooks";
@@ -104,9 +105,20 @@ const useManagedTermimal = (
       customKeyEventHandler(e, tabOutRef)
     );
 
+    // The simulator waits for us to acknowledge serial output so a busy
+    // program can't send it faster than we can write it.
+    const acknowledge = (length: number) => {
+      if (device instanceof SimulatorDeviceConnection) {
+        device.acknowledgeSerialOutput(length);
+      }
+    };
     const serialListener = (event: SerialData) => {
+      const { length } = event.data;
       if (!isUnmounted()) {
-        terminal.write(event.data);
+        terminal.write(event.data, () => acknowledge(length));
+      } else {
+        // Discarded, but still acknowledged so the simulator doesn't wait.
+        acknowledge(length);
       }
     };
     const resetListener = () => {

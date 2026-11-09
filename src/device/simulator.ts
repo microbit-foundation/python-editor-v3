@@ -120,6 +120,11 @@ export type SensorStateKey = Extract<
 interface Config {
   language: string;
   translations: Record<string, string>;
+  /**
+   * If true, the simulator waits for serial output to be acknowledged via
+   * acknowledgeSerialOutput rather than limiting it to the device's baud rate.
+   */
+  serialFlowControl: boolean;
 }
 
 export interface DataLog {
@@ -316,6 +321,19 @@ export class SimulatorDeviceConnection
   async disconnect(): Promise<void> {
     window.removeEventListener("message", this.messageListener);
     this.setStatus(ConnectionStatus.Disconnected);
+  }
+
+  /**
+   * Acknowledge serial output once it's been processed, so the simulator can
+   * send more.
+   *
+   * @param length The total length of the serial data processed.
+   */
+  acknowledgeSerialOutput(length: number): void {
+    // The iframe may have gone by the time the terminal finishes writing.
+    if (this.iframe()) {
+      this.postMessage("serial_output_ack", { length });
+    }
   }
 
   async serialWrite(data: string): Promise<void> {

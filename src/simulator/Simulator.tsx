@@ -45,10 +45,16 @@ const Simulator = ({
     const staging =
       "https://python-simulator.usermbit.org/staging/simulator.html?flag=sw";
 
-    // For testing with sim branches:
-    //const branch = "upgrade-mpy";
-    //const url = new URL(`https://review-python-simulator.usermbit.org/${branch}/simulator.html`);
-    const url = new URL(stage === "PRODUCTION" ? production : staging);
+    // For testing with sim branches.
+    // TODO: remove before merge, once the simulator is released.
+    const branch: string | undefined = "serial-output-flow-control";
+    const url = new URL(
+      branch
+        ? `https://review-python-simulator.usermbit.org/${branch}/simulator.html`
+        : stage === "PRODUCTION"
+        ? production
+        : staging
+    );
     url.searchParams.append("color", brand500);
     return url.toString();
   }, [brand500]);
@@ -163,6 +169,8 @@ const updateTranslations = (
         intl.formatMessage({ id: "simulator-" + k }),
       ])
     ),
+    // The terminal acknowledges serial output (see XTerm.tsx).
+    serialFlowControl: true,
   };
   simulator.configure(config);
 };
