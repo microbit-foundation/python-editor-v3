@@ -391,10 +391,6 @@
     "defaultMessage": "Font size",
     "description": "Font size option text"
   },
-  "go-to-files-action": {
-    "defaultMessage": "Go to files",
-    "description": "Item in the menu of the project's files above the editor; opens the Files tab"
-  },
   "guide-link": {
     "defaultMessage": "For more support, see the <link>Python Editor guide</link>",
     "description": "Text with an external link to support/help content"
@@ -545,6 +541,10 @@
   "loading": {
     "defaultMessage": "Loading…",
     "description": "Shown on loading indicators"
+  },
+  "manage-project-files-action": {
+    "defaultMessage": "Manage project files",
+    "description": "Item in the menu of the project's files above the editor; opens the Files tab"
   },
   "mici-project-hot-potato-game-description": {
     "defaultMessage": "Play ‘hot potato’ using a micro:bit!",

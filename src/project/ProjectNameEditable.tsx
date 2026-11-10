@@ -5,7 +5,7 @@
  */
 import { IconButton, Text, Tooltip } from "@microbit/ui";
 import { ComponentProps, useCallback } from "react";
-import { RiEdit2Line, RiMoreLine } from "react-icons/ri";
+import { RiEdit2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
 import { HStack } from "styled-system/jsx";
 import { useProject, useProjectActions } from "./project-hooks";
@@ -17,11 +17,8 @@ interface ProjectNameEditableProps extends ComponentProps<typeof Text> {
   clickToEdit?: boolean;
   justifyContent?: HStackProps["justifyContent"];
   alignItems?: HStackProps["alignItems"];
-  /**
-   * How it gives way when space is short: the name truncates with an
-   * ellipsis, or collapses to a button that still opens the rename.
-   */
-  squeeze?: "none" | "truncate" | "collapse";
+  /** Whether the name truncates with an ellipsis when space is short. */
+  squeeze?: "none" | "truncate";
 }
 
 /**
@@ -58,13 +55,10 @@ const ProjectNameEditable = ({
         onPress={handleClick}
         aria-label={intl.formatMessage({ id: "edit-project-name-action" })}
       >
-        {squeeze === "collapse" ? <RiMoreLine /> : <RiEdit2Line />}
+        <RiEdit2Line />
       </IconButton>
     </Tooltip>
   );
-  if (squeeze === "collapse") {
-    return editButton;
-  }
   const text = (
     <Text
       key="text"
@@ -82,7 +76,7 @@ const ProjectNameEditable = ({
   );
   return (
     <HStack
-      gap="2.5"
+      gap="1"
       justifyContent={justifyContent}
       alignItems={alignItems}
       flexShrink={squeeze === "truncate" ? 1 : 0}

@@ -34,10 +34,14 @@ import { useRouterState } from "../router-hooks";
 import { createHomePageUrl } from "../urls";
 
 /**
- * How far the crumbs have given way to fit: Home loses its label, then the
- * project name truncates, then collapses.
+ * How far the crumbs have given way to fit. The project name gives way
+ * last: Home loses its label, then the back-to-main link goes, then the
+ * file collapses to an icon, then the project name truncates.
  */
-type Squeeze = 0 | 1 | 2 | 3;
+type Squeeze = 0 | 1 | 2 | 3 | 4;
+
+/** The steps measured for fit; past them the project name truncates. */
+const measuredSqueezes = [0, 1, 2, 3] as const;
 
 interface ProjectBreadcrumbProps {
   filename: string;
@@ -45,44 +49,33 @@ interface ProjectBreadcrumbProps {
 }
 
 /**
- * Home, the project name (which renames it) and, for a file other than
- * main.py, that file and a way back to main.py.
+ * Home, the project name (which renames it) and the open file (a menu of
+ * the project's files), with a way back to main.py from any other file.
  */
 const ProjectBreadcrumb = ({
   filename,
   onSelectedFileChanged,
 }: ProjectBreadcrumbProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const fullRef = useRef<HTMLDivElement>(null);
-  const homeIconRef = useRef<HTMLDivElement>(null);
-  const narrowestRef = useRef<HTMLDivElement>(null);
+  const measureRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [squeeze, setSqueeze] = useState<Squeeze>(0);
 
   // Hidden copies give the width each step needs, so the step is chosen in
   // one go as the space changes rather than by trying each in turn.
   useLayoutEffect(() => {
-    const elements = [containerRef, fullRef, homeIconRef, narrowestRef].map(
-      (ref) => ref.current
-    );
-    const [container, full, homeIcon, narrowest] = elements;
-    if (!container || !full || !homeIcon || !narrowest) {
+    const container = containerRef.current;
+    const copies = measureRefs.current;
+    if (!container || copies.some((copy) => !copy)) {
       return;
     }
     const update = () => {
       const available = container.clientWidth;
-      setSqueeze(
-        full.scrollWidth <= available
-          ? 0
-          : homeIcon.scrollWidth <= available
-          ? 1
-          : narrowest.scrollWidth <= available
-          ? 2
-          : 3
-      );
+      const fits = copies.findIndex((copy) => copy!.scrollWidth <= available);
+      setSqueeze((fits === -1 ? 4 : fits) as Squeeze);
     };
     update();
     const observer = new ResizeObserver(update);
-    elements.forEach((element) => observer.observe(element!));
+    [container, ...copies].forEach((element) => observer.observe(element!));
     return () => observer.disconnect();
   }, []);
 
@@ -100,16 +93,16 @@ const ProjectBreadcrumb = ({
         height="0"
         overflow="hidden"
       >
-        <Measure ref={fullRef}>
-          <Crumbs {...crumbs} squeeze={0} />
-        </Measure>
-        <Measure ref={homeIconRef}>
-          <Crumbs {...crumbs} squeeze={1} />
-        </Measure>
-        {/* No width, so the name shrinks to its narrowest. */}
-        <Measure ref={narrowestRef} narrowest>
-          <Crumbs {...crumbs} squeeze={2} />
-        </Measure>
+        {measuredSqueezes.map((step) => (
+          <Measure
+            key={step}
+            ref={(element) => {
+              measureRefs.current[step] = element;
+            }}
+          >
+            <Crumbs {...crumbs} squeeze={step} />
+          </Measure>
+        ))}
       </Box>
     </Box>
   );
@@ -118,11 +111,9 @@ const ProjectBreadcrumb = ({
 /** Out of sight and out of the tab order and accessibility tree. */
 const Measure = ({
   ref,
-  narrowest,
   children,
 }: {
   ref: React.Ref<HTMLDivElement>;
-  narrowest?: boolean;
   children: React.ReactNode;
 }) => (
   <Box
@@ -134,9 +125,7 @@ const Measure = ({
     visibility="hidden"
     pointerEvents="none"
     display="flex"
-    overflow="hidden"
-    // Literals so Panda can extract both.
-    width={narrowest ? "0" : "max-content"}
+    width="max-content"
   >
     {children}
   </Box>
@@ -171,16 +160,15 @@ const Crumbs = ({
         fontSize="xl"
         data-testid={shown ? "project-name" : undefined}
         clickToEdit
-        squeeze={
-          squeeze === 3 ? "collapse" : squeeze === 2 ? "truncate" : "none"
-        }
+        squeeze={squeeze === 4 ? "truncate" : "none"}
       />
       <Separator />
       <FileCrumb
         filename={filename}
         onSelectedFileChanged={onSelectedFileChanged}
+        iconOnly={squeeze >= 3}
       />
-      {filename !== MAIN_FILE && (
+      {filename !== MAIN_FILE && squeeze < 2 && (
         <>
           <Text as="span" flexShrink={0}>
             —
@@ -213,20 +201,36 @@ const HomeCrumb = ({ showLabel }: { showLabel: boolean }) => {
         button({ variant: "ghost", size: "md" }),
         css({
           flexShrink: 0,
-          gap: "2",
-          px: "2",
+          gap: "1",
+          pl: "0",
+          // Literals so Panda can extract both.
+          pr: showLabel ? "2" : "0",
           color: "brand.600",
           fontSize: "xl",
           fontWeight: "normal",
         })
       )}
     >
-      {/* 1em of the xl text, as the pencil and other button icons. */}
-      <RiHome2Line aria-hidden />
+      {/* In a box as the project name's pencil button, so the icon-to-text
+          spacing matches. */}
+      <Box
+        minW="10"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        aria-hidden
+      >
+        <RiHome2Line />
+      </Box>
       {showLabel && <FormattedMessage id="home-action" />}
     </RouterLink>
   );
 };
+
+interface FileCrumbProps extends ProjectBreadcrumbProps {
+  /** A file icon in place of the name, when space is short. */
+  iconOnly: boolean;
+}
 
 /**
  * The open file, as a menu of the project's files and a way to the Files
@@ -235,11 +239,12 @@ const HomeCrumb = ({ showLabel }: { showLabel: boolean }) => {
 const FileCrumb = ({
   filename,
   onSelectedFileChanged,
-}: ProjectBreadcrumbProps) => {
+  iconOnly,
+}: FileCrumbProps) => {
   const intl = useIntl();
   const { files } = useProject();
   const [, setRouterState] = useRouterState();
-  const goToFiles = useCallback(() => {
+  const manageFiles = useCallback(() => {
     // After the menu has returned focus to this trigger, so the Files
     // panel keeps it.
     requestAnimationFrame(() =>
@@ -265,15 +270,19 @@ const FileCrumb = ({
           color: isMain ? "gray.600" : "gray.800",
         }}
       >
-        <Text
-          as="span"
-          maxWidth="15ch"
-          textOverflow="ellipsis"
-          overflowX="hidden"
-          whiteSpace="nowrap"
-        >
-          {filename}
-        </Text>
+        {iconOnly ? (
+          <Icon as={VscFiles} aria-hidden css={{ fontSize: "xl" }} />
+        ) : (
+          <Text
+            as="span"
+            maxWidth="15ch"
+            textOverflow="ellipsis"
+            overflowX="hidden"
+            whiteSpace="nowrap"
+          >
+            {filename}
+          </Text>
+        )}
       </Button>
       <MenuList>
         {files.map((file) => (
@@ -289,12 +298,12 @@ const FileCrumb = ({
         ))}
         <MenuDivider />
         <MenuItem
-          id="go-to-files"
-          textValue={intl.formatMessage({ id: "go-to-files-action" })}
+          id="manage-files"
+          textValue={intl.formatMessage({ id: "manage-project-files-action" })}
           icon={<Icon as={VscFiles} />}
-          onAction={goToFiles}
+          onAction={manageFiles}
         >
-          <FormattedMessage id="go-to-files-action" />
+          <FormattedMessage id="manage-project-files-action" />
         </MenuItem>
       </MenuList>
     </MenuTrigger>
