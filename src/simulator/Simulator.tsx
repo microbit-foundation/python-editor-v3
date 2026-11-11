@@ -17,6 +17,7 @@ import SimulatorActionBar from "./SimulatorActionBar";
 import SimulatorSplitView from "./SimulatorSplitView";
 import SimSerialTabControlProvider from "./tab-control-hooks";
 import { stage } from "../environment";
+import { flags } from "../flags";
 
 export enum RunningStatus {
   RUNNING,
@@ -41,7 +42,7 @@ const Simulator = ({
   const brand500 = token("colors.brand.500");
   const url = useMemo(() => {
     const production =
-      "https://python-simulator.usermbit.org/v/0.1/simulator.html?flag=sw";
+      "https://python-simulator.usermbit.org/v/0.2/simulator.html?flag=sw";
     const staging =
       "https://python-simulator.usermbit.org/staging/simulator.html?flag=sw";
 
@@ -50,6 +51,9 @@ const Simulator = ({
     //const url = new URL(`https://review-python-simulator.usermbit.org/${branch}/simulator.html`);
     const url = new URL(stage === "PRODUCTION" ? production : staging);
     url.searchParams.append("color", brand500);
+    if (flags.simDebugWasm) {
+      url.searchParams.append("flag", "debugWasm");
+    }
     return url.toString();
   }, [brand500]);
 
