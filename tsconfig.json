@@ -8,7 +8,6 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "baseUrl": ".",
     "paths": {
       "styled-system/*": ["./styled-system/*"]
     },
@@ -26,5 +25,7 @@
     "types": ["vitest/globals", "node", "vite-plugin-pwa/client"]
   },
   "include": ["src"],
+  // Build-time config, owned by tsconfig.node.json; a file cannot be in both.
+  "exclude": ["src/deployment/default/panda-preset.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
