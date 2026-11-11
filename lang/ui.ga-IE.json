@@ -413,6 +413,12 @@
   "parameter-help-manual": {
     "defaultMessage": "Lámhleabhar ({shortcut})"
   },
+  "parameter-help-shortcut": {
+    "defaultMessage": "Ctrl+Shift+Spás"
+  },
+  "parameter-help-shortcut-mac": {
+    "defaultMessage": "Cmd+Shift+Spás"
+  },
   "permanently-delete": {
     "defaultMessage": "Scrios {filename} go buan?"
   },
@@ -557,6 +563,9 @@
   "serial-terminal": {
     "defaultMessage": "Teirminéal srathach"
   },
+  "serial-terminal-resize": {
+    "defaultMessage": "Athraigh méid an teirminéil sraitheach"
+  },
   "setting-allow-editing-third-party": {
     "defaultMessage": "Ceadaigh modúil tríú páirtí a chur in eagar"
   },
@@ -595,6 +604,9 @@
   },
   "sidebar-expand": {
     "defaultMessage": "Leathnaigh an barra taoibh"
+  },
+  "sidebar-resize": {
+    "defaultMessage": "Athraigh méid an bharra taoibh"
   },
   "simulator-accelerometer": {
     "defaultMessage": "Luasmhéadar"
@@ -757,6 +769,9 @@
   },
   "simulator-reset": {
     "defaultMessage": "Athshocraigh"
+  },
+  "simulator-resize": {
+    "defaultMessage": "Insamhlóir athraithe méide"
   },
   "simulator-serial-terminal": {
     "defaultMessage": "Insamhlóir teirminéal sraitheach"
