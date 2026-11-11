@@ -50,6 +50,13 @@ export type Flag =
    */
   | "pwa"
   /**
+   * Passes the debugWasm flag to the simulator.
+   *
+   * The simulator then loads its debug firmware, which enables Emscripten
+   * assertions and has DWARF for the DevTools C/C++ debugging extension.
+   */
+  | "simDebugWasm"
+  /**
    * Enables in-context Crowdin translating.
    */
   | "translate";
@@ -71,6 +78,7 @@ const allFlags: FlagMetadata[] = [
     name: "pwa",
     defaultOnStages: ["REVIEW", "STAGING", "PRODUCTION"],
   },
+  { name: "simDebugWasm", defaultOnStages: [] },
 ];
 
 type Flags = Record<Flag, boolean>;
