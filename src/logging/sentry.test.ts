@@ -133,9 +133,21 @@ describe("language server request failure grouping", () => {
     ]);
     expect(
       failure(
-        "blob:https://python.microbit.org/pyright-locale-en-100-ddc72e6b2c1f5de1a885.worker.js"
+        "https://python.microbit.org/v/3/workers/pyright-locale-en-100-ddc72e6b2c1f5de1a885.worker.js"
       )
     ).toEqual(fr);
+  });
+
+  it("separates scripts resolved against a blob URL", () => {
+    expect(
+      fingerprint(
+        "Request initialize failed with message: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at 'blob:https://python.microbit.org/pyright-locale-en-100-ddc72e6b2c1f5de1a885.worker.js' failed to load."
+      )
+    ).toEqual([
+      "language-server-request-failed",
+      "initialize",
+      "Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at '<blob url>' failed to load.",
+    ]);
   });
 
   it("leaves other errors to default grouping", () => {

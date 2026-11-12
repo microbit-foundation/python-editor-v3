@@ -56,8 +56,12 @@ const fingerprintLanguageServerRequestFailure = (
     event.fingerprint = [
       "language-server-request-failed",
       method,
-      // Script URLs vary by locale and build.
-      serverMessage.replace(/'(?:https?|blob):[^']*'/g, "'<url>'"),
+      // Script URLs vary by locale and build. Blob URLs stay distinct: the
+      // script's path was resolved against a blob rather than our URL, so
+      // unlike a network failure it can't succeed on retry.
+      serverMessage.replace(/'(blob:)?https?:[^']*'/g, (_, blob) =>
+        blob ? "'<blob url>'" : "'<url>'"
+      ),
     ];
   }
   return event;
