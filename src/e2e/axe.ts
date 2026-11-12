@@ -11,6 +11,13 @@ import path from "path";
 interface KnownViolation {
   /** axe rule id. */
   rule: string;
+  /**
+   * What the rule tests, from axe's tags for it: a WCAG conformance level, or
+   * an axe best practice that no WCAG success criterion requires.
+   */
+  level: "A" | "AA" | "best-practice";
+  /** The WCAG success criterion, for A and AA. */
+  criterion?: string;
   /** Elements the rule is known to fail on, as a CSS selector. */
   selector: string;
   reason: string;
@@ -29,52 +36,66 @@ interface KnownViolation {
 const knownViolations: KnownViolation[] = [
   {
     rule: "aria-input-field-name",
+    level: "A",
+    criterion: "4.1.2 Name, Role, Value",
     selector: ".cm-content",
     reason:
       "CodeMirror's content element has no accessible name, in the main editor and in documentation code examples.",
   },
   {
     rule: "aria-prohibited-attr",
+    level: "A",
+    criterion: "4.1.2 Name, Role, Value",
     selector: 'div[aria-label]:not([role])[style*="left"]',
     reason:
       "Simulator range sensor threshold marks put aria-label on a div with no role.",
   },
   {
+    rule: "role-img-alt",
+    level: "A",
+    criterion: "1.1.1 Non-text Content",
+    selector: 'div[role="img"]',
+    reason:
+      "The sidebar header logos and simulator sensor icons are role=img wrappers with no label.",
+  },
+  {
     rule: "color-contrast",
+    level: "AA",
+    criterion: "1.4.3 Contrast (Minimum)",
     selector: ".cm-gutterElement",
     reason: "Editor line numbers are 2.02:1 against the gutter.",
   },
   {
     rule: "color-contrast",
+    level: "AA",
+    criterion: "1.4.3 Contrast (Minimum)",
     selector: ".sidebar-tab p",
     reason:
       "Unselected sidebar tab labels are 4.3:1 against the tab bar at 13px.",
   },
   {
     rule: "heading-order",
+    level: "best-practice",
     selector: "h4",
     reason: "API documentation entries use h4 without an h3 above them.",
   },
   {
     rule: "page-has-heading-one",
+    level: "best-practice",
     selector: "html",
     reason: "The app has no level-one heading.",
   },
   {
     rule: "region",
+    level: "best-practice",
     selector: ".splitView__splitter",
     reason: "The sidebar and simulator resize handles sit between landmarks.",
   },
   {
     rule: "region",
+    level: "best-practice",
     selector: '[data-testid="simulator"] *',
     reason: "The simulator's sensor controls are outside any landmark.",
-  },
-  {
-    rule: "role-img-alt",
-    selector: 'div[role="img"]',
-    reason:
-      "The sidebar header logos and simulator sensor icons are role=img wrappers with no label.",
   },
 ];
 
