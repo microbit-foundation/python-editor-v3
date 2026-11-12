@@ -16,6 +16,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { readFileSync } from "fs";
 import { DeviceErrorCode } from "@microbit/microbit-connection";
+import { expectNoNewViolations } from "./axe.js";
 
 export enum LoadDialogType {
   CONFIRM,
@@ -283,6 +284,10 @@ export class App {
     await this.page.goto(optionsToURL(options));
     // Wait for the page to be loaded
     await this.editor.waitFor();
+  }
+
+  async expectNoNewAccessibilityViolations(): Promise<void> {
+    await expectNoNewViolations(this.page);
   }
 
   async setProjectName(projectName: string): Promise<void> {

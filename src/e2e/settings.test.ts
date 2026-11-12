@@ -20,6 +20,7 @@ test.describe("settings", () => {
   test("switches language", async ({ app }) => {
     await app.switchLanguage("fr");
     await app.expectProjectName("Projet sans titre");
+    await app.expectNoNewAccessibilityViolations();
     await app.switchLanguage("en");
     await app.expectProjectName("Untitled project");
   });

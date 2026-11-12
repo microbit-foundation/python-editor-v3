@@ -52,6 +52,7 @@
     "xterm-addon-fit": "^0.5.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@csstools/postcss-cascade-layers": "^6.0.0",
     "@microbit/eslint-config": "^0.2.1",
     "@microbit/i18n-tools": "^0.2.5",

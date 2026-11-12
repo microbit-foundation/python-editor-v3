@@ -100,6 +100,7 @@ const Simulator = ({
         flexDirection="column"
         height="100%"
         position="relative"
+        data-testid="simulator"
       >
         <Flex
           position="absolute"
