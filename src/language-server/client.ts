@@ -70,6 +70,7 @@ export class LanguageServerClient extends TypedEventTarget<EventMap> {
   private versions: Map<string, number> = new Map();
   private diagnostics: Map<string, Diagnostic[]> = new Map();
   private initializePromise: Promise<boolean> | undefined;
+  private handlersRegistered = false;
 
   constructor(
     public connection: MessageConnection,
@@ -103,107 +104,131 @@ export class LanguageServerClient extends TypedEventTarget<EventMap> {
     }
     this.initializePromise = (async () => {
       try {
-        this.connection.onNotification(LogMessageNotification.type, (params) =>
-          console.log("[LS]", params.message)
-        );
-
-        this.connection.onNotification(
-          PublishDiagnosticsNotification.type,
-          (params) => {
-            this.diagnostics.set(params.uri, params.diagnostics);
-            // Republish as you can't listen twice.
-            this.dispatchTypedEvent(
-              "diagnostics",
-              new DiagnosticsEvent(params)
-            );
-          }
-        );
-        this.connection.onRequest(RegistrationRequest.type, () => {
-          // Ignore. I don't think we should get these at all given our
-          // capabilities, but Pyright is sending one anyway.
-        });
-
-        const initializeParams: InitializeParams = {
-          // Our pyright fork names its message files in lowercase.
-          locale: this.locale.toLowerCase(),
-          capabilities: {
-            textDocument: {
-              moniker: {},
-              synchronization: {
-                willSave: false,
-                didSave: false,
-                willSaveWaitUntil: false,
-              },
-              completion: {
-                completionItem: {
-                  snippetSupport: false,
-                  commitCharactersSupport: true,
-                  documentationFormat: ["markdown"],
-                  deprecatedSupport: false,
-                  preselectSupport: false,
-                },
-                contextSupport: true,
-              },
-              signatureHelp: {
-                signatureInformation: {
-                  documentationFormat: ["markdown"],
-                  activeParameterSupport: true,
-                  parameterInformation: {
-                    labelOffsetSupport: true,
-                  },
-                },
-              },
-              publishDiagnostics: {
-                tagSupport: {
-                  valueSet: [
-                    DiagnosticTag.Unnecessary,
-                    DiagnosticTag.Deprecated,
-                  ],
-                },
-              },
-            },
-            workspace: {
-              workspaceFolders: true,
-              didChangeConfiguration: {},
-              configuration: true,
-            },
-          },
-          initializationOptions: await this.getInitializationOptions(),
-          processId: null,
-          // Do we need both of these?
-          rootUri: this.rootUri,
-          workspaceFolders: [
-            {
-              name: "src",
-              uri: this.rootUri,
-            },
-          ],
-        };
-        const { capabilities } = await this.connection.sendRequest(
-          InitializeRequest.type,
-          initializeParams
-        );
-        this.capabilities = capabilities;
+        this.registerHandlers();
+        this.capabilities = await this.initializeWithRetry();
         this.connection.sendNotification(InitializedNotification.type, {});
+        return true;
       } catch (e) {
         if (isErrorDueToDispose(e)) {
           // We've intentionally disposed the connection because we're recreating the client.
           // This mostly happens due to React 18 strict mode but could happen due to language changes.
           return false;
         }
-        if (!navigator.onLine) {
-          showOfflineLanguageToast(this.toast);
-          // Fallback to the precached locale if user is offline.
-          this.locale = fallbackLocale;
-          this.initializePromise = undefined;
-          this.initialize();
-        } else {
-          throw e;
-        }
+        // Let a later call try again rather than replaying this failure.
+        this.initializePromise = undefined;
+        throw e;
       }
-      return true;
     })();
     return this.initializePromise;
+  }
+
+  private registerHandlers() {
+    if (this.handlersRegistered) {
+      return;
+    }
+    this.handlersRegistered = true;
+    this.connection.onNotification(LogMessageNotification.type, (params) =>
+      console.log("[LS]", params.message)
+    );
+    this.connection.onNotification(
+      PublishDiagnosticsNotification.type,
+      (params) => {
+        this.diagnostics.set(params.uri, params.diagnostics);
+        // Republish as you can't listen twice.
+        this.dispatchTypedEvent("diagnostics", new DiagnosticsEvent(params));
+      }
+    );
+    this.connection.onRequest(RegistrationRequest.type, () => {
+      // Ignore. I don't think we should get these at all given our
+      // capabilities, but Pyright is sending one anyway.
+    });
+  }
+
+  /**
+   * The server loads its messages for the locale over the network before
+   * anything else, so initialize fails on a network error and is safe to
+   * send again on the same connection.
+   */
+  private async initializeWithRetry(): Promise<ServerCapabilities> {
+    const sendInitialize = async (params: InitializeParams) => {
+      const { capabilities } = await this.connection.sendRequest(
+        InitializeRequest.type,
+        params
+      );
+      return capabilities;
+    };
+    const params = await this.getInitializeParams();
+    try {
+      return await retryAsyncLoad(
+        () => sendInitialize(params),
+        undefined,
+        (e) => !isErrorDueToDispose(e)
+      );
+    } catch (e) {
+      if (e instanceof OfflineError && this.locale !== fallbackLocale) {
+        showOfflineLanguageToast(this.toast);
+        // The fallback locale is precached.
+        this.locale = fallbackLocale;
+        return sendInitialize(await this.getInitializeParams());
+      }
+      throw e;
+    }
+  }
+
+  private async getInitializeParams(): Promise<InitializeParams> {
+    return {
+      // Our pyright fork names its message files in lowercase.
+      locale: this.locale.toLowerCase(),
+      capabilities: {
+        textDocument: {
+          moniker: {},
+          synchronization: {
+            willSave: false,
+            didSave: false,
+            willSaveWaitUntil: false,
+          },
+          completion: {
+            completionItem: {
+              snippetSupport: false,
+              commitCharactersSupport: true,
+              documentationFormat: ["markdown"],
+              deprecatedSupport: false,
+              preselectSupport: false,
+            },
+            contextSupport: true,
+          },
+          signatureHelp: {
+            signatureInformation: {
+              documentationFormat: ["markdown"],
+              activeParameterSupport: true,
+              parameterInformation: {
+                labelOffsetSupport: true,
+              },
+            },
+          },
+          publishDiagnostics: {
+            tagSupport: {
+              valueSet: [DiagnosticTag.Unnecessary, DiagnosticTag.Deprecated],
+            },
+          },
+        },
+        workspace: {
+          workspaceFolders: true,
+          didChangeConfiguration: {},
+          configuration: true,
+        },
+      },
+      initializationOptions: await this.getInitializationOptions(),
+      processId: null,
+      // Do we need both of these?
+      rootUri: this.rootUri,
+      workspaceFolders: [
+        {
+          name: "src",
+          uri: this.rootUri,
+        },
+      ],
+    };
   }
 
   private async getInitializationOptions(): Promise<any> {
