@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { captureException } from "@sentry/browser";
+import { captureException, ErrorEvent, init } from "@sentry/browser";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { reportError } from "./sentry";
+import { initSentry, reportError } from "./sentry";
 
 vi.mock("@sentry/browser", () => ({
   addBreadcrumb: vi.fn(),
@@ -92,5 +92,53 @@ describe("reportError", () => {
     expect(error).toBeInstanceOf(Error);
     expect((error as Error).message).toBe("just a string");
     expect(hint).toBeUndefined();
+  });
+});
+
+describe("language server request failure grouping", () => {
+  const fingerprint = (message: string) => {
+    initSentry({ VITE_SENTRY_DSN: dsn });
+    const { beforeSend } = vi.mocked(init).mock.lastCall![0]!;
+    const event: ErrorEvent = {
+      type: undefined,
+      exception: { values: [{ type: "Error", value: message }] },
+    };
+    return (beforeSend!(event, {}) as ErrorEvent).fingerprint;
+  };
+
+  it("groups by request and message", () => {
+    expect(
+      fingerprint(
+        "Request textDocument/completion failed with message: Maximum call stack size exceeded"
+      )
+    ).toEqual([
+      "language-server-request-failed",
+      "textDocument/completion",
+      "Maximum call stack size exceeded",
+    ]);
+  });
+
+  it("ignores which script failed to load", () => {
+    const failure = (url: string) =>
+      fingerprint(
+        `Request initialize failed with message: Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at '${url}' failed to load.`
+      );
+    const fr = failure(
+      "https://python.microbit.org/v/3/workers/pyright-locale-fr-231-e938f9c58b9ac7c8a0c8.worker.js"
+    );
+    expect(fr).toEqual([
+      "language-server-request-failed",
+      "initialize",
+      "Failed to execute 'importScripts' on 'WorkerGlobalScope': The script at '<url>' failed to load.",
+    ]);
+    expect(
+      failure(
+        "blob:https://python.microbit.org/pyright-locale-en-100-ddc72e6b2c1f5de1a885.worker.js"
+      )
+    ).toEqual(fr);
+  });
+
+  it("leaves other errors to default grouping", () => {
+    expect(fingerprint("boom")).toBeUndefined();
   });
 });
