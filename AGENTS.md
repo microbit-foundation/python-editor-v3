@@ -27,6 +27,16 @@ Names are snake_case with flat primitive params. gtag only exists on
 Foundation builds (`VITE_FOUNDATION_BUILD`, see `index.html`), so OSS and
 local dev log events to the console instead.
 
+## Accessibility scans
+
+E2e scenarios call `app.expectNoNewAccessibilityViolations()` (axe, in
+`src/e2e/axe.ts`) on the states they reach. It fails only on violations missing
+from `knownViolations` in that file: delete an entry when you fix it, and scan
+new UI states from the scenario that reaches them.
+The known list is recorded against the Foundation's private theme. Without the
+theme package installed the colour contrast rule is skipped, as the open source
+default colours give different results.
+
 ## Commands
 
 - Unit tests: `npm test` (vitest). E2e: run headlessly via

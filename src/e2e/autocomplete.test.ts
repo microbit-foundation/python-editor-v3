@@ -16,6 +16,7 @@ test.describe("autocomplete", () => {
     // Initial completions
     await app.expectCompletionOptions(["scroll", "set_pixel", "show"]);
     await app.expectCompletionActiveOption("scroll(text)");
+    await app.expectNoNewAccessibilityViolations();
 
     // Further refinement
     await app.page.keyboard.press("h");
