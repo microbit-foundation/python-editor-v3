@@ -70,7 +70,6 @@ export class LanguageServerClient extends TypedEventTarget<EventMap> {
   private versions: Map<string, number> = new Map();
   private diagnostics: Map<string, Diagnostic[]> = new Map();
   private initializePromise: Promise<boolean> | undefined;
-  private handlersRegistered = false;
 
   constructor(
     public connection: MessageConnection,
@@ -123,10 +122,6 @@ export class LanguageServerClient extends TypedEventTarget<EventMap> {
   }
 
   private registerHandlers() {
-    if (this.handlersRegistered) {
-      return;
-    }
-    this.handlersRegistered = true;
     this.connection.onNotification(LogMessageNotification.type, (params) =>
       console.log("[LS]", params.message)
     );
