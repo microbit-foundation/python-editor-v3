@@ -299,6 +299,10 @@
     "defaultMessage": "Edit project name",
     "description": "Text for user to edit the name of the project"
   },
+  "edit-project-name-crumb": {
+    "defaultMessage": "{name}, edit project name",
+    "description": "Accessible name of the breadcrumb button that shows the project name and opens the rename dialog"
+  },
   "failed-to-build-hex": {
     "defaultMessage": "Failed to build the hex file",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."

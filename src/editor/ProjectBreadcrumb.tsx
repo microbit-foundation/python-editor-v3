@@ -10,26 +10,26 @@ import {
   MenuItem,
   MenuList,
   MenuTrigger,
-  Text,
+  Tooltip,
 } from "@microbit/ui";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import {
   RiArrowDownSLine,
   RiArrowRightSLine,
   RiCheckLine,
+  RiEdit2Line,
   RiHome2Line,
 } from "react-icons/ri";
 import { VscFiles } from "react-icons/vsc";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link as RouterLink } from "react-router";
 import { css, cx } from "styled-system/css";
-import { Box, HStack } from "styled-system/jsx";
+import { Box, HStack, styled } from "styled-system/jsx";
 import { button } from "styled-system/recipes";
 import { MAIN_FILE } from "../fs/fs";
 import { useProjectsDatabaseActive } from "../fs/storage-status";
 import { useIframeMode } from "../iframe-mode-hooks";
-import { useProject } from "../project/project-hooks";
-import ProjectNameEditable from "../project/ProjectNameEditable";
+import { useProject, useProjectActions } from "../project/project-hooks";
 import { useRouterState } from "../router-hooks";
 import { createHomePageUrl } from "../urls";
 
@@ -154,14 +154,7 @@ const Crumbs = ({
           <Separator />
         </>
       )}
-      <ProjectNameEditable
-        color="gray.700"
-        opacity="80%"
-        fontSize="xl"
-        data-testid={shown ? "project-name" : undefined}
-        clickToEdit
-        squeeze={squeeze === 4 ? "truncate" : "none"}
-      />
+      <ProjectCrumb truncate={squeeze === 4} shown={shown} />
       <Separator />
       <FileCrumb
         filename={filename}
@@ -169,27 +162,38 @@ const Crumbs = ({
         iconOnly={squeeze >= 3}
       />
       {filename !== MAIN_FILE && squeeze < 2 && (
-        <>
-          <Text as="span" flexShrink={0}>
-            —
-          </Text>
-          <Button
-            variant="unstyled"
-            css={{
-              flexShrink: 0,
-              fontWeight: "normal",
-              textDecoration: "underline",
-              whiteSpace: "nowrap",
-            }}
-            onPress={() => onSelectedFileChanged(MAIN_FILE)}
-          >
-            <FormattedMessage id="back-to-main" />
-          </Button>
-        </>
+        <Button
+          variant="unstyled"
+          css={{
+            flexShrink: 0,
+            fontWeight: "normal",
+            textDecoration: "underline",
+            whiteSpace: "nowrap",
+          }}
+          onPress={() => onSelectedFileChanged(MAIN_FILE)}
+        >
+          <FormattedMessage id="back-to-main" />
+        </Button>
       )}
     </HStack>
   );
 };
+
+/**
+ * Shared by every crumb so they read alike: one size and colour, and the
+ * hover covers icon and text together.
+ */
+const crumbClass = css({
+  gap: "1.5",
+  px: "2",
+  fontSize: "xl",
+  fontWeight: "normal",
+  // As alpha rather than opacity, which would fade the icons too.
+  color: "gray.700/80",
+  whiteSpace: "nowrap",
+});
+
+const crumbIconClass = css({ flexShrink: 0, color: "brand.500" });
 
 const HomeCrumb = ({ showLabel }: { showLabel: boolean }) => {
   const intl = useIntl();
@@ -199,36 +203,62 @@ const HomeCrumb = ({ showLabel }: { showLabel: boolean }) => {
       aria-label={intl.formatMessage({ id: "home-action" })}
       className={cx(
         button({ variant: "ghost", size: "md" }),
-        css({
-          flexShrink: 0,
-          gap: "1",
-          pl: "0",
-          // Literals so Panda can extract both.
-          pr: showLabel ? "2" : "0",
-          color: "brand.600",
-          fontSize: "xl",
-          fontWeight: "normal",
-        })
+        crumbClass,
+        css({ flexShrink: 0 })
       )}
     >
-      {/* In a box as the project name's pencil button, so the icon-to-text
-          spacing matches. */}
-      <Box
-        minW="10"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        aria-hidden
-      >
-        <RiHome2Line />
-      </Box>
+      <RiHome2Line aria-hidden className={crumbIconClass} />
       {showLabel && <FormattedMessage id="home-action" />}
     </RouterLink>
   );
 };
 
+/** The project name, which opens the rename dialog. */
+const ProjectCrumb = ({
+  truncate,
+  shown,
+}: {
+  /** Whether the name truncates with an ellipsis. */
+  truncate: boolean;
+  shown?: boolean;
+}) => {
+  const intl = useIntl();
+  const { name } = useProject();
+  const actions = useProjectActions();
+  return (
+    <Tooltip
+      hasArrow
+      label={intl.formatMessage({ id: "edit-name-project-hover" })}
+      placement="top start"
+    >
+      <Button
+        variant="ghost"
+        size="md"
+        className={crumbClass}
+        aria-label={intl.formatMessage(
+          { id: "edit-project-name-crumb" },
+          { name }
+        )}
+        onPress={() => actions.editProjectName()}
+        // Literals so Panda can extract both.
+        css={{ flexShrink: truncate ? 1 : 0 }}
+      >
+        <RiEdit2Line aria-hidden className={crumbIconClass} />
+        <styled.span
+          data-testid={shown ? "project-name" : undefined}
+          overflow={truncate ? "hidden" : "visible"}
+          textOverflow={truncate ? "ellipsis" : "clip"}
+          minW={truncate ? "8ch" : "auto"}
+        >
+          {name}
+        </styled.span>
+      </Button>
+    </Tooltip>
+  );
+};
+
 interface FileCrumbProps extends ProjectBreadcrumbProps {
-  /** A file icon in place of the name, when space is short. */
+  /** Just the files icon, without the name, when space is short. */
   iconOnly: boolean;
 }
 
@@ -251,38 +281,29 @@ const FileCrumb = ({
       setTimeout(() => setRouterState({ tab: "project", focus: true }, "user"))
     );
   }, [setRouterState]);
-  const isMain = filename === MAIN_FILE;
   return (
     <MenuTrigger>
       <Button
         variant="ghost"
         size="md"
+        className={crumbClass}
         aria-label={intl.formatMessage(
           { id: "choose-file-menu" },
           { filename }
         )}
-        endIcon={<Icon as={RiArrowDownSLine} />}
-        css={{
-          flexShrink: 0,
-          px: "2",
-          // Literals so Panda can extract both.
-          fontWeight: isMain ? "normal" : "semibold",
-          color: isMain ? "gray.600" : "gray.800",
-        }}
+        css={{ flexShrink: 0 }}
       >
-        {iconOnly ? (
-          <Icon as={VscFiles} aria-hidden css={{ fontSize: "xl" }} />
-        ) : (
-          <Text
-            as="span"
+        <VscFiles aria-hidden className={crumbIconClass} />
+        {!iconOnly && (
+          <styled.span
             maxWidth="15ch"
             textOverflow="ellipsis"
             overflowX="hidden"
-            whiteSpace="nowrap"
           >
             {filename}
-          </Text>
+          </styled.span>
         )}
+        <RiArrowDownSLine aria-hidden />
       </Button>
       <MenuList>
         {files.map((file) => (
