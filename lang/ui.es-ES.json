@@ -386,6 +386,12 @@
   "parameter-help-manual": {
     "defaultMessage": "({shortcut}) manual"
   },
+  "parameter-help-shortcut": {
+    "defaultMessage": "Ctrl+Mayús+Espacio"
+  },
+  "parameter-help-shortcut-mac": {
+    "defaultMessage": "Cmd+Mayús+Espacio"
+  },
   "permanently-delete": {
     "defaultMessage": "¿Eliminar {filename} de forma permanente?"
   },
@@ -512,6 +518,9 @@
   "serial-terminal": {
     "defaultMessage": "Terminal serie"
   },
+  "serial-terminal-resize": {
+    "defaultMessage": "Redimensionar terminal serie"
+  },
   "setting-allow-editing-third-party": {
     "defaultMessage": "Permitir la edición de módulos de terceros"
   },
@@ -550,6 +559,9 @@
   },
   "sidebar-expand": {
     "defaultMessage": "Expandir la barra lateral"
+  },
+  "sidebar-resize": {
+    "defaultMessage": "Redimensionar barra lateral"
   },
   "simulator-accelerometer": {
     "defaultMessage": "Acelerómetro"
@@ -713,6 +725,9 @@
   "simulator-reset": {
     "defaultMessage": "Reiniciar"
   },
+  "simulator-resize": {
+    "defaultMessage": "Redimensionar simulador"
+  },
   "simulator-serial-terminal": {
     "defaultMessage": "Terminal serie del simulador"
   },
@@ -798,7 +813,7 @@
     "defaultMessage": "Inténtalo otra vez o <link>solicita asistencia</link>"
   },
   "unexpected-error-title": {
-    "defaultMessage": "Inténtalo otra vez o <link>solicita asistencia</link>"
+    "defaultMessage": "Se produjo un error inesperado"
   },
   "untitled-project": {
     "defaultMessage": "Proyecto sin título"

@@ -797,9 +797,6 @@
   "unexpected-error-description": {
     "defaultMessage": "もう一度やり直すか、<link>サポートリクエストを提出</link>してください"
   },
-  "unexpected-error-title": {
-    "defaultMessage": "もう一度やり直すか、<link>サポートリクエストを提出</link>してください"
-  },
   "untitled-project": {
     "defaultMessage": "無題プロジェクト"
   },

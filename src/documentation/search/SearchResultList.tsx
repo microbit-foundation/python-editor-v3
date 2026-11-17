@@ -116,8 +116,15 @@ const ExtractText = ({ extract, title, ...props }: ExtractTextProps) => {
             {t.extract}
           </Text>
         ) : (
-          // eslint-disable-next-line @eslint-react/no-array-index-key -- position is the only identity here
-          <Text key={i} as="span" bgColor="#6C4BC14D" borderRadius="md" p="0.5">
+          <Text
+            // eslint-disable-next-line @eslint-react/no-array-index-key -- position is the only identity here
+            key={i}
+            as="mark"
+            color="inherit"
+            bgColor="#6C4BC14D"
+            borderRadius="md"
+            p="0.5"
+          >
             {t.extract}
           </Text>
         )

@@ -32,6 +32,7 @@ test.describe("simulator", () => {
     await app.simulator.simulatorSelectGesture("freefall");
     await app.simulator.sendGestureButton.click();
     await app.simulator.expectResponse();
+    await app.expectNoNewAccessibilityViolations();
   });
 
   test("responds to a range sensor change", async ({ app }) => {

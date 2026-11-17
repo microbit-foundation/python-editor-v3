@@ -6,6 +6,7 @@
 import {
   addBreadcrumb as sentryAddBreadcrumb,
   captureException as sentryCaptureException,
+  ErrorEvent,
   init as sentryInit,
 } from "@sentry/browser";
 
@@ -31,11 +32,39 @@ export const initSentry = (env: Record<string, string>): string | undefined => {
         // Low consequence and a big chunk of quota.
         "ResizeObserver loop completed with undelivered notifications",
       ],
+      beforeSend: fingerprintLanguageServerRequestFailure,
     });
   } catch (e) {
     console.error(e);
   }
   return dsn;
+};
+
+/**
+ * Every failed language server request is rejected from the same place in
+ * vscode-jsonrpc, so Sentry's stack-based grouping puts unrelated failures
+ * in one issue. Group by the request and the server's message instead.
+ */
+const fingerprintLanguageServerRequestFailure = (
+  event: ErrorEvent
+): ErrorEvent => {
+  const message = event.exception?.values?.[0]?.value;
+  const match =
+    message && /^Request (\S+) failed with message: (.*)$/s.exec(message);
+  if (match) {
+    const [, method, serverMessage] = match;
+    event.fingerprint = [
+      "language-server-request-failed",
+      method,
+      // Script URLs vary by locale and build. Blob URLs stay distinct: the
+      // script's path was resolved against a blob rather than our URL, so
+      // unlike a network failure it can't succeed on retry.
+      serverMessage.replace(/'(blob:)?https?:[^']*'/g, (_, blob) =>
+        blob ? "'<blob url>'" : "'<url>'"
+      ),
+    ];
+  }
+  return event;
 };
 
 /**

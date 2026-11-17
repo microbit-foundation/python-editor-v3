@@ -12,6 +12,7 @@ test.describe("documentation", () => {
       "API",
       "For usage and examples, see"
     );
+    await app.expectNoNewAccessibilityViolations();
   });
 
   test("Copy code and paste in editor", async ({ app }) => {
@@ -67,6 +68,7 @@ test.describe("documentation", () => {
       "Loops",
       "Count and repeat sets of instructions"
     );
+    await app.expectNoNewAccessibilityViolations();
   });
 
   test("Ideas tab navigation", async ({ app }) => {
@@ -82,5 +84,6 @@ test.describe("documentation", () => {
     await app.switchTab("Ideas");
     await app.selectDocumentationIdea(ideaName);
     await app.expectDocumentationTopLevelHeading(ideaName);
+    await app.expectNoNewAccessibilityViolations();
   });
 });

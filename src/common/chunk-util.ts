@@ -10,7 +10,8 @@ const defaultWaiter = (waitTime: number): Promise<void> =>
 
 export const retryAsyncLoad = async <T>(
   load: () => Promise<T>,
-  waiter: (waitTime: number) => Promise<void> = defaultWaiter
+  waiter: (waitTime: number) => Promise<void> = defaultWaiter,
+  shouldRetry: (e: unknown) => boolean = () => true
 ): Promise<T> => {
   let waitTime = 250;
   let attempts = 0;
@@ -20,6 +21,9 @@ export const retryAsyncLoad = async <T>(
       // Must await here!
       return await load();
     } catch (e) {
+      if (!shouldRetry(e)) {
+        throw e;
+      }
       // If the user is offline, bail immediately.
       if (!navigator.onLine) {
         throw new OfflineError();
