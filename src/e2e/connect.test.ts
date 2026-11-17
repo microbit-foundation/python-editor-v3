@@ -16,6 +16,7 @@ test.describe("connect", () => {
     // Connect and disconnect wait for serial to be shown/hidden
     await app.connect();
     await app.expectConnected();
+    await app.expectNoNewAccessibilityViolations();
     await app.disconnect();
     await app.expectDisconnected();
   });
@@ -54,6 +55,7 @@ test.describe("connect", () => {
     await app.mockDeviceConnectFailure("no-device-selected");
     await app.connect();
     await app.expectDialog("No micro:bit found");
+    await app.expectNoNewAccessibilityViolations();
     await app.connectViaTryAgain();
     await app.connectViaConnectHelp();
     await app.expectConnected();
@@ -76,6 +78,7 @@ test.describe("connect", () => {
     await app.mockDeviceConnectFailure("firmware-update-required");
     await app.connect();
     await app.expectDialog("Firmware update required");
+    await app.expectNoNewAccessibilityViolations();
     await app.connectViaTryAgain();
     await app.connectViaConnectHelp();
     await app.expectConnected();
@@ -90,5 +93,6 @@ test.describe("connect", () => {
     await app.expectDialog("This browser does not support WebUSB");
     await app.closeDialog();
     await app.expectDialog("Transfer saved hex file to micro:bit");
+    await app.expectNoNewAccessibilityViolations();
   });
 });

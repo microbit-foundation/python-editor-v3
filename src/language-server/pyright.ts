@@ -45,15 +45,16 @@ export const pyright = async (
     return undefined;
   }
   if (cache) {
-    // This is safe to call if already initialized.
-    await cache.client.initialize();
+    const { client } = cache;
     if (cache.language === language) {
-      return cache.client;
-    } else {
-      // Dispose it, we'll create a new one.
-      cache?.client.dispose();
-      cache = undefined;
+      // This is safe to call if already initialized.
+      await client.initialize();
+      return client;
     }
+    // Dispose without waiting for it to initialize, which could be a long
+    // wait on retries for a language we no longer want.
+    client.dispose();
+    cache = undefined;
   }
 
   const idSuffix = counter++;

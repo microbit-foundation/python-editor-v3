@@ -22,6 +22,7 @@ test.describe("multiple-files", () => {
 
     await app.expectEditorContainText(/Your new file/);
     await app.expectProjectFiles(["main.py", "test.py"]);
+    await app.expectNoNewAccessibilityViolations();
   });
 
   test("Prevents deleting main.py", async ({ app }) => {

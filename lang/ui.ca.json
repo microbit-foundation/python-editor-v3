@@ -386,6 +386,12 @@
   "parameter-help-manual": {
     "defaultMessage": "Manual ({shortcut})"
   },
+  "parameter-help-shortcut": {
+    "defaultMessage": "Ctrl+Shift+Space"
+  },
+  "parameter-help-shortcut-mac": {
+    "defaultMessage": "Cmd+Shift+Space"
+  },
   "permanently-delete": {
     "defaultMessage": "Suprimir {filename} permanentment?"
   },
@@ -512,6 +518,9 @@
   "serial-terminal": {
     "defaultMessage": "Terminal sèrie"
   },
+  "serial-terminal-resize": {
+    "defaultMessage": "Canviar la mida del terminal sèrie"
+  },
   "setting-allow-editing-third-party": {
     "defaultMessage": "Permet editar mòduls de tercers"
   },
@@ -550,6 +559,9 @@
   },
   "sidebar-expand": {
     "defaultMessage": "Amplia la barra lateral"
+  },
+  "sidebar-resize": {
+    "defaultMessage": "Canviar la mida de la barra lateral"
   },
   "simulator-accelerometer": {
     "defaultMessage": "Acceleròmetre"
@@ -713,6 +725,9 @@
   "simulator-reset": {
     "defaultMessage": "Reiniciar"
   },
+  "simulator-resize": {
+    "defaultMessage": "Canviar la mida del simulador"
+  },
   "simulator-serial-terminal": {
     "defaultMessage": "Terminal sèrie del simulador"
   },
@@ -798,7 +813,7 @@
     "defaultMessage": "Si us plau, torna-ho a provar o <link>plantejar una solicitud de suport</link> ."
   },
   "unexpected-error-title": {
-    "defaultMessage": "Si us plau, torna-ho a provar o <link>plantejar una solicitud de suport</link>."
+    "defaultMessage": "S'ha produït un error inesperat"
   },
   "untitled-project": {
     "defaultMessage": "Projecte sense títol"

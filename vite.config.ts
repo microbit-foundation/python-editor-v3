@@ -11,7 +11,7 @@ import {
 } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import svgr from "vite-plugin-svgr";
-import { configDefaults, defineConfig, UserConfig } from "vitest/config";
+import { configDefaults, defineConfig, ViteUserConfig } from "vitest/config";
 
 // Browser-support floor (esbuild/lightningcss target syntax) for JS
 // (build.target) and CSS (build.cssTarget). Keep in sync with the
@@ -60,7 +60,7 @@ const pwaCacheId =
   process.env.STAGE === "BETA" ||
   process.env.STAGE === "STAGING" ||
   process.env.STAGE === "REVIEW"
-    ? process.env.BASE_URL.replaceAll("/", "")
+    ? process.env.BASE_URL?.replaceAll("/", "")
     : undefined;
 
 // There are third-party options but seems better to just depend on ejs.
@@ -126,7 +126,7 @@ const basePathWithoutTrailingSlashPlugin = (): Plugin => ({
 
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
-  const unitTest: UserConfig["test"] = {
+  const unitTest: ViteUserConfig["test"] = {
     globals: true,
     exclude: [...configDefaults.exclude, "**/e2e/**"],
     environment: "jsdom",
@@ -142,7 +142,7 @@ export default defineConfig(({ mode }) => {
       ),
     },
   };
-  const config: UserConfig = {
+  const config: ViteUserConfig = {
     base: process.env.BASE_URL ?? "/",
     build: {
       outDir: "build",
