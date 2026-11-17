@@ -431,6 +431,10 @@
     "defaultMessage": "Home",
     "description": "Link on the editor logo and button on the projects page returning to the home page"
   },
+  "home-page-tooltip": {
+    "defaultMessage": "Go to the home page",
+    "description": "Tooltip on the editor logo, which links to the home page"
+  },
   "homepage-banner-heading": {
     "defaultMessage": "Python for the BBC micro:bit",
     "description": "Heading of the banner at the top of the home page"
@@ -785,6 +789,10 @@
   "project-actions": {
     "defaultMessage": "Project actions",
     "description": "Aria label for the bar with project actions"
+  },
+  "project-files-heading": {
+    "defaultMessage": "Project files",
+    "description": "Heading at the top of the Files tab, which lists the files in the project"
   },
   "project-header": {
     "defaultMessage": "Project header",

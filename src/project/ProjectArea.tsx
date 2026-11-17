@@ -30,7 +30,7 @@ const ProjectArea = ({
     <VStack gap="5" flex="1 0 auto" height="0" alignItems="stretch">
       <Box flex="0 0 auto">
         <AreaHeading
-          name={intl.formatMessage({ id: "files-tab" })}
+          name={intl.formatMessage({ id: "project-files-heading" })}
           description={intl.formatMessage({ id: "files-tab-description" })}
         />
         <Divider thickness="thick" />
