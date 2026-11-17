@@ -43,12 +43,13 @@ import { createHomePageUrl } from "../urls";
 /**
  * How far the crumbs have given way to fit. The project name gives way
  * last: Home loses its label, then the back-to-main link goes, then the
- * file collapses to an icon, then the project name truncates.
+ * file collapses to an icon, then the project name truncates, then it
+ * collapses to an icon too. Past that the crumbs overflow.
  */
-type Squeeze = 0 | 1 | 2 | 3 | 4;
+type Squeeze = 0 | 1 | 2 | 3 | 4 | 5;
 
-/** The steps measured for fit; past them the project name truncates. */
-const measuredSqueezes = [0, 1, 2, 3] as const;
+/** The steps measured for fit; past them the project name is an icon. */
+const measuredSqueezes = [0, 1, 2, 3, 4] as const;
 
 interface ProjectBreadcrumbProps {
   filename: string;
@@ -79,7 +80,7 @@ const ProjectBreadcrumb = ({
     const update = () => {
       const available = container.clientWidth;
       const fits = copies.findIndex((copy) => copy!.scrollWidth <= available);
-      setSqueeze((fits === -1 ? 4 : fits) as Squeeze);
+      setSqueeze((fits === -1 ? 5 : fits) as Squeeze);
     };
     update();
     const observer = new ResizeObserver(update);
@@ -181,7 +182,11 @@ const Crumbs = ({
         </CrumbItem>
       )}
       <CrumbItem flexShrink={squeeze === 4 ? 1 : 0}>
-        <ProjectCrumb truncate={squeeze === 4} shown={shown} />
+        <ProjectCrumb
+          truncate={squeeze === 4}
+          iconOnly={squeeze === 5}
+          shown={shown}
+        />
         <Separator />
       </CrumbItem>
       <CrumbItem>
@@ -278,10 +283,13 @@ const HomeCrumb = ({ showLabel }: { showLabel: boolean }) => {
 /** The project name, which opens the rename dialog. */
 const ProjectCrumb = ({
   truncate,
+  iconOnly,
   shown,
 }: {
   /** Whether the name truncates with an ellipsis. */
   truncate: boolean;
+  /** Just the pencil, without the name. */
+  iconOnly: boolean;
   shown?: boolean;
 }) => {
   const intl = useIntl();
@@ -306,14 +314,18 @@ const ProjectCrumb = ({
         css={{ flexShrink: truncate ? 1 : 0 }}
       >
         <RiEdit2Line aria-hidden className={crumbIconClass} />
-        <styled.span
-          data-testid={shown ? "project-name" : undefined}
-          overflow={truncate ? "hidden" : "visible"}
-          textOverflow={truncate ? "ellipsis" : "clip"}
-          minW={truncate ? "8ch" : "auto"}
-        >
-          {name}
-        </styled.span>
+        {!iconOnly && (
+          <styled.span
+            data-testid={shown ? "project-name" : undefined}
+            overflow={truncate ? "hidden" : "visible"}
+            textOverflow={truncate ? "ellipsis" : "clip"}
+            // The copy measured for truncating holds the shortest the name
+            // gets before it gives way to the icon.
+            maxW={truncate && !shown ? "8ch" : "none"}
+          >
+            {name}
+          </styled.span>
+        )}
       </Button>
     </Tooltip>
   );
