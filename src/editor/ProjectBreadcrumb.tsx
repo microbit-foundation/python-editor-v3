@@ -8,29 +8,36 @@ import {
   Icon,
   MenuDivider,
   MenuItem,
+  MenuItemOption,
   MenuList,
+  MenuOptionGroup,
   MenuTrigger,
   Tooltip,
 } from "@microbit/ui";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { Link as AriaLink, MenuSection } from "react-aria-components";
 import {
   RiArrowDownSLine,
   RiArrowRightSLine,
-  RiCheckLine,
   RiEdit2Line,
   RiHome2Line,
 } from "react-icons/ri";
 import { VscFiles } from "react-icons/vsc";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Link as RouterLink } from "react-router";
 import { css, cx } from "styled-system/css";
-import { Box, HStack, styled } from "styled-system/jsx";
+import { Box, styled } from "styled-system/jsx";
 import { button } from "styled-system/recipes";
 import { MAIN_FILE } from "../fs/fs";
 import { useProjectsDatabaseActive } from "../fs/storage-status";
 import { useIframeMode } from "../iframe-mode-hooks";
 import { useProject, useProjectActions } from "../project/project-hooks";
-import { useRouterState } from "../router-hooks";
+import { useShowSidebarPanel } from "../workbench/sidebar-hooks";
 import { createHomePageUrl } from "../urls";
 
 /**
@@ -56,7 +63,8 @@ const ProjectBreadcrumb = ({
   filename,
   onSelectedFileChanged,
 }: ProjectBreadcrumbProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const intl = useIntl();
+  const containerRef = useRef<HTMLElement>(null);
   const measureRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [squeeze, setSqueeze] = useState<Squeeze>(0);
 
@@ -81,7 +89,13 @@ const ProjectBreadcrumb = ({
 
   const crumbs = { filename, onSelectedFileChanged };
   return (
-    <Box ref={containerRef} position="relative" flex="1 1 0" minW="0">
+    <styled.nav
+      ref={containerRef}
+      aria-label={intl.formatMessage({ id: "breadcrumb-label" })}
+      position="relative"
+      flex="1 1 0"
+      minW="0"
+    >
       <Crumbs {...crumbs} squeeze={squeeze} shown />
       {/* Clips the copies, which can be wider than the space, here rather
           than on the crumbs, whose focus rings it would cut off. */}
@@ -104,7 +118,7 @@ const ProjectBreadcrumb = ({
           </Measure>
         ))}
       </Box>
-    </Box>
+    </styled.nav>
   );
 };
 
@@ -147,37 +161,78 @@ const Crumbs = ({
   const iframeMode = useIframeMode();
   const hasHome = projectsDatabaseActive && !iframeMode;
   return (
-    <HStack gap="2" whiteSpace="nowrap" minW="0" flexShrink={1}>
+    // role="list" because Safari drops list semantics without list markers.
+    <styled.ol
+      role="list"
+      display="flex"
+      alignItems="center"
+      gap="2"
+      whiteSpace="nowrap"
+      minW="0"
+      flexShrink={1}
+      listStyle="none"
+      m="0"
+      p="0"
+    >
       {hasHome && (
-        <>
+        <CrumbItem>
           <HomeCrumb showLabel={squeeze === 0} />
           <Separator />
-        </>
+        </CrumbItem>
       )}
-      <ProjectCrumb truncate={squeeze === 4} shown={shown} />
-      <Separator />
-      <FileCrumb
-        filename={filename}
-        onSelectedFileChanged={onSelectedFileChanged}
-        iconOnly={squeeze >= 3}
-      />
-      {filename !== MAIN_FILE && squeeze < 2 && (
-        <Button
-          variant="unstyled"
-          css={{
-            flexShrink: 0,
-            fontWeight: "normal",
-            textDecoration: "underline",
-            whiteSpace: "nowrap",
-          }}
-          onPress={() => onSelectedFileChanged(MAIN_FILE)}
-        >
-          <FormattedMessage id="back-to-main" />
-        </Button>
-      )}
-    </HStack>
+      <CrumbItem flexShrink={squeeze === 4 ? 1 : 0}>
+        <ProjectCrumb truncate={squeeze === 4} shown={shown} />
+        <Separator />
+      </CrumbItem>
+      <CrumbItem>
+        <FileCrumb
+          filename={filename}
+          onSelectedFileChanged={onSelectedFileChanged}
+          iconOnly={squeeze >= 3}
+          shown={shown}
+        />
+        {filename !== MAIN_FILE && squeeze < 2 && (
+          <Button
+            variant="unstyled"
+            css={{
+              flexShrink: 0,
+              fontWeight: "normal",
+              textDecoration: "underline",
+              whiteSpace: "nowrap",
+            }}
+            onPress={() => {
+              // As choosing main.py from the menu: focus goes to its trigger.
+              pendingFocus.trigger = true;
+              onSelectedFileChanged(MAIN_FILE);
+            }}
+          >
+            <FormattedMessage id="back-to-main" />
+          </Button>
+        )}
+      </CrumbItem>
+    </styled.ol>
   );
 };
+
+/** A crumb with what follows it: its separator, or the back-to-main link. */
+const CrumbItem = ({
+  flexShrink = 0,
+  children,
+}: {
+  flexShrink?: 0 | 1;
+  children: React.ReactNode;
+}) => (
+  <styled.li
+    display="flex"
+    alignItems="center"
+    gap="2"
+    minW="0"
+    // Literals so Panda can extract both.
+    flexShrink={flexShrink === 1 ? 1 : 0}
+  >
+    {children}
+  </styled.li>
+);
 
 /**
  * Shared by every crumb so they read alike: one size and colour, and the
@@ -198,18 +253,25 @@ const crumbIconClass = css({ flexShrink: 0, color: "brand.500" });
 const HomeCrumb = ({ showLabel }: { showLabel: boolean }) => {
   const intl = useIntl();
   return (
-    <RouterLink
-      to={createHomePageUrl()}
-      aria-label={intl.formatMessage({ id: "home-action" })}
-      className={cx(
-        button({ variant: "ghost", size: "md" }),
-        crumbClass,
-        css({ flexShrink: 0 })
-      )}
+    // Only for the icon alone; the label says it otherwise.
+    <Tooltip
+      hasArrow
+      label={intl.formatMessage({ id: "home-page-tooltip" })}
+      isOpen={showLabel ? false : undefined}
     >
-      <RiHome2Line aria-hidden className={crumbIconClass} />
-      {showLabel && <FormattedMessage id="home-action" />}
-    </RouterLink>
+      <AriaLink
+        href={createHomePageUrl()}
+        aria-label={intl.formatMessage({ id: "home-action" })}
+        className={cx(
+          button({ variant: "ghost", size: "md" }),
+          crumbClass,
+          css({ flexShrink: 0 })
+        )}
+      >
+        <RiHome2Line aria-hidden className={crumbIconClass} />
+        {showLabel && <FormattedMessage id="home-action" />}
+      </AriaLink>
+    </Tooltip>
   );
 };
 
@@ -260,7 +322,15 @@ const ProjectCrumb = ({
 interface FileCrumbProps extends ProjectBreadcrumbProps {
   /** Just the files icon, without the name, when space is short. */
   iconOnly: boolean;
+  shown?: boolean;
 }
+
+/**
+ * Set when a file is chosen from the menu or by "back to the main code".
+ * The editor area, and so this crumb, is re-created for the new file, so
+ * the new trigger takes focus.
+ */
+const pendingFocus = { trigger: false };
 
 /**
  * The open file, as a menu of the project's files and a way to the Files
@@ -270,62 +340,106 @@ const FileCrumb = ({
   filename,
   onSelectedFileChanged,
   iconOnly,
+  shown,
 }: FileCrumbProps) => {
   const intl = useIntl();
   const { files } = useProject();
-  const [, setRouterState] = useRouterState();
+  const showSidebarPanel = useShowSidebarPanel();
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (shown && pendingFocus.trigger) {
+      pendingFocus.trigger = false;
+      // After the closing menu's own attempt to restore focus.
+      requestAnimationFrame(() => triggerRef.current?.focus());
+    }
+  }, [shown]);
+  const chooseFile = (name: string) => {
+    if (name !== filename) {
+      pendingFocus.trigger = true;
+      onSelectedFileChanged(name);
+    }
+  };
+  // The menu keeps focus inside it while open, then returns it to this
+  // trigger as it closes. So focus is passed on to the Files panel from
+  // the trigger's focus event, before it's painted there. The panel is
+  // shown directly: a router change would wait on the route's loader.
+  const manageFilesPending = useRef(false);
   const manageFiles = useCallback(() => {
-    // After the menu has returned focus to this trigger, so the Files
-    // panel keeps it.
-    requestAnimationFrame(() =>
-      setTimeout(() => setRouterState({ tab: "project", focus: true }, "user"))
-    );
-  }, [setRouterState]);
+    manageFilesPending.current = true;
+    // Long enough for the menu's exit animation. Should focus never come
+    // back, a later visit to the trigger isn't sent away.
+    setTimeout(() => {
+      manageFilesPending.current = false;
+    }, 1000);
+  }, []);
+  const handleTriggerFocus = useCallback(() => {
+    if (manageFilesPending.current) {
+      manageFilesPending.current = false;
+      showSidebarPanel("project");
+    }
+  }, [showSidebarPanel]);
   return (
     <MenuTrigger>
-      <Button
-        variant="ghost"
-        size="md"
-        className={crumbClass}
-        aria-label={intl.formatMessage(
-          { id: "choose-file-menu" },
-          { filename }
-        )}
-        css={{ flexShrink: 0 }}
+      {/* Only for the icon alone; the name shows otherwise. */}
+      <Tooltip
+        hasArrow
+        label={intl.formatMessage({ id: "choose-file-tooltip" })}
+        isOpen={iconOnly ? undefined : false}
       >
-        <VscFiles aria-hidden className={crumbIconClass} />
-        {!iconOnly && (
-          <styled.span
-            maxWidth="15ch"
-            textOverflow="ellipsis"
-            overflowX="hidden"
-          >
-            {filename}
-          </styled.span>
-        )}
-        <RiArrowDownSLine aria-hidden />
-      </Button>
-      <MenuList>
-        {files.map((file) => (
-          <MenuItem
-            key={file.name}
-            id={file.name}
-            textValue={file.name}
-            icon={file.name === filename ? <Icon as={RiCheckLine} /> : <Box />}
-            onAction={() => onSelectedFileChanged(file.name)}
-          >
-            {file.name}
-          </MenuItem>
-        ))}
-        <MenuDivider />
-        <MenuItem
-          id="manage-files"
-          textValue={intl.formatMessage({ id: "manage-project-files-action" })}
-          icon={<Icon as={VscFiles} />}
-          onAction={manageFiles}
+        <Button
+          ref={triggerRef}
+          onFocus={handleTriggerFocus}
+          variant="ghost"
+          size="md"
+          className={crumbClass}
+          aria-label={intl.formatMessage(
+            { id: "choose-file-menu" },
+            { filename }
+          )}
+          css={{ flexShrink: 0 }}
         >
-          <FormattedMessage id="manage-project-files-action" />
-        </MenuItem>
+          <VscFiles aria-hidden className={crumbIconClass} />
+          {!iconOnly && (
+            <styled.span
+              maxWidth="15ch"
+              textOverflow="ellipsis"
+              overflowX="hidden"
+            >
+              {filename}
+            </styled.span>
+          )}
+          <RiArrowDownSLine aria-hidden />
+        </Button>
+      </Tooltip>
+      <MenuList>
+        {/* Separate sections so only the files are options. VoiceOver
+            doesn't give positions ("1 of 2") within sections. */}
+        <MenuOptionGroup type="radio" value={filename}>
+          {files.map((file) => (
+            <MenuItemOption
+              key={file.name}
+              value={file.name}
+              textValue={file.name}
+              shouldCloseOnSelect
+              onAction={() => chooseFile(file.name)}
+            >
+              {file.name}
+            </MenuItemOption>
+          ))}
+        </MenuOptionGroup>
+        <MenuDivider />
+        <MenuSection>
+          <MenuItem
+            id="manage-files"
+            textValue={intl.formatMessage({
+              id: "manage-project-files-action",
+            })}
+            icon={<Icon as={VscFiles} />}
+            onAction={manageFiles}
+          >
+            <FormattedMessage id="manage-project-files-action" />
+          </MenuItem>
+        </MenuSection>
       </MenuList>
     </MenuTrigger>
   );

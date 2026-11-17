@@ -323,7 +323,9 @@ export class App {
 
   async expectProjectFiles(expected: string[]): Promise<void> {
     await this.switchTab("Files");
-    await expect(this.page.getByRole("listitem")).toHaveText(expected);
+    await expect(
+      this.page.getByRole("tabpanel", { name: "Files" }).getByRole("listitem")
+    ).toHaveText(expected);
   }
 
   /** Adds files from the Files tab; a hex opens as a new project. */

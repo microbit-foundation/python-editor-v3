@@ -83,6 +83,10 @@
     "defaultMessage": "back to the main code",
     "description": "Text button, takes back to main code"
   },
+  "breadcrumb-label": {
+    "defaultMessage": "Breadcrumb",
+    "description": "Accessible name of the breadcrumb above the code editor: Home, the project name and the open file"
+  },
   "cancel-action": {
     "defaultMessage": "Cancel",
     "description": "Cancel button text"
@@ -90,6 +94,10 @@
   "choose-file-menu": {
     "defaultMessage": "{filename}, choose a file",
     "description": "Accessible name of the open file's name above the editor, which opens a menu of the project's files"
+  },
+  "choose-file-tooltip": {
+    "defaultMessage": "Choose a file",
+    "description": "Tooltip on the file icon above the editor, shown when there's no room for the file name, which opens a menu of the project's files"
   },
   "choose-main-add-file": {
     "defaultMessage": "Add file {name}",
