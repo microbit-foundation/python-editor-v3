@@ -262,7 +262,7 @@ const HomeCrumb = ({ showLabel }: { showLabel: boolean }) => {
     <Tooltip
       hasArrow
       label={intl.formatMessage({ id: "home-page-tooltip" })}
-      isOpen={showLabel ? false : undefined}
+      isDisabled={showLabel}
     >
       <AriaLink
         href={createHomePageUrl()}
@@ -396,7 +396,7 @@ const FileCrumb = ({
       <Tooltip
         hasArrow
         label={intl.formatMessage({ id: "choose-file-tooltip" })}
-        isOpen={iconOnly ? undefined : false}
+        isDisabled={!iconOnly}
       >
         <Button
           ref={triggerRef}
