@@ -59,6 +59,10 @@
     "defaultMessage": "Methods",
     "description": "Heading in API documentation for the methods in a Python class"
   },
+  "app-title": {
+    "defaultMessage": "micro:bit Python Editor",
+    "description": "Name of the app, as a heading for screen readers"
+  },
   "back-action": {
     "defaultMessage": "Back",
     "description": "Back button text"

@@ -43,6 +43,13 @@ const customTabBinding: KeyBinding = {
 
 export const compartment = new Compartment();
 
+const pythonHighlightStyle = highlightStyle();
+
+/**
+ * The editor's syntax highlighters, lowest precedence first.
+ */
+export const highlighters = [defaultHighlightStyle, pythonHighlightStyle];
+
 const indentSize = 4;
 export const editorConfig: Extension = [
   EditorView.contentAttributes.of({
@@ -60,7 +67,7 @@ export const editorConfig: Extension = [
   indentOnInput(),
   Prec.lowest(syntaxHighlighting(defaultHighlightStyle)),
   closeBrackets(),
-  syntaxHighlighting(highlightStyle()),
+  syntaxHighlighting(pythonHighlightStyle),
 
   keymap.of([
     // Added, but see https://codemirror.net/6/examples/tab/ for accessibility discussion.
