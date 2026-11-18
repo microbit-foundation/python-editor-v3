@@ -304,7 +304,6 @@ const ProjectCrumb = ({
       hasArrow
       label={intl.formatMessage({ id: "edit-name-project-hover" })}
       placement="top start"
-      // No warmup when the pencil is all there is to explain it.
       delay={iconOnly ? 0 : undefined}
     >
       <Button
