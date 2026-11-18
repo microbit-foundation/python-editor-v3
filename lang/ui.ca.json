@@ -185,9 +185,6 @@
   "edit-name-project-hover": {
     "defaultMessage": "Edita el nom del teu projecte"
   },
-  "edit-project-name-action": {
-    "defaultMessage": "Edita el nom del projecte"
-  },
   "failed-to-build-hex": {
     "defaultMessage": "No s'ha pogut crear el fitxer hexadecimal"
   },

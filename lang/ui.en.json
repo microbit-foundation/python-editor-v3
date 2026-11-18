@@ -87,9 +87,21 @@
     "defaultMessage": "back to the main code",
     "description": "Text button, takes back to main code"
   },
+  "breadcrumb-label": {
+    "defaultMessage": "Breadcrumb",
+    "description": "Accessible name of the breadcrumb above the code editor: Home, the project name and the open file"
+  },
   "cancel-action": {
     "defaultMessage": "Cancel",
     "description": "Cancel button text"
+  },
+  "choose-file-menu": {
+    "defaultMessage": "{filename}, choose a file",
+    "description": "Accessible name of the open file's name above the editor, which opens a menu of the project's files"
+  },
+  "choose-file-tooltip": {
+    "defaultMessage": "Choose a file",
+    "description": "Tooltip on the file icon above the editor, shown when there's no room for the file name, which opens a menu of the project's files"
   },
   "choose-main-add-file": {
     "defaultMessage": "Add file {name}",
@@ -295,9 +307,9 @@
     "defaultMessage": "Edit the name of your project",
     "description": "Text for user to edit the name of the project"
   },
-  "edit-project-name-action": {
-    "defaultMessage": "Edit project name",
-    "description": "Text for user to edit the name of the project"
+  "edit-project-name-crumb": {
+    "defaultMessage": "{name}, edit project name",
+    "description": "Accessible name of the breadcrumb button that shows the project name and opens the rename dialog"
   },
   "failed-to-build-hex": {
     "defaultMessage": "Failed to build the hex file",
@@ -425,7 +437,11 @@
   },
   "home-action": {
     "defaultMessage": "Home",
-    "description": "Link on the editor logo and the home page header logo, and button on the projects page, returning to the home page"
+    "description": "Link on the editor logo, the editor breadcrumb and the home page header logo, and button on the projects page, returning to the home page"
+  },
+  "home-page-tooltip": {
+    "defaultMessage": "Go to the home page",
+    "description": "Tooltip on the editor logo and the editor breadcrumb's home icon, which link to the home page"
   },
   "homepage-banner-heading": {
     "defaultMessage": "Python for the BBC micro:bit",
@@ -541,6 +557,10 @@
   "loading": {
     "defaultMessage": "Loading…",
     "description": "Shown on loading indicators"
+  },
+  "manage-project-files-action": {
+    "defaultMessage": "Manage project files",
+    "description": "Item in the menu of the project's files above the editor; opens the Files tab"
   },
   "mici-project-hot-potato-game-description": {
     "defaultMessage": "Play ‘hot potato’ using a micro:bit!",
@@ -785,6 +805,10 @@
   "project-actions": {
     "defaultMessage": "Project actions",
     "description": "Aria label for the bar with project actions"
+  },
+  "project-files-heading": {
+    "defaultMessage": "Project files",
+    "description": "Heading at the top of the Files tab, which lists the files in the project"
   },
   "project-header": {
     "defaultMessage": "Project header",

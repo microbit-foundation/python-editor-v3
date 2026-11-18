@@ -185,9 +185,6 @@
   "edit-name-project-hover": {
     "defaultMessage": "Wijzig de naam van je project"
   },
-  "edit-project-name-action": {
-    "defaultMessage": "Project naam bewerken"
-  },
   "failed-to-build-hex": {
     "defaultMessage": "Het maken van het hex bestand is mislukt"
   },

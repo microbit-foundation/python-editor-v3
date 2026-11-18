@@ -8,10 +8,12 @@ import {
   ReactNode,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useLayoutEffect,
   useMemo,
   useRef,
 } from "react";
+import { flushSync } from "react-dom";
 import { TabList, TabPanel, TabPanels, Tabs } from "react-aria-components";
 import { IconType } from "react-icons";
 import { RiLightbulbFlashLine } from "react-icons/ri";
@@ -33,6 +35,7 @@ import HelpMenu from "./HelpMenu";
 import PreReleaseNotice, { useReleaseDialogState } from "./PreReleaseNotice";
 import ReleaseDialogs from "./ReleaseDialogs";
 import SideBarHeader from "./SideBarHeader";
+import { ShowSidebarPanel } from "./sidebar-hooks";
 import SideBarTab from "./SideBarTab";
 
 export const cornerSize = 32;
@@ -57,6 +60,11 @@ interface SideBarProps {
   onSidebarCollapse: () => void;
   "aria-label"?: string;
   css?: SystemStyleObject;
+  ref?: React.Ref<SideBarHandle>;
+}
+
+export interface SideBarHandle {
+  showPanel: ShowSidebarPanel;
 }
 
 /**
@@ -72,6 +80,7 @@ const SideBar = ({
   onSidebarCollapse,
   onSidebarExpand,
   css: cssProp,
+  ref,
   ...props
 }: SideBarProps) => {
   const intl = useIntl();
@@ -98,7 +107,6 @@ const SideBar = ({
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
         color: "gray.75",
-        mb: "auto",
       },
       {
         id: "project" as const,
@@ -111,6 +119,7 @@ const SideBar = ({
           />
         ),
         color: "gray.50",
+        mb: "auto",
       },
     ];
     return result;
@@ -140,6 +149,23 @@ const SideBar = ({
       }
     }
   }, [onSidebarExpand, panes, onTabIndexChange, tab, slug, focus]);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      showPanel: (id) => {
+        // Synchronously, so the panel can take focus now. The URL follows.
+        // eslint-disable-next-line @eslint-react/dom-no-flush-sync
+        flushSync(() => {
+          onTabIndexChange(panes.findIndex((p) => p.id === id));
+          onSidebarExpand();
+        });
+        setPanelFocus();
+        setParams({ tab: id });
+      },
+    }),
+    [onSidebarExpand, onTabIndexChange, panes, setParams]
+  );
 
   const previouslyShown = usePrevious(shown);
   useEffect(() => {
@@ -237,9 +263,8 @@ const SideBar = ({
         <Flex direction="column" background="sidebarTablistBg">
           <Box flex="1" maxHeight="8.9rem" minHeight="8"></Box>
           <TabList
-            // Flexes so the API tab's mb:auto pushes the project tab (and
-            // the menus below the list) to the bottom, as in the old
-            // single-column tablist.
+            // Flexes so the Files tab's mb:auto pushes the menus below the
+            // list to the bottom.
             className={css({
               display: "flex",
               flexDirection: "column",

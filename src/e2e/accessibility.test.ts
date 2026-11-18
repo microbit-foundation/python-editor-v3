@@ -99,6 +99,20 @@ test.describe("accessibility scans", () => {
     await app.expectNoNewAccessibilityViolations();
   });
 
+  test("breadcrumb file menu", async ({ app }) => {
+    await app.page.getByRole("button", { name: /choose a file/ }).click();
+    await app.page.getByRole("menuitemradio").first().waitFor();
+    await app.expectNoNewAccessibilityViolations();
+  });
+
+  test("breadcrumb with a second file open", async ({ app }) => {
+    await app.createNewFile("second");
+    await app.page
+      .getByRole("button", { name: "back to the main code" })
+      .waitFor();
+    await app.expectNoNewAccessibilityViolations();
+  });
+
   test("search results", async ({ app }) => {
     await app.search("loop");
     await app.page.getByRole("dialog").getByRole("link").first().waitFor();

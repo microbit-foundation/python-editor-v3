@@ -185,9 +185,6 @@
   "edit-name-project-hover": {
     "defaultMessage": "Cuir ainm do thionscadail in eagar"
   },
-  "edit-project-name-action": {
-    "defaultMessage": "Cuir ainm an tionscadail in eagar"
-  },
   "failed-to-build-hex": {
     "defaultMessage": "Theip ar an gcomhad heicsidheachúlach a thógáil"
   },

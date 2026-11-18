@@ -38,7 +38,9 @@ import SerialArea from "../serial/SerialArea";
 import { useSettings } from "../settings/settings";
 import Simulator from "../simulator/Simulator";
 import Overlay from "./connect-dialogs/Overlay";
-import SideBar from "./SideBar";
+import { TabName } from "../router-hooks";
+import SideBar, { SideBarHandle } from "./SideBar";
+import { ShowSidebarPanelContext } from "./sidebar-hooks";
 import { WorkbenchSelection, useSelection } from "./use-selection";
 import { flags } from "../flags";
 
@@ -105,6 +107,11 @@ const Workbench = () => {
     window.innerWidth > widthToHideSidebar ? 0 : -1
   );
   const [simFocus, setSimFocus] = useState<boolean>(true);
+  const sideBarRef = useRef<SideBarHandle>(null);
+  const showSidebarPanel = useCallback(
+    (tab: TabName) => sideBarRef.current?.showPanel(tab),
+    []
+  );
 
   // Sidebar/simulator space management:
   const handleSidebarCollapse = useCallback(() => {
@@ -165,51 +172,54 @@ const Workbench = () => {
   );
 
   return (
-    <Flex className="WorkbenchContainer" direction="column">
-      <Flex className="Workbench">
-        <SplitView
-          primaryMinSize={minimums[0]}
-          secondaryMinSize={minimums[1]}
-          defaultSize={Math.min(
-            700,
-            Math.max(
-              minimums[0],
-              Math.floor(window.innerWidth * sidebarToWidthRatio)
-            )
-          )}
-          compactSize={86}
-          mode={sidebarShown ? "open" : "compact"}
-          css={{ width: "100%" }}
-        >
-          <SplitViewPane primary>
-            <SideBar
-              aria-label={intl.formatMessage({ id: "sidebar" })}
-              selectedFile={selection.file}
-              onSelectedFileChanged={setSelectedFile}
-              css={{ flex: "1 1 100%" }}
-              shown={sidebarShown}
-              tabIndex={tabIndex}
-              onTabIndexChange={setTabIndex}
-              onSidebarCollapse={handleSidebarCollapse}
-              onSidebarExpand={handleSidebarExpand}
+    <ShowSidebarPanelContext value={showSidebarPanel}>
+      <Flex className="WorkbenchContainer" direction="column">
+        <Flex className="Workbench">
+          <SplitView
+            primaryMinSize={minimums[0]}
+            secondaryMinSize={minimums[1]}
+            defaultSize={Math.min(
+              700,
+              Math.max(
+                minimums[0],
+                Math.floor(window.innerWidth * sidebarToWidthRatio)
+              )
+            )}
+            compactSize={86}
+            mode={sidebarShown ? "open" : "compact"}
+            css={{ width: "100%" }}
+          >
+            <SplitViewPane primary>
+              <SideBar
+                ref={sideBarRef}
+                aria-label={intl.formatMessage({ id: "sidebar" })}
+                selectedFile={selection.file}
+                onSelectedFileChanged={setSelectedFile}
+                css={{ flex: "1 1 100%" }}
+                shown={sidebarShown}
+                tabIndex={tabIndex}
+                onTabIndexChange={setTabIndex}
+                onSidebarCollapse={handleSidebarCollapse}
+                onSidebarExpand={handleSidebarExpand}
+              />
+            </SplitViewPane>
+            <SplitViewSplitter
+              aria-label={intl.formatMessage({ id: "sidebar-resize" })}
             />
-          </SplitViewPane>
-          <SplitViewSplitter
-            aria-label={intl.formatMessage({ id: "sidebar-resize" })}
-          />
-          <SplitViewPane>
-            <EditorWithSimulator
-              editor={editor}
-              onSimulatorHide={handleSimulatorHide}
-              simulatorShown={simulatorShown}
-              showSimulatorButtonRef={simulatorButtonRef}
-              simFocus={simFocus}
-            />
-          </SplitViewPane>
-        </SplitView>
+            <SplitViewPane>
+              <EditorWithSimulator
+                editor={editor}
+                onSimulatorHide={handleSimulatorHide}
+                simulatorShown={simulatorShown}
+                showSimulatorButtonRef={simulatorButtonRef}
+                simFocus={simFocus}
+              />
+            </SplitViewPane>
+          </SplitView>
+        </Flex>
+        <Overlay />
       </Flex>
-      <Overlay />
-    </Flex>
+    </ShowSidebarPanelContext>
   );
 };
 

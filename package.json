@@ -25,7 +25,7 @@
     "@microbit/microbit-connection": "^1.0.0",
     "@microbit/microbit-fs": "^0.11.0",
     "@microbit/micropython-microbit-stubs": "^1.0.1",
-    "@microbit/ui": "^0.6.2",
+    "@microbit/ui": "^0.6.3",
     "@microbit/ui-carousel": "^0.5.0",
     "@microbit/ui-patterns": "^0.8.0",
     "@sanity/block-content-to-react": "^3.0.0",
