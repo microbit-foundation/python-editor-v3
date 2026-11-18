@@ -8,6 +8,7 @@ import {
   SplitViewMode,
   SplitViewPane,
   useMediaQuery,
+  VisuallyHidden,
 } from "@microbit/ui";
 import { Flex, styled } from "styled-system/jsx";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
@@ -256,6 +257,9 @@ const Editor = ({ editor }: EditorProps) => {
       height="100%"
       boxShadow="4px 0px 24px #00000033"
     >
+      <VisuallyHidden as="h1">
+        {intl.formatMessage({ id: "app-title" })}
+      </VisuallyHidden>
       <SplitView
         orientation="horizontal"
         primaryMinSize={248}
