@@ -185,9 +185,6 @@
   "edit-name-project-hover": {
     "defaultMessage": "プロジェクトの名前を編集"
   },
-  "edit-project-name-action": {
-    "defaultMessage": "プロジェクト名を編集"
-  },
   "failed-to-build-hex": {
     "defaultMessage": "hex ファイルのビルドに失敗しました"
   },

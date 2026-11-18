@@ -185,9 +185,6 @@
   "edit-name-project-hover": {
     "defaultMessage": "编辑您项目的名称"
   },
-  "edit-project-name-action": {
-    "defaultMessage": "编辑项目名称"
-  },
   "failed-to-build-hex": {
     "defaultMessage": "无法创建 hex 文件"
   },

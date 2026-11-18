@@ -303,10 +303,6 @@
     "defaultMessage": "Edit the name of your project",
     "description": "Text for user to edit the name of the project"
   },
-  "edit-project-name-action": {
-    "defaultMessage": "Edit project name",
-    "description": "Text for user to edit the name of the project"
-  },
   "edit-project-name-crumb": {
     "defaultMessage": "{name}, edit project name",
     "description": "Accessible name of the breadcrumb button that shows the project name and opens the rename dialog"
@@ -437,11 +433,11 @@
   },
   "home-action": {
     "defaultMessage": "Home",
-    "description": "Link on the editor logo and button on the projects page returning to the home page"
+    "description": "Link on the editor logo and the editor breadcrumb, and button on the projects page, returning to the home page"
   },
   "home-page-tooltip": {
     "defaultMessage": "Go to the home page",
-    "description": "Tooltip on the editor logo, which links to the home page"
+    "description": "Tooltip on the editor logo and the editor breadcrumb's home icon, which link to the home page"
   },
   "homepage-banner-heading": {
     "defaultMessage": "Python for the BBC micro:bit",

@@ -197,9 +197,6 @@
   "edit-name-project-hover": {
     "defaultMessage": "Edite o nome do seu projeto"
   },
-  "edit-project-name-action": {
-    "defaultMessage": "Editar nome do projeto"
-  },
   "failed-to-build-hex": {
     "defaultMessage": "Falha ao construir o arquivo hexadecimal"
   },
