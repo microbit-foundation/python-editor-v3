@@ -21,7 +21,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Link as AriaLink, MenuSection } from "react-aria-components";
+import { Focusable, MenuSection } from "react-aria-components";
 import {
   RiArrowDownSLine,
   RiArrowRightSLine,
@@ -30,6 +30,7 @@ import {
 } from "react-icons/ri";
 import { VscFiles } from "react-icons/vsc";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Link as RouterLink } from "react-router";
 import { css, cx } from "styled-system/css";
 import { Box, styled } from "styled-system/jsx";
 import { button } from "styled-system/recipes";
@@ -264,18 +265,20 @@ const HomeCrumb = ({ showLabel }: { showLabel: boolean }) => {
       label={intl.formatMessage({ id: "home-page-tooltip" })}
       isDisabled={showLabel}
     >
-      <AriaLink
-        href={createHomePageUrl()}
-        aria-label={intl.formatMessage({ id: "home-action" })}
-        className={cx(
-          button({ variant: "ghost", size: "md" }),
-          crumbClass,
-          css({ flexShrink: 0 })
-        )}
-      >
-        <RiHome2Line aria-hidden className={crumbIconClass} />
-        {showLabel && <FormattedMessage id="home-action" />}
-      </AriaLink>
+      <Focusable>
+        <RouterLink
+          to={createHomePageUrl()}
+          aria-label={intl.formatMessage({ id: "home-action" })}
+          className={cx(
+            button({ variant: "ghost", size: "md" }),
+            crumbClass,
+            css({ flexShrink: 0 })
+          )}
+        >
+          <RiHome2Line aria-hidden className={crumbIconClass} />
+          {showLabel && <FormattedMessage id="home-action" />}
+        </RouterLink>
+      </Focusable>
     </Tooltip>
   );
 };

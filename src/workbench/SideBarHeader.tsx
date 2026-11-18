@@ -15,9 +15,10 @@ import {
   Tooltip,
 } from "@microbit/ui";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link as AriaLink } from "react-aria-components";
+import { Focusable } from "react-aria-components";
 import { RiCloseLine, RiSearch2Line } from "react-icons/ri";
 import { useIntl } from "react-intl";
+import { Link as RouterLink } from "react-router";
 import { css } from "styled-system/css";
 import { Box, Flex, HStack, styled } from "styled-system/jsx";
 import CollapsibleButton from "../common/CollapsibleButton";
@@ -215,19 +216,21 @@ const SideBarHeader = ({
               placement="bottom"
               label={intl.formatMessage({ id: "home-page-tooltip" })}
             >
-              <AriaLink
-                href={createHomePageUrl()}
-                aria-label={intl.formatMessage({ id: "home-action" })}
-                className={css({
-                  display: "block",
-                  mx: "1rem",
-                  borderRadius: "md",
-                  outline: "none",
-                  _focusVisible: { focusRing: "outline" },
-                })}
-              >
-                {logo}
-              </AriaLink>
+              <Focusable>
+                <RouterLink
+                  to={createHomePageUrl()}
+                  aria-label={intl.formatMessage({ id: "home-action" })}
+                  className={css({
+                    display: "block",
+                    mx: "1rem",
+                    borderRadius: "md",
+                    outline: "none",
+                    _focusVisible: { focusRing: "outline" },
+                  })}
+                >
+                  {logo}
+                </RouterLink>
+              </Focusable>
             </Tooltip>
           ) : (
             <Link
