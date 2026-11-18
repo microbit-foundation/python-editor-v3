@@ -7,7 +7,7 @@ import { usePrevious } from "@microbit/ui";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { IntlShape, useIntl } from "react-intl";
 import { token } from "styled-system/tokens";
-import { AspectRatio, Box, Flex, VStack } from "styled-system/jsx";
+import { AspectRatio, Box, Flex, styled, VStack } from "styled-system/jsx";
 import HideSplitViewButton from "../common/SplitView/HideSplitViewButton";
 import { topBarHeight } from "../deployment/misc";
 import { DeviceContextProvider } from "../device/device-hooks";
@@ -95,7 +95,9 @@ const Simulator = ({
 
   return (
     <DeviceContextProvider value={simulator.current}>
-      <Flex
+      <styled.section
+        aria-label={simulatorTitle}
+        display="flex"
         flex="1 1 100%"
         flexDirection="column"
         height="100%"
@@ -151,7 +153,7 @@ const Simulator = ({
         <SimSerialTabControlProvider>
           <SimulatorSplitView simRunning={running} />
         </SimSerialTabControlProvider>
-      </Flex>
+      </styled.section>
     </DeviceContextProvider>
   );
 };

@@ -14,6 +14,7 @@ import {
   default as React,
   ReactNode,
   useCallback,
+  useId,
   useMemo,
   useState,
 } from "react";
@@ -57,11 +58,17 @@ const kindToFontSize: Record<string, any> = {
   class: "lg",
 };
 
-const kindToHeading: Record<string, any> = {
-  module: "h2",
-  class: "h3",
-  variable: "h4",
-  function: "h4",
+type ApiHeading = "h2" | "h3" | "h4";
+
+// The module's name is the panel's h2 heading.
+const headingFor = (
+  kind: string,
+  parentType: string | undefined
+): ApiHeading => {
+  if (kind === "module") {
+    return "h2";
+  }
+  return parentType === "class" ? "h4" : "h3";
 };
 
 const kindToSpacing: Record<string, string> = {
@@ -148,6 +155,7 @@ const ApiNode = ({
       >
         <ApiNodeSelf
           docs={docs}
+          heading={headingFor(kind, parentType)}
           showMore={disclosure.isOpen}
           onToggleShowMore={disclosure.onToggle}
         />
@@ -159,6 +167,7 @@ const ApiNode = ({
 
 interface ApiNodeSelfProps {
   docs: ApiDocsEntry;
+  heading: ApiHeading;
   showMore: boolean;
   onToggleShowMore: () => void;
 }
@@ -168,6 +177,7 @@ interface ApiNodeSelfProps {
  */
 const ApiNodeSelf = ({
   docs,
+  heading,
   showMore,
   onToggleShowMore,
 }: ApiNodeSelfProps) => {
@@ -191,13 +201,14 @@ const ApiNodeSelf = ({
         <DraggableSignature
           signature={signature}
           docs={docs}
+          heading={heading}
           css={{ alignSelf: "flex-start" }}
         />
       ) : (
         <Text
           fontFamily="code"
           fontSize={kindToFontSize[kind] || "md"}
-          as={kindToHeading[kind]}
+          as={heading}
         >
           <Text as="span">{formatName(kind, fullName, name)}</Text>
           {signature}
@@ -436,12 +447,14 @@ export const getDragContext = (fullName: string, kind: string): DragContext => {
 interface DraggableSignatureProps {
   signature: ReactNode;
   docs: ApiDocsEntry;
+  heading: ApiHeading;
   css?: SystemStyleObject;
 }
 
 const DraggableSignature = ({
   signature,
   docs,
+  heading,
   css: cssProp,
 }: DraggableSignatureProps) => {
   const { fullName, kind, name } = docs;
@@ -485,6 +498,7 @@ const DraggableSignature = ({
   });
   const intl = useIntl();
   const [{ dragDropSuccess }] = useSessionSettings();
+  const signatureId = useId();
   const signatureContent = (
     <HStack
       // Interactive: click toggles the action button, drag inserts code
@@ -529,26 +543,33 @@ const DraggableSignature = ({
         p="2"
         fontFamily="code"
         fontSize={kindToFontSize[kind] || "md"}
-        as={kindToHeading[kind]}
+        as="span"
+        id={signatureId}
       >
         <Text as="span">{formatName(kind, fullName, name)}</Text>
         {signature}
       </Text>
     </HStack>
   );
+  // Outside the button: a button's content is presentational, so a heading
+  // inside it isn't exposed as one. Named by the signature alone so that
+  // heading lists don't repeat the button's "Code example" prefix.
+  const Heading = heading;
   return (
     <Box position="relative">
-      {dragDropSuccess ? (
-        signatureContent
-      ) : (
-        <Tooltip
-          hasArrow
-          placement="top start"
-          label={intl.formatMessage({ id: "drag-hover" })}
-        >
-          <Focusable>{signatureContent}</Focusable>
-        </Tooltip>
-      )}
+      <Heading aria-labelledby={signatureId}>
+        {dragDropSuccess ? (
+          signatureContent
+        ) : (
+          <Tooltip
+            hasArrow
+            placement="top start"
+            label={intl.formatMessage({ id: "drag-hover" })}
+          >
+            <Focusable>{signatureContent}</Focusable>
+          </Tooltip>
+        )}
+      </Heading>
       <CodeActionButton
         isOpen={copyCodeOpen}
         toHighlighted={() => setHighlighted(true)}

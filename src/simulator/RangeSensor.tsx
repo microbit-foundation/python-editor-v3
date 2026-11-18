@@ -1,5 +1,5 @@
-import { Slider, Tooltip } from "@microbit/ui";
-import React, { ReactNode, useCallback, useRef, useState } from "react";
+import { Slider, Tooltip, VisuallyHidden } from "@microbit/ui";
+import React, { ReactNode, useCallback, useId, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import { css } from "styled-system/css";
 import { Box, HStack } from "styled-system/jsx";
@@ -65,6 +65,30 @@ const RangeSensor = ({
     [isFocused]
   );
   const valuePercent = ((value - min) / (max - min)) * 100;
+  const thresholds = (
+    [
+      ["low", lowThreshold],
+      ["high", highThreshold],
+    ] as const
+  ).flatMap(([threshold, value]) =>
+    value === undefined
+      ? []
+      : [
+          {
+            value,
+            label:
+              intl.formatMessage({ id: getThresholdLabels(id, threshold) }) +
+              ` ${value}`,
+          },
+        ]
+  );
+  // The marks are hover-only, so this is how keyboard and screen reader
+  // users learn the thresholds.
+  const thresholdsDescription = intl.formatList(
+    thresholds.map((t) => t.label),
+    { type: "unit" }
+  );
+  const thresholdsId = useId();
   return (
     <HStack
       pb={minimised ? "0" : "2"}
@@ -78,6 +102,7 @@ const RangeSensor = ({
       {icon}
       <Slider
         aria-label={accessibleTitle}
+        aria-describedby={thresholdsDescription ? thresholdsId : undefined}
         value={value}
         minValue={min}
         maxValue={max}
@@ -88,22 +113,15 @@ const RangeSensor = ({
         isThumbTooltipOpen={minimised ? showTooltip : false}
         onThumbFocusChange={handleFocusTooltip}
       >
-        {typeof lowThreshold !== "undefined" && (
+        {thresholds.map(({ value, label }) => (
           <ThresholdMark
-            value={lowThreshold}
-            label={getThresholdLabels(id, "low")}
+            key={label}
+            value={value}
+            label={label}
             min={min}
             max={max}
           />
-        )}
-        {typeof highThreshold !== "undefined" && (
-          <ThresholdMark
-            value={highThreshold}
-            label={getThresholdLabels(id, "high")}
-            min={min}
-            max={max}
-          />
-        )}
+        ))}
         {!minimised && (
           <>
             <SensorMark percent={0}>{min}</SensorMark>
@@ -125,6 +143,11 @@ const RangeSensor = ({
           </>
         )}
       </Slider>
+      {thresholdsDescription && (
+        <VisuallyHidden id={thresholdsId}>
+          {thresholdsDescription}
+        </VisuallyHidden>
+      )}
     </HStack>
   );
 };
@@ -174,16 +197,13 @@ interface ThresholdMarkProps {
 }
 
 const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
-  const intl = useIntl();
   const ref = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
   const percentLeft = ((value - min) / (max - min)) * 100 + "%";
-  const formattedLabel = intl.formatMessage({ id: label }) + ` ${value}`;
   return (
     <>
       <Box
         ref={ref}
-        aria-label={formattedLabel}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         position="absolute"
@@ -205,7 +225,7 @@ const ThresholdMark = ({ value, label, min, max }: ThresholdMarkProps) => {
       <Tooltip
         hasArrow
         placement="top"
-        label={formattedLabel}
+        label={label}
         isOpen={hovered}
         triggerRef={ref}
       >

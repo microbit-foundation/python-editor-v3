@@ -128,6 +128,9 @@ const CodeMirror = ({
           notify,
           errorReporting.extension(),
           editorConfig,
+          // The enclosing section is labelled "Code editor", so this names the
+          // file.
+          EditorView.contentAttributes.of({ "aria-label": selection.file }),
           // Extension requires external state.
           dndSupport({ sessionSettings, setSessionSettings }),
           // Extensions only relevant for editing:
@@ -190,6 +193,7 @@ const CodeMirror = ({
     apiReferenceMap,
     device,
     disableV2OnlyFeaturesWarning,
+    selection.file,
   ]);
   useEffect(() => {
     // Do this separately as we don't want to destroy the view whenever options needed for initialization change.

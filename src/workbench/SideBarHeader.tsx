@@ -159,18 +159,18 @@ const SideBarHeader = ({
         />
       </Box>
       {!query && sidebarShown && OrgLogo && (
-        <Box color="white">
+        <Box color="white" aria-hidden>
           <OrgLogo h="40px" />
         </Box>
       )}
     </HStack>
   ) : (
     <HStack gap="0.875rem">
-      <Box width="3.56875rem" color="white" role="img" ref={faceLogoRef}>
+      <Box width="3.56875rem" color="white" aria-hidden ref={faceLogoRef}>
         {brand.squareLogo}
       </Box>
       {!query && sidebarShown && (
-        <Box width="9.098rem" role="img" color="white">
+        <Box width="9.098rem" aria-hidden color="white">
           {brand.horizontalLogo}
         </Box>
       )}

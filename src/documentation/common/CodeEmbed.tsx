@@ -20,7 +20,7 @@ import { Box, HStack } from "styled-system/jsx";
 import { pythonSnippetMediaType } from "../../common/mediaTypes";
 import { useScrollablePanelAncestor } from "../../common/ScrollablePanel";
 import { useActiveEditorActions } from "../../editor/active-editor-hooks";
-import CodeMirrorView from "../../editor/codemirror/CodeMirrorView";
+import HighlightedCode from "../../editor/codemirror/HighlightedCode";
 import { debug as dndDebug, setDragContext } from "../../editor/codemirror/dnd";
 import { useLogging } from "../../logging/logging-hooks";
 import { useProjectActions } from "../../project/project-hooks";
@@ -337,7 +337,7 @@ const Code = ({
         />
       )}
 
-      <CodeMirrorView
+      <HighlightedCode
         css={{
           // If we fix copy and deal with selection sync then we should
           // probably remove this, though it'll make it harder to drag.
@@ -349,7 +349,7 @@ const Code = ({
           pb: "2",
           minW: "40",
         }}
-        value={concise}
+        code={concise}
       />
     </HStack>
   );
