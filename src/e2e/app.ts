@@ -258,7 +258,7 @@ export class App {
   }
 
   async setProjectName(projectName: string): Promise<void> {
-    await this.page.getByRole("button", { name: "Edit project name" }).click();
+    await this.page.getByRole("button", { name: /edit project name/i }).click();
     await this.page.getByLabel("Name*").fill(projectName);
     await this.page.getByRole("button", { name: "Confirm" }).click();
   }
