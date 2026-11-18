@@ -107,7 +107,6 @@ const SideBar = ({
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
         color: "gray.75",
-        mb: "auto",
       },
       {
         id: "project" as const,
@@ -120,6 +119,7 @@ const SideBar = ({
           />
         ),
         color: "gray.50",
+        mb: "auto",
       },
     ];
     return result;
@@ -263,9 +263,8 @@ const SideBar = ({
         <Flex direction="column" background="sidebarTablistBg">
           <Box flex="1" maxHeight="8.9rem" minHeight="8"></Box>
           <TabList
-            // Flexes so the API tab's mb:auto pushes the project tab (and
-            // the menus below the list) to the bottom, as in the old
-            // single-column tablist.
+            // Flexes so the Files tab's mb:auto pushes the menus below the
+            // list to the bottom.
             className={css({
               display: "flex",
               flexDirection: "column",
