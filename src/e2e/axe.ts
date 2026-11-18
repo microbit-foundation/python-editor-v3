@@ -55,8 +55,7 @@ const knownViolations: KnownViolation[] = [
     level: "A",
     criterion: "1.1.1 Non-text Content",
     selector: 'div[role="img"]',
-    reason:
-      "The sidebar header logos and simulator sensor icons are role=img wrappers with no label.",
+    reason: "Simulator sensor icons are role=img wrappers with no label.",
   },
   {
     rule: "color-contrast",
