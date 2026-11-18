@@ -425,7 +425,7 @@
   },
   "home-action": {
     "defaultMessage": "Home",
-    "description": "Link on the editor logo and button on the projects page returning to the home page"
+    "description": "Link on the editor logo and the home page header logo, and button on the projects page, returning to the home page"
   },
   "homepage-banner-heading": {
     "defaultMessage": "Python for the BBC micro:bit",

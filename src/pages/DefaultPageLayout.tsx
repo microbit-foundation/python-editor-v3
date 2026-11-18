@@ -6,7 +6,7 @@
 import { Box, Button, darkSurface, HStack, VStack } from "@microbit/ui";
 import { css } from "styled-system/css";
 import { ReactNode } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Link as RouterLink, useNavigate } from "react-router";
 import { styled } from "styled-system/jsx";
 import { useDeployment } from "../deployment";
@@ -28,14 +28,14 @@ interface DefaultPageLayoutProps {
  * Sizes are the prototype's; the OSS build has only the wordmark.
  */
 const Branding = () => {
+  const intl = useIntl();
   const { AppLogo, OrgLogo } = useDeployment();
   return (
     <RouterLink
       to={createHomePageUrl()}
+      aria-label={intl.formatMessage({ id: "home-action" })}
       className={css({
         display: "flex",
-        alignItems: "center",
-        gap: "0.875rem",
         color: "white",
         borderRadius: "md",
         outline: "none",
@@ -43,18 +43,21 @@ const Branding = () => {
         _focusVisible: { focusRing: "outline" },
       })}
     >
-      {OrgLogo ? (
-        <>
-          <OrgLogo h="30px" />
-          <Box
-            aria-hidden
-            h="28px"
-            borderLeftWidth="1px"
-            borderColor="whiteAlpha.600"
-          />
-        </>
-      ) : null}
-      {AppLogo ? <AppLogo h="20px" /> : null}
+      {/* Decorative: the link is named by its label. */}
+      <styled.span
+        aria-hidden
+        display="flex"
+        alignItems="center"
+        gap="0.875rem"
+      >
+        {OrgLogo ? (
+          <>
+            <OrgLogo h="30px" />
+            <Box h="28px" borderLeftWidth="1px" borderColor="whiteAlpha.600" />
+          </>
+        ) : null}
+        {AppLogo ? <AppLogo h="20px" /> : null}
+      </styled.span>
     </RouterLink>
   );
 };
