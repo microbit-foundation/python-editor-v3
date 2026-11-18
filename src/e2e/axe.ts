@@ -35,29 +35,6 @@ interface KnownViolation {
  */
 const knownViolations: KnownViolation[] = [
   {
-    rule: "aria-input-field-name",
-    level: "A",
-    criterion: "4.1.2 Name, Role, Value",
-    selector: ".cm-content",
-    reason:
-      "CodeMirror's content element has no accessible name, in the main editor and in documentation code examples.",
-  },
-  {
-    rule: "aria-prohibited-attr",
-    level: "A",
-    criterion: "4.1.2 Name, Role, Value",
-    selector: 'div[aria-label]:not([role])[style*="left"]',
-    reason:
-      "Simulator range sensor threshold marks put aria-label on a div with no role.",
-  },
-  {
-    rule: "role-img-alt",
-    level: "A",
-    criterion: "1.1.1 Non-text Content",
-    selector: 'div[role="img"]',
-    reason: "Simulator sensor icons are role=img wrappers with no label.",
-  },
-  {
     rule: "color-contrast",
     level: "AA",
     criterion: "1.4.3 Contrast (Minimum)",
@@ -73,28 +50,18 @@ const knownViolations: KnownViolation[] = [
       "Unselected sidebar tab labels are 4.3:1 against the tab bar at 13px.",
   },
   {
-    rule: "heading-order",
+    rule: "label-title-only",
     level: "best-practice",
-    selector: "h4",
-    reason: "API documentation entries use h4 without an h3 above them.",
-  },
-  {
-    rule: "page-has-heading-one",
-    level: "best-practice",
-    selector: "html",
-    reason: "The app has no level-one heading.",
+    selector: 'input[type="range"][aria-describedby]',
+    reason:
+      "False positive: the rule only accepts a <label> element, so it fails any input that has a description but is named another way. The sound level slider is described by its thresholds and named by aria-label, which matches the module's visible heading.",
   },
   {
     rule: "region",
     level: "best-practice",
     selector: ".splitView__splitter",
-    reason: "The sidebar and simulator resize handles sit between landmarks.",
-  },
-  {
-    rule: "region",
-    level: "best-practice",
-    selector: '[data-testid="simulator"] *',
-    reason: "The simulator's sensor controls are outside any landmark.",
+    reason:
+      "The resize handles sit between the landmarks they resize. Wrapping the workbench in another region just to contain them would only add noise for screen reader users.",
   },
 ];
 

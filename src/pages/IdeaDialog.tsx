@@ -21,7 +21,7 @@ import DocumentationContent, {
   DocumentationContextProvider,
 } from "../documentation/common/DocumentationContent";
 import { ideaCode, withoutCode } from "../documentation/ideas/idea-code";
-import CodeMirrorView from "../editor/codemirror/CodeMirrorView";
+import HighlightedCode from "../editor/codemirror/HighlightedCode";
 import { useOpenIdea } from "./project-page-actions";
 
 interface IdeaDialogProps {
@@ -78,7 +78,7 @@ const IdeaDialog = ({ slug, title, onClose }: IdeaDialogProps) => {
             {ideas.status === "loading" ? (
               <Spinner />
             ) : code !== undefined ? (
-              <CodeMirrorView value={code} css={{ px: "4", py: "2" }} />
+              <HighlightedCode code={code} css={{ px: "4", py: "2" }} />
             ) : (
               <Text p="3">
                 <FormattedMessage id="toolkit-error-loading" />

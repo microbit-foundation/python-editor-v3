@@ -75,6 +75,10 @@
     "defaultMessage": "Methods",
     "description": "Heading in API documentation for the methods in a Python class"
   },
+  "app-title": {
+    "defaultMessage": "micro:bit Python Editor",
+    "description": "Name of the app, as a heading for screen readers"
+  },
   "back-action": {
     "defaultMessage": "Back",
     "description": "Back button text"
@@ -433,7 +437,7 @@
   },
   "home-action": {
     "defaultMessage": "Home",
-    "description": "Link on the editor logo and the editor breadcrumb, and button on the projects page, returning to the home page"
+    "description": "Link on the editor logo, the editor breadcrumb and the home page header logo, and button on the projects page, returning to the home page"
   },
   "home-page-tooltip": {
     "defaultMessage": "Go to the home page",

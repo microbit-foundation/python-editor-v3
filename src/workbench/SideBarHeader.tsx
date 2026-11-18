@@ -145,16 +145,11 @@ const SideBarHeader = ({
   const modalWidth = contentWidth - modalOffset + "px";
   const logo = (
     <HStack gap="0.875rem">
-      <Box
-        width="3.56875rem"
-        color="white"
-        role="presentation"
-        ref={faceLogoRef}
-      >
+      <Box width="3.56875rem" color="white" aria-hidden ref={faceLogoRef}>
         {brand.squareLogo}
       </Box>
       {!query && sidebarShown && (
-        <Box width="9.098rem" role="presentation" color="white">
+        <Box width="9.098rem" aria-hidden color="white">
           {brand.horizontalLogo}
         </Box>
       )}

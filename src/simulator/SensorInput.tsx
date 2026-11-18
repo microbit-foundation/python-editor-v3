@@ -141,7 +141,7 @@ const SensorInput = ({
         onMouseLeave={mouseLeaveListener}
       >
         {logo ? (
-          <Box width="5" role="img">
+          <Box width="5" aria-hidden>
             {logo}
           </Box>
         ) : (
