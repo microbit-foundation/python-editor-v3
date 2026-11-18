@@ -264,6 +264,7 @@ const HomeCrumb = ({ showLabel }: { showLabel: boolean }) => {
       hasArrow
       label={intl.formatMessage({ id: "home-page-tooltip" })}
       isDisabled={showLabel}
+      delay={0}
     >
       <Focusable>
         <RouterLink
@@ -303,6 +304,8 @@ const ProjectCrumb = ({
       hasArrow
       label={intl.formatMessage({ id: "edit-name-project-hover" })}
       placement="top start"
+      // No warmup when the pencil is all there is to explain it.
+      delay={iconOnly ? 0 : undefined}
     >
       <Button
         variant="ghost"
@@ -400,6 +403,7 @@ const FileCrumb = ({
         hasArrow
         label={intl.formatMessage({ id: "choose-file-tooltip" })}
         isDisabled={!iconOnly}
+        delay={0}
       >
         <Button
           ref={triggerRef}
