@@ -12,6 +12,7 @@ import {
   ModalHeader,
   Text,
 } from "@microbit/ui";
+import { useEffect, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { Box, Grid, Stack } from "styled-system/jsx";
 import { docStylesClass } from "../common/documentation-styles";
@@ -22,7 +23,7 @@ import DocumentationContent, {
 } from "../documentation/common/DocumentationContent";
 import { ideaCode, withoutCode } from "../documentation/ideas/idea-code";
 import HighlightedCode from "../editor/codemirror/HighlightedCode";
-import { useOpenIdea } from "./project-page-actions";
+import { useCreateProjectFailure, useOpenIdea } from "./project-page-actions";
 
 interface IdeaDialogProps {
   slug: string;
@@ -38,11 +39,29 @@ interface IdeaDialogProps {
 const IdeaDialog = ({ slug, title, onClose }: IdeaDialogProps) => {
   const { ideas } = useDocumentation();
   const openIdea = useOpenIdea();
+  // Router state, and so the editor replacing this dialog, renders in a
+  // transition that further clicks can delay, so the ref guards the create
+  // and local state shows it. Both clear on failure only, to allow a retry.
+  const creatingRef = useRef(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const failure = useCreateProjectFailure();
+  useEffect(() => {
+    creatingRef.current = false;
+    setIsCreating(false);
+  }, [failure]);
   const idea =
     ideas.status === "ok"
       ? ideas.content.find((idea) => idea.slug.current === slug)
       : undefined;
   const code = idea && ideaCode(idea);
+  const handleCreate = () => {
+    if (code === undefined || creatingRef.current) {
+      return;
+    }
+    creatingRef.current = true;
+    setIsCreating(true);
+    void openIdea(title, slug, code);
+  };
   return (
     <Modal isOpen onClose={onClose} size="4xl">
       <ModalCloseButton />
@@ -92,7 +111,8 @@ const IdeaDialog = ({ slug, title, onClose }: IdeaDialogProps) => {
           variant="primary"
           size="lg"
           isDisabled={code === undefined}
-          onPress={() => code !== undefined && void openIdea(title, slug, code)}
+          isLoading={isCreating}
+          onPress={handleCreate}
         >
           <FormattedMessage id="create-project-action" />
         </Button>

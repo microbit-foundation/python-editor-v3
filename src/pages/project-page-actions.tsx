@@ -166,15 +166,17 @@ export const useOpenIdea = () => {
   );
 };
 
+/** The last failed create's result, a new object for each failure. */
+export const useCreateProjectFailure = () =>
+  useFetcher<CreateProjectFailure>({ key: createProjectFetcherKey }).data;
+
 /**
  * Reports a failed create as a toast. Every create shares one fetcher, so
  * call this once per page, not per submitter, or each one shows the toast.
  */
 export const useReportCreateProjectFailure = () => {
   const reportError = useReportError();
-  const failure = useFetcher<CreateProjectFailure>({
-    key: createProjectFetcherKey,
-  }).data;
+  const failure = useCreateProjectFailure();
   useEffect(() => {
     if (failure) {
       reportError(failure.error);
