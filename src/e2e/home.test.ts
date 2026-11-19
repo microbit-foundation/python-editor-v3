@@ -6,6 +6,7 @@
 import { expect } from "@playwright/test";
 import { appUrlPattern } from "./app.js";
 import { test } from "./app-test-fixtures.js";
+import { modalDialog } from "./home-page.js";
 
 test.describe("home page", () => {
   // The app fixture sets up the context; these tests start from home.
@@ -28,6 +29,7 @@ test.describe("home page", () => {
         homePage.page.getByRole("heading", { name: row, exact: true })
       ).toBeVisible();
     }
+    await homePage.expectNoNewAccessibilityViolations();
   });
 
   test("creates a project and opens it in the editor", async ({
@@ -53,8 +55,12 @@ test.describe("home page", () => {
     await expect(
       dialog.getByRole("heading", { name: ideaName, exact: true })
     ).toBeVisible();
+    const create = dialog.getByRole("button", { name: "Create", exact: true });
+    // Enabled once the idea's code has loaded.
+    await expect(create).toBeEnabled();
+    await homePage.expectNoNewAccessibilityViolations();
 
-    await dialog.getByRole("button", { name: "Create", exact: true }).click();
+    await create.click();
 
     await expect(app.page).toHaveURL(
       appUrlPattern("project/ideas/emotion-badge")
@@ -101,6 +107,38 @@ test.describe("home page", () => {
 
     await app.expectProjectName("Night light");
     await app.expectEditorContainText("# a change");
+  });
+
+  // The helpers above pass straight through these states.
+  test("scans a project card, its menu and dialogs", async ({
+    app,
+    homePage,
+  }) => {
+    await homePage.goto();
+    await homePage.page.getByRole("button", { name: "New project" }).click();
+    await expect(modalDialog(homePage.page)).toBeVisible();
+    await homePage.expectNoNewAccessibilityViolations();
+    await homePage.cards.fillNameDialog("Night light", "Create");
+    await app.expectProjectName("Night light");
+    await app.goHome();
+    await homePage.cards.expectVisible("Night light");
+    await homePage.expectNoNewAccessibilityViolations();
+
+    await homePage.cards.openMenu("Night light");
+    const rename = homePage.page.getByRole("menuitem", { name: "Rename" });
+    await expect(rename).toBeVisible();
+    await homePage.expectNoNewAccessibilityViolations();
+
+    await rename.click();
+    await expect(modalDialog(homePage.page)).toBeVisible();
+    await homePage.expectNoNewAccessibilityViolations();
+    await homePage.page.keyboard.press("Escape");
+    await expect(modalDialog(homePage.page)).toBeHidden();
+
+    await homePage.cards.openMenu("Night light");
+    await homePage.page.getByRole("menuitem", { name: "Delete" }).click();
+    await expect(homePage.page.getByRole("alertdialog")).toBeVisible();
+    await homePage.expectNoNewAccessibilityViolations();
   });
 
   test("renames, duplicates and deletes from the card menu", async ({

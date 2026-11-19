@@ -14,6 +14,7 @@ test.describe("projects page", () => {
     await projectsPage.goto();
     await projectsPage.expectNoProjects();
     await projectsPage.expectToolbarHidden();
+    await projectsPage.expectNoNewAccessibilityViolations();
   });
 
   test("goes back home", async ({ homePage, projectsPage }) => {
@@ -39,6 +40,7 @@ test.describe("projects page", () => {
       projectsPage,
     }) => {
       await projectsPage.expectProjectOrder(["Beta", "Alpha"]);
+      await projectsPage.expectNoNewAccessibilityViolations();
       await projectsPage.sortBy("Name");
       await projectsPage.expectProjectOrder(["Alpha", "Beta"]);
       await projectsPage.toggleSortDirection();
@@ -93,6 +95,7 @@ test.describe("projects page", () => {
         "Delete",
         "Clear",
       ]);
+      await projectsPage.expectNoNewAccessibilityViolations();
 
       await projectsPage.toolbarRename("Gamma");
       await projectsPage.cards.expectVisible("Gamma");

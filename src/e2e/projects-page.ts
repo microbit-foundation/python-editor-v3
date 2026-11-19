@@ -5,6 +5,7 @@
  */
 import { expect, Locator, Page } from "@playwright/test";
 import { appUrlPattern, projectsPageUrl } from "./app.js";
+import { expectNoNewViolations } from "./axe.js";
 import { ProjectCards } from "./home-page.js";
 
 export class ProjectsPage {
@@ -32,6 +33,10 @@ export class ProjectsPage {
   async expectOnPage(): Promise<void> {
     await expect(this.heading).toBeVisible();
     await expect(this.page).toHaveURL(appUrlPattern("projects"));
+  }
+
+  async expectNoNewAccessibilityViolations(): Promise<void> {
+    await expectNoNewViolations(this.page);
   }
 
   async goHome(): Promise<void> {

@@ -5,6 +5,7 @@
  */
 import { expect, Locator, Page } from "@playwright/test";
 import { appUrlPattern, getAbsoluteFilePath, homeUrl } from "./app.js";
+import { expectNoNewViolations } from "./axe.js";
 
 /**
  * The modal dialog rather than a menu popover, which also has the dialog
@@ -99,6 +100,10 @@ export class HomePage {
   async expectOnPage(): Promise<void> {
     await expect(this.projectsHeading).toBeVisible();
     await expect(this.page).toHaveURL(appUrlPattern());
+  }
+
+  async expectNoNewAccessibilityViolations(): Promise<void> {
+    await expectNoNewViolations(this.page);
   }
 
   /** Creates a project, accepting the default name unless one is given. */
