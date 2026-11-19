@@ -167,21 +167,29 @@ export const useOpenIdea = () => {
 };
 
 /**
- * Submits to the editor route's action (createProjectAction), reporting a
- * failure as a toast.
+ * Reports a failed create as a toast. Every create shares one fetcher, so
+ * call this once per page, not per submitter, or each one shows the toast.
  */
-const useSubmitCreateProject = () => {
+export const useReportCreateProjectFailure = () => {
   const reportError = useReportError();
-  const fetcher = useFetcher<CreateProjectFailure>({
+  const failure = useFetcher<CreateProjectFailure>({
     key: createProjectFetcherKey,
-  });
-  const failure = fetcher.data;
+  }).data;
   useEffect(() => {
     if (failure) {
       reportError(failure.error);
     }
   }, [failure, reportError]);
-  const { submit } = fetcher;
+};
+
+/**
+ * Submits to the editor route's action (createProjectAction). Failures are
+ * reported by useReportCreateProjectFailure.
+ */
+const useSubmitCreateProject = () => {
+  const { submit } = useFetcher<CreateProjectFailure>({
+    key: createProjectFetcherKey,
+  });
   return useCallback(
     (fields: CreateProjectFields, state?: RouterState) =>
       submit(

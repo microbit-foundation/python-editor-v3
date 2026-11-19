@@ -39,6 +39,7 @@ import {
   useImportProjectFiles,
   usePageProjects,
   useProjectPageActions,
+  useReportCreateProjectFailure,
 } from "./project-page-actions";
 import {
   createHelpCards,
@@ -68,6 +69,7 @@ const HomePage = () => {
     (files: File[]) => void importFiles(files, "drop"),
     [importFiles]
   );
+  useReportCreateProjectFailure();
   return (
     <DefaultPageLayout>
       {selectedIdea && (
