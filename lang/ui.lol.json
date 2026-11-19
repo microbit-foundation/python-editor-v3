@@ -95,8 +95,20 @@
   "confirm-delete": {
     "defaultMessage": "crwdns331418:0crwdne331418:0"
   },
+  "confirm-replace-body": {
+    "defaultMessage": "crwdns331420:0crwdne331420:0"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "crwdns331424:0crwdne331424:0"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "crwdns331426:0{ideaName}crwdne331426:0"
+  },
   "confirm-save-action": {
     "defaultMessage": "crwdns331428:0crwdne331428:0"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "crwdns331430:0crwdne331430:0"
   },
   "connect-action": {
     "defaultMessage": "crwdns331432:0crwdne331432:0"
@@ -442,6 +454,9 @@
   },
   "reference-tab": {
     "defaultMessage": "crwdns331662:0crwdne331662:0"
+  },
+  "replace-action-label": {
+    "defaultMessage": "crwdns331664:0crwdne331664:0"
   },
   "results-count": {
     "defaultMessage": "crwdns331672:0count={count}crwdne331672:0"

@@ -95,8 +95,20 @@
   "confirm-delete": {
     "defaultMessage": "Deimhnigh scrios"
   },
+  "confirm-replace-body": {
+    "defaultMessage": "Cuir iad siúd sa heics in ionad gach comhad?"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "Deimhnigh ionadaigh an tionscadal"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Cuir {ideaName} in ionad gach comhaid?"
+  },
   "confirm-save-action": {
     "defaultMessage": "Deimhnigh agus sábháil"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "Cealaigh ansin úsáid Sábháil chun cóip de do thionscadal a choinneáil."
   },
   "connect-action": {
     "defaultMessage": "Ceangail"
@@ -442,6 +454,9 @@
   },
   "reference-tab": {
     "defaultMessage": "Tagairt"
+  },
+  "replace-action-label": {
+    "defaultMessage": "Ionadaigh"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Gan torthaí} one {# toradh} two {# thoradh} few {# torthaí} many {# torthaí} other {# torthaí}}\n"

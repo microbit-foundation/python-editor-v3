@@ -95,8 +95,20 @@
   "confirm-delete": {
     "defaultMessage": "Verwijderen bevestigen"
   },
+  "confirm-replace-body": {
+    "defaultMessage": "Alle bestanden vervangen door bestanden in de hex?"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "Vervanging bevestigen"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Alle bestanden vervangen door {ideaName}?"
+  },
   "confirm-save-action": {
     "defaultMessage": "Bevestigen en opslaan"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "Annuleer dan Opslaan om een kopie van je project te bewaren."
   },
   "connect-action": {
     "defaultMessage": "Verbinden "
@@ -442,6 +454,9 @@
   },
   "reference-tab": {
     "defaultMessage": "Referentie"
+  },
+  "replace-action-label": {
+    "defaultMessage": "Vervangen"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0{# results} one{# result} other{# results}}"

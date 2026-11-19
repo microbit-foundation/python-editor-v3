@@ -95,8 +95,20 @@
   "confirm-delete": {
     "defaultMessage": "Confirma la supressió"
   },
+  "confirm-replace-body": {
+    "defaultMessage": "Substitueix tots els fitxers amb els de l'hexadecimal?"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "Confirma la substitució del projecte"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Vols substituir tots els fitxers per {ideaName}?"
+  },
   "confirm-save-action": {
     "defaultMessage": "Confirma i desa"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "Cancel·la i després utilitza Desa per conservar una còpia del teu projecte."
   },
   "connect-action": {
     "defaultMessage": "Connecta"
@@ -442,6 +454,9 @@
   },
   "reference-tab": {
     "defaultMessage": "Referència"
+  },
+  "replace-action-label": {
+    "defaultMessage": "Substitueix"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Sense resultats} one {# resultat} other {# resultats}}"

@@ -95,8 +95,20 @@
   "confirm-delete": {
     "defaultMessage": "Löschen bestätigen"
   },
+  "confirm-replace-body": {
+    "defaultMessage": "Alle Dateien durch die in der HEX-Datei ersetzen?"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "Zurücksetzen bestätigen"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "Alle Dateien durch {ideaName} ersetzen?"
+  },
   "confirm-save-action": {
     "defaultMessage": "Bestätigen und speichern"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "Abbrechen und dann Speichern verwenden, um eine Kopie deines Projekts zu behalten."
   },
   "connect-action": {
     "defaultMessage": "Verbinden"
@@ -436,6 +448,9 @@
   },
   "reference-tab": {
     "defaultMessage": "Referenz"
+  },
+  "replace-action-label": {
+    "defaultMessage": "Ersetzen"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Keine Ergebnisse} one {# Ergebnis} other {# Ergebnisse}}"

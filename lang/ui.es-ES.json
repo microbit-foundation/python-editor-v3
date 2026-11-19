@@ -95,8 +95,20 @@
   "confirm-delete": {
     "defaultMessage": "Confirmar eliminación"
   },
+  "confirm-replace-body": {
+    "defaultMessage": "¿Sustituir todos los archivos por los del HEX?"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "¿Sustituir proyecto?"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "¿Sustituir todos los archivos por {ideaName}?"
+  },
   "confirm-save-action": {
     "defaultMessage": "Confirmar y guardar"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "Cancela y utiliza Guardar para conservar una copia de tu proyecto."
   },
   "connect-action": {
     "defaultMessage": "Conectar"
@@ -442,6 +454,9 @@
   },
   "reference-tab": {
     "defaultMessage": "Referencia"
+  },
+  "replace-action-label": {
+    "defaultMessage": "Sustituir"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Ningún resultado} one {# resultado} other {# resultados}}"

@@ -95,8 +95,20 @@
   "confirm-delete": {
     "defaultMessage": "削除の確認"
   },
+  "confirm-replace-body": {
+    "defaultMessage": "すべてのファイルを hex に置き換えますか？"
+  },
+  "confirm-replace-title": {
+    "defaultMessage": "プロジェクトの置き換えを確認"
+  },
+  "confirm-replace-with-idea": {
+    "defaultMessage": "すべてのファイルを {ideaName} に置き換えますか？"
+  },
   "confirm-save-action": {
     "defaultMessage": "確認して保存"
+  },
+  "confirm-save-hint": {
+    "defaultMessage": "キャンセルして、保存を使ってプロジェクトのコピーを保持します。"
   },
   "connect-action": {
     "defaultMessage": "接続"
@@ -436,6 +448,9 @@
   },
   "reference-tab": {
     "defaultMessage": "リファレンス"
+  },
+  "replace-action-label": {
+    "defaultMessage": "置換"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {結果なし} other {#件の結果}}"
