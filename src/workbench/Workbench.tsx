@@ -284,6 +284,7 @@ const Editor = ({ editor }: EditorProps) => {
   const serialSizedMode = connected ? serialStateWhenOpen : "collapsed";
   const [{ fontSize: settingsFontSizePt }] = useSettings();
   const ref = useRef<HTMLButtonElement>(null);
+  const { name: projectName } = useProject();
   return (
     <styled.main
       display="flex"
@@ -293,7 +294,7 @@ const Editor = ({ editor }: EditorProps) => {
       boxShadow="4px 0px 24px #00000033"
     >
       <VisuallyHidden as="h1">
-        {intl.formatMessage({ id: "app-title" })}
+        {intl.formatMessage({ id: "editor-title" }, { projectName })}
       </VisuallyHidden>
       <SplitView
         orientation="horizontal"

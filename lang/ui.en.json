@@ -311,6 +311,10 @@
     "defaultMessage": "{name}, edit project name",
     "description": "Accessible name of the breadcrumb button that shows the project name and opens the rename dialog"
   },
+  "editor-title": {
+    "defaultMessage": "{projectName} – micro:bit Python Editor",
+    "description": "Heading for screen readers on the editor page: the open project's name, then the name of the app"
+  },
   "failed-to-build-hex": {
     "defaultMessage": "Failed to build the hex file",
     "description": "Error title when we cannot build the hex file, for example because no storage space. Additional detail is shown separately."

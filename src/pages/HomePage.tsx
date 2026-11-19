@@ -10,6 +10,7 @@ import {
   Text,
   TooltipButton,
   useBreakpointValue,
+  VisuallyHidden,
   VStack,
 } from "@microbit/ui";
 import { css } from "styled-system/css";
@@ -79,10 +80,14 @@ const HomePage = () => {
         />
       )}
       <FileDropTarget
+        as="main"
         data-testid="home-drop-target"
         onFileDrop={handleDrop}
         flexGrow={1}
       >
+        <VisuallyHidden as="h1">
+          {intl.formatMessage({ id: "app-title" })}
+        </VisuallyHidden>
         <HomepageBanner />
         <ProjectsRow />
         <CarouselRow
