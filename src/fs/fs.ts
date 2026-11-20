@@ -15,9 +15,9 @@ import { lineNumFromUint8Array } from "../common/text-util";
 import { FlashDataError, BoardVersion } from "@microbit/microbit-connection";
 import { Logging } from "../logging/logging";
 import { MicroPythonSource } from "../micropython/micropython";
-import { extractModuleData, generateId } from "./fs-util";
+import { extractModuleData, generateId, MAIN_FILE } from "./fs-util";
 import { Host } from "./host";
-import { PythonProject } from "./initial-project";
+import { defaultInitialProject, PythonProject } from "./initial-project";
 import { FSStorage } from "./storage";
 import { TypedEventTarget } from "../common/events";
 
@@ -152,7 +152,7 @@ class EventMap {
   "file_text_updated": TextEditEvent;
 }
 
-export const MAIN_FILE = "main.py";
+export { MAIN_FILE };
 
 export const isNameLengthValid = (filename: string): boolean =>
   // This length is enforced by the underlying FS so we check it in the UI ahead of time.
@@ -217,8 +217,9 @@ export class FileSystem extends TypedEventTarget<EventMap> {
   }
 
   /**
-   * We remember this so we can tell whether the user has edited
-   * the project since for stats generation.
+   * The project the host supplied, if it initialized one this session, so
+   * stats can tell whether the user has edited it. Projects from the
+   * projects database never come this way.
    */
   private cachedInitialProject: PythonProject | undefined;
 
@@ -460,8 +461,9 @@ export class FileSystem extends TypedEventTarget<EventMap> {
       storageUsed: fs.getStorageUsed(),
       lines: lineNumFromUint8Array(currentMainFile),
       defaultMain:
-        this.cachedInitialProject?.files[MAIN_FILE] ===
-        fromByteArray(currentMainFile),
+        (this.cachedInitialProject ?? defaultInitialProject).files[
+          MAIN_FILE
+        ] === fromByteArray(currentMainFile),
       magicModules: numMagicModules,
     };
   }

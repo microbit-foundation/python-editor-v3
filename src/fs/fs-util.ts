@@ -93,3 +93,7 @@ export const extractModuleData = (code: string): ModuleData | undefined => {
 export const generateId = () =>
   Math.random().toString(36).substring(2) +
   Math.random().toString(36).substring(2);
+
+// Here rather than in fs.ts so initial-project.ts can name the file without
+// importing the file system, which imports the initial project back.
+export const MAIN_FILE = "main.py";

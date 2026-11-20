@@ -72,6 +72,16 @@ describe("Projects", () => {
     ).toEqual("# edited");
   });
 
+  it("reports whether main.py is still the starter program", async () => {
+    const { fs, projects } = await setup();
+    await projects.openCurrent();
+    await fs.initialize();
+    expect((await fs.statistics()).defaultMain).toEqual(true);
+
+    await fs.write(MAIN_FILE, "# edited", VersionAction.MAINTAIN);
+    expect((await fs.statistics()).defaultMain).toEqual(false);
+  });
+
   it("concurrent openCurrent calls choose one project", async () => {
     const { projects } = await setup();
     await Promise.all([projects.openCurrent(), projects.openCurrent()]);
