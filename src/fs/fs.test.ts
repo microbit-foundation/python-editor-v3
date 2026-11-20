@@ -447,5 +447,61 @@ describe("Filesystem switchStorage", () => {
   });
 });
 
+describe("Filesystem reloadStorage", () => {
+  const logging = new ConsoleLogging();
+  const host = new DefaultHost();
+  const encode = (text: string) => new TextEncoder().encode(text);
+
+  const project = async (files: Record<string, string>) => {
+    const storage = new InMemoryFSStorage("Project");
+    for (const [name, text] of Object.entries(files)) {
+      await storage.write(name, encode(text));
+    }
+    return storage;
+  };
+
+  const versions = (ufs: FileSystem) =>
+    Object.fromEntries(ufs.project.files.map((f) => [f.name, f.version]));
+
+  it("keeps the project id and bumps only changed and added files", async () => {
+    const ufs = new FileSystem(logging, host, fsMicroPythonSource);
+    await ufs.initialize();
+    await ufs.switchStorage(
+      await project({ [MAIN_FILE]: "# main", "helper.py": "# helper" })
+    );
+    const id = ufs.project.id;
+    const before = versions(ufs);
+
+    await ufs.reloadStorage(
+      await project({
+        [MAIN_FILE]: "# main",
+        "helper.py": "# helper changed",
+        "added.py": "# added",
+      })
+    );
+
+    expect(ufs.project.id).toEqual(id);
+    const after = versions(ufs);
+    expect(after[MAIN_FILE]).toEqual(before[MAIN_FILE]);
+    expect(after["helper.py"]).toBeGreaterThan(before["helper.py"]);
+    expect(after["added.py"]).toBeDefined();
+    expect(await asString(ufs.read("helper.py"))).toEqual("# helper changed");
+    expect((await ufs.statistics()).files).toEqual(3);
+  });
+
+  it("drops removed files", async () => {
+    const ufs = new FileSystem(logging, host, fsMicroPythonSource);
+    await ufs.initialize();
+    await ufs.switchStorage(
+      await project({ [MAIN_FILE]: "# main", "helper.py": "# helper" })
+    );
+
+    await ufs.reloadStorage(await project({ [MAIN_FILE]: "# main" }));
+
+    expect(ufs.project.files.map((f) => f.name)).toEqual([MAIN_FILE]);
+    expect((await ufs.statistics()).files).toEqual(1);
+  });
+});
+
 const asString = async (f: Promise<VersionedData>) =>
   new TextDecoder().decode((await f).data);
