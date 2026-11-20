@@ -181,7 +181,7 @@ export default defineConfig(({ mode }) => {
             "**/{typeshed.!(en*).js,pyright-locale-!(en*).js,search.worker.!(en*).js,ui.!(en*).js}",
           ],
           maximumFileSizeToCacheInBytes: 3097152,
-          globPatterns: ["**/*.{js,css,html,ico,png,svg,gif,hex}"],
+          globPatterns: ["**/*.{js,css,html,ico,png,jpg,svg,gif,hex}"],
           runtimeCaching: [
             {
               urlPattern: new RegExp(
