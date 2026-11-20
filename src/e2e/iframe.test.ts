@@ -139,4 +139,17 @@ test.describe("iframe controller mode", () => {
 
     await app.closeAndExpectBeforeUnloadPrompt();
   });
+
+  test("does not say ideas are moving, as there is no home page", async ({
+    app,
+  }) => {
+    const frame = await openEmbeddedEditor(app.page);
+    await frame.getByRole("tab", { name: "Ideas" }).click();
+    await expect(
+      frame.getByRole("heading", { name: "Ideas", exact: true })
+    ).toBeVisible();
+    await expect(
+      frame.getByRole("button", { name: "Learn more" })
+    ).toBeHidden();
+  });
 });

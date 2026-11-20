@@ -57,6 +57,16 @@ test.describe("storage fallback", () => {
     await app.expectEditorContainText(/PASS1/);
   });
 
+  test("does not say ideas are moving, as there is no home page", async ({
+    app,
+  }) => {
+    await app.switchTab("Ideas");
+    await app.expectDocumentationTopLevelHeading("Ideas");
+    await expect(
+      app.page.getByRole("button", { name: "Learn more" })
+    ).toBeHidden();
+  });
+
   test("opens a #project: link at the root in the editor", async ({ app }) => {
     await app.page.goto(homeUrl({ fragment: heartProjectLinkFragment }));
     await app.expectProjectName("Hearts");

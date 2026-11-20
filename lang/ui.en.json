@@ -448,19 +448,19 @@
     "description": "Title of an idea card; matches the idea name in the ideas tab"
   },
   "ideas-moving-notice": {
-    "defaultMessage": "Ideas are moving to the home page. <link>Learn more</link>",
+    "defaultMessage": "Ideas are moving to the Home page. <link>Learn more</link>",
     "description": "Notice in the ideas tab header; the link opens a dialog explaining the change"
   },
   "ideas-moving-questions": {
-    "defaultMessage": "Contact us at {email}",
-    "description": "Body of the questions section in the ideas moving dialog; {email} is the support email address"
+    "defaultMessage": "Get in touch through our <link>support site</link>.",
+    "description": "Body of the questions section in the ideas moving dialog; the link opens the support site in a new tab"
   },
   "ideas-moving-questions-heading": {
     "defaultMessage": "Still have questions?",
     "description": "Section heading in the ideas moving dialog"
   },
   "ideas-moving-title": {
-    "defaultMessage": "Ideas are moving to the home page",
+    "defaultMessage": "Ideas are moving to the Home page",
     "description": "Title of the dialog explaining that ideas are moving out of the editor to the home page"
   },
   "ideas-moving-what": {

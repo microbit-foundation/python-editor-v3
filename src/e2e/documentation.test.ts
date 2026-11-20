@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { expect } from "@playwright/test";
 import { test } from "./app-test-fixtures.js";
 
 test.describe("documentation", () => {
@@ -77,6 +78,28 @@ test.describe("documentation", () => {
       "Ideas",
       "Try out these projects, modify them and get inspired"
     );
+  });
+
+  test("Ideas tab explains that ideas are moving to the home page", async ({
+    app,
+  }) => {
+    await app.switchTab("Ideas");
+    await expect(
+      app.page.getByText("Ideas are moving to the Home page.")
+    ).toBeVisible();
+    await app.expectNoNewAccessibilityViolations();
+
+    const learnMore = app.page.getByRole("button", { name: "Learn more" });
+    await learnMore.click();
+    const dialog = app.page.getByRole("dialog");
+    await expect(
+      dialog.getByRole("heading", { name: "Ideas are moving to the Home page" })
+    ).toBeVisible();
+    await app.expectNoNewAccessibilityViolations();
+
+    await app.page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
+    await expect(learnMore).toBeFocused();
   });
 
   test("Select an idea", async ({ app }) => {

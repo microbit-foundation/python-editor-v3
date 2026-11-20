@@ -13,13 +13,16 @@ import {
   ModalHeader,
   Text,
 } from "@microbit/ui";
-import { RefObject } from "react";
+import { ReactNode, RefObject } from "react";
 import { FormattedMessage } from "react-intl";
 import { Stack } from "styled-system/jsx";
+import { useDeployment } from "../../deployment";
 
-const supportEmail = "support@microbit.org";
-
-const sections = ["what", "why", "when", "questions"] as const;
+const sections = [
+  { heading: "ideas-moving-what-heading", body: "ideas-moving-what" },
+  { heading: "ideas-moving-why-heading", body: "ideas-moving-why" },
+  { heading: "ideas-moving-when-heading", body: "ideas-moving-when" },
+] as const;
 
 interface IdeasMovingDialogProps {
   isOpen: boolean;
@@ -31,50 +34,72 @@ const IdeasMovingDialog = ({
   isOpen,
   onClose,
   finalFocusRef,
-}: IdeasMovingDialogProps) => (
-  <Modal
-    isOpen={isOpen}
-    onClose={onClose}
-    size="lg"
-    finalFocusRef={finalFocusRef}
-  >
-    <ModalCloseButton />
-    <ModalHeader css={{ fontWeight: "bold" }}>
-      <FormattedMessage id="ideas-moving-title" />
-    </ModalHeader>
-    <ModalBody>
-      <Stack gap="5">
-        {sections.map((section) => (
-          <Stack key={section} gap="1">
-            <Text as="h3" fontSize="lg" fontWeight="semibold">
-              <FormattedMessage id={`ideas-moving-${section}-heading`} />
-            </Text>
-            <Text>
+}: IdeasMovingDialogProps) => {
+  const { supportLink } = useDeployment();
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="lg"
+      finalFocusRef={finalFocusRef}
+    >
+      <ModalCloseButton />
+      <ModalHeader css={{ fontWeight: "bold" }}>
+        <FormattedMessage id="ideas-moving-title" />
+      </ModalHeader>
+      <ModalBody>
+        <Stack gap="5">
+          {sections.map(({ heading, body }) => (
+            <Section key={heading} heading={<FormattedMessage id={heading} />}>
+              <FormattedMessage id={body} />
+            </Section>
+          ))}
+          {supportLink && (
+            <Section
+              heading={<FormattedMessage id="ideas-moving-questions-heading" />}
+            >
               <FormattedMessage
-                id={`ideas-moving-${section}`}
+                id="ideas-moving-questions"
                 values={{
-                  email: (
+                  link: (chunks: ReactNode) => (
                     <Link
-                      href={`mailto:${supportEmail}`}
+                      href={supportLink}
+                      target="_blank"
+                      rel="noopener"
                       color="brand.500"
                       textDecoration="underline"
                     >
-                      {supportEmail}
+                      {chunks}
                     </Link>
                   ),
                 }}
               />
-            </Text>
-          </Stack>
-        ))}
-      </Stack>
-    </ModalBody>
-    <ModalFooter>
-      <Button variant="primary" size="lg" onPress={onClose}>
-        <FormattedMessage id="close-action" />
-      </Button>
-    </ModalFooter>
-  </Modal>
+            </Section>
+          )}
+        </Stack>
+      </ModalBody>
+      <ModalFooter>
+        <Button variant="primary" size="lg" onPress={onClose}>
+          <FormattedMessage id="close-action" />
+        </Button>
+      </ModalFooter>
+    </Modal>
+  );
+};
+
+const Section = ({
+  heading,
+  children,
+}: {
+  heading: ReactNode;
+  children: ReactNode;
+}) => (
+  <Stack gap="1">
+    <Text as="h3" fontSize="lg" fontWeight="semibold">
+      {heading}
+    </Text>
+    <Text>{children}</Text>
+  </Stack>
 );
 
 export default IdeasMovingDialog;
