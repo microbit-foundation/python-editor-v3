@@ -47,9 +47,6 @@
   "back-action": {
     "defaultMessage": "뒤로"
   },
-  "back-to-main": {
-    "defaultMessage": "메인 코드로 돌아가기"
-  },
   "cancel-action": {
     "defaultMessage": "취소"
   },

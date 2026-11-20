@@ -105,14 +105,6 @@ test.describe("accessibility scans", () => {
     await app.expectNoNewAccessibilityViolations();
   });
 
-  test("breadcrumb with a second file open", async ({ app }) => {
-    await app.createNewFile("second");
-    await app.page
-      .getByRole("button", { name: "back to the main code" })
-      .waitFor();
-    await app.expectNoNewAccessibilityViolations();
-  });
-
   test("search results", async ({ app }) => {
     await app.search("loop");
     await app.page.getByRole("dialog").getByRole("link").first().waitFor();

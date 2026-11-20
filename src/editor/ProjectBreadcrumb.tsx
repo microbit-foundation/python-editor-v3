@@ -34,7 +34,6 @@ import { Link as RouterLink } from "react-router";
 import { css, cx } from "styled-system/css";
 import { Box, styled } from "styled-system/jsx";
 import { button } from "styled-system/recipes";
-import { MAIN_FILE } from "../fs/fs";
 import { useProjectsDatabaseActive } from "../fs/storage-status";
 import { useIframeMode } from "../iframe-mode-hooks";
 import { useProject, useProjectActions } from "../project/project-hooks";
@@ -43,14 +42,14 @@ import { createHomePageUrl } from "../urls";
 
 /**
  * How far the crumbs have given way to fit. The project name gives way
- * last: Home loses its label, then the back-to-main link goes, then the
- * file collapses to an icon, then the project name truncates, then it
- * collapses to an icon too. Past that the crumbs overflow.
+ * last: Home loses its label, then the file collapses to an icon, then the
+ * project name truncates, then it collapses to an icon too. Past that the
+ * crumbs overflow.
  */
-type Squeeze = 0 | 1 | 2 | 3 | 4 | 5;
+type Squeeze = 0 | 1 | 2 | 3 | 4;
 
 /** The steps measured for fit; past them the project name is an icon. */
-const measuredSqueezes = [0, 1, 2, 3, 4] as const;
+const measuredSqueezes = [0, 1, 2, 3] as const;
 
 interface ProjectBreadcrumbProps {
   filename: string;
@@ -59,7 +58,7 @@ interface ProjectBreadcrumbProps {
 
 /**
  * Home, the project name (which renames it) and the open file (a menu of
- * the project's files), with a way back to main.py from any other file.
+ * the project's files).
  */
 const ProjectBreadcrumb = ({
   filename,
@@ -81,7 +80,7 @@ const ProjectBreadcrumb = ({
     const update = () => {
       const available = container.clientWidth;
       const fits = copies.findIndex((copy) => copy!.scrollWidth <= available);
-      setSqueeze((fits === -1 ? 5 : fits) as Squeeze);
+      setSqueeze((fits === -1 ? 4 : fits) as Squeeze);
     };
     update();
     const observer = new ResizeObserver(update);
@@ -182,10 +181,10 @@ const Crumbs = ({
           <Separator />
         </CrumbItem>
       )}
-      <CrumbItem flexShrink={squeeze === 4 ? 1 : 0}>
+      <CrumbItem flexShrink={squeeze === 3 ? 1 : 0}>
         <ProjectCrumb
-          truncate={squeeze === 4}
-          iconOnly={squeeze === 5}
+          truncate={squeeze === 3}
+          iconOnly={squeeze === 4}
           shown={shown}
         />
         <Separator />
@@ -194,33 +193,15 @@ const Crumbs = ({
         <FileCrumb
           filename={filename}
           onSelectedFileChanged={onSelectedFileChanged}
-          iconOnly={squeeze >= 3}
+          iconOnly={squeeze >= 2}
           shown={shown}
         />
-        {filename !== MAIN_FILE && squeeze < 2 && (
-          <Button
-            variant="unstyled"
-            css={{
-              flexShrink: 0,
-              fontWeight: "normal",
-              textDecoration: "underline",
-              whiteSpace: "nowrap",
-            }}
-            onPress={() => {
-              // As choosing main.py from the menu: focus goes to its trigger.
-              pendingFocus.trigger = true;
-              onSelectedFileChanged(MAIN_FILE);
-            }}
-          >
-            <FormattedMessage id="back-to-main" />
-          </Button>
-        )}
       </CrumbItem>
     </styled.ol>
   );
 };
 
-/** A crumb with what follows it: its separator, or the back-to-main link. */
+/** A crumb with the separator that follows it. */
 const CrumbItem = ({
   flexShrink = 0,
   children,
@@ -343,7 +324,7 @@ interface FileCrumbProps extends ProjectBreadcrumbProps {
 }
 
 /**
- * Set when a file is chosen from the menu or by "back to the main code".
+ * Set when a file is chosen from the menu.
  * The editor area, and so this crumb, is re-created for the new file, so
  * the new trigger takes focus.
  */

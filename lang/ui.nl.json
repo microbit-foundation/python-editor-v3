@@ -47,9 +47,6 @@
   "back-action": {
     "defaultMessage": "Terug"
   },
-  "back-to-main": {
-    "defaultMessage": "terug naar de hoofdcode"
-  },
   "cancel-action": {
     "defaultMessage": "Annuleren"
   },
