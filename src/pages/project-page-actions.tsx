@@ -13,6 +13,7 @@ import {
   redirect,
   useFetcher,
   useFetchers,
+  useLocation,
   useNavigate,
   useNavigation,
 } from "react-router";
@@ -126,12 +127,15 @@ const useReportError = () => {
 export const useReportOpenFailure = () => {
   const projects = useProjects();
   const reportError = useReportError();
+  // The redirect can land on this page while it is already showing, so
+  // check on every arrival, not just when it mounts.
+  const { key } = useLocation();
   useEffect(() => {
     const failure = projects.takeOpenFailure();
     if (failure !== undefined) {
       reportError(failure);
     }
-  }, [projects, reportError]);
+  }, [projects, reportError, key]);
 };
 
 /** Runs a storage action, reporting failures as toasts. */

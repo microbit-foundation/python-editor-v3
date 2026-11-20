@@ -114,3 +114,41 @@ test.describe("storage write errors", () => {
     ).toBeHidden();
   });
 });
+
+/**
+ * Makes the next IndexedDB get throw, then restores it. Opening a project
+ * reads its record with one, so this fails the load.
+ */
+const injectReadError = async (app: App) => {
+  await app.page.evaluate(() => {
+    const original = IDBObjectStore.prototype.get;
+    IDBObjectStore.prototype.get = function () {
+      IDBObjectStore.prototype.get = original;
+      throw new DOMException("Simulated UnknownError", "UnknownError");
+    };
+  });
+};
+
+/**
+ * A failed read from the projects database is reported on the page the user
+ * is left on, and the project is still there to open.
+ */
+test.describe("storage read errors", () => {
+  test("reports a failed load on going back to the editor from the home page", async ({
+    app,
+    homePage,
+  }) => {
+    await app.goHome();
+    await homePage.expectOnPage();
+
+    await injectReadError(app);
+    await app.page.goBack();
+
+    await expect(
+      app.page.getByText("An unexpected error occurred")
+    ).toBeVisible();
+    await homePage.expectOnPage();
+    await homePage.cards.open("Untitled project");
+    await app.expectEditorContainText("from microbit import");
+  });
+});
