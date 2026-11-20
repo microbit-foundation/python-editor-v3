@@ -102,7 +102,7 @@ Some choices that are not obvious from the code:
 - **The editor opens straight to code.** `/project` in a new tab opens the most recent project rather than asking the user to pick one. The editor has always been quick to get into, and some users bookmark it.
 - **No project id in the URL.** The tab's project is kept in session storage instead. This may be revisited if projects are ever stored on a server.
 - **Each deployment has its own database.** The database name includes the base path, so deployments that share an origin, such as production and beta, keep separate projects.
-- **We don't ask the browser to persist storage.** `navigator.storage.persist()` prompts the user in Firefox and has no effect in Safari. Instead the home page says that projects are stored in this browser.
+- **We tell users where their projects are, rather than asking the browser to keep them.** `navigator.storage.persist()` prompts the user in Firefox and has no effect in Safari, so we don't call it. Instead an info tooltip by the projects row on the home page says that projects are stored in this browser and that the browser can remove them. Browsers do: see the known limits below.
 - **Whether a project has unsaved changes is not stored.** That flag exists to warn before work is lost, and a project in the database outlives the tab. The warning before closing a tab applies only without the database.
 - **Imports never overwrite silently.** With the database, a hex or an idea makes a new project rather than replacing the open one. Without it there is only one project, so the editor asks before replacing one that has been edited: in micro:bit classroom a student's dropped hex would otherwise replace the teacher's starter program without a word. Adding files that would overwrite existing ones asks first in every mode.
 - **A project changed in another tab is reloaded, not merged.** The last write wins.
@@ -111,7 +111,7 @@ Known limits:
 
 - An edit may still be lost if the page unloads in the few milliseconds that an ordinary flush is mid-transaction.
 - Switching project waits for MicroPython if it is still loading, which is only noticeable on a slow first visit.
-- Browsers can evict stored data, for example when the device is short of space, and some do so for sites that have not been visited for a while.
+- Browsers can evict stored data, for example when the device is short of space. Safari removes it for a site that has not been visited in seven days of browser use.
 
 ## Connecting to the micro:bit via WebUSB, flashing and hex files
 
