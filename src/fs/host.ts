@@ -12,7 +12,7 @@ import {
   projectFilesToBase64,
 } from "./initial-project";
 import { PendingMigration } from "./migration";
-import { FSStorage, InMemoryFSStorage, SplitStrategyStorage } from "./storage";
+import { DeferredFSStorage, FSStorage, InMemoryFSStorage } from "./storage";
 
 const messages = {
   type: "pyeditor",
@@ -35,22 +35,18 @@ export class DefaultHost implements Host {
   /**
    * @param migration The #project: link at boot, if the projects session
    * has not already made a project of it.
-   * @param persistentStorage The record of the project, once one is opened.
-   * Until then the file system waits, and without one it stays in memory.
+   * @param projectStorage The project's storage, once one is opened. Until
+   * then the file system waits. Without one the project stays in memory.
    */
   constructor(
     private migration: PendingMigration = new PendingMigration(""),
-    private persistentStorage: Promise<FSStorage | undefined> = Promise.resolve(
-      undefined
-    )
+    private projectStorage?: Promise<FSStorage>
   ) {}
 
-  createStorage(logging: Logging): FSStorage {
-    return new SplitStrategyStorage(
-      new InMemoryFSStorage(undefined),
-      this.persistentStorage,
-      logging
-    );
+  createStorage(_logging: Logging): FSStorage {
+    return this.projectStorage
+      ? new DeferredFSStorage(this.projectStorage)
+      : new InMemoryFSStorage(undefined);
   }
 
   async shouldReinitializeProject(storage: FSStorage): Promise<boolean> {
@@ -155,13 +151,13 @@ export class IframeHost implements Host {
 export const createHost = (
   logging: Logging,
   migration: PendingMigration,
-  persistentStorage: Promise<FSStorage | undefined>
+  projectStorage: Promise<FSStorage>
 ): Host => {
   const iframeHost = getControllerHost(logging);
   if (iframeHost) {
     return new IframeHost(iframeHost, window);
   }
-  return new DefaultHost(migration, persistentStorage);
+  return new DefaultHost(migration, projectStorage);
 };
 
 const getControllerHost = (logging: Logging): Window | undefined => {

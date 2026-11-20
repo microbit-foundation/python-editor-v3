@@ -44,7 +44,7 @@ const setup = async (dbAvailable = true) => {
   const db = dbAvailable
     ? await ProjectsDatabase.open(`projects-${Date.now()}-${counter++}`)
     : undefined;
-  const storage = deferred<FSStorage | undefined>();
+  const storage = deferred<FSStorage>();
   const host = new DefaultHost(undefined, storage.promise);
   const fs = new FileSystem(logging, host, microPythonSource);
   const projects = new Projects(fs, logging, Promise.resolve(db), storage);
@@ -272,6 +272,24 @@ describe("Projects", () => {
       expect(fileNames(fs)).toEqual([MAIN_FILE, "helper.py"]);
       await expectSavedIntact(db!);
     });
+  });
+
+  it("an error from the first project's storage leaves the database copy", async () => {
+    const { db, fs, projects } = await setup();
+    await db!.create(
+      { id: "saved", name: "Saved", timestamp: 1 },
+      { [MAIN_FILE]: new TextEncoder().encode("# saved") }
+    );
+    await projects.openCurrent();
+    await fs.initialize();
+
+    await expect(fs.remove("missing.py")).rejects.toThrow(/No such file/);
+    // A clear would run in the background after the rejection, with nothing
+    // to await, so outlast the storage's flush delay before checking.
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
+    expect((await db!.get("saved"))?.name).toEqual("Saved");
+    expect(Object.keys(await db!.files("saved"))).toEqual([MAIN_FILE]);
   });
 
   it("without the database there is nothing to manage and the editor still works", async () => {
