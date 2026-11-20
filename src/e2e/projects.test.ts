@@ -154,7 +154,9 @@ test.describe("projects across tabs", () => {
     const otherHomePage = new HomePage(otherPage);
     await otherHomePage.expectOnPage();
     await expect(
-      otherPage.getByText("This project was deleted in another tab or window.")
+      otherPage.getByText(
+        "The project you had open was deleted in another tab or window."
+      )
     ).toBeVisible();
     await otherHomePage.expectNoNewAccessibilityViolations();
     await expect(

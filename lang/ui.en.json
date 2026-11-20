@@ -779,7 +779,7 @@
     "description": "Aria label for the bar with project actions"
   },
   "project-deleted-elsewhere-description": {
-    "defaultMessage": "This project was deleted in another tab or window.",
+    "defaultMessage": "The project you had open was deleted in another tab or window.",
     "description": "Body of the message shown when the project open in the editor has been deleted in another browser tab or window, as the editor returns to the home page"
   },
   "project-deleted-elsewhere-title": {
