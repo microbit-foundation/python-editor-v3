@@ -10,6 +10,7 @@ import { MockLogging } from "../logging/mock";
 import {
   chooseProject,
   getCurrentProjectId,
+  migrateSessionProject,
   openProjectsDatabase,
   setCurrentProjectId,
 } from "./current-project";
@@ -150,25 +151,76 @@ describe("chooseProject", () => {
       /display.show\(Image.HEART\)/
     );
   });
+});
 
-  it("migrates a project from session storage ahead of anything else", async () => {
-    await db.create({ id: "recent", name: "Recent", timestamp: 2 }, {});
+describe("migrateSessionProject", () => {
+  let db: ProjectsDatabase;
+  beforeEach(async () => {
+    sessionStorage.clear();
+    db = await ProjectsDatabase.open(`migrate-${Date.now()}-${Math.random()}`);
+  });
+  afterEach(() => {
+    db.close();
+  });
+
+  const leaveSessionProject = async () => {
     const legacy = new SessionStorageFSStorage(sessionStorage);
     await legacy.write("main.py", encode("# mine"));
     await legacy.write("helper.py", encode("# helper"));
     await legacy.setProjectName("My project");
+    return legacy;
+  };
+
+  it("does nothing when session storage has no project", async () => {
+    setCurrentProjectId(sessionStorage, "current");
+    expect(await migrateSessionProject(db, sessionStorage)).toBeUndefined();
+    expect(await migrateSessionProject(db, undefined)).toBeUndefined();
+    expect(await db.list()).toEqual([]);
+    expect(getCurrentProjectId(sessionStorage)).toEqual("current");
+  });
+
+  it("moves the project and makes it the tab's current project", async () => {
+    const legacy = await leaveSessionProject();
     sessionStorage.setItem("unrelated", "kept");
+    // As when the tab has been to another deployment on the same origin.
+    setCurrentProjectId(sessionStorage, "from-elsewhere");
 
-    const id = await chooseProject(db, sessionStorage);
+    const id = await migrateSessionProject(db, sessionStorage);
 
-    expect(id).not.toEqual("recent");
-    expect((await db.get(id))?.name).toEqual("My project");
-    expect(await db.fileNames(id)).toEqual(["helper.py", "main.py"]);
-    expect(Array.from((await db.file(id, "main.py"))!)).toEqual(
+    expect((await db.get(id!))?.name).toEqual("My project");
+    expect(await db.fileNames(id!)).toEqual(["helper.py", "main.py"]);
+    expect(Array.from((await db.file(id!, "main.py"))!)).toEqual(
       Array.from(encode("# mine"))
     );
     expect(await legacy.ls()).toEqual([]);
     expect(sessionStorage.getItem("unrelated")).toEqual("kept");
     expect(getCurrentProjectId(sessionStorage)).toEqual(id);
+    // Only once.
+    expect(await migrateSessionProject(db, sessionStorage)).toBeUndefined();
+  });
+
+  it("is then what the editor opens, ahead of a more recent project", async () => {
+    await leaveSessionProject();
+    const id = await migrateSessionProject(db, sessionStorage);
+    await db.create(
+      { id: "newer", name: "Newer", timestamp: Date.now() + 1000 },
+      {}
+    );
+
+    expect(await chooseProject(db, sessionStorage)).toEqual(id);
+  });
+
+  it("leaves the session copy for another try if the write fails", async () => {
+    const legacy = await leaveSessionProject();
+    setCurrentProjectId(sessionStorage, "current");
+    vi.spyOn(db, "create").mockRejectedValueOnce(new Error("Simulated"));
+
+    await expect(migrateSessionProject(db, sessionStorage)).rejects.toThrow(
+      "Simulated"
+    );
+
+    expect((await legacy.ls()).sort()).toEqual(["helper.py", "main.py"]);
+    expect(await legacy.projectName()).toEqual("My project");
+    expect(getCurrentProjectId(sessionStorage)).toEqual("current");
   });
 });

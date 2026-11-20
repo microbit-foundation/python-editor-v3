@@ -11,6 +11,7 @@ import {
   chooseProject,
   defaultProjectFiles,
   getCurrentProjectId,
+  migrateSessionProject,
   sessionStorageIfPossible,
   setCurrentProjectId,
 } from "../fs/current-project";
@@ -109,14 +110,37 @@ export class Projects extends TypedEventTarget<EventMap> {
     private migration: PendingMigration = new PendingMigration("")
   ) {
     super();
-    this.ready = db.then((resolved) => {
+    this.ready = db.then(async (resolved) => {
       this.db = resolved;
+      if (resolved) {
+        await this.migrateSessionProject(resolved);
+      }
     });
     this.channel =
       typeof BroadcastChannel !== "undefined"
         ? new BroadcastChannel(syncChannelName)
         : undefined;
     this.channel?.addEventListener("message", this.handleSyncMessage);
+  }
+
+  /**
+   * Brings in the project that the editor, before the projects database,
+   * kept in session storage. Part of getting ready, so that the pages list
+   * it and the editor opens it like any other project, whichever the tab
+   * loads first: the editor used to be at what is now the home page's
+   * address.
+   */
+  private async migrateSessionProject(db: ProjectsDatabase): Promise<void> {
+    try {
+      const id = await migrateSessionProject(db, this.session);
+      if (id) {
+        this.channel?.postMessage({ type: "changed", projectIds: [id] });
+      }
+    } catch (e) {
+      // The app can still start. The session copy is kept for the next
+      // page load to try again.
+      this.logging.error("Failed to migrate the session storage project", e);
+    }
   }
 
   /**
