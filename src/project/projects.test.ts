@@ -250,6 +250,60 @@ describe("Projects", () => {
       expect(await db.get(id)).toBeUndefined();
       expect(await db.files(id)).toEqual({});
     });
+
+    /**
+     * Runs an action in the middle of the second tab's handling of a change
+     * to the open project: just after it has read the project's record.
+     */
+    const duringReload = async (
+      action: (tabs: Awaited<ReturnType<typeof twoTabs>>) => Promise<void>
+    ) => {
+      const tabs = await twoTabs();
+      const get = tabs.db.get.bind(tabs.db);
+      let acted: Promise<void> | undefined;
+      vi.spyOn(tabs.db, "get").mockImplementationOnce(async (id) => {
+        const project = await get(id);
+        acted = action(tabs);
+        await acted;
+        return project;
+      });
+      await tabs.a.fs.write(MAIN_FILE, "# changed", VersionAction.MAINTAIN);
+      await vi.waitFor(() => expect(acted).toBeDefined());
+      await acted;
+      return tabs;
+    };
+
+    it("still lets go of it if it is deleted while reloading", async () => {
+      let deleted: Promise<unknown> | undefined;
+      const errors: unknown[] = [];
+      const { b, db, id } = await duringReload(async ({ a, b, id }) => {
+        b.projects.addEventListener("saveerror", (e: ProjectSaveErrorEvent) => {
+          errors.push(e.error);
+        });
+        deleted = new Promise((resolve) =>
+          b.projects.addEventListener("openprojectdeleted", resolve)
+        );
+        await a.projects.delete([id]);
+      });
+
+      await deleted;
+      expect(b.projects.currentId).toBeUndefined();
+      await b.fs.write(MAIN_FILE, "# typed after", VersionAction.MAINTAIN);
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      expect(errors).toEqual([]);
+      expect(await db.get(id)).toBeUndefined();
+    });
+
+    it("does not go back to it if the user has opened another meanwhile", async () => {
+      let other: string | undefined;
+      const { b } = await duringReload(async ({ b }) => {
+        other = await b.projects.create("Other");
+      });
+      // Long enough for a mistaken switch back to have happened.
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      expect(b.projects.currentId).toEqual(other);
+      expect(b.fs.project.name).toEqual("Other");
+    });
   });
 
   it("without the database there is nothing to manage and the editor still works", async () => {

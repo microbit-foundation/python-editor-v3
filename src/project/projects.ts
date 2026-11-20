@@ -18,7 +18,11 @@ import { FileSystem } from "../fs/fs";
 import { generateId } from "../fs/fs-util";
 import { IndexedDBFSStorage } from "../fs/indexeddb-storage";
 import { PendingMigration } from "../fs/migration";
-import { ProjectListEntry, ProjectsDatabase } from "../fs/projects-db";
+import {
+  ProjectListEntry,
+  ProjectMeta,
+  ProjectsDatabase,
+} from "../fs/projects-db";
 import {
   FSStorage,
   InMemoryFSStorage,
@@ -172,7 +176,7 @@ export class Projects extends TypedEventTarget<EventMap> {
       return false;
     }
     const id = await chooseProject(this.db, this.session, migration);
-    await this.switchTo(id);
+    await this.switchTo(await this.record(id));
     if (migration) {
       await this.changed([id]);
     }
@@ -182,7 +186,7 @@ export class Projects extends TypedEventTarget<EventMap> {
   async open(id: string): Promise<void> {
     const db = await this.requireDb();
     await db.touch(id);
-    await this.switchTo(id);
+    await this.switchTo(await this.record(id));
   }
 
   async create(name: string): Promise<string> {
@@ -199,8 +203,9 @@ export class Projects extends TypedEventTarget<EventMap> {
   ): Promise<string> {
     const db = await this.requireDb();
     const id = generateId();
-    await db.create({ id, name, timestamp: Date.now() }, files);
-    await this.switchTo(id);
+    const project = { id, name, timestamp: Date.now() };
+    await db.create(project, files);
+    await this.switchTo(project);
     await this.changed([id]);
     return id;
   }
@@ -255,16 +260,25 @@ export class Projects extends TypedEventTarget<EventMap> {
     }
   }
 
-  /**
-   * Points the file system at a project. The first time this supplies the
-   * storage the host is waiting for; afterwards it switches.
-   */
-  private async switchTo(id: string): Promise<void> {
-    const db = await this.requireDb();
-    const project = await db.get(id);
+  private async record(id: string): Promise<ProjectMeta> {
+    const project = await (await this.requireDb()).get(id);
     if (!project) {
       throw new Error(`No such project ${id}`);
     }
+    return project;
+  }
+
+  /**
+   * Points the file system at a project. The first time this supplies the
+   * storage the host is waiting for; afterwards it switches.
+   *
+   * @param project The project's record as just read or written. Taken
+   * rather than read here so that a caller who has checked the project
+   * exists does not have it deleted between their read and this one.
+   */
+  private async switchTo(project: ProjectMeta): Promise<void> {
+    const db = await this.requireDb();
+    const { id } = project;
     const previous = this.openStorage;
     const indexed = new IndexedDBFSStorage(
       db,
@@ -328,14 +342,19 @@ export class Projects extends TypedEventTarget<EventMap> {
       }
       // A "changed" message says nothing about now: the project may have
       // been deleted since it was sent, with the "deleted" message still to
-      // come. Reloading a project that is gone would fail, so check first
-      // and treat a missing one as deleted.
-      if (type === "changed" && (await this.db?.get(id))) {
-        // Reload the open project so this tab shows the other's edits.
-        this.openId = undefined;
-        await this.switchTo(id);
-      } else if (this.openId === id) {
-        // Unless the "deleted" message was handled while this one waited.
+      // come. So look, and treat a missing project as deleted.
+      const project = type === "changed" ? await this.db?.get(id) : undefined;
+      if (this.openId !== id) {
+        // While this waited the user opened another project, or the
+        // "deleted" message was handled.
+        return;
+      }
+      if (project) {
+        // Reload the open project so this tab shows the other's edits. If
+        // it is deleted from here on, the "deleted" message finds it open
+        // and lets go of it.
+        await this.switchTo(project);
+      } else {
         this.letGoOfOpenProject();
         this.dispatchTypedEvent(
           "openprojectdeleted",
