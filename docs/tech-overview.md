@@ -52,7 +52,7 @@ The pieces:
 
 Opening a project loads its record and all its files in one read, then switches the file system's storage. Loading first means a failed read leaves the previously open project as it was.
 
-Edits are written through as they happen. There is no separate autosave and no "save" action for browser storage:
+Edits are written through as they happen. There is no separate "save" action for browser storage:
 
 - Writes are coalesced per file for 300ms, then flushed as one transaction. The project's timestamp is the time of the edit, so "last modified" does not depend on when the flush ran.
 - Pending writes are also flushed when the page is hidden or unloading. A transaction that waits on a read, or on its requests finishing, does not survive the page unloading. So a flush never reads before it writes, and one from a hidden or unloading page commits explicitly. This is why the storage holds the project's name and writes the whole project record each time, rather than reading the record and updating it.
