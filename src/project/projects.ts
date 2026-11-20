@@ -176,8 +176,8 @@ export class Projects extends TypedEventTarget<EventMap> {
   private async chooseAndOpen(): Promise<boolean> {
     await this.ready;
     if (!this.db) {
-      // Built once only: a split starts reading its secondary, and clears
-      // it if that fails, as soon as it exists.
+      // Only when needed: constructing a split reads session storage, and
+      // clears it if the read fails.
       if (!this.firstStorageResolved) {
         this.resolveFirstStorage(
           new SplitStrategyStorage(
