@@ -172,20 +172,46 @@ describe("IndexedDBFSStorage", () => {
     expect((await db.get(projectId))?.name).toEqual("Renamed here");
   });
 
-  it("knows what a failed flush left unsaved, until it is next saved", async () => {
+  it("has unsaved changes after a failed flush, until the next succeeds", async () => {
     expect(storage.hasUnsavedChanges).toEqual(false);
     vi.spyOn(db, "save").mockRejectedValueOnce(new Error("Simulated"));
     await storage.write("main.py", new Uint8Array([1]));
     await storage.flush();
     expect(storage.hasUnsavedChanges).toEqual(true);
 
-    // Another file saving does not save the one that failed.
+    // Saving anything saves what failed too.
     await storage.write("other.py", new Uint8Array([2]));
     await storage.flush();
-    expect(storage.hasUnsavedChanges).toEqual(true);
+    expect(storage.hasUnsavedChanges).toEqual(false);
+    expect(contents(await db.files(projectId))).toEqual({
+      "main.py": [1],
+      "other.py": [2],
+    });
+  });
 
-    await storage.write("main.py", new Uint8Array([3]));
+  it("does not retry a failed flush until something else flushes", async () => {
+    const save = vi
+      .spyOn(db, "save")
+      .mockRejectedValueOnce(new Error("Simulated"));
+    await storage.write("main.py", new Uint8Array([1]));
     await storage.flush();
+    await new Promise((resolve) => setTimeout(resolve, 60));
+    expect(save).toHaveBeenCalledTimes(1);
+
+    // As when the project is switched.
+    await storage.dispose();
+    expect(save).toHaveBeenCalledTimes(2);
+    expect(contents(await db.files(projectId))).toEqual({ "main.py": [1] });
+  });
+
+  it("sends the newer content if a file changes again after a failed flush", async () => {
+    vi.spyOn(db, "save").mockRejectedValueOnce(new Error("Simulated"));
+    await storage.write("main.py", new Uint8Array([1]));
+    await storage.flush();
+    await storage.write("main.py", new Uint8Array([2]));
+    await storage.remove("old.py");
+    await storage.flush();
+    expect(contents(await db.files(projectId))).toEqual({ "main.py": [2] });
     expect(storage.hasUnsavedChanges).toEqual(false);
   });
 
@@ -209,7 +235,7 @@ describe("IndexedDBFSStorage", () => {
     expect(errors).toEqual([]);
   });
 
-  it("reports a failed flush and drops those changes rather than throwing", async () => {
+  it("reports a failed flush rather than throwing, and keeps its changes for the next", async () => {
     vi.spyOn(db, "save").mockRejectedValueOnce(
       new DOMException("full", "QuotaExceededError")
     );
@@ -220,6 +246,9 @@ describe("IndexedDBFSStorage", () => {
 
     await storage.write("other.py", new Uint8Array([2]));
     await storage.flush();
-    expect(contents(await db.files(projectId))).toEqual({ "other.py": [2] });
+    expect(contents(await db.files(projectId))).toEqual({
+      "main.py": [1],
+      "other.py": [2],
+    });
   });
 });

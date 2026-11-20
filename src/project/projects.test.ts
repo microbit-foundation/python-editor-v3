@@ -220,6 +220,24 @@ describe("Projects", () => {
     await vi.waitFor(() => expect(projects.hasUnsavedChanges).toEqual(false));
   });
 
+  it("saves an edit that failed to save when the project is switched", async () => {
+    const { db, fs, projects } = await setup();
+    await projects.openCurrent();
+    await fs.initialize();
+    const first = projects.currentId!;
+    vi.spyOn(logging, "error").mockImplementation(() => undefined);
+    vi.spyOn(db!, "save").mockRejectedValueOnce(new Error("Simulated"));
+    await fs.write(MAIN_FILE, "# not saved yet", VersionAction.MAINTAIN);
+    await vi.waitFor(() => expect(projects.hasUnsavedChanges).toEqual(true));
+
+    await projects.create("Second");
+
+    expect(decode((await db!.file(first, MAIN_FILE))!)).toEqual(
+      "# not saved yet"
+    );
+    expect(projects.hasUnsavedChanges).toEqual(false);
+  });
+
   it("a failed save raises saveerror each time but is logged once", async () => {
     const { db, fs, projects } = await setup();
     await projects.openCurrent();
