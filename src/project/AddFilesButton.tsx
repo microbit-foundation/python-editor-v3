@@ -12,9 +12,6 @@ import { useProjectActions } from "./project-hooks";
 interface AddFilesButtonProps extends CollapsibleButtonComposableProps {}
 
 /**
- * Open HEX button, with an associated input field.
- */
-/**
  * Adds files to the open project from the Files tab. A hex file becomes a
  * new project instead.
  */

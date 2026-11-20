@@ -65,7 +65,7 @@ const Branding = () => {
 // The pages copy ml-trainer's header, whose buttons are the base preset's
 // lg size with a 24px icon. This app's dense preset shrinks lg to 42px
 // and the icon to 18px, so the sizes are pinned here. See the dense preset
-// discussion in docs/multi-project-plan.md.
+// discussion in docs/home-page.md.
 const headerButtonCss = { h: "48px", minW: "48px", fontSize: "24px" };
 
 const BackToHomeButton = () => {
