@@ -103,11 +103,9 @@ export const migrationProjectFiles = (
  * Decides which project the editor opens and marks it most recent.
  *
  * In order: a new project from the #project: link the app booted with; the
- * project the tab already has open; a project migrated from the
- * session-storage file system that predates the projects database, so a
- * reload after deploying this lands in the user's work; the most recently
- * used project, so a straight-to-editor bookmark keeps working; otherwise a
- * new project.
+ * project the tab already has open, which includes one that
+ * migrateSessionProject brought in; the most recently used project, so a
+ * straight-to-editor bookmark keeps working; otherwise a new project.
  */
 export const chooseProject = async (
   db: ProjectsDatabase,
@@ -128,12 +126,6 @@ export const chooseProject = async (
     await db.touch(current);
     return current;
   }
-  const legacy = session && new SessionStorageFSStorage(session);
-  if (legacy && (await legacy.ls()).length > 0) {
-    const id = await migrateLegacyProject(db, legacy);
-    setCurrentProjectId(session, id);
-    return id;
-  }
   const recent = await db.mostRecent();
   if (recent) {
     await db.touch(recent.id);
@@ -150,13 +142,26 @@ export const chooseProject = async (
 };
 
 /**
- * Moves the single session-storage project into the database. The session
- * storage copy is removed so this happens once; the id then stands in for it.
+ * Moves the single project that the editor kept in session storage, before
+ * the projects database, into the database, and makes it the tab's current
+ * project, which is what it was. The session storage copy is removed so
+ * this happens once. If the database write fails it is left for another
+ * try.
+ *
+ * Only an earlier version of the app, or this one without the database,
+ * writes a project to session storage, so once this has run for a page
+ * load there is nothing more to find.
+ *
+ * @returns The new project's id, or undefined if there was none to move.
  */
-const migrateLegacyProject = async (
+export const migrateSessionProject = async (
   db: ProjectsDatabase,
-  legacy: SessionStorageFSStorage
-): Promise<string> => {
+  session: Storage | undefined
+): Promise<string | undefined> => {
+  const legacy = session && new SessionStorageFSStorage(session);
+  if (!legacy || (await legacy.ls()).length === 0) {
+    return undefined;
+  }
   const files: Record<string, Uint8Array> = {};
   for (const name of await legacy.ls()) {
     files[name] = await legacy.read(name);
@@ -167,6 +172,7 @@ const migrateLegacyProject = async (
     files
   );
   await legacy.removeAll();
+  setCurrentProjectId(session, id);
   return id;
 };
 
