@@ -238,6 +238,51 @@ describe("Projects", () => {
     expect(projects.hasUnsavedChanges).toEqual(false);
   });
 
+  describe("opening the open project again after a failed save", () => {
+    // As after going to the projects page to free some space.
+    const withFailedEdit = async (failures: "once" | "always") => {
+      const { db, fs, projects } = await setup();
+      await projects.openCurrent();
+      await fs.initialize();
+      vi.spyOn(logging, "error").mockImplementation(() => undefined);
+      const save = vi.spyOn(db!, "save");
+      if (failures === "once") {
+        save.mockRejectedValueOnce(new Error("Simulated"));
+      } else {
+        save.mockRejectedValue(new Error("Simulated"));
+      }
+      await fs.write(MAIN_FILE, "# not saved yet", VersionAction.MAINTAIN);
+      await vi.waitFor(() => expect(projects.hasUnsavedChanges).toEqual(true));
+      return { db: db!, fs, projects, id: projects.currentId! };
+    };
+
+    it("saves the edit and keeps it on screen", async () => {
+      const { db, fs, projects, id } = await withFailedEdit("once");
+
+      await projects.open(id);
+
+      expect(decode((await fs.read(MAIN_FILE)).data)).toEqual(
+        "# not saved yet"
+      );
+      expect(decode((await db.file(id, MAIN_FILE))!)).toEqual(
+        "# not saved yet"
+      );
+      expect(projects.hasUnsavedChanges).toEqual(false);
+    });
+
+    it("keeps the edit on screen if it still cannot be saved", async () => {
+      const { fs, projects, id } = await withFailedEdit("always");
+
+      await projects.open(id);
+
+      expect(decode((await fs.read(MAIN_FILE)).data)).toEqual(
+        "# not saved yet"
+      );
+      expect(projects.currentId).toEqual(id);
+      expect(projects.hasUnsavedChanges).toEqual(true);
+    });
+  });
+
   it("a failed save raises saveerror each time but is logged once", async () => {
     const { db, fs, projects } = await setup();
     await projects.openCurrent();

@@ -40,7 +40,10 @@ export class ProjectsChangedEvent extends Event {
   }
 }
 
-/** A write to the open project's storage failed; its changes were dropped. */
+/**
+ * A write to the open project's storage failed. Its changes go with the next
+ * write that is made.
+ */
 export class ProjectSaveErrorEvent extends Event {
   constructor(public readonly error: unknown) {
     super("saveerror");
@@ -340,28 +343,49 @@ export class Projects extends TypedEventTarget<EventMap> {
    * storage the host is waiting for; afterwards it switches. Loads the
    * project before changing anything, so a failed read leaves all as it was.
    *
-   * @param loaded The project's content when the caller has just written
-   * or read it, to skip reading it again. A caller that has checked the
-   * project exists passes what it read, so that a delete cannot land
-   * between its read and one here.
+   * Asked for the project that is already open, it reloads it: another tab
+   * has changed it, or the user has opened it again. What this tab has still
+   * to save is saved first, and if that fails the tab keeps its copy.
+   *
+   * @param created The project's content when the caller has just created
+   * it, to skip reading it back.
+   * @throws NoSuchProjectError if the project has been deleted.
    */
-  private async switchTo(id: string, loaded?: ProjectContent): Promise<void> {
+  private async switchTo(id: string, created?: ProjectContent): Promise<void> {
     const db = await this.requireDb();
-    const content = loaded ?? (await db.load(id));
+    const previous = this.openStorage;
+    const reloading = this.openId === id && previous !== undefined;
+    if (reloading) {
+      const record = await db.get(id);
+      if (!record) {
+        throw new NoSuchProjectError(id);
+      }
+      // Saved before reloading so that the reload has it too. Otherwise the
+      // database's copy would go on screen in its place, and the save that
+      // followed would leave the two out of step. The name is the other
+      // tab's to change, so take it before saving.
+      previous.adoptName(record.name);
+      await previous.flush();
+      if (previous.hasUnsavedChanges) {
+        // It cannot be saved, and a reload would lose it from here too.
+        return;
+      }
+    }
+    const content = created ?? (await db.load(id));
     if (!content) {
       throw new NoSuchProjectError(id);
+    }
+    if (reloading && this.openStorage !== previous) {
+      // The user opened another project while this waited. Don't go back.
+      return;
     }
     const primary = new InMemoryFSStorage(content.meta.name);
     for (const [name, data] of Object.entries(content.files)) {
       await primary.write(name, data);
     }
-    const previous = this.openStorage;
-    const reloading = this.openId === id;
     if (reloading) {
-      // Reloading the open project, for another tab's change. Edits here
-      // that the outgoing storage has still to flush must not take the
-      // project's name back to what it was before that change.
-      previous?.adoptName(content.meta.name);
+      // For anything edited here since the save above.
+      previous.adoptName(content.meta.name);
     }
     const indexed = new IndexedDBFSStorage(
       db,
@@ -429,51 +453,25 @@ export class Projects extends TypedEventTarget<EventMap> {
       if (!id || !projectIds.includes(id)) {
         return;
       }
-      // A "changed" message says nothing about now: the project may have
-      // been deleted since it was sent, with the "deleted" message still to
-      // come. So look, and treat a missing project as deleted.
-      let content: ProjectContent | undefined;
       if (type === "changed") {
+        // Reload the open project so this tab shows the other's edits. A
+        // "changed" message says nothing about now: the project may have
+        // been deleted since it was sent, with the "deleted" message still
+        // to come, in which case it is not there to reload.
         try {
-          const storage = this.openStorage;
-          const record = await this.db?.get(id);
-          if (record && storage && this.openId === id) {
-            // What this tab has still to save goes first, so that the reload
-            // has it too. Otherwise the reload would put the database's copy
-            // on screen in its place, and the save that follows would leave
-            // the two out of step. The name is the other tab's to change, so
-            // take it before saving.
-            storage.adoptName(record.name);
-            await storage.flush();
-            if (storage.hasUnsavedChanges) {
-              // It cannot be saved, and a reload would lose it from here
-              // too. Carry on with this tab's copy.
-              return;
-            }
-          }
-          content = record && (await this.db?.load(id));
-        } catch (e) {
-          // Carry on with this tab's copy.
-          this.logging.error("Failed to reload project", e);
+          await this.switchTo(id);
           return;
-        }
-      }
-      if (this.openId !== id) {
-        // While this waited the user opened another project, or the
-        // "deleted" message was handled.
-        return;
-      }
-      if (content) {
-        // Reload the open project so this tab shows the other's edits. If
-        // it is deleted from here on, the "deleted" message finds it open
-        // and lets go of it. If the reload fails, carry on with this tab's
-        // copy.
-        try {
-          await this.switchTo(id, content);
         } catch (e) {
-          this.logging.error("Failed to reload project", e);
+          if (!(e instanceof NoSuchProjectError)) {
+            // Carry on with this tab's copy.
+            this.logging.error("Failed to reload project", e);
+            return;
+          }
         }
-      } else {
+      }
+      if (this.openId === id) {
+        // Unless the user opened another project, or a "deleted" message
+        // was handled, while this waited.
         this.letGoOfOpenProject();
         this.dispatchTypedEvent(
           "openprojectdeleted",
