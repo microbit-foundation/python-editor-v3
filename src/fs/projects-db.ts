@@ -48,6 +48,14 @@ export interface FileChanges {
   deletes: string[];
 }
 
+/** The project has been deleted, most likely in another tab. */
+export class NoSuchProjectError extends Error {
+  constructor(id: string) {
+    super(`No such project ${id}`);
+    this.name = "NoSuchProjectError";
+  }
+}
+
 const PROJECTS = "projects";
 const FILES = "files";
 const stores = [PROJECTS, FILES] as const;
@@ -224,7 +232,7 @@ export class ProjectsDatabase {
     const tx = handled(this.db.transaction(PROJECTS, "readwrite"));
     const existing = await tx.store.get(id);
     if (!existing) {
-      throw new Error(`No such project ${id}`);
+      throw new NoSuchProjectError(id);
     }
     await tx.store.put({ ...existing, ...changes, id });
     await tx.done;
@@ -242,8 +250,8 @@ export class ProjectsDatabase {
    * rather than when the requests have finished. This gives up the check
    * that the project still exists, which needs the result of a read, so a
    * project deleted in the meantime is written back.
-   * @throws if the project no longer exists (unless urgent), leaving
-   * nothing written.
+   * @throws NoSuchProjectError if the project no longer exists (unless
+   * urgent), leaving nothing written.
    */
   save(
     project: ProjectMeta,
@@ -261,7 +269,7 @@ export class ProjectsDatabase {
       tx.onabort = () =>
         reject(
           missing
-            ? new Error(`No such project ${project.id}`)
+            ? new NoSuchProjectError(project.id)
             : tx.error ?? new DOMException("Transaction aborted", "AbortError")
         );
       try {
