@@ -216,10 +216,12 @@ export class ProjectsDatabase {
     { writes, deletes }: FileChanges,
     { urgent = false }: { urgent?: boolean } = {}
   ): Promise<void> {
-    // The plain transaction, not idb's wrapper: its promise of completion
-    // would be an unhandled rejection on the abort below.
-    const tx = unwrap(this.db).transaction(stores, "readwrite");
     return new Promise((resolve, reject) => {
+      // The plain transaction, not idb's wrapper: its promise of completion
+      // would be an unhandled rejection on the abort below. Opened in here
+      // so that failing to, as when the browser has closed the connection,
+      // is a rejection like any other failure.
+      const tx = unwrap(this.db).transaction(stores, "readwrite");
       let missing = false;
       tx.oncomplete = () => resolve();
       tx.onabort = () =>

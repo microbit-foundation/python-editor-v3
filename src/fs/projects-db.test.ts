@@ -99,6 +99,16 @@ describe("ProjectsDatabase", () => {
     expect(contents(await db.files("gone"))).toEqual({});
   });
 
+  it("save rejects rather than throws when the connection has closed", async () => {
+    await db.create(meta("a", 1), {});
+    db.close();
+    let result: Promise<void> | undefined;
+    expect(() => {
+      result = db.save(meta("a", 2), { writes: {}, deletes: [] });
+    }).not.toThrow();
+    await expect(result).rejects.toThrow();
+  });
+
   it("an urgent save issues its writes without waiting to check", async () => {
     await db.create(meta("a", 1), { "main.py": bytes(1) });
     await db.save(

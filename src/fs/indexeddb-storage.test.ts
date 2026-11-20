@@ -141,6 +141,25 @@ describe("IndexedDBFSStorage", () => {
     expect(errors).toEqual([]);
   });
 
+  it("reports a failure to announce a change and carries on", async () => {
+    const failing = new IndexedDBFSStorage(
+      db,
+      { id: projectId, name: undefined, timestamp: 1 },
+      (e) => errors.push(e),
+      () => {
+        throw new Error("channel closed");
+      },
+      20
+    );
+    await failing.write("main.py", new Uint8Array([1]));
+    await failing.flush();
+    expect(errors).toHaveLength(1);
+
+    await failing.write("main.py", new Uint8Array([2]));
+    expect(Array.from(await failing.read("main.py"))).toEqual([2]);
+    await failing.dispose();
+  });
+
   it("does not write back a project deleted elsewhere", async () => {
     await db.delete(projectId);
     await storage.write("main.py", new Uint8Array([1]));

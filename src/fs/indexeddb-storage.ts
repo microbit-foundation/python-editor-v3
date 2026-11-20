@@ -172,9 +172,11 @@ export class IndexedDBFSStorage implements FSStorage {
   /**
    * Writes everything pending in one transaction. Safe to call at any time.
    *
-   * The transaction's requests are issued before this returns, which is
-   * what lets a flush from a page that is unloading succeed, and it runs
+   * The transaction's requests are issued before this returns, which an
+   * urgent flush needs to stand a chance as the page unloads, and it runs
    * after those of earlier flushes, so the latest content is what is kept.
+   * An earlier flush that is still in flight when the page unloads is not
+   * helped by a later urgent one: only the urgent one commits explicitly.
    *
    * @param urgent The page may be about to go away; see
    * ProjectsDatabase.save.
@@ -202,10 +204,10 @@ export class IndexedDBFSStorage implements FSStorage {
     }
     this.pendingWrites = new Map();
     this.pendingSince = undefined;
-    const saved = this.db.save(project, files, { urgent }).then(
-      () => this.onChange(),
-      (e) => this.onError(e)
-    );
+    const saved = this.db
+      .save(project, files, { urgent })
+      .then(() => this.onChange())
+      .catch((e) => this.onError(e));
     const earlier = this.flushing;
     this.flushing = earlier.then(() => saved);
     return this.flushing;
