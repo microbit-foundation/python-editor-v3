@@ -253,21 +253,20 @@ export const useProjectPageActions = (
 };
 
 /**
- * Imports files from the home page as a new project and opens the editor on
- * it. Errors are reported as toasts by the importer.
+ * Imports files from the home or projects page as a new project and opens
+ * the editor on it. Errors are reported as toasts by the importer.
  */
-export const useImportProjectFiles = (): ((
-  files: File[],
-  source: ImportSource
-) => Promise<void>) => {
+export const useImportProjectFiles = (
+  surface: ProjectSurface
+): ((files: File[], source: ImportSource) => Promise<void>) => {
   const importer = useProjectImporter();
   const navigate = useNavigate();
   return useCallback(
     async (files: File[], source: ImportSource) => {
-      if (await importer.importAsNewProject(files, source)) {
+      if (await importer.importAsNewProject(files, source, surface)) {
         await navigate(createEditorUrl());
       }
     },
-    [importer, navigate]
+    [importer, navigate, surface]
   );
 };

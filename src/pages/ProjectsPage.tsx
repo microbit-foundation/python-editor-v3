@@ -75,7 +75,7 @@ const ProjectsPage = () => {
     logging.event({ type: "project_sort", detail: { field, direction: next } });
   };
 
-  const importFiles = useImportProjectFiles();
+  const importFiles = useImportProjectFiles("projects");
   const handleDrop = useCallback(
     (files: File[]) => void importFiles(files, "drop"),
     [importFiles]

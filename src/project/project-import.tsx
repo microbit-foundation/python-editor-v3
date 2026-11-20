@@ -28,7 +28,7 @@ import { isPythonFile } from "./project-utils";
 import { Projects } from "./projects";
 
 export type ImportSource = "drop" | "file_picker";
-export type ImportSurface = "editor" | "home";
+export type ImportSurface = "editor" | "home" | "projects";
 
 export interface ImportedFile {
   name: string;
@@ -136,9 +136,10 @@ export class ProjectImporter {
    */
   importAsNewProject = async (
     files: File[],
-    source: ImportSource
+    source: ImportSource,
+    surface: Exclude<ImportSurface, "editor">
   ): Promise<boolean> => {
-    const kind = this.begin(files, source, "home");
+    const kind = this.begin(files, source, surface);
     switch (kind.kind) {
       case "error":
         this.loadError(files, kind.messageId);
