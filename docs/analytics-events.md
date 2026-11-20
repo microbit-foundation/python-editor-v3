@@ -221,6 +221,11 @@ Fires once per search session: when results first appear after typing, not
 per keystroke (300ms debounce) and not again until results are cleared. No
 params. Search terms are deliberately not sent.
 
+### `ideas_notice_open`
+
+User opened the dialog, from the notice in the Ideas tab, that explains that
+ideas are moving to the home page. No params.
+
 ## Code snippet events
 
 Moving code from the documentation into the editor. Drag and copy are the
