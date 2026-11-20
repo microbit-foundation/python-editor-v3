@@ -3,7 +3,12 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { FileChanges, ProjectMeta, ProjectsDatabase } from "./projects-db";
+import {
+  FileChanges,
+  NoSuchProjectError,
+  ProjectMeta,
+  ProjectsDatabase,
+} from "./projects-db";
 import { FSStorage } from "./storage";
 
 const defaultFlushDelayMs = 300;
@@ -37,10 +42,12 @@ export class IndexedDBFSStorage implements FSStorage {
   // Changes not yet known to be in the database. An entry stays here while
   // a flush carrying it is in flight, and after one that fails.
   private pendingWrites = new Map<string, Uint8Array | null>();
-  // When the oldest change not yet sent in a flush was made, or undefined
-  // with nothing new to flush: the project's "last modified" is the edit,
-  // not the flush, which may come later than another project's.
-  private pendingSince: number | undefined;
+  // There is something that no flush has yet been sent for, or that one
+  // failed to save.
+  private needsFlush = false;
+  // When the latest change was made. The project's "last modified" is the
+  // edit, not the flush, which may come later than another project's.
+  private lastChange = 0;
   private timer: ReturnType<typeof setTimeout> | undefined;
   private flushing: Promise<void> = Promise.resolve();
   private abandoned = false;
@@ -96,7 +103,7 @@ export class IndexedDBFSStorage implements FSStorage {
     clearTimeout(this.timer);
     this.timer = undefined;
     this.pendingWrites = new Map();
-    this.pendingSince = undefined;
+    this.needsFlush = false;
     this.lastFlushFailed = false;
   }
 
@@ -193,7 +200,8 @@ export class IndexedDBFSStorage implements FSStorage {
       this.pendingWrites = new Map();
       return;
     }
-    this.pendingSince ??= Date.now();
+    this.needsFlush = true;
+    this.lastChange = Date.now();
     if (this.timer === undefined) {
       this.timer = setTimeout(() => void this.flush(), this.flushDelayMs);
     }
@@ -216,14 +224,13 @@ export class IndexedDBFSStorage implements FSStorage {
   flush({ urgent = false }: { urgent?: boolean } = {}): Promise<void> {
     clearTimeout(this.timer);
     this.timer = undefined;
-    if (this.abandoned || this.pendingSince === undefined) {
+    if (this.abandoned || !this.needsFlush) {
       return this.flushing;
     }
-    const since = this.pendingSince;
     const project: ProjectMeta = {
       id: this.projectId,
       name: this.name,
-      timestamp: since,
+      timestamp: this.lastChange,
     };
     const sent = new Map(this.pendingWrites);
     const files: FileChanges = { writes: {}, deletes: [] };
@@ -234,7 +241,7 @@ export class IndexedDBFSStorage implements FSStorage {
         files.writes[name] = data;
       }
     }
-    this.pendingSince = undefined;
+    this.needsFlush = false;
     const saved = this.db
       .save(project, files, { urgent })
       .then(
@@ -251,9 +258,13 @@ export class IndexedDBFSStorage implements FSStorage {
           this.lastFlushFailed = false;
         },
         (e) => {
-          if (!this.abandoned) {
+          if (e instanceof NoSuchProjectError) {
+            // Nothing queued must be sent again: an urgent flush does not
+            // check the project exists and would write part of it back.
+            this.abandon();
+          } else if (!this.abandoned) {
             // So that the next flush, whatever causes it, sends this again.
-            this.pendingSince = Math.min(since, this.pendingSince ?? since);
+            this.needsFlush = true;
             this.lastFlushFailed = true;
           }
           throw e;

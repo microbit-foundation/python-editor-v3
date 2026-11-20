@@ -371,6 +371,59 @@ describe("Projects", () => {
       return tabs;
     };
 
+    it("saves this tab's failed edit before reloading for the other's change", async () => {
+      const { a, b, db, id } = await twoTabs();
+      vi.spyOn(logging, "error").mockImplementation(() => undefined);
+      vi.spyOn(db, "save").mockRejectedValueOnce(new Error("Simulated"));
+      await b.fs.write(MAIN_FILE, "# b, not saved yet", VersionAction.MAINTAIN);
+      await vi.waitFor(() =>
+        expect(b.projects.hasUnsavedChanges).toEqual(true)
+      );
+
+      await a.fs.write("helper.py", "# from a", VersionAction.INCREMENT);
+      await vi.waitFor(() =>
+        expect(b.fs.project.files.map((f) => f.name)).toContain("helper.py")
+      );
+
+      // b still shows its edit, and everything agrees with the database.
+      expect(decode((await b.fs.read(MAIN_FILE)).data)).toEqual(
+        "# b, not saved yet"
+      );
+      expect(decode((await db.file(id, MAIN_FILE))!)).toEqual(
+        "# b, not saved yet"
+      );
+      expect(b.projects.hasUnsavedChanges).toEqual(false);
+      await vi.waitFor(async () =>
+        expect(decode((await a.fs.read(MAIN_FILE)).data)).toEqual(
+          "# b, not saved yet"
+        )
+      );
+    });
+
+    it("keeps this tab's copy if its edit still cannot be saved", async () => {
+      const { a, b, db } = await twoTabs();
+      vi.spyOn(logging, "error").mockImplementation(() => undefined);
+      const save = db.save.bind(db);
+      // Saves of b's edit fail; a's go through.
+      vi.spyOn(db, "save").mockImplementation((project, files, options) =>
+        MAIN_FILE in files.writes
+          ? Promise.reject(new Error("Simulated"))
+          : save(project, files, options)
+      );
+      await b.fs.write(MAIN_FILE, "# b, cannot save", VersionAction.MAINTAIN);
+      await vi.waitFor(() =>
+        expect(b.projects.hasUnsavedChanges).toEqual(true)
+      );
+
+      await a.fs.write("helper.py", "# from a", VersionAction.INCREMENT);
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      expect(decode((await b.fs.read(MAIN_FILE)).data)).toEqual(
+        "# b, cannot save"
+      );
+      expect(b.projects.hasUnsavedChanges).toEqual(true);
+    });
+
     it("still lets go of a deleted project if refreshing the list fails", async () => {
       const { a, b, id } = await twoTabs();
       const logged = vi

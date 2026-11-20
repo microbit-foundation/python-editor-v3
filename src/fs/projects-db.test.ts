@@ -5,7 +5,12 @@
  */
 import "fake-indexeddb/auto";
 import { openDB } from "idb";
-import { databaseName, ProjectMeta, ProjectsDatabase } from "./projects-db";
+import {
+  databaseName,
+  NoSuchProjectError,
+  ProjectMeta,
+  ProjectsDatabase,
+} from "./projects-db";
 
 let counter = 0;
 const uniqueName = () => `test-${Date.now()}-${counter++}`;
@@ -94,7 +99,7 @@ describe("ProjectsDatabase", () => {
   it("save refuses a project that no longer exists and writes nothing", async () => {
     await expect(
       db.save(meta("gone", 1), { writes: { "main.py": bytes(1) }, deletes: [] })
-    ).rejects.toThrow(/No such project gone/);
+    ).rejects.toBeInstanceOf(NoSuchProjectError);
     expect(await db.get("gone")).toBeUndefined();
     expect(contents(await db.files("gone"))).toEqual({});
   });

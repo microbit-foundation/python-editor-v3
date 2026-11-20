@@ -222,6 +222,29 @@ describe("IndexedDBFSStorage", () => {
     expect(errors).toHaveLength(1);
     expect(await db.get(projectId)).toBeUndefined();
     expect(contents(await db.files(projectId))).toEqual({});
+
+    // Nor later: an urgent flush does not check the project exists, so what
+    // that flush carried must not be kept for it.
+    window.dispatchEvent(new Event("pagehide"));
+    await storage.flush();
+    expect(await db.get(projectId)).toBeUndefined();
+    expect(contents(await db.files(projectId))).toEqual({});
+    expect(storage.hasUnsavedChanges).toEqual(false);
+  });
+
+  it("stamps the project with its latest edit, even after failed flushes", async () => {
+    const now = vi.spyOn(Date, "now");
+    vi.spyOn(db, "save").mockRejectedValueOnce(new Error("Simulated"));
+    now.mockReturnValue(100);
+    await storage.write("main.py", new Uint8Array([1]));
+    await storage.flush();
+
+    now.mockReturnValue(5000);
+    await storage.write("other.py", new Uint8Array([2]));
+    await storage.flush();
+    now.mockRestore();
+
+    expect((await db.get(projectId))?.timestamp).toEqual(5000);
   });
 
   it("writes nothing once abandoned", async () => {

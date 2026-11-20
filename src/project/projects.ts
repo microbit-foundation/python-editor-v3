@@ -20,6 +20,7 @@ import { generateId } from "../fs/fs-util";
 import { IndexedDBFSStorage } from "../fs/indexeddb-storage";
 import { PendingProjectLink } from "../fs/project-link";
 import {
+  NoSuchProjectError,
   ProjectContent,
   ProjectListEntry,
   ProjectsDatabase,
@@ -348,7 +349,7 @@ export class Projects extends TypedEventTarget<EventMap> {
     const db = await this.requireDb();
     const content = loaded ?? (await db.load(id));
     if (!content) {
-      throw new Error(`No such project ${id}`);
+      throw new NoSuchProjectError(id);
     }
     const primary = new InMemoryFSStorage(content.meta.name);
     for (const [name, data] of Object.entries(content.files)) {
@@ -434,7 +435,23 @@ export class Projects extends TypedEventTarget<EventMap> {
       let content: ProjectContent | undefined;
       if (type === "changed") {
         try {
-          content = await this.db?.load(id);
+          const storage = this.openStorage;
+          const record = await this.db?.get(id);
+          if (record && storage && this.openId === id) {
+            // What this tab has still to save goes first, so that the reload
+            // has it too. Otherwise the reload would put the database's copy
+            // on screen in its place, and the save that follows would leave
+            // the two out of step. The name is the other tab's to change, so
+            // take it before saving.
+            storage.adoptName(record.name);
+            await storage.flush();
+            if (storage.hasUnsavedChanges) {
+              // It cannot be saved, and a reload would lose it from here
+              // too. Carry on with this tab's copy.
+              return;
+            }
+          }
+          content = record && (await this.db?.load(id));
         } catch (e) {
           // Carry on with this tab's copy.
           this.logging.error("Failed to reload project", e);
