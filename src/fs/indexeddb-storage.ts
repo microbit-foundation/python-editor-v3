@@ -21,9 +21,10 @@ const defaultFlushDelayMs = 300;
  * decide, from when the project is opened. Another tab changing it is told
  * to this one by Projects, which opens the project afresh.
  *
- * Failures never propagate: the in-memory primary still holds the content,
- * so a failed flush is reported through onError and the changes are dropped
- * rather than retried forever against, say, a full quota.
+ * Failures never propagate: a failed flush is reported through onError. Its
+ * changes stay queued and go with the next flush, whatever causes that: a
+ * later edit, the page being hidden, or the project being switched. There
+ * is no retry of its own, which against a full quota would never end.
  *
  * The dirty flag is not stored: it exists to warn before work is lost, and
  * a project in the database outlives the tab.
@@ -33,18 +34,17 @@ export class IndexedDBFSStorage implements FSStorage {
   private name: string | undefined;
   // The name was set here and has not been flushed yet.
   private nameUnsaved = false;
+  // Changes not yet known to be in the database. An entry stays here while
+  // a flush carrying it is in flight, and after one that fails.
   private pendingWrites = new Map<string, Uint8Array | null>();
-  // When the oldest pending change was made, or undefined with nothing to
-  // flush: the project's "last modified" is the edit, not the flush, which
-  // may come later than another project's.
+  // When the oldest change not yet sent in a flush was made, or undefined
+  // with nothing new to flush: the project's "last modified" is the edit,
+  // not the flush, which may come later than another project's.
   private pendingSince: number | undefined;
   private timer: ReturnType<typeof setTimeout> | undefined;
   private flushing: Promise<void> = Promise.resolve();
   private abandoned = false;
-  // What a failed flush left out of the database and no flush has written
-  // since: files by name, and the project record.
-  private unsavedFiles = new Set<string>();
-  private unsavedRecord = false;
+  private lastFlushFailed = false;
   private readonly handleVisibilityChange = () => {
     if (document.visibilityState === "hidden") {
       void this.flush({ urgent: true });
@@ -97,17 +97,16 @@ export class IndexedDBFSStorage implements FSStorage {
     this.timer = undefined;
     this.pendingWrites = new Map();
     this.pendingSince = undefined;
-    this.unsavedFiles = new Set();
-    this.unsavedRecord = false;
+    this.lastFlushFailed = false;
   }
 
   /**
-   * True while a failed flush has left something out of the database, so
-   * that closing the tab now would lose it. A failed flush is not retried,
-   * so this lasts until the same files are next written successfully.
+   * True while the last flush failed, so that closing the tab now would
+   * lose what it carried. Each flush sends everything still unsaved, so the
+   * next one to succeed clears this.
    */
   get hasUnsavedChanges(): boolean {
-    return this.unsavedFiles.size > 0 || this.unsavedRecord;
+    return this.lastFlushFailed;
   }
 
   /**
@@ -217,37 +216,46 @@ export class IndexedDBFSStorage implements FSStorage {
   flush({ urgent = false }: { urgent?: boolean } = {}): Promise<void> {
     clearTimeout(this.timer);
     this.timer = undefined;
-    if (this.pendingSince === undefined) {
+    if (this.abandoned || this.pendingSince === undefined) {
       return this.flushing;
     }
+    const since = this.pendingSince;
     const project: ProjectMeta = {
       id: this.projectId,
       name: this.name,
-      timestamp: this.pendingSince,
+      timestamp: since,
     };
+    const sent = new Map(this.pendingWrites);
     const files: FileChanges = { writes: {}, deletes: [] };
-    for (const [name, data] of this.pendingWrites) {
+    for (const [name, data] of sent) {
       if (data === null) {
         files.deletes.push(name);
       } else {
         files.writes[name] = data;
       }
     }
-    this.pendingWrites = new Map();
     this.pendingSince = undefined;
-    this.nameUnsaved = false;
-    const names = [...Object.keys(files.writes), ...files.deletes];
     const saved = this.db
       .save(project, files, { urgent })
       .then(
         () => {
-          names.forEach((name) => this.unsavedFiles.delete(name));
-          // Every flush writes the whole record.
-          this.unsavedRecord = false;
+          for (const [name, data] of sent) {
+            // Unless it has been changed again since.
+            if (this.pendingWrites.get(name) === data) {
+              this.pendingWrites.delete(name);
+            }
+          }
+          if (this.name === project.name) {
+            this.nameUnsaved = false;
+          }
+          this.lastFlushFailed = false;
         },
         (e) => {
-          names.forEach((name) => this.unsavedFiles.add(name));
-          this.unsavedRecord = true;
+          if (!this.abandoned) {
+            // So that the next flush, whatever causes it, sends this again.
+            this.pendingSince = Math.min(since, this.pendingSince ?? since);
+            this.lastFlushFailed = true;
+          }
           throw e;
         }
       )

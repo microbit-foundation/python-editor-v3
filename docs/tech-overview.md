@@ -57,7 +57,7 @@ Edits are written through as they happen. There is no separate "save" action for
 - Writes are coalesced per file for 300ms, then flushed as one transaction. The project's timestamp is the time of the edit, so "last modified" does not depend on when the flush ran.
 - Pending writes are also flushed when the page is hidden or unloading. A transaction that waits on a read, or on its requests finishing, does not survive the page unloading. So a flush never reads before it writes, and one from a hidden or unloading page commits explicitly. This is why the storage holds the project's name and writes the whole project record each time, rather than reading the record and updating it.
 - A flush at any other time checks, in the same transaction, that the project still exists.
-- A failed flush is not retried. The in-memory copy still has the edit, the user sees a toast that stays until dismissed ("Browser storage full" when the quota is exceeded), and the error is logged once per session. Until the same files are next saved successfully, the user is warned before closing the tab.
+- A failed flush is not retried on a timer, which against a full quota would never end. Its edits stay queued and go with the next flush, whatever causes it: a later edit, the page being hidden, or the project being switched. Meanwhile the user sees a toast that stays until dismissed ("Browser storage full" when the quota is exceeded), is warned before closing the tab, and the error is logged once per session.
 
 MicroPython itself is only needed to build a hex file or flash, not to edit. If it fails to load, projects still open and save, and loading is tried again the next time something needs it.
 
