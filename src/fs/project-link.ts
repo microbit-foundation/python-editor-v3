@@ -40,12 +40,9 @@ export type ProjectLinkResult =
   | { status: "unreadable" };
 
 /**
- * True if the URL carries a #project: link. On microbit.org links it sits
- * behind the v2 editor's #import: prefix, so it isn't always the whole hash.
+ * Reads the #project: link in a URL. On microbit.org links it sits behind
+ * the v2 editor's #import: prefix, so it isn't always the whole hash.
  */
-export const hasProjectLink = (url: string): boolean =>
-  url.includes("#project:");
-
 export const parseProjectLink = (url: string): ProjectLinkResult => {
   const encoded = url.split("#project:")[1];
   if (encoded === undefined) {

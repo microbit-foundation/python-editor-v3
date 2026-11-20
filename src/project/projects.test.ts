@@ -12,6 +12,8 @@ import { deferred } from "../common/deferred";
 import { ConsoleLogging } from "../deployment/default/logging";
 import { FileSystem, MAIN_FILE, VersionAction } from "../fs/fs";
 import { DefaultHost } from "../fs/host";
+import { PendingProjectLink } from "../fs/project-link";
+import { testProjectLink } from "../fs/project-link-test-data";
 import { ProjectsDatabase } from "../fs/projects-db";
 import { FSStorage } from "../fs/storage";
 import { MicroPythonSource } from "../micropython/micropython";
@@ -87,6 +89,30 @@ describe("Projects", () => {
 
     await fs.write(MAIN_FILE, "# edited", VersionAction.MAINTAIN);
     expect((await fs.statistics()).defaultMain).toEqual(false);
+  });
+
+  it("has a pending #project: link until the editor opens it", async () => {
+    const storage = deferred<FSStorage>();
+    const link = new PendingProjectLink(testProjectLink);
+    const fs = new FileSystem(
+      logging,
+      new DefaultHost(link, storage.promise),
+      microPythonSource
+    );
+    const db = await ProjectsDatabase.open(`projects-${counter++}`);
+    const projects = new Projects(
+      fs,
+      logging,
+      Promise.resolve(db),
+      storage,
+      link
+    );
+    expect(projects.hasPendingProjectLink).toEqual(true);
+
+    expect(await projects.openCurrent()).toEqual(true);
+
+    expect(projects.hasPendingProjectLink).toEqual(false);
+    expect((await db.get(projects.currentId!))?.name).toEqual("Hearts");
   });
 
   it("concurrent openCurrent calls choose one project", async () => {

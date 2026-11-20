@@ -46,7 +46,7 @@ Still to try:
 - Editor at `/project` with tabs at `/project/:tab/:slug`; the old `/:tab/:slug` paths redirect; unknown paths are the shared not-found page. Iframe mode has a single-route router with the editor at the root.
 - The editor route's loader chooses the project: the tab's (which a migrated session-storage project becomes), else the most recent, else a new one with the starter program. So `/project` in a fresh tab goes straight to code, which ml-trainer does not do; the editor is low friction today and some users bookmark it.
 - The editor's project is chosen when its route loads, not at boot, so the pages render without one.
-- A `#project:` link is removed from the address once it has become a project. One that cannot be read is removed at startup, before the router sees it, so it cannot be mistaken for a link still to be opened.
+- A `#project:` link is removed from the address once it has become a project. One that cannot be read is removed at startup. The home page sends a link on to the editor only while one is waiting to be opened, which it asks the projects session rather than reading from the address.
 
 ### Pages and sharing
 
