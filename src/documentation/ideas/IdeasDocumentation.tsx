@@ -214,8 +214,11 @@ const IdeasMovingNotice = () => {
   }
   return (
     // Top-aligned so the icon stays on the first line when the text wraps.
-    <HStack gap="1.5" mt="2" alignItems="flex-start">
-      <Icon as={RiInformationLine} css={{ mt: "1" }} />
+    <HStack gap="1.5" mt="2" alignItems="flex-start" fontSize="md">
+      {/* One line of the text high, to centre the icon on the first line. */}
+      <Box display="flex" alignItems="center" h="1lh" flexShrink={0}>
+        <Icon as={RiInformationLine} />
+      </Box>
       <Text fontSize="md">
         <FormattedMessage
           id="ideas-moving-notice"
