@@ -56,7 +56,7 @@ const device: MicrobitUSBConnection = isMockDeviceMode()
 
 // The database opens at boot; the project the editor shows is chosen when
 // the editor route loads, so the pages need not pick one.
-const projectStorage = deferred<FSStorage | undefined>();
+const projectStorage = deferred<FSStorage>();
 const migration = new PendingMigration(window.location.href);
 const host = createHost(logging, migration, projectStorage.promise);
 const iframeMode = host instanceof IframeHost;
@@ -70,9 +70,6 @@ const projects = iframeMode
       projectStorage,
       migration
     );
-if (!projects) {
-  projectStorage.resolve(undefined);
-}
 
 // If this fails then we retry on access. Until a project is opened this
 // waits on the storage, so only in iframe mode does it run straight away.

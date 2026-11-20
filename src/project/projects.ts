@@ -85,8 +85,8 @@ export class Projects extends TypedEventTarget<EventMap> {
   private readonly session = sessionStorageIfPossible();
 
   /**
-   * @param firstStorage Resolved with the file system's persistent storage
-   * when a project is first opened; the host's DefaultHost waits on it.
+   * @param firstStorage Resolved with the file system's storage when a
+   * project is first opened; the host's DefaultHost waits on it.
    * @param migration The #project: link at boot, made a new project when
    * the editor first chooses one. Left for the host without the database.
    */
@@ -94,7 +94,7 @@ export class Projects extends TypedEventTarget<EventMap> {
     private fs: FileSystem,
     private logging: Logging,
     db: Promise<ProjectsDatabase | undefined>,
-    private firstStorage: Deferred<FSStorage | undefined>,
+    private firstStorage: Deferred<FSStorage>,
     private migration: PendingMigration = new PendingMigration("")
   ) {
     super();
@@ -177,7 +177,13 @@ export class Projects extends TypedEventTarget<EventMap> {
     await this.ready;
     if (!this.db) {
       this.resolveFirstStorage(
-        hasStorageVersionError() ? undefined : SessionStorageFSStorage.create()
+        new SplitStrategyStorage(
+          new InMemoryFSStorage(undefined),
+          hasStorageVersionError()
+            ? undefined
+            : SessionStorageFSStorage.create(),
+          this.logging
+        )
       );
       return false;
     }
@@ -267,7 +273,7 @@ export class Projects extends TypedEventTarget<EventMap> {
     return this.db;
   }
 
-  private resolveFirstStorage(storage: FSStorage | undefined): void {
+  private resolveFirstStorage(storage: FSStorage): void {
     if (!this.firstStorageResolved) {
       this.firstStorageResolved = true;
       this.firstStorage.resolve(storage);
