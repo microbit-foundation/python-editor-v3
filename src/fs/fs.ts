@@ -264,9 +264,8 @@ export class FileSystem extends TypedEventTarget<EventMap> {
    * are bumped so editors showing a same-named file reload it.
    */
   async switchStorage(storage: FSStorage): Promise<void> {
-    if (this.initializing) {
-      await this.initializing;
-    }
+    // A failed initialisation is retried later, from the new storage.
+    await this.initializing?.catch(() => undefined);
     this.storage = storage;
     this._dirty = await storage.isDirty();
     this.project = { ...this.project, id: generateId() };
