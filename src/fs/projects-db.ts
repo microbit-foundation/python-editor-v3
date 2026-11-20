@@ -34,6 +34,12 @@ export interface FileRecord {
   data: Uint8Array;
 }
 
+/** A project's metadata and the content of its files. */
+export interface ProjectContent {
+  meta: ProjectMeta;
+  files: Record<string, Uint8Array>;
+}
+
 /**
  * Changes to a project's files.
  */
@@ -149,6 +155,22 @@ export class ProjectsDatabase {
 
   async mostRecent(): Promise<ProjectMeta | undefined> {
     return (await this.list())[0];
+  }
+
+  /** A project and its files, in one transaction so they match. */
+  async load(id: string): Promise<ProjectContent | undefined> {
+    const tx = this.db.transaction(stores, "readonly");
+    const [meta, records] = await Promise.all([
+      tx.objectStore(PROJECTS).get(id),
+      tx.objectStore(FILES).index("projectId").getAll(id),
+      tx.done,
+    ]);
+    return (
+      meta && {
+        meta,
+        files: Object.fromEntries(records.map((r) => [r.name, r.data])),
+      }
+    );
   }
 
   async files(id: string): Promise<Record<string, Uint8Array>> {

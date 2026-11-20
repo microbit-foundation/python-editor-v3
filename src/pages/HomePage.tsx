@@ -41,6 +41,7 @@ import {
   usePageProjects,
   useProjectPageActions,
   useReportCreateProjectFailure,
+  useReportOpenFailure,
 } from "./project-page-actions";
 import {
   createHelpCards,
@@ -71,6 +72,7 @@ const HomePage = () => {
     [importFiles]
   );
   useReportCreateProjectFailure();
+  useReportOpenFailure();
   return (
     <DefaultPageLayout>
       {selectedIdea && (

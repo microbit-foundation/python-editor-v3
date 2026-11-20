@@ -19,8 +19,8 @@ import { generateId } from "../fs/fs-util";
 import { IndexedDBFSStorage } from "../fs/indexeddb-storage";
 import { PendingMigration } from "../fs/migration";
 import {
+  ProjectContent,
   ProjectListEntry,
-  ProjectMeta,
   ProjectsDatabase,
 } from "../fs/projects-db";
 import {
@@ -89,6 +89,7 @@ export class Projects extends TypedEventTarget<EventMap> {
   private openId: string | undefined;
   private openStorage: IndexedDBFSStorage | undefined;
   private opening: Promise<boolean> | undefined;
+  private openFailure: unknown;
   private cachedList: ProjectListEntry[] = [];
   private saveErrorReported = false;
   private readonly channel: BroadcastChannel | undefined;
@@ -155,12 +156,32 @@ export class Projects extends TypedEventTarget<EventMap> {
    *
    * @returns True if a #project: link became a project, so the caller can
    * drop the hash from the URL.
+   * @throws If the project fails to load. The error is also kept for
+   * takeOpenFailure.
    */
   openCurrent(): Promise<boolean> {
-    this.opening ??= this.chooseAndOpen().finally(() => {
-      this.opening = undefined;
-    });
+    if (!this.opening) {
+      this.openFailure = undefined;
+      this.opening = this.chooseAndOpen()
+        .catch((error: unknown) => {
+          this.openFailure = error;
+          throw error;
+        })
+        .finally(() => {
+          this.opening = undefined;
+        });
+    }
     return this.opening;
+  }
+
+  /**
+   * Why the last openCurrent failed, if it did, for the page the editor
+   * redirects to to report. Cleared once taken or by the next openCurrent.
+   */
+  takeOpenFailure(): unknown {
+    const failure = this.openFailure;
+    this.openFailure = undefined;
+    return failure;
   }
 
   private async chooseAndOpen(): Promise<boolean> {
@@ -176,7 +197,7 @@ export class Projects extends TypedEventTarget<EventMap> {
       return false;
     }
     const id = await chooseProject(this.db, this.session, migration);
-    await this.switchTo(await this.record(id));
+    await this.switchTo(id);
     if (migration) {
       await this.changed([id]);
     }
@@ -185,8 +206,8 @@ export class Projects extends TypedEventTarget<EventMap> {
 
   async open(id: string): Promise<void> {
     const db = await this.requireDb();
+    await this.switchTo(id);
     await db.touch(id);
-    await this.switchTo(await this.record(id));
   }
 
   async create(name: string): Promise<string> {
@@ -196,6 +217,10 @@ export class Projects extends TypedEventTarget<EventMap> {
   /**
    * Creates a project with the given files, e.g. from an imported hex or an
    * idea, and opens it in the editor.
+   *
+   * Leaves this tab's list alone: the caller is heading to the editor, and
+   * a refresh could show the new card on the page first. The pages refresh
+   * when next visited.
    */
   async createFromFiles(
     name: string | undefined,
@@ -203,10 +228,10 @@ export class Projects extends TypedEventTarget<EventMap> {
   ): Promise<string> {
     const db = await this.requireDb();
     const id = generateId();
-    const project = { id, name, timestamp: Date.now() };
-    await db.create(project, files);
-    await this.switchTo(project);
-    await this.changed([id]);
+    const meta = { id, name, timestamp: Date.now() };
+    await db.create(meta, files);
+    await this.switchTo(id, { meta, files });
+    this.channel?.postMessage({ type: "changed", projectIds: [id] });
     return id;
   }
 
@@ -260,37 +285,36 @@ export class Projects extends TypedEventTarget<EventMap> {
     }
   }
 
-  private async record(id: string): Promise<ProjectMeta> {
-    const project = await (await this.requireDb()).get(id);
-    if (!project) {
-      throw new Error(`No such project ${id}`);
-    }
-    return project;
-  }
-
   /**
    * Points the file system at a project. The first time this supplies the
-   * storage the host is waiting for; afterwards it switches.
+   * storage the host is waiting for; afterwards it switches. Loads the
+   * project before changing anything, so a failed read leaves all as it was.
    *
-   * @param project The project's record as just read or written. Taken
-   * rather than read here so that a caller who has checked the project
-   * exists does not have it deleted between their read and this one.
+   * @param loaded The project's content when the caller has just written
+   * or read it, to skip reading it again. A caller that has checked the
+   * project exists passes what it read, so that a delete cannot land
+   * between its read and one here.
    */
-  private async switchTo(project: ProjectMeta): Promise<void> {
+  private async switchTo(id: string, loaded?: ProjectContent): Promise<void> {
     const db = await this.requireDb();
-    const { id } = project;
+    const content = loaded ?? (await db.load(id));
+    if (!content) {
+      throw new Error(`No such project ${id}`);
+    }
+    const primary = new InMemoryFSStorage(content.meta.name);
+    for (const [name, data] of Object.entries(content.files)) {
+      await primary.write(name, data);
+    }
     const previous = this.openStorage;
     const indexed = new IndexedDBFSStorage(
       db,
-      project,
+      content.meta,
       (e) => this.handleSaveError(e),
       () => this.channel?.postMessage({ type: "changed", projectIds: [id] })
     );
-    const storage = new SplitStrategyStorage(
-      new InMemoryFSStorage(undefined),
-      indexed,
-      this.logging
-    );
+    const storage = new SplitStrategyStorage(primary, indexed, this.logging, {
+      preloaded: true,
+    });
     this.openId = id;
     this.openStorage = indexed;
     setCurrentProjectId(this.session, id);
@@ -343,17 +367,31 @@ export class Projects extends TypedEventTarget<EventMap> {
       // A "changed" message says nothing about now: the project may have
       // been deleted since it was sent, with the "deleted" message still to
       // come. So look, and treat a missing project as deleted.
-      const project = type === "changed" ? await this.db?.get(id) : undefined;
+      let content: ProjectContent | undefined;
+      if (type === "changed") {
+        try {
+          content = await this.db?.load(id);
+        } catch (e) {
+          // Carry on with this tab's copy.
+          this.logging.error("Failed to reload project", e);
+          return;
+        }
+      }
       if (this.openId !== id) {
         // While this waited the user opened another project, or the
         // "deleted" message was handled.
         return;
       }
-      if (project) {
+      if (content) {
         // Reload the open project so this tab shows the other's edits. If
         // it is deleted from here on, the "deleted" message finds it open
-        // and lets go of it.
-        await this.switchTo(project);
+        // and lets go of it. If the reload fails, carry on with this tab's
+        // copy.
+        try {
+          await this.switchTo(id, content);
+        } catch (e) {
+          this.logging.error("Failed to reload project", e);
+        }
       } else {
         this.letGoOfOpenProject();
         this.dispatchTypedEvent(

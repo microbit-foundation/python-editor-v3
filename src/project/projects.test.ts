@@ -117,7 +117,12 @@ describe("Projects", () => {
     expect(projects.currentId).toEqual(second);
     expect(fs.project.name).toEqual("Second");
     expect(fileNames(fs)).toEqual([MAIN_FILE]);
-    expect(projects.projects.map((p) => p.id)).toEqual([second, first]);
+    // Left for the pages to refresh, so the new card can't show early.
+    expect(projects.projects.map((p) => p.id)).not.toContain(second);
+    expect((await projects.refresh()).map((p) => p.id)).toEqual([
+      second,
+      first,
+    ]);
 
     await projects.open(first);
     expect(fs.project.name).toBeUndefined();
@@ -259,13 +264,13 @@ describe("Projects", () => {
       action: (tabs: Awaited<ReturnType<typeof twoTabs>>) => Promise<void>
     ) => {
       const tabs = await twoTabs();
-      const get = tabs.db.get.bind(tabs.db);
+      const load = tabs.db.load.bind(tabs.db);
       let acted: Promise<void> | undefined;
-      vi.spyOn(tabs.db, "get").mockImplementationOnce(async (id) => {
-        const project = await get(id);
+      vi.spyOn(tabs.db, "load").mockImplementationOnce(async (id) => {
+        const content = await load(id);
         acted = action(tabs);
         await acted;
-        return project;
+        return content;
       });
       await tabs.a.fs.write(MAIN_FILE, "# changed", VersionAction.MAINTAIN);
       await vi.waitFor(() => expect(acted).toBeDefined());
@@ -303,6 +308,81 @@ describe("Projects", () => {
       await new Promise((resolve) => setTimeout(resolve, 100));
       expect(b.projects.currentId).toEqual(other);
       expect(b.fs.project.name).toEqual("Other");
+    });
+  });
+
+  describe("when a project fails to load", () => {
+    const error = new Error("Simulated read failure");
+    const helper = new TextEncoder().encode("# helper");
+
+    const withSavedProject = async () => {
+      const result = await setup();
+      await result.db!.create(
+        { id: "saved", name: "Saved", timestamp: 1 },
+        {
+          [MAIN_FILE]: new TextEncoder().encode("# saved"),
+          "helper.py": helper,
+        }
+      );
+      return result;
+    };
+
+    const expectSavedIntact = async (db: ProjectsDatabase) => {
+      expect((await db.get("saved"))?.name).toEqual("Saved");
+      expect(Object.keys(await db.files("saved")).sort()).toEqual([
+        "helper.py",
+        MAIN_FILE,
+      ]);
+    };
+
+    it("open rejects, writes nothing and keeps the open project", async () => {
+      const { db, fs, projects } = await withSavedProject();
+      const first = await projects.create("First");
+      await fs.initialize();
+      vi.spyOn(db!, "load").mockRejectedValueOnce(error);
+
+      await expect(projects.open("saved")).rejects.toBe(error);
+
+      await expectSavedIntact(db!);
+      expect((await db!.get("saved"))?.timestamp).toEqual(1);
+      expect(projects.currentId).toEqual(first);
+      expect(fs.project.name).toEqual("First");
+    });
+
+    it("openCurrent rejects, keeps the error for the page and can retry", async () => {
+      const { db, fs, projects } = await withSavedProject();
+      vi.spyOn(db!, "load").mockRejectedValueOnce(error);
+
+      await expect(projects.openCurrent()).rejects.toBe(error);
+      expect(projects.takeOpenFailure()).toBe(error);
+      expect(projects.takeOpenFailure()).toBeUndefined();
+      await expectSavedIntact(db!);
+
+      await projects.openCurrent();
+      await fs.initialize();
+      expect(projects.currentId).toEqual("saved");
+      expect(fileNames(fs)).toEqual([MAIN_FILE, "helper.py"]);
+    });
+
+    it("a reload for another tab's change keeps this tab's copy", async () => {
+      const { db, fs, projects } = await withSavedProject();
+      await projects.openCurrent();
+      await fs.initialize();
+      vi.spyOn(db!, "load").mockRejectedValueOnce(error);
+      const logged = vi
+        .spyOn(logging, "error")
+        .mockImplementation(() => undefined);
+
+      const otherTab = new BroadcastChannel("python-editor-projects");
+      otherTab.postMessage({ type: "changed", projectIds: ["saved"] });
+      otherTab.close();
+
+      await vi.waitFor(() =>
+        expect(logged).toHaveBeenCalledWith("Failed to reload project", error)
+      );
+      expect(projects.currentId).toEqual("saved");
+      expect(fileNames(fs)).toEqual([MAIN_FILE, "helper.py"]);
+      await expectSavedIntact(db!);
     });
   });
 
