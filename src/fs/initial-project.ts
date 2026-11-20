@@ -5,7 +5,7 @@
  */
 
 import { fromByteArray } from "base64-js";
-import { MAIN_FILE } from "./fs";
+import { MAIN_FILE } from "./fs-util";
 
 /**
  * We can now initialize a project with multiple files.
