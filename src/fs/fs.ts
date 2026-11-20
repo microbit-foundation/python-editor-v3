@@ -211,8 +211,8 @@ export class FileSystem extends TypedEventTarget<EventMap> {
   async initializeInBackground() {
     // It's been observed that this can be slow after the fetch on low-end devices,
     // so it might be good to move the FS work to a worker if we can't make it fast.
-    this.initialize().catch((_) => {
-      this.initializing = undefined;
+    this.initialize().catch(() => {
+      // Whatever next needs the file system tries again.
     });
   }
 
@@ -229,26 +229,32 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     }
     if (!this.initializing) {
       this.initializing = (async () => {
-        this._dirty = await this.storage.isDirty();
-        if (await this.host.shouldReinitializeProject(this.storage)) {
-          // Do this ASAP to unblock the editor.
-          this.cachedInitialProject = await this.host.createInitialProject();
-          if (this.cachedInitialProject.projectName) {
-            await this.setProjectName(this.cachedInitialProject.projectName);
+        try {
+          this._dirty = await this.storage.isDirty();
+          if (await this.host.shouldReinitializeProject(this.storage)) {
+            // Do this ASAP to unblock the editor.
+            this.cachedInitialProject = await this.host.createInitialProject();
+            if (this.cachedInitialProject.projectName) {
+              await this.setProjectName(this.cachedInitialProject.projectName);
+            }
+            for (const key in this.cachedInitialProject.files) {
+              const content = toByteArray(this.cachedInitialProject.files[key]);
+              await this.write(key, content, VersionAction.INCREMENT);
+            }
+            this.host.notifyReady(this);
+          } else {
+            await this.notify();
           }
-          for (const key in this.cachedInitialProject.files) {
-            const content = toByteArray(this.cachedInitialProject.files[key]);
-            await this.write(key, content, VersionAction.INCREMENT);
-          }
-          this.host.notifyReady(this);
-        } else {
-          await this.notify();
-        }
 
-        const fs = await this.createInternalFileSystem();
-        await this.initializeFsFromStorage(fs);
-        this.fs = fs;
-        this.initializing = undefined;
+          const fs = await this.createInternalFileSystem();
+          await this.initializeFsFromStorage(fs);
+          this.fs = fs;
+        } finally {
+          // On failure too, or every later call would be handed this
+          // attempt's failure rather than trying again, for instance once
+          // the network is back.
+          this.initializing = undefined;
+        }
         await this.notify();
       })();
     }
