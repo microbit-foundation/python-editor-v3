@@ -30,10 +30,14 @@ export const isProjectLink = (v: any): v is ProjectLink =>
   typeof v.meta?.name === "string" &&
   typeof v.source === "string";
 
-interface ProjectLinkParseResult {
-  link: ProjectLink;
-  urlWithoutLink: string;
-}
+/**
+ * What a URL has by way of a #project: link: none, one, or something after
+ * the marker that cannot be read as one.
+ */
+export type ProjectLinkResult =
+  | { status: "none" }
+  | { status: "ok"; link: ProjectLink }
+  | { status: "unreadable" };
 
 /**
  * True if the URL carries a #project: link. On microbit.org links it sits
@@ -42,26 +46,20 @@ interface ProjectLinkParseResult {
 export const hasProjectLink = (url: string): boolean =>
   url.includes("#project:");
 
-export const parseProjectLink = (
-  url: string
-): ProjectLinkParseResult | undefined => {
-  const parts = url.split("#project:");
-  const urlPart = parts[1];
+export const parseProjectLink = (url: string): ProjectLinkResult => {
+  const encoded = url.split("#project:")[1];
+  if (encoded === undefined) {
+    return { status: "none" };
+  }
   try {
-    if (urlPart) {
-      const bytes = toByteArray(urlPart);
-      const json = JSON.parse(LZMA.decompress(bytes));
-      if (isProjectLink(json)) {
-        let urlWithoutLink = parts[0];
-        // This was previously stripped off by the versioner but for now do it ourselves:
-        urlWithoutLink = urlWithoutLink.replace(/#import:$/, "");
-        return { link: json, urlWithoutLink };
-      }
+    const json = JSON.parse(LZMA.decompress(toByteArray(encoded)));
+    if (isProjectLink(json)) {
+      return { status: "ok", link: json };
     }
   } catch {
     // Ultimate source is from the URL so we need to be robust to tampering.
   }
-  return undefined;
+  return { status: "unreadable" };
 };
 
 /**
@@ -74,11 +72,7 @@ export const parseProjectLink = (
  * than importing again.
  */
 export class PendingProjectLink {
-  private link: ProjectLink | undefined;
-
-  constructor(url: string) {
-    this.link = parseProjectLink(url)?.link;
-  }
+  constructor(private link?: ProjectLink) {}
 
   get pending(): boolean {
     return this.link !== undefined;

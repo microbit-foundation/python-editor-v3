@@ -7,12 +7,12 @@ import { MAIN_FILE } from "./fs";
 import { DefaultHost } from "./host";
 import { PendingProjectLink } from "./project-link";
 import { defaultInitialProject } from "./initial-project";
-import { testProjectLinkUrl } from "./project-link-test-data";
+import { testProjectLink } from "./project-link-test-data";
 
 describe("DefaultHost", () => {
   it("uses the project link if there is one", async () => {
     const project = await new DefaultHost(
-      new PendingProjectLink(testProjectLinkUrl)
+      new PendingProjectLink(testProjectLink)
     ).createInitialProject();
     expect(project).toEqual({
       files: {

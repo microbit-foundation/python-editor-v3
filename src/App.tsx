@@ -25,7 +25,7 @@ import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { openProjectsDatabase } from "./fs/current-project";
 import { createHost, IframeHost } from "./fs/host";
-import { hasProjectLink, PendingProjectLink } from "./fs/project-link";
+import { parseProjectLink, PendingProjectLink } from "./fs/project-link";
 import { FSStorage } from "./fs/storage";
 import { IframeModeProvider } from "./iframe-mode-hooks";
 import { Projects } from "./project/projects";
@@ -57,13 +57,16 @@ const device: MicrobitUSBConnection = isMockDeviceMode()
 // The database opens at boot; the project the editor shows is chosen when
 // the editor route loads, so the pages need not pick one.
 const projectStorage = deferred<FSStorage>();
-const projectLink = new PendingProjectLink(window.location.href);
-if (!projectLink.pending && hasProjectLink(window.location.href)) {
-  // Unreadable, so nothing will consume it. Remove it before the router
-  // reads the address, or the home page keeps redirecting to the editor.
+const linkResult = parseProjectLink(window.location.href);
+if (linkResult.status === "unreadable") {
+  // Nothing will consume it. Remove it before the router reads the address,
+  // or the home page keeps redirecting to the editor.
   const { pathname, search } = window.location;
   window.history.replaceState(null, "", pathname + search);
 }
+const projectLink = new PendingProjectLink(
+  linkResult.status === "ok" ? linkResult.link : undefined
+);
 const host = createHost(logging, projectLink, projectStorage.promise);
 const iframeMode = host instanceof IframeHost;
 const fs = new FileSystem(logging, host, fetchMicroPython);

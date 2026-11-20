@@ -107,7 +107,7 @@ export class Projects extends TypedEventTarget<EventMap> {
     private logging: Logging,
     db: Promise<ProjectsDatabase | undefined>,
     private firstStorage: Deferred<FSStorage>,
-    private projectLink: PendingProjectLink = new PendingProjectLink("")
+    private projectLink: PendingProjectLink = new PendingProjectLink()
   ) {
     super();
     this.ready = db.then(async (resolved) => {
