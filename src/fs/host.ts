@@ -39,7 +39,7 @@ export class DefaultHost implements Host {
    * then the file system waits. Without one the project stays in memory.
    */
   constructor(
-    private projectLink: PendingProjectLink = new PendingProjectLink(""),
+    private projectLink: PendingProjectLink = new PendingProjectLink(),
     private projectStorage?: Promise<FSStorage>
   ) {}
 
