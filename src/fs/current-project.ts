@@ -50,6 +50,25 @@ export const sessionStorageIfPossible = (): Storage | undefined => {
 };
 
 /**
+ * Where a tab keeps its project, as the project_storage user property.
+ *
+ * It is there to answer one question: how many sessions really run without
+ * the projects database, and why. That decides whether the session-storage
+ * fallback earns its keep.
+ */
+export type ProjectStorageMode =
+  | "database"
+  | "session_no_indexeddb"
+  | "session_open_failed"
+  // Iframe controller mode: the embedding page keeps the project.
+  | "host";
+
+export const reportProjectStorageMode = (
+  logging: Logging,
+  mode: ProjectStorageMode
+): void => logging.setUserProperty("project_storage", mode);
+
+/**
  * Opens the projects database, or explains why not.
  *
  * Without IndexedDB (unavailable, blocked, or an incompatible database) the
@@ -63,13 +82,16 @@ export const openProjectsDatabase = async (
   publicFacing: boolean = isPublicFacingStage()
 ): Promise<ProjectsDatabase | undefined> => {
   if (typeof indexedDB === "undefined") {
+    reportProjectStorageMode(logging, "session_no_indexeddb");
     return undefined;
   }
   try {
     const db = await ProjectsDatabase.open();
     reportProjectsDatabaseActive();
+    reportProjectStorageMode(logging, "database");
     return db;
   } catch (e) {
+    reportProjectStorageMode(logging, "session_open_failed");
     if (isVersionError(e) && !publicFacing) {
       reportStorageVersionError(e);
     } else {

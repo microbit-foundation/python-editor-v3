@@ -48,6 +48,7 @@ describe("openProjectsDatabase", () => {
     const db = await openProjectsDatabase(logging);
     expect(db).toBeInstanceOf(ProjectsDatabase);
     expect(isActive()).toEqual(true);
+    expect(logging.userProperties.project_storage).toEqual("database");
     db!.close();
   });
 
@@ -58,6 +59,9 @@ describe("openProjectsDatabase", () => {
     expect(await openProjectsDatabase(logging)).toBeUndefined();
     expect(logging.errors[0].message).toMatch(/using session storage/);
     expect(isActive()).toEqual(false);
+    expect(logging.userProperties.project_storage).toEqual(
+      "session_open_failed"
+    );
   });
 
   it("gives up quietly on an incompatible database on public stages", async () => {
@@ -76,6 +80,9 @@ describe("openProjectsDatabase", () => {
     expect(await openProjectsDatabase(logging, false)).toBeUndefined();
     expect(logging.errors).toEqual([]);
     expect(hasStorageVersionError()).toEqual(true);
+    expect(logging.userProperties.project_storage).toEqual(
+      "session_open_failed"
+    );
   });
 
   it("gives up without IndexedDB", async () => {
@@ -86,6 +93,9 @@ describe("openProjectsDatabase", () => {
     });
     try {
       expect(await openProjectsDatabase(logging)).toBeUndefined();
+      expect(logging.userProperties.project_storage).toEqual(
+        "session_no_indexeddb"
+      );
     } finally {
       Object.defineProperty(globalThis, "indexedDB", {
         value: original,
