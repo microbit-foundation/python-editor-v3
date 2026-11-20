@@ -47,9 +47,6 @@
   "back-action": {
     "defaultMessage": "戻る"
   },
-  "back-to-main": {
-    "defaultMessage": "メインコードに戻る"
-  },
   "cancel-action": {
     "defaultMessage": "キャンセル"
   },

@@ -47,9 +47,6 @@
   "back-action": {
     "defaultMessage": "Voltar"
   },
-  "back-to-main": {
-    "defaultMessage": "voltar ao código principal"
-  },
   "cancel-action": {
     "defaultMessage": "Cancelar"
   },

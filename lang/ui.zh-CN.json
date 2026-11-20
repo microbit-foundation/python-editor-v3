@@ -47,9 +47,6 @@
   "back-action": {
     "defaultMessage": "返回"
   },
-  "back-to-main": {
-    "defaultMessage": "返回主代码"
-  },
   "cancel-action": {
     "defaultMessage": "取消"
   },

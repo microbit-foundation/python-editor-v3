@@ -83,10 +83,6 @@
     "defaultMessage": "Back",
     "description": "Back button text"
   },
-  "back-to-main": {
-    "defaultMessage": "back to the main code",
-    "description": "Text button, takes back to main code"
-  },
   "breadcrumb-label": {
     "defaultMessage": "Breadcrumb",
     "description": "Accessible name of the breadcrumb above the code editor: Home, the project name and the open file"
