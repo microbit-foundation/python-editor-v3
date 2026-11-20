@@ -112,11 +112,11 @@ files are parsed, so it counts attempts. A hex always becomes a new project.
 Other files join the open project from the editor and become a new project
 from the home and projects pages.
 
-| Param     | Values                                                                                                       |
-| --------- | ------------------------------------------------------------------------------------------------------------ |
-| `source`  | `drop` / `file_picker` (same values as ml-trainer)                                                           |
-| `format`  | `hex` / `py` (a single Python file) / `other` (any other single file) / `multiple` (more than one file)      |
-| `surface` | `editor` (the Files tab or a drop on the editor) / `home` (the projects row's Import button or a drop there) |
+| Param     | Values                                                                                                                                                             |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `source`  | `drop` / `file_picker` (same values as ml-trainer)                                                                                                                 |
+| `format`  | `hex` / `py` (a single Python file) / `other` (any other single file) / `multiple` (more than one file)                                                            |
+| `surface` | `editor` (the Files tab or a drop on the editor) / `home` (the projects row's Import button or a drop on the home page) / `projects` (a drop on the projects page) |
 
 ### `project_rename`
 

@@ -65,7 +65,7 @@ const HomePage = () => {
     (slug: string, title: string) => setSelectedIdea({ slug, title }),
     []
   );
-  const importFiles = useImportProjectFiles();
+  const importFiles = useImportProjectFiles("home");
   const handleDrop = useCallback(
     (files: File[]) => void importFiles(files, "drop"),
     [importFiles]
@@ -223,7 +223,7 @@ const NewProjectCard = ({
  */
 const ImportProjectButton = () => {
   const intl = useIntl();
-  const importFiles = useImportProjectFiles();
+  const importFiles = useImportProjectFiles("home");
   const inputRef = useRef<HTMLInputElement>(null);
   const choose = useCallback(() => inputRef.current?.click(), []);
   const handleChange = useCallback(
