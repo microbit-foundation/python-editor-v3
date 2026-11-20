@@ -447,6 +447,46 @@
     "defaultMessage": "Step counter",
     "description": "Title of an idea card; matches the idea name in the ideas tab"
   },
+  "ideas-moving-notice": {
+    "defaultMessage": "Ideas are moving to the home page. <link>Learn more</link>",
+    "description": "Notice in the ideas tab header; the link opens a dialog explaining the change"
+  },
+  "ideas-moving-questions": {
+    "defaultMessage": "Contact us at {email}",
+    "description": "Body of the questions section in the ideas moving dialog; {email} is the support email address"
+  },
+  "ideas-moving-questions-heading": {
+    "defaultMessage": "Still have questions?",
+    "description": "Section heading in the ideas moving dialog"
+  },
+  "ideas-moving-title": {
+    "defaultMessage": "Ideas are moving to the home page",
+    "description": "Title of the dialog explaining that ideas are moving out of the editor to the home page"
+  },
+  "ideas-moving-what": {
+    "defaultMessage": "Ideas are now on the Home page too. When you create a project from an idea there, the editor opens with that idea in the sidebar. Later, we will remove the option to browse ideas from the sidebar.",
+    "description": "Body of the what is changing section in the ideas moving dialog"
+  },
+  "ideas-moving-what-heading": {
+    "defaultMessage": "What is changing?",
+    "description": "Section heading in the ideas moving dialog"
+  },
+  "ideas-moving-when": {
+    "defaultMessage": "We will remove the option to browse ideas from the sidebar in mid-2027.",
+    "description": "Body of the when section in the ideas moving dialog"
+  },
+  "ideas-moving-when-heading": {
+    "defaultMessage": "When?",
+    "description": "Section heading in the ideas moving dialog"
+  },
+  "ideas-moving-why": {
+    "defaultMessage": "Ideas are easier to browse on the Home page. Selecting an idea shows you a preview before you start, and the Home page has other resources and activities as well.",
+    "description": "Body of the why section in the ideas moving dialog"
+  },
+  "ideas-moving-why-heading": {
+    "defaultMessage": "Why?",
+    "description": "Section heading in the ideas moving dialog"
+  },
   "ideas-row-title": {
     "defaultMessage": "Ideas",
     "description": "Heading of the home page row of idea cards"
