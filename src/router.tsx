@@ -11,7 +11,7 @@ import {
   useParams,
 } from "react-router";
 import { baseUrl } from "./base";
-import { hasProjectLink } from "./fs/migration";
+import { hasProjectLink } from "./fs/project-link";
 import HomePage from "./pages/HomePage";
 import { createProjectAction } from "./pages/project-page-actions";
 import ProjectsPage from "./pages/ProjectsPage";

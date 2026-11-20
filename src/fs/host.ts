@@ -11,7 +11,7 @@ import {
   PythonProject,
   projectFilesToBase64,
 } from "./initial-project";
-import { PendingMigration } from "./migration";
+import { PendingProjectLink } from "./project-link";
 import { DeferredFSStorage, FSStorage, InMemoryFSStorage } from "./storage";
 
 const messages = {
@@ -33,13 +33,13 @@ export interface Host {
 
 export class DefaultHost implements Host {
   /**
-   * @param migration The #project: link at boot, if the projects session
+   * @param projectLink The #project: link at boot, if the projects session
    * has not already made a project of it.
    * @param projectStorage The project's storage, once one is opened. Until
    * then the file system waits. Without one the project stays in memory.
    */
   constructor(
-    private migration: PendingMigration = new PendingMigration(""),
+    private projectLink: PendingProjectLink = new PendingProjectLink(""),
     private projectStorage?: Promise<FSStorage>
   ) {}
 
@@ -53,12 +53,12 @@ export class DefaultHost implements Host {
     // Waits for the project's storage, by which time the projects session
     // has taken a #project: link if it is going to.
     const hasMain = await storage.exists(MAIN_FILE);
-    return this.migration.pending || !hasMain;
+    return this.projectLink.pending || !hasMain;
   }
 
   async createInitialProject(): Promise<PythonProject> {
-    const migration = this.migration.take();
-    if (migration) {
+    const link = this.projectLink.take();
+    if (link) {
       // The path may have changed since boot (the root redirects to the
       // editor), so strip the hash from the current URL rather than using
       // the parsed one.
@@ -66,9 +66,9 @@ export class DefaultHost implements Host {
       window.history.replaceState(null, "", pathname + search);
       return {
         files: projectFilesToBase64({
-          [MAIN_FILE]: migration.source,
+          [MAIN_FILE]: link.source,
         }),
-        projectName: migration.meta.name,
+        projectName: link.meta.name,
       };
     }
     return defaultInitialProject;
@@ -150,14 +150,14 @@ export class IframeHost implements Host {
 
 export const createHost = (
   logging: Logging,
-  migration: PendingMigration,
+  projectLink: PendingProjectLink,
   projectStorage: Promise<FSStorage>
 ): Host => {
   const iframeHost = getControllerHost(logging);
   if (iframeHost) {
     return new IframeHost(iframeHost, window);
   }
-  return new DefaultHost(migration, projectStorage);
+  return new DefaultHost(projectLink, projectStorage);
 };
 
 const getControllerHost = (logging: Logging): Window | undefined => {

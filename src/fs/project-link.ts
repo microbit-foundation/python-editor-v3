@@ -15,14 +15,14 @@ const LZMA =
     : lzma.LZMA;
 
 // There are other fields that we don't use.
-export interface Migration {
+export interface ProjectLink {
   meta: {
     name: string;
   };
   source: string;
 }
 
-export const isMigration = (v: any): v is Migration =>
+export const isProjectLink = (v: any): v is ProjectLink =>
   !!v &&
   typeof v === "object" &&
   !!v.meta &&
@@ -30,9 +30,9 @@ export const isMigration = (v: any): v is Migration =>
   typeof v.meta?.name === "string" &&
   typeof v.source === "string";
 
-interface MigrationParseResult {
-  migration: Migration;
-  postMigrationUrl: string;
+interface ProjectLinkParseResult {
+  link: ProjectLink;
+  urlWithoutLink: string;
 }
 
 /**
@@ -42,20 +42,20 @@ interface MigrationParseResult {
 export const hasProjectLink = (url: string): boolean =>
   url.includes("#project:");
 
-export const parseMigrationFromUrl = (
+export const parseProjectLink = (
   url: string
-): MigrationParseResult | undefined => {
+): ProjectLinkParseResult | undefined => {
   const parts = url.split("#project:");
   const urlPart = parts[1];
   try {
     if (urlPart) {
       const bytes = toByteArray(urlPart);
       const json = JSON.parse(LZMA.decompress(bytes));
-      if (isMigration(json)) {
-        let postMigrationUrl = parts[0];
+      if (isProjectLink(json)) {
+        let urlWithoutLink = parts[0];
         // This was previously stripped off by the versioner but for now do it ourselves:
-        postMigrationUrl = postMigrationUrl.replace(/#import:$/, "");
-        return { migration: json, postMigrationUrl };
+        urlWithoutLink = urlWithoutLink.replace(/#import:$/, "");
+        return { link: json, urlWithoutLink };
       }
     }
   } catch {
@@ -73,20 +73,20 @@ export const parseMigrationFromUrl = (
  * removing the hash from the URL, so a reload opens what is stored rather
  * than importing again.
  */
-export class PendingMigration {
-  private migration: Migration | undefined;
+export class PendingProjectLink {
+  private link: ProjectLink | undefined;
 
   constructor(url: string) {
-    this.migration = parseMigrationFromUrl(url)?.migration;
+    this.link = parseProjectLink(url)?.link;
   }
 
   get pending(): boolean {
-    return this.migration !== undefined;
+    return this.link !== undefined;
   }
 
-  take(): Migration | undefined {
-    const migration = this.migration;
-    this.migration = undefined;
-    return migration;
+  take(): ProjectLink | undefined {
+    const link = this.link;
+    this.link = undefined;
+    return link;
   }
 }

@@ -25,7 +25,7 @@ import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { openProjectsDatabase } from "./fs/current-project";
 import { createHost, IframeHost } from "./fs/host";
-import { PendingMigration } from "./fs/migration";
+import { PendingProjectLink } from "./fs/project-link";
 import { FSStorage } from "./fs/storage";
 import { IframeModeProvider } from "./iframe-mode-hooks";
 import { Projects } from "./project/projects";
@@ -57,8 +57,8 @@ const device: MicrobitUSBConnection = isMockDeviceMode()
 // The database opens at boot; the project the editor shows is chosen when
 // the editor route loads, so the pages need not pick one.
 const projectStorage = deferred<FSStorage>();
-const migration = new PendingMigration(window.location.href);
-const host = createHost(logging, migration, projectStorage.promise);
+const projectLink = new PendingProjectLink(window.location.href);
+const host = createHost(logging, projectLink, projectStorage.promise);
 const iframeMode = host instanceof IframeHost;
 const fs = new FileSystem(logging, host, fetchMicroPython);
 const projects = iframeMode
@@ -68,7 +68,7 @@ const projects = iframeMode
       logging,
       openProjectsDatabase(logging),
       projectStorage,
-      migration
+      projectLink
     );
 
 // If this fails then we retry on access. Until a project is opened this

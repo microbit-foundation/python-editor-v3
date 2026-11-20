@@ -6,9 +6,7 @@
 import { expect } from "@playwright/test";
 import { appUrl, appUrlPattern, homeUrl } from "./app.js";
 import { test } from "./app-test-fixtures.js";
-
-const heartMigrationFragment =
-  "#project:XQAAgACRAAAAAAAAAAA9iImmlGSt1R++5LD+ZJ36cRz46B+lhYtNRoWF0nijpaVyZlK7ACfSpeoQpgfk21st4ty06R4PEOM4sSAXBT95G3en+tghrYmE+YJp6EiYgzA9ThKkyShWq2UdvmCzqxoNfYc1wlmTqlNv/Piaz3WoSe3flvr/ItyLl0aolQlEpv4LA8A=";
+import { heartProjectLinkFragment } from "./project-links.js";
 
 test.describe("routing", () => {
   test.use({ autoGoto: false });
@@ -33,8 +31,8 @@ test.describe("routing", () => {
   // microbit.org links carry the v2 editor's #import: prefix; the editor's
   // own share links are bare.
   for (const [name, fragment] of [
-    ["a #project:", heartMigrationFragment],
-    ["an #import:", "#import:" + heartMigrationFragment],
+    ["a #project:", heartProjectLinkFragment],
+    ["an #import:", "#import:" + heartProjectLinkFragment],
   ]) {
     test(`${name} link at the root opens the program in the editor`, async ({
       app,
