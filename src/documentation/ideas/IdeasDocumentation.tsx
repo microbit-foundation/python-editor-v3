@@ -3,10 +3,11 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { Link, Text } from "@microbit/ui";
-import { CSSProperties, ReactNode, useCallback, useRef } from "react";
+import { Button, Icon, Link, Text } from "@microbit/ui";
+import { CSSProperties, ReactNode, useCallback, useRef, useState } from "react";
+import { RiInformationLine } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Box, Grid, Stack } from "styled-system/jsx";
+import { Box, Grid, HStack, Stack } from "styled-system/jsx";
 import AreaHeading from "../../common/AreaHeading";
 import {
   docStylesClass,
@@ -27,6 +28,7 @@ import DocumentationContent, {
 import ImageWithFallback from "../common/ImageWithFallback";
 import { isV2Only } from "../common/model";
 import IdeaCard from "./IdeaCard";
+import IdeasMovingDialog from "./IdeasMovingDialog";
 import { Idea } from "./model";
 import OfflineImageFallback from "../OfflineImageFallback";
 import { microbitOrgMiciProjectsUrl } from "../../external-links";
@@ -149,7 +151,9 @@ const ActiveLevel = ({
         <AreaHeading
           name={headingString}
           description={intl.formatMessage({ id: "ideas-tab-description" })}
-        />
+        >
+          <IdeasMovingNotice />
+        </AreaHeading>
       }
     >
       <Grid
@@ -192,6 +196,40 @@ const ActiveLevel = ({
         />
       </Text>
     </HeadedScrollablePanel>
+  );
+};
+
+const IdeasMovingNotice = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const learnMoreRef = useRef<HTMLButtonElement>(null);
+  return (
+    // Top-aligned so the icon stays on the first line when the text wraps.
+    <HStack gap="1.5" mt="2" alignItems="flex-start">
+      <Icon as={RiInformationLine} css={{ mt: "1" }} />
+      <Text fontSize="md">
+        <FormattedMessage
+          id="ideas-moving-notice"
+          values={{
+            link: (chunks: ReactNode) => (
+              <Button
+                ref={learnMoreRef}
+                variant="link"
+                // In prose, so marked by more than colour.
+                css={{ color: "brand.500", textDecoration: "underline" }}
+                onPress={() => setIsOpen(true)}
+              >
+                {chunks}
+              </Button>
+            ),
+          }}
+        />
+      </Text>
+      <IdeasMovingDialog
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        finalFocusRef={learnMoreRef}
+      />
+    </HStack>
   );
 };
 
