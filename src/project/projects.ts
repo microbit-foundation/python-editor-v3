@@ -176,15 +176,19 @@ export class Projects extends TypedEventTarget<EventMap> {
   private async chooseAndOpen(): Promise<boolean> {
     await this.ready;
     if (!this.db) {
-      this.resolveFirstStorage(
-        new SplitStrategyStorage(
-          new InMemoryFSStorage(undefined),
-          hasStorageVersionError()
-            ? undefined
-            : SessionStorageFSStorage.create(),
-          this.logging
-        )
-      );
+      // Built once only: a split starts reading its secondary, and clears
+      // it if that fails, as soon as it exists.
+      if (!this.firstStorageResolved) {
+        this.resolveFirstStorage(
+          new SplitStrategyStorage(
+            new InMemoryFSStorage(undefined),
+            hasStorageVersionError()
+              ? undefined
+              : SessionStorageFSStorage.create(),
+            this.logging
+          )
+        );
+      }
       return false;
     }
     const migration = this.migration.take();

@@ -276,13 +276,20 @@ describe("Projects", () => {
 
   it("an error from the first project's storage leaves the database copy", async () => {
     const { db, fs, projects } = await setup();
+    await db!.create(
+      { id: "saved", name: "Saved", timestamp: 1 },
+      { [MAIN_FILE]: new TextEncoder().encode("# saved") }
+    );
     await projects.openCurrent();
     await fs.initialize();
-    const id = projects.currentId!;
 
     await expect(fs.remove("missing.py")).rejects.toThrow(/No such file/);
+    // A clear would run in the background after the rejection, with nothing
+    // to await, so outlast the storage's flush delay before checking.
+    await new Promise((resolve) => setTimeout(resolve, 600));
 
-    expect(Object.keys(await db!.files(id))).toEqual([MAIN_FILE]);
+    expect((await db!.get("saved"))?.name).toEqual("Saved");
+    expect(Object.keys(await db!.files("saved"))).toEqual([MAIN_FILE]);
   });
 
   it("without the database there is nothing to manage and the editor still works", async () => {
