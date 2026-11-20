@@ -18,7 +18,7 @@ import {
 import { FileSystem } from "../fs/fs";
 import { generateId } from "../fs/fs-util";
 import { IndexedDBFSStorage } from "../fs/indexeddb-storage";
-import { PendingMigration } from "../fs/migration";
+import { PendingProjectLink } from "../fs/project-link";
 import {
   ProjectContent,
   ProjectListEntry,
@@ -99,7 +99,7 @@ export class Projects extends TypedEventTarget<EventMap> {
   /**
    * @param firstStorage Resolved with the file system's storage when a
    * project is first opened; the host's DefaultHost waits on it.
-   * @param migration The #project: link at boot, made a new project when
+   * @param projectLink The #project: link at boot, made a new project when
    * the editor first chooses one. Left for the host without the database.
    */
   constructor(
@@ -107,7 +107,7 @@ export class Projects extends TypedEventTarget<EventMap> {
     private logging: Logging,
     db: Promise<ProjectsDatabase | undefined>,
     private firstStorage: Deferred<FSStorage>,
-    private migration: PendingMigration = new PendingMigration("")
+    private projectLink: PendingProjectLink = new PendingProjectLink("")
   ) {
     super();
     this.ready = db.then(async (resolved) => {
@@ -226,16 +226,16 @@ export class Projects extends TypedEventTarget<EventMap> {
       }
       return false;
     }
-    const migration = this.migration.take();
-    if (!migration && this.openId && (await this.db.get(this.openId))) {
+    const link = this.projectLink.take();
+    if (!link && this.openId && (await this.db.get(this.openId))) {
       return false;
     }
-    const id = await chooseProject(this.db, this.session, migration);
+    const id = await chooseProject(this.db, this.session, link);
     await this.switchTo(id);
-    if (migration) {
+    if (link) {
       await this.changed([id]);
     }
-    return migration !== undefined;
+    return link !== undefined;
   }
 
   async open(id: string): Promise<void> {

@@ -11,7 +11,7 @@ import { Logging } from "../logging/logging";
 import { generateId } from "./fs-util";
 import { MAIN_FILE } from "./fs";
 import { defaultInitialProject } from "./initial-project";
-import { Migration } from "./migration";
+import { ProjectLink } from "./project-link";
 import { ProjectsDatabase } from "./projects-db";
 import { SessionStorageFSStorage } from "./storage";
 import {
@@ -93,10 +93,10 @@ export const defaultProjectFiles = (): Record<string, Uint8Array> =>
 /**
  * The files of a project shared as a #project: link.
  */
-export const migrationProjectFiles = (
-  migration: Migration
+export const projectLinkFiles = (
+  link: ProjectLink
 ): Record<string, Uint8Array> => ({
-  [MAIN_FILE]: new TextEncoder().encode(migration.source),
+  [MAIN_FILE]: new TextEncoder().encode(link.source),
 });
 
 /**
@@ -110,13 +110,13 @@ export const migrationProjectFiles = (
 export const chooseProject = async (
   db: ProjectsDatabase,
   session: Storage | undefined,
-  migration?: Migration
+  link?: ProjectLink
 ): Promise<string> => {
-  if (migration) {
+  if (link) {
     const id = generateId();
     await db.create(
-      { id, name: migration.meta.name, timestamp: Date.now() },
-      migrationProjectFiles(migration)
+      { id, name: link.meta.name, timestamp: Date.now() },
+      projectLinkFiles(link)
     );
     setCurrentProjectId(session, id);
     return id;

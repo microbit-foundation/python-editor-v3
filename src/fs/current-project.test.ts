@@ -15,8 +15,8 @@ import {
   setCurrentProjectId,
 } from "./current-project";
 import { MAIN_FILE } from "./fs";
-import { parseMigrationFromUrl } from "./migration";
-import { testMigrationUrl } from "./migration-test-data";
+import { parseProjectLink } from "./project-link";
+import { testProjectLinkUrl } from "./project-link-test-data";
 import { databaseName, ProjectsDatabase } from "./projects-db";
 import { SessionStorageFSStorage } from "./storage";
 import {
@@ -140,9 +140,9 @@ describe("chooseProject", () => {
   it("makes a #project: link a new project ahead of everything", async () => {
     await db.create({ id: "cur", name: "Cur", timestamp: 2 }, {});
     setCurrentProjectId(sessionStorage, "cur");
-    const { migration } = parseMigrationFromUrl(testMigrationUrl)!;
+    const { link } = parseProjectLink(testProjectLinkUrl)!;
 
-    const id = await chooseProject(db, sessionStorage, migration);
+    const id = await chooseProject(db, sessionStorage, link);
 
     expect(id).not.toEqual("cur");
     expect(getCurrentProjectId(sessionStorage)).toEqual(id);

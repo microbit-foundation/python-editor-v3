@@ -3,14 +3,14 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { isMigration, parseMigrationFromUrl } from "./migration";
-import { testMigrationUrl } from "./migration-test-data";
+import { isProjectLink, parseProjectLink } from "./project-link";
+import { testProjectLinkUrl } from "./project-link-test-data";
 
-describe("parseMigrationFromUrl", () => {
+describe("parseProjectLink", () => {
   it("parses valid URL", () => {
-    const migration = parseMigrationFromUrl(testMigrationUrl);
-    expect(migration).toEqual({
-      migration: {
+    const result = parseProjectLink(testProjectLinkUrl);
+    expect(result).toEqual({
+      link: {
         meta: {
           cloudId: "microbit.org",
           comment: "",
@@ -19,25 +19,25 @@ describe("parseMigrationFromUrl", () => {
         },
         source: `from microbit import *\r\ndisplay.show(Image.HEART)`,
       },
-      postMigrationUrl: "http://localhost:3000/",
+      urlWithoutLink: "http://localhost:3000/",
     });
   });
   it("undefined for nonsense", () => {
-    const migration = parseMigrationFromUrl(
+    const link = parseProjectLink(
       "https://python.microbit.org/v/2#import:#project:=XQAAgACRAAAAAAAAAAA9iImmlGSt1R="
     );
-    expect(migration).toEqual(undefined);
+    expect(link).toEqual(undefined);
   });
   it("undefined for no project on URL", () => {
-    const migration = parseMigrationFromUrl(
+    const link = parseProjectLink(
       "https://python.microbit.org/v/2#import:#notAProject:XQAAgACRAAAAAAAAAAA9iImmlGSt1R++5LD+ZJ36cRz46B+lhYtNRoWF0nijpaVyZlK7ACfSpeoQpgfk21st4ty06R4PEOM4sSAXBT95G3en+tghrYmE+YJp6EiYgzA9ThKkyShWq2UdvmCzqxoNfYc1wlmTqlNv/Piaz3WoSe3flvr/ItyLl0aolQlEpv4LA8A="
     );
-    expect(migration).toEqual(undefined);
+    expect(link).toEqual(undefined);
   });
-  it("isMigration checks fields", () => {
-    expect(isMigration({})).toEqual(false);
-    expect(isMigration({ meta: { name: "foo" } })).toEqual(false);
-    expect(isMigration({ meta: {}, source: "" })).toEqual(false);
-    expect(isMigration({ meta: { name: "foo" }, source: "" })).toEqual(true);
+  it("isProjectLink checks fields", () => {
+    expect(isProjectLink({})).toEqual(false);
+    expect(isProjectLink({ meta: { name: "foo" } })).toEqual(false);
+    expect(isProjectLink({ meta: {}, source: "" })).toEqual(false);
+    expect(isProjectLink({ meta: { name: "foo" }, source: "" })).toEqual(true);
   });
 });
