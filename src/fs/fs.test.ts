@@ -410,6 +410,25 @@ describe("Filesystem switchStorage", () => {
     expect((await ufs.statistics()).files).toEqual(2);
   });
 
+  it("tries initialisation again after each failure, not only the first", async () => {
+    let failures = 2;
+    let attempts = 0;
+    const ufs = new FileSystem(logging, host, async () => {
+      attempts++;
+      if (failures-- > 0) {
+        throw new Error("Simulated MicroPython load failure");
+      }
+      return fsMicroPythonSource();
+    });
+    // Fails in the background, then again when something needs it.
+    await ufs.initializeInBackground();
+    await expect(ufs.toHexForSave()).rejects.toThrow(/Simulated/);
+    await expect(ufs.toHexForSave()).rejects.toThrow(/Simulated/);
+
+    expect(typeof (await ufs.toHexForSave())).toEqual("string");
+    expect(attempts).toEqual(3);
+  });
+
   it("switches after a failed initialisation, which a retry builds from the new storage", async () => {
     let fail = true;
     const ufs = new FileSystem(logging, host, async () => {
