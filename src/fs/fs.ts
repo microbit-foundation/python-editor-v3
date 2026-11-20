@@ -23,6 +23,9 @@ import { TypedEventTarget } from "../common/events";
 
 const commonFsSize = 20 * 1024;
 
+const bytesEqual = (a: Uint8Array, b: Uint8Array): boolean =>
+  a.length === b.length && a.every((byte, i) => byte === b[i]);
+
 export interface FileVersion {
   name: string;
   version: number;
@@ -272,13 +275,40 @@ export class FileSystem extends TypedEventTarget<EventMap> {
   async switchStorage(storage: FSStorage): Promise<void> {
     // A failed initialisation is retried later, from the new storage.
     await this.initializing?.catch(() => undefined);
+    this.project = { ...this.project, id: generateId() };
+    return this.adoptStorage(storage, await storage.ls());
+  }
+
+  /**
+   * Switch to storage holding a later copy of the open project, such as
+   * another tab has saved. Unlike switchStorage the project keeps its id and
+   * only files whose content differs are bumped, so the selected file and
+   * editors showing other files are left alone.
+   */
+  async reloadStorage(storage: FSStorage): Promise<void> {
+    await this.initializing?.catch(() => undefined);
+    const changed: string[] = [];
+    for (const name of await storage.ls()) {
+      const before = (await this.storage.exists(name))
+        ? await this.storage.read(name)
+        : undefined;
+      if (!before || !bytesEqual(before, await storage.read(name))) {
+        changed.push(name);
+      }
+    }
+    return this.adoptStorage(storage, changed);
+  }
+
+  private async adoptStorage(
+    storage: FSStorage,
+    changed: string[]
+  ): Promise<void> {
     this.storage = storage;
     this._dirty = await storage.isDirty();
-    this.project = { ...this.project, id: generateId() };
     if (this.fs) {
       await this.initializeFsFromStorage(this.fs);
     }
-    for (const name of await storage.ls()) {
+    for (const name of changed) {
       this.incrementFileVersion(name);
     }
     return this.notify();

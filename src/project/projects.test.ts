@@ -234,6 +234,27 @@ describe("Projects", () => {
       );
     });
 
+    it("reloads without changing the project id or unchanged files' versions", async () => {
+      const { a, b } = await twoTabs();
+      await b.fs.write("helper.py", "# helper", VersionAction.INCREMENT);
+      await vi.waitFor(() =>
+        expect(a.fs.project.files.map((f) => f.name)).toContain("helper.py")
+      );
+      const id = b.fs.project.id;
+      const version = (name: string) =>
+        b.fs.project.files.find((f) => f.name === name)!.version;
+      const helperBefore = version("helper.py");
+      const mainBefore = version(MAIN_FILE);
+
+      await a.fs.write(MAIN_FILE, "# from a", VersionAction.MAINTAIN);
+      await vi.waitFor(() =>
+        expect(version(MAIN_FILE)).toBeGreaterThan(mainBefore)
+      );
+
+      expect(b.fs.project.id).toEqual(id);
+      expect(version("helper.py")).toEqual(helperBefore);
+    });
+
     it("keeps the other tab's rename when this one has edits still to save", async () => {
       const { a, b, db, id } = await twoTabs();
       await b.fs.write(MAIN_FILE, "# unsaved in b", VersionAction.MAINTAIN);

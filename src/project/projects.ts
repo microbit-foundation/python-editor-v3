@@ -340,7 +340,8 @@ export class Projects extends TypedEventTarget<EventMap> {
       await primary.write(name, data);
     }
     const previous = this.openStorage;
-    if (this.openId === id) {
+    const reloading = this.openId === id;
+    if (reloading) {
       // Reloading the open project, for another tab's change. Edits here
       // that the outgoing storage has still to flush must not take the
       // project's name back to what it was before that change.
@@ -358,7 +359,9 @@ export class Projects extends TypedEventTarget<EventMap> {
     this.openId = id;
     this.openStorage = indexed;
     setCurrentProjectId(this.session, id);
-    if (this.firstStorageResolved) {
+    if (reloading) {
+      await this.fs.reloadStorage(storage);
+    } else if (this.firstStorageResolved) {
       await this.fs.switchStorage(storage);
     } else {
       this.resolveFirstStorage(storage);
