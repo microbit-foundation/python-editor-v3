@@ -85,20 +85,27 @@ test.describe("storage fallback", () => {
 });
 
 /**
- * Makes the next IndexedDB put throw, then restores it. The first put in a
- * project flush is the project record, so this fails the whole flush.
+ * Makes the next IndexedDB put throw, then restores it, or with `every`
+ * makes them all throw. The first put in a project flush is the project
+ * record, so this fails the whole flush.
  */
 const injectWriteError = async (
   app: App,
-  errorName: "QuotaExceededError" | "UnknownError"
+  errorName: "QuotaExceededError" | "UnknownError",
+  { every = false }: { every?: boolean } = {}
 ) => {
-  await app.page.evaluate((errorName) => {
-    const original = IDBObjectStore.prototype.put;
-    IDBObjectStore.prototype.put = function () {
-      IDBObjectStore.prototype.put = original;
-      throw new DOMException(`Simulated ${errorName}`, errorName);
-    };
-  }, errorName);
+  await app.page.evaluate(
+    ({ errorName, every }) => {
+      const original = IDBObjectStore.prototype.put;
+      IDBObjectStore.prototype.put = function () {
+        if (!every) {
+          IDBObjectStore.prototype.put = original;
+        }
+        throw new DOMException(`Simulated ${errorName}`, errorName);
+      };
+    },
+    { errorName, every }
+  );
 };
 
 /**
@@ -168,5 +175,29 @@ test.describe("storage read errors", () => {
     await homePage.expectOnPage();
     await homePage.cards.open("Untitled project");
     await app.expectEditorContainText("from microbit import");
+  });
+
+  test("warns before closing while an edit has not saved", async ({ app }) => {
+    await injectWriteError(app, "UnknownError", { every: true });
+    await app.typeInEditor("A change!");
+    await expect(
+      app.page.getByText("Failed to save your project to browser storage")
+    ).toBeVisible();
+
+    await app.closeAndExpectBeforeUnloadPrompt();
+  });
+
+  test("does not warn once a later save has succeeded", async ({ app }) => {
+    // Only the first save fails. typeInEditor's last keys are typed slowly
+    // enough to be saved again, successfully, after it.
+    await injectWriteError(app, "UnknownError");
+    await app.typeInEditor("A change!");
+    await expect(
+      app.page.getByText("Failed to save your project to browser storage")
+    ).toBeVisible();
+    // Past the storage's flush delay, so the last save has finished.
+    await app.page.waitForTimeout(600);
+
+    await app.closeWithoutBeforeUnloadPrompt();
   });
 });

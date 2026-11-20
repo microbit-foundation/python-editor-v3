@@ -41,6 +41,10 @@ export class IndexedDBFSStorage implements FSStorage {
   private timer: ReturnType<typeof setTimeout> | undefined;
   private flushing: Promise<void> = Promise.resolve();
   private abandoned = false;
+  // What a failed flush left out of the database and no flush has written
+  // since: files by name, and the project record.
+  private unsavedFiles = new Set<string>();
+  private unsavedRecord = false;
   private readonly handleVisibilityChange = () => {
     if (document.visibilityState === "hidden") {
       void this.flush({ urgent: true });
@@ -93,6 +97,17 @@ export class IndexedDBFSStorage implements FSStorage {
     this.timer = undefined;
     this.pendingWrites = new Map();
     this.pendingSince = undefined;
+    this.unsavedFiles = new Set();
+    this.unsavedRecord = false;
+  }
+
+  /**
+   * True while a failed flush has left something out of the database, so
+   * that closing the tab now would lose it. A failed flush is not retried,
+   * so this lasts until the same files are next written successfully.
+   */
+  get hasUnsavedChanges(): boolean {
+    return this.unsavedFiles.size > 0 || this.unsavedRecord;
   }
 
   /**
@@ -221,8 +236,21 @@ export class IndexedDBFSStorage implements FSStorage {
     this.pendingWrites = new Map();
     this.pendingSince = undefined;
     this.nameUnsaved = false;
+    const names = [...Object.keys(files.writes), ...files.deletes];
     const saved = this.db
       .save(project, files, { urgent })
+      .then(
+        () => {
+          names.forEach((name) => this.unsavedFiles.delete(name));
+          // Every flush writes the whole record.
+          this.unsavedRecord = false;
+        },
+        (e) => {
+          names.forEach((name) => this.unsavedFiles.add(name));
+          this.unsavedRecord = true;
+          throw e;
+        }
+      )
       .then(() => this.onChange())
       .catch((e) => this.onError(e));
     const earlier = this.flushing;

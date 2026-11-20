@@ -172,6 +172,23 @@ describe("IndexedDBFSStorage", () => {
     expect((await db.get(projectId))?.name).toEqual("Renamed here");
   });
 
+  it("knows what a failed flush left unsaved, until it is next saved", async () => {
+    expect(storage.hasUnsavedChanges).toEqual(false);
+    vi.spyOn(db, "save").mockRejectedValueOnce(new Error("Simulated"));
+    await storage.write("main.py", new Uint8Array([1]));
+    await storage.flush();
+    expect(storage.hasUnsavedChanges).toEqual(true);
+
+    // Another file saving does not save the one that failed.
+    await storage.write("other.py", new Uint8Array([2]));
+    await storage.flush();
+    expect(storage.hasUnsavedChanges).toEqual(true);
+
+    await storage.write("main.py", new Uint8Array([3]));
+    await storage.flush();
+    expect(storage.hasUnsavedChanges).toEqual(false);
+  });
+
   it("does not write back a project deleted elsewhere", async () => {
     await db.delete(projectId);
     await storage.write("main.py", new Uint8Array([1]));

@@ -205,6 +205,21 @@ describe("Projects", () => {
     expect(fs.project.name).toEqual("Other");
   });
 
+  it("has unsaved changes while a failed save has not been made good", async () => {
+    const { db, fs, projects } = await setup();
+    await projects.openCurrent();
+    await fs.initialize();
+    expect(projects.hasUnsavedChanges).toEqual(false);
+    vi.spyOn(logging, "error").mockImplementation(() => undefined);
+    vi.spyOn(db!, "save").mockRejectedValueOnce(new Error("Simulated"));
+
+    await fs.write(MAIN_FILE, "# one", VersionAction.MAINTAIN);
+    await vi.waitFor(() => expect(projects.hasUnsavedChanges).toEqual(true));
+
+    await fs.write(MAIN_FILE, "# two", VersionAction.MAINTAIN);
+    await vi.waitFor(() => expect(projects.hasUnsavedChanges).toEqual(false));
+  });
+
   it("a failed save raises saveerror each time but is logged once", async () => {
     const { db, fs, projects } = await setup();
     await projects.openCurrent();
@@ -337,6 +352,28 @@ describe("Projects", () => {
       await acted;
       return tabs;
     };
+
+    it("still lets go of a deleted project if refreshing the list fails", async () => {
+      const { a, b, id } = await twoTabs();
+      const logged = vi
+        .spyOn(logging, "error")
+        .mockImplementation(() => undefined);
+      vi.spyOn(b.projects, "refresh").mockRejectedValueOnce(
+        new Error("Simulated")
+      );
+      const deleted = new Promise((resolve) =>
+        b.projects.addEventListener("openprojectdeleted", resolve)
+      );
+
+      await a.projects.delete([id]);
+      await deleted;
+
+      expect(b.projects.currentId).toBeUndefined();
+      expect(logged).toHaveBeenCalledWith(
+        "Failed to refresh the project list",
+        expect.any(Error)
+      );
+    });
 
     it("still lets go of it if it is deleted while reloading", async () => {
       let deleted: Promise<unknown> | undefined;
