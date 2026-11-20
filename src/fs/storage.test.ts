@@ -7,6 +7,7 @@ import { vi } from "vitest";
 import { ConsoleLogging } from "../deployment/default/logging";
 import { MockLogging } from "../logging/mock";
 import {
+  DeferredFSStorage,
   InMemoryFSStorage,
   SessionStorageFSStorage,
   SplitStrategyStorage,
@@ -26,6 +27,17 @@ describe("SessionStorageFSStorage", () => {
 
 describe("InMemoryFSStorage", () => {
   const storage = new InMemoryFSStorage(projectName);
+  beforeEach(() => {
+    storage.clear();
+  });
+  commonStorageTests(() => storage);
+  dirtyFlagTests(() => storage);
+});
+
+describe("DeferredFSStorage", () => {
+  const storage = new DeferredFSStorage(
+    Promise.resolve(new InMemoryFSStorage(projectName))
+  );
   beforeEach(() => {
     storage.clear();
   });

@@ -195,6 +195,48 @@ export class SessionStorageFSStorage implements FSStorage {
 }
 
 /**
+ * Storage that arrives later. Every operation waits for it and then goes
+ * straight through, so its errors reach the caller untouched.
+ */
+export class DeferredFSStorage implements FSStorage {
+  constructor(private storage: Promise<FSStorage>) {}
+
+  async ls() {
+    return (await this.storage).ls();
+  }
+  async exists(filename: string) {
+    return (await this.storage).exists(filename);
+  }
+  async read(filename: string) {
+    return (await this.storage).read(filename);
+  }
+  async write(filename: string, content: Uint8Array) {
+    return (await this.storage).write(filename, content);
+  }
+  async remove(filename: string) {
+    return (await this.storage).remove(filename);
+  }
+  async setProjectName(projectName: string | undefined) {
+    return (await this.storage).setProjectName(projectName);
+  }
+  async projectName() {
+    return (await this.storage).projectName();
+  }
+  async clear() {
+    return (await this.storage).clear();
+  }
+  async markDirty() {
+    return (await this.storage).markDirty();
+  }
+  async clearDirty() {
+    return (await this.storage).clearDirty();
+  }
+  async isDirty() {
+    return (await this.storage).isDirty();
+  }
+}
+
+/**
  * Reads from primary.
  *
  * Writes to both.
