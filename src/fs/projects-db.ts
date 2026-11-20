@@ -5,7 +5,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { DBSchema, IDBPDatabase, openDB } from "idb";
+import { DBSchema, IDBPDatabase, openDB, unwrap } from "idb";
 import { baseUrl } from "../base";
 import { Stage, stage as currentStage } from "../environment";
 
@@ -41,12 +41,11 @@ export interface ProjectContent {
 }
 
 /**
- * A set of changes to one project, applied in a single transaction.
+ * Changes to a project's files.
  */
-export interface ProjectChanges {
-  meta?: Partial<Omit<ProjectMeta, "id">>;
-  writes?: Record<string, Uint8Array>;
-  deletes?: string[];
+export interface FileChanges {
+  writes: Record<string, Uint8Array>;
+  deletes: string[];
 }
 
 const PROJECTS = "projects";
@@ -202,28 +201,93 @@ export class ProjectsDatabase {
     await tx.done;
   }
 
-  /** Applies a set of changes to a project in one transaction. */
-  async apply(id: string, changes: ProjectChanges): Promise<void> {
-    const tx = this.db.transaction(stores, "readwrite");
-    const projects = tx.objectStore(PROJECTS);
-    const existing = await projects.get(id);
+  /**
+   * Changes a project's record, keeping the fields not given. For changes
+   * made from the pages; the open project is written by save().
+   */
+  async update(
+    id: string,
+    changes: Partial<Omit<ProjectMeta, "id">>
+  ): Promise<void> {
+    const tx = this.db.transaction(PROJECTS, "readwrite");
+    const existing = await tx.store.get(id);
     if (!existing) {
       throw new Error(`No such project ${id}`);
     }
-    await projects.put({ ...existing, ...changes.meta, id });
-    const fileStore = tx.objectStore(FILES);
-    for (const [name, data] of Object.entries(changes.writes ?? {})) {
-      await fileStore.put({ projectId: id, name, data });
-    }
-    for (const name of changes.deletes ?? []) {
-      await fileStore.delete([id, name]);
-    }
+    await tx.store.put({ ...existing, ...changes, id });
     await tx.done;
+  }
+
+  /**
+   * Writes a project's record and file changes in one transaction.
+   *
+   * Every request is issued before this returns and none depends on a read,
+   * because a write that waits for a read is lost when the page unloads: an
+   * unloading page gets no further turns of the event loop. The caller
+   * supplies the whole record for the same reason.
+   *
+   * @param urgent The page may be about to go away, so commit at once
+   * rather than when the requests have finished. This gives up the check
+   * that the project still exists, which needs the result of a read, so a
+   * project deleted in the meantime is written back.
+   * @throws if the project no longer exists (unless urgent), leaving
+   * nothing written.
+   */
+  save(
+    project: ProjectMeta,
+    { writes, deletes }: FileChanges,
+    { urgent = false }: { urgent?: boolean } = {}
+  ): Promise<void> {
+    return new Promise((resolve, reject) => {
+      // The plain transaction, not idb's wrapper: its promise of completion
+      // would be an unhandled rejection on the abort below. Opened in here
+      // so that failing to, as when the browser has closed the connection,
+      // is a rejection like any other failure.
+      const tx = unwrap(this.db).transaction(stores, "readwrite");
+      let missing = false;
+      tx.oncomplete = () => resolve();
+      tx.onabort = () =>
+        reject(
+          missing
+            ? new Error(`No such project ${project.id}`)
+            : tx.error ?? new DOMException("Transaction aborted", "AbortError")
+        );
+      try {
+        const projects = tx.objectStore(PROJECTS);
+        if (!urgent) {
+          const existing = projects.getKey(project.id);
+          existing.onsuccess = () => {
+            if (existing.result === undefined) {
+              missing = true;
+              tx.abort();
+            }
+          };
+        }
+        projects.put(project);
+        const fileStore = tx.objectStore(FILES);
+        for (const [name, data] of Object.entries(writes)) {
+          fileStore.put({ projectId: project.id, name, data });
+        }
+        for (const name of deletes) {
+          fileStore.delete([project.id, name]);
+        }
+        // Missing from Safari before 15, where the transaction commits once
+        // its requests finish, if the page lasts that long.
+        if (urgent && "commit" in tx) {
+          tx.commit();
+        }
+      } catch (e) {
+        // A request that could not even be made, such as data that cannot
+        // be stored. Without this the requests before it would commit.
+        tx.abort();
+        throw e;
+      }
+    });
   }
 
   /** Marks a project as the most recent. */
   async touch(id: string, timestamp: number = Date.now()): Promise<void> {
-    await this.apply(id, { meta: { timestamp } });
+    await this.update(id, { timestamp });
   }
 
   async duplicate(sourceId: string, meta: ProjectMeta): Promise<void> {

@@ -40,16 +40,23 @@ beforeEach(() => {
   vi.spyOn(Date, "now").mockImplementation(() => now++);
 });
 
-const setup = async (dbAvailable = true) => {
-  const db = dbAvailable
-    ? await ProjectsDatabase.open(`projects-${Date.now()}-${counter++}`)
-    : undefined;
+/** A tab: its own file system and projects session over a database. */
+const openTab = (db: ProjectsDatabase | undefined) => {
   const storage = deferred<FSStorage>();
   const host = new DefaultHost(undefined, storage.promise);
   const fs = new FileSystem(logging, host, microPythonSource);
   const projects = new Projects(fs, logging, Promise.resolve(db), storage);
   return { db, fs, projects };
 };
+
+const setup = async (dbAvailable = true) =>
+  openTab(
+    dbAvailable
+      ? await ProjectsDatabase.open(`projects-${Date.now()}-${counter++}`)
+      : undefined
+  );
+
+const decode = (data: Uint8Array) => new TextDecoder().decode(data);
 
 const fileNames = (fs: FileSystem) => fs.project.files.map((f) => f.name);
 
@@ -177,7 +184,7 @@ describe("Projects", () => {
     await projects.openCurrent();
     await fs.initialize();
     const error = new DOMException("Simulated", "QuotaExceededError");
-    vi.spyOn(db!, "apply").mockRejectedValue(error);
+    vi.spyOn(db!, "save").mockRejectedValue(error);
     const logged = vi
       .spyOn(logging, "error")
       .mockImplementation(() => undefined);
@@ -197,6 +204,124 @@ describe("Projects", () => {
     expect((await fs.read(MAIN_FILE)).data).toEqual(
       new TextEncoder().encode("# two")
     );
+  });
+
+  describe("with the same project open in another tab", () => {
+    const twoTabs = async () => {
+      const a = await setup();
+      const b = openTab(a.db);
+      // No session storage here, so the second tab opens the most recent
+      // project: the first tab's.
+      for (const tab of [a, b]) {
+        await tab.projects.openCurrent();
+        await tab.fs.initialize();
+      }
+      expect(b.projects.currentId).toEqual(a.projects.currentId);
+      return { a, b, db: a.db!, id: a.projects.currentId! };
+    };
+
+    it("shows the other tab's edits", async () => {
+      const { a, b } = await twoTabs();
+      await a.fs.write(
+        MAIN_FILE,
+        "# from the other tab",
+        VersionAction.MAINTAIN
+      );
+      await vi.waitFor(async () =>
+        expect(decode((await b.fs.read(MAIN_FILE)).data)).toEqual(
+          "# from the other tab"
+        )
+      );
+    });
+
+    it("keeps the other tab's rename when this one has edits still to save", async () => {
+      const { a, b, db, id } = await twoTabs();
+      await b.fs.write(MAIN_FILE, "# unsaved in b", VersionAction.MAINTAIN);
+      await a.projects.rename(id, "Renamed in A");
+
+      // Long enough for the reloads and flushes this sets off to finish.
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      expect((await db.get(id))?.name).toEqual("Renamed in A");
+      expect(a.fs.project.name).toEqual("Renamed in A");
+      expect(b.fs.project.name).toEqual("Renamed in A");
+      expect(decode((await db.file(id, MAIN_FILE))!)).toEqual("# unsaved in b");
+    });
+
+    it("lets go of a project the other tab deletes and does not write it back", async () => {
+      const { a, b, db, id } = await twoTabs();
+      const errors: unknown[] = [];
+      b.projects.addEventListener("saveerror", (e: ProjectSaveErrorEvent) => {
+        errors.push(e.error);
+      });
+      const deleted = new Promise((resolve) =>
+        b.projects.addEventListener("openprojectdeleted", resolve)
+      );
+
+      await a.projects.delete([id]);
+      await deleted;
+      expect(b.projects.currentId).toBeUndefined();
+
+      // The editor may still be showing it.
+      await b.fs.write(MAIN_FILE, "# typed after", VersionAction.MAINTAIN);
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      expect(errors).toEqual([]);
+      expect(await db.get(id)).toBeUndefined();
+      expect(await db.files(id)).toEqual({});
+    });
+
+    /**
+     * Runs an action in the middle of the second tab's handling of a change
+     * to the open project: just after it has read the project's record.
+     */
+    const duringReload = async (
+      action: (tabs: Awaited<ReturnType<typeof twoTabs>>) => Promise<void>
+    ) => {
+      const tabs = await twoTabs();
+      const load = tabs.db.load.bind(tabs.db);
+      let acted: Promise<void> | undefined;
+      vi.spyOn(tabs.db, "load").mockImplementationOnce(async (id) => {
+        const content = await load(id);
+        acted = action(tabs);
+        await acted;
+        return content;
+      });
+      await tabs.a.fs.write(MAIN_FILE, "# changed", VersionAction.MAINTAIN);
+      await vi.waitFor(() => expect(acted).toBeDefined());
+      await acted;
+      return tabs;
+    };
+
+    it("still lets go of it if it is deleted while reloading", async () => {
+      let deleted: Promise<unknown> | undefined;
+      const errors: unknown[] = [];
+      const { b, db, id } = await duringReload(async ({ a, b, id }) => {
+        b.projects.addEventListener("saveerror", (e: ProjectSaveErrorEvent) => {
+          errors.push(e.error);
+        });
+        deleted = new Promise((resolve) =>
+          b.projects.addEventListener("openprojectdeleted", resolve)
+        );
+        await a.projects.delete([id]);
+      });
+
+      await deleted;
+      expect(b.projects.currentId).toBeUndefined();
+      await b.fs.write(MAIN_FILE, "# typed after", VersionAction.MAINTAIN);
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      expect(errors).toEqual([]);
+      expect(await db.get(id)).toBeUndefined();
+    });
+
+    it("does not go back to it if the user has opened another meanwhile", async () => {
+      let other: string | undefined;
+      const { b } = await duringReload(async ({ b }) => {
+        other = await b.projects.create("Other");
+      });
+      // Long enough for a mistaken switch back to have happened.
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      expect(b.projects.currentId).toEqual(other);
+      expect(b.fs.project.name).toEqual("Other");
+    });
   });
 
   describe("when a project fails to load", () => {

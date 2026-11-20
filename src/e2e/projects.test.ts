@@ -3,7 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { expect } from "@playwright/test";
+import { App } from "./app.js";
 import { test } from "./app-test-fixtures.js";
+import { HomePage } from "./home-page.js";
 
 test.describe("projects page", () => {
   test.use({ autoGoto: false });
@@ -124,5 +127,40 @@ test.describe("projects page", () => {
       await app.goto();
       await app.expectProjectName("Alpha");
     });
+  });
+});
+
+test.describe("projects across tabs", () => {
+  test.use({ autoGoto: false });
+
+  test("a project deleted in another tab sends the editor home", async ({
+    app,
+    homePage,
+  }) => {
+    await homePage.goto();
+    await homePage.newProject("Shared");
+    await app.expectProjectName("Shared");
+
+    // Session storage is per tab, so a new tab at the editor opens the most
+    // recent project: the same one.
+    const otherPage = await app.context.newPage();
+    const otherApp = new App(otherPage, app.context);
+    await otherApp.goto();
+    await otherApp.expectProjectName("Shared");
+
+    await app.goHome();
+    await homePage.cards.menuDelete("Shared");
+
+    const otherHomePage = new HomePage(otherPage);
+    await otherHomePage.expectOnPage();
+    await expect(
+      otherPage.getByText(
+        "The project you had open was deleted in another tab or window."
+      )
+    ).toBeVisible();
+    await otherHomePage.expectNoNewAccessibilityViolations();
+    await expect(
+      otherPage.getByText("Failed to save your project")
+    ).toBeHidden();
   });
 });
