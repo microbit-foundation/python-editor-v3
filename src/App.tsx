@@ -59,11 +59,8 @@ const device: MicrobitUSBConnection = isMockDeviceMode()
 const projectStorage = deferred<FSStorage>();
 const projectLink = new PendingProjectLink(window.location.href);
 if (!projectLink.pending && hasProjectLink(window.location.href)) {
-  // The link could not be read, so nothing will take it and remove it from
-  // the address as happens for one that can. Left there it would look like
-  // a link still to be opened: the home page sends those to the editor. This
-  // has to come before the router is created, as the router reads the
-  // address then.
+  // Unreadable, so nothing will consume it. Remove it before the router
+  // reads the address, or the home page keeps redirecting to the editor.
   const { pathname, search } = window.location;
   window.history.replaceState(null, "", pathname + search);
 }
