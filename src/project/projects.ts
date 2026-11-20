@@ -160,6 +160,13 @@ export class Projects extends TypedEventTarget<EventMap> {
     return this.cachedList;
   }
 
+  /**
+   * True while the #project: link the app started with has yet to be opened.
+   */
+  get hasPendingProjectLink(): boolean {
+    return this.projectLink.pending;
+  }
+
   /** The project the editor has open in this tab, if any. */
   get currentId(): string | undefined {
     return this.openId;

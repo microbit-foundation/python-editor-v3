@@ -59,8 +59,7 @@ const device: MicrobitUSBConnection = isMockDeviceMode()
 const projectStorage = deferred<FSStorage>();
 const linkResult = parseProjectLink(window.location.href);
 if (linkResult.status === "unreadable") {
-  // Nothing will consume it. Remove it before the router reads the address,
-  // or the home page keeps redirecting to the editor.
+  // Nothing will consume it, so it has no use in the address.
   const { pathname, search } = window.location;
   window.history.replaceState(null, "", pathname + search);
 }

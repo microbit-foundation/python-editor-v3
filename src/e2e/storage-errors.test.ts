@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 import { expect } from "@playwright/test";
-import { App } from "./app.js";
+import { App, homeUrl } from "./app.js";
 import { test } from "./app-test-fixtures.js";
+import { heartProjectLinkFragment } from "./project-links.js";
 
 /**
  * Without IndexedDB the editor keeps the project in session storage, as it
@@ -54,6 +55,13 @@ test.describe("storage fallback", () => {
     await app.answerDialog("Replace");
     await app.expectProjectName("1.0.1");
     await app.expectEditorContainText(/PASS1/);
+  });
+
+  test("opens a #project: link at the root in the editor", async ({ app }) => {
+    await app.page.goto(homeUrl({ fragment: heartProjectLinkFragment }));
+    await app.expectProjectName("Hearts");
+    await app.expectEditorContainText("display.show(Image.HEART)");
+    expect(new URL(app.page.url()).hash).toEqual("");
   });
 
   test("retains text across a reload via session storage", async ({ app }) => {

@@ -11,7 +11,6 @@ import {
   useParams,
 } from "react-router";
 import { baseUrl } from "./base";
-import { hasProjectLink } from "./fs/project-link";
 import HomePage from "./pages/HomePage";
 import { createProjectAction } from "./pages/project-page-actions";
 import ProjectsPage from "./pages/ProjectsPage";
@@ -59,29 +58,33 @@ export interface RouterOptions {
   projects: Projects | undefined;
 }
 
+/**
+ * The pages need the project list and only make sense with the projects
+ * database; without it there is one implicit project and the editor is
+ * the whole app.
+ */
+const pagesLoader = async (projects: Projects) => {
+  if (!(await projects.isAvailable())) {
+    return redirect(createEditorUrl());
+  }
+  await projects.refresh();
+  return null;
+};
+
+/**
+ * A #project: link on a microbit.org page still points at the root, so
+ * the program it carries goes to the editor. Asked of the projects
+ * session, not read from the address: the address is the previous page's
+ * while a navigation here is under way.
+ */
+const homeLoader = (projects: Projects) => {
+  if (projects.hasPendingProjectLink) {
+    return redirect(createEditorUrl() + window.location.hash);
+  }
+  return pagesLoader(projects);
+};
+
 export const createRouter = ({ projects }: RouterOptions) => {
-  /**
-   * The pages need the project list and only make sense with the projects
-   * database; without it there is one implicit project and the editor is
-   * the whole app.
-   */
-  const pagesLoader = async () => {
-    if (!(await projects!.isAvailable())) {
-      return redirect(createEditorUrl());
-    }
-    await projects!.refresh();
-    return null;
-  };
-  /**
-   * A #project: link on a microbit.org page still points at the root, so
-   * the program it carries goes to the editor.
-   */
-  const homeLoader = () => {
-    if (hasProjectLink(window.location.href)) {
-      return redirect(createEditorUrl() + window.location.hash);
-    }
-    return pagesLoader();
-  };
   // Files dropped on the editor join the open project; the pages have their
   // own targets, which make a new project.
   const editor = (
@@ -105,12 +108,12 @@ export const createRouter = ({ projects }: RouterOptions) => {
               {
                 path: createHomePageUrl(),
                 element: <HomePage />,
-                loader: homeLoader,
+                loader: () => homeLoader(projects),
               },
               {
                 path: createProjectsPageUrl(),
                 element: <ProjectsPage />,
-                loader: pagesLoader,
+                loader: () => pagesLoader(projects),
               },
               {
                 path: editorRoutePath,
@@ -129,8 +132,8 @@ export const createRouter = ({ projects }: RouterOptions) => {
                   try {
                     fromLink = await projects.openCurrent();
                   } catch {
-                    // Drop any #project: link, already taken, or the home
-                    // page would send it straight back here.
+                    // Any #project: link has been taken, so it has no
+                    // further use in the address.
                     const { pathname, search } = window.location;
                     window.history.replaceState(null, "", pathname + search);
                     return redirect(createHomePageUrl());
