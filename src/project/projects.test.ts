@@ -100,7 +100,12 @@ describe("Projects", () => {
     expect(projects.currentId).toEqual(second);
     expect(fs.project.name).toEqual("Second");
     expect(fileNames(fs)).toEqual([MAIN_FILE]);
-    expect(projects.projects.map((p) => p.id)).toEqual([second, first]);
+    // Left for the pages to refresh, so the new card can't show early.
+    expect(projects.projects.map((p) => p.id)).not.toContain(second);
+    expect((await projects.refresh()).map((p) => p.id)).toEqual([
+      second,
+      first,
+    ]);
 
     await projects.open(first);
     expect(fs.project.name).toBeUndefined();

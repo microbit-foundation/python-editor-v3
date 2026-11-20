@@ -206,6 +206,10 @@ export class Projects extends TypedEventTarget<EventMap> {
   /**
    * Creates a project with the given files, e.g. from an imported hex or an
    * idea, and opens it in the editor.
+   *
+   * Leaves this tab's list alone: the caller is heading to the editor, and
+   * a refresh could show the new card on the page first. The pages refresh
+   * when next visited.
    */
   async createFromFiles(
     name: string | undefined,
@@ -216,7 +220,7 @@ export class Projects extends TypedEventTarget<EventMap> {
     const meta = { id, name, timestamp: Date.now() };
     await db.create(meta, files);
     await this.switchTo(id, { meta, files });
-    await this.changed([id]);
+    this.channel?.postMessage({ type: "changed", projectIds: [id] });
     return id;
   }
 
