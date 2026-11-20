@@ -53,30 +53,6 @@
   "cancel-action": {
     "defaultMessage": "取消"
   },
-  "choose-main-add-file": {
-    "defaultMessage": "新增檔案 {name}"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "新增模組 {name}"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "取代檔案 {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "取代模組 {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "從 {source} 新增檔案 {target}"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "從 {source} 新增主程式碼"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "用 {source} 取代檔案 {target}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "用 {source} 取代主程式碼"
-  },
   "clear": {
     "defaultMessage": "清除"
   },
@@ -418,9 +394,6 @@
   },
   "project-header": {
     "defaultMessage": "專案標頭"
-  },
-  "project-name": {
-    "defaultMessage": "專案名稱"
   },
   "project-name-not-empty": {
     "defaultMessage": "專案名稱不可為空白"

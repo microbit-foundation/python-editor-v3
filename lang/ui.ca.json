@@ -53,30 +53,6 @@
   "cancel-action": {
     "defaultMessage": "Cancel·lar"
   },
-  "choose-main-add-file": {
-    "defaultMessage": "Afegeix el fitxer {name}"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "Afegeix el mòdul {name}"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "Substitueix el fitxer {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "Substitueix el mòdul {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "Afegeix el fitxer {target} des de {source} "
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "Afegeix el programa principal de {source}"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "Substitueix el fitxer {target} per {source}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "Substitueix el programa principal per {source}"
-  },
   "clear": {
     "defaultMessage": "Esborra"
   },
@@ -427,9 +403,6 @@
   },
   "project-header": {
     "defaultMessage": "Capçalera del projecte"
-  },
-  "project-name": {
-    "defaultMessage": "Nom del projecte"
   },
   "project-name-not-empty": {
     "defaultMessage": "El nom del projecte no pot estar buit"

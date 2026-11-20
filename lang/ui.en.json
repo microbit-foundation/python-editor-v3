@@ -103,38 +103,6 @@
     "defaultMessage": "Choose a file",
     "description": "Tooltip on the file icon above the editor, shown when there's no room for the file name, which opens a menu of the project's files"
   },
-  "choose-main-add-file": {
-    "defaultMessage": "Add file {name}",
-    "description": "Shown in load dialog to confirm actions"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "Add module {name}",
-    "description": "Shown in load dialog to confirm actions"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "Replace file {name}",
-    "description": "Shown in load dialog to confirm actions"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "Replace module {name}",
-    "description": "Shown in load dialog to confirm actions"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "Add file {target} from {source}",
-    "description": "Shown in load dialog to confirm actions"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "Add main code from {source}",
-    "description": "Shown in load dialog to confirm actions"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "Replace file {target} with {source}",
-    "description": "Shown in load dialog to confirm actions"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "Replace main code with {source}",
-    "description": "Shown in load dialog to confirm actions"
-  },
   "clear": {
     "defaultMessage": "Clear",
     "description": "Aria label for the search input"
@@ -818,10 +786,6 @@
     "defaultMessage": "Project header",
     "description": "Aria label for the project header area"
   },
-  "project-name": {
-    "defaultMessage": "Project name",
-    "description": "Text used to indicate the project name"
-  },
   "project-name-not-empty": {
     "defaultMessage": "The project name cannot be empty",
     "description": "Validation message for project name"
@@ -829,10 +793,6 @@
   "project-storage-tooltip": {
     "defaultMessage": "Your data is saved in this browser on this device. Clearing your browser's cookies or site data will delete it. It may also be automatically removed by your browser if your device is low on storage.",
     "description": "Tooltip on the home page projects row heading explaining where projects are stored"
-  },
-  "projects-page-title": {
-    "defaultMessage": "Projects",
-    "description": "Title of the page listing all projects"
   },
   "python-editor-poster-creativity-resource-description": {
     "defaultMessage": "Use ideas, reference code and the simulator to get creative",

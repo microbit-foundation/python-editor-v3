@@ -53,30 +53,6 @@
   "cancel-action": {
     "defaultMessage": "Cancelar"
   },
-  "choose-main-add-file": {
-    "defaultMessage": "Adicionar arquivo {name}"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "Adicionar módulo {name}"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "Substituir arquivo {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "Substituir módulo {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "Adicionar arquivo {target} de {source}"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "Adicionar código principal de {source}"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "Substituir arquivo {target} por {source}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "Substituir código principal por {source}"
-  },
   "clear": {
     "defaultMessage": "Limpar"
   },
@@ -421,9 +397,6 @@
   },
   "project-header": {
     "defaultMessage": "Cabeçalho do projeto"
-  },
-  "project-name": {
-    "defaultMessage": "Nome do projeto"
   },
   "project-name-not-empty": {
     "defaultMessage": "O nome do projeto não pode estar vazio"

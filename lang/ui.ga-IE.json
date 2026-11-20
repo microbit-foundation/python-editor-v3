@@ -53,30 +53,6 @@
   "cancel-action": {
     "defaultMessage": "Cealaigh"
   },
-  "choose-main-add-file": {
-    "defaultMessage": "Cuir comhad {name} leis"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "Cuir modúl {name} leis"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "Ionadaigh comhad {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "Ionadaigh modúl {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "Cuir comhad {target} ó {source}"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "Cuir príomhchód ó {source} leis"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "Ionadaigh comhad {target} le {source}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "Cuir {source} in ionad an phríomhchóid"
-  },
   "clear": {
     "defaultMessage": "Glan"
   },
@@ -427,9 +403,6 @@
   },
   "project-header": {
     "defaultMessage": "Ceanntásc an tionscadail"
-  },
-  "project-name": {
-    "defaultMessage": "Ainm an tionscadail"
   },
   "project-name-not-empty": {
     "defaultMessage": "Ní féidir ainm an tionscadail a fholmhú"

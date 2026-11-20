@@ -53,30 +53,6 @@
   "cancel-action": {
     "defaultMessage": "取消"
   },
-  "choose-main-add-file": {
-    "defaultMessage": "添加文件 {name}"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "添加模块 {name}"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "替换文件 {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "替换模块 {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "从 {source} 添加文件 {target}"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "从 {source} 添加主代码"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "将文件 {target} 替换为 {source}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "用 {source} 替换主代码"
-  },
   "clear": {
     "defaultMessage": "清除"
   },
@@ -421,9 +397,6 @@
   },
   "project-header": {
     "defaultMessage": "项目标题"
-  },
-  "project-name": {
-    "defaultMessage": "项目名称"
   },
   "project-name-not-empty": {
     "defaultMessage": "项目名称不能为空"

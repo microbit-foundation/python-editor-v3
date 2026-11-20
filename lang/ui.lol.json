@@ -53,30 +53,6 @@
   "cancel-action": {
     "defaultMessage": "crwdns331388:0crwdne331388:0"
   },
-  "choose-main-add-file": {
-    "defaultMessage": "crwdns331392:0{name}crwdne331392:0"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "crwdns331394:0{name}crwdne331394:0"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "crwdns331396:0{name}crwdne331396:0"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "crwdns331398:0{name}crwdne331398:0"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "crwdns331400:0{target}crwdnd331400:0{source}crwdne331400:0"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "crwdns331402:0{source}crwdne331402:0"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "crwdns331404:0{target}crwdnd331404:0{source}crwdne331404:0"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "crwdns331406:0{source}crwdne331406:0"
-  },
   "clear": {
     "defaultMessage": "crwdns331408:0crwdne331408:0"
   },
@@ -427,9 +403,6 @@
   },
   "project-header": {
     "defaultMessage": "crwdns331640:0crwdne331640:0"
-  },
-  "project-name": {
-    "defaultMessage": "crwdns331642:0crwdne331642:0"
   },
   "project-name-not-empty": {
     "defaultMessage": "crwdns331644:0crwdne331644:0"

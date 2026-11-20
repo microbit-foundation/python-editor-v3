@@ -53,30 +53,6 @@
   "cancel-action": {
     "defaultMessage": "Annuleren"
   },
-  "choose-main-add-file": {
-    "defaultMessage": "Voeg bestand {name} toe"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "Module {name} toevoegen"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "Vervang bestand {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "Vervang module {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "Bestand {target} van {source} toevoegen"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "Voeg hoofdcode toe van {source}"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "Vervang bestand {target} door {source}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "Vervang hoofdcode door {source}"
-  },
   "clear": {
     "defaultMessage": "Verwijderen"
   },
@@ -427,9 +403,6 @@
   },
   "project-header": {
     "defaultMessage": "Project koptekst"
-  },
-  "project-name": {
-    "defaultMessage": "Projectnaam"
   },
   "project-name-not-empty": {
     "defaultMessage": "De projectnaam kan niet leeg zijn"
