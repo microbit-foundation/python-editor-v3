@@ -778,6 +778,14 @@
     "defaultMessage": "Project actions",
     "description": "Aria label for the bar with project actions"
   },
+  "project-deleted-elsewhere-description": {
+    "defaultMessage": "This project was deleted in another tab or window.",
+    "description": "Body of the message shown when the project open in the editor has been deleted in another browser tab or window, as the editor returns to the home page"
+  },
+  "project-deleted-elsewhere-title": {
+    "defaultMessage": "Project deleted",
+    "description": "Title of the message shown when the project open in the editor has been deleted in another browser tab or window, as the editor returns to the home page"
+  },
   "project-files-heading": {
     "defaultMessage": "Project files",
     "description": "Heading at the top of the Files tab, which lists the files in the project"

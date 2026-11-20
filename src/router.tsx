@@ -28,6 +28,7 @@ import {
   legacyEditorRoutePath,
   routerPathFromUrl,
 } from "./urls";
+import OpenProjectDeletedRedirect from "./project/OpenProjectDeletedRedirect";
 import ProjectDropTarget from "./project/ProjectDropTarget";
 import Workbench from "./workbench/Workbench";
 
@@ -113,7 +114,12 @@ export const createRouter = ({ projects }: RouterOptions) => {
               },
               {
                 path: editorRoutePath,
-                element: editor,
+                element: (
+                  <>
+                    {editor}
+                    <OpenProjectDeletedRedirect />
+                  </>
+                ),
                 action: createProjectAction(projects),
                 // The editor needs a project; choosing one is the only
                 // asynchronous step, the MicroPython load carries on behind.

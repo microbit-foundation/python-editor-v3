@@ -41,9 +41,20 @@ export class ProjectSaveErrorEvent extends Event {
   }
 }
 
+/**
+ * The project open in this tab was deleted in another. The editor has
+ * nothing to save to any more, so whatever is showing it should leave.
+ */
+export class OpenProjectDeletedEvent extends Event {
+  constructor() {
+    super("openprojectdeleted");
+  }
+}
+
 interface EventMap {
   change: ProjectsChangedEvent;
   saveerror: ProjectSaveErrorEvent;
+  openprojectdeleted: OpenProjectDeletedEvent;
 }
 
 /**
@@ -278,10 +289,11 @@ export class Projects extends TypedEventTarget<EventMap> {
   }
 
   /**
-   * The open project is gone. Its storage is left in place until the editor
-   * next asks for a project; nothing writes to it from the pages.
+   * The open project is gone. The file system keeps its copy until the
+   * editor next asks for a project, but nothing more is written from it.
    */
   private letGoOfOpenProject(): void {
+    this.openStorage?.abandon();
     this.openId = undefined;
     this.openStorage = undefined;
     if (getCurrentProjectId(this.session)) {
@@ -310,16 +322,21 @@ export class Projects extends TypedEventTarget<EventMap> {
     void (async () => {
       const { type, projectIds } = event.data;
       await this.refresh();
-      if (!this.openId || !projectIds.includes(this.openId)) {
+      const id = this.openId;
+      if (!id || !projectIds.includes(id)) {
         return;
       }
-      if (type === "deleted") {
-        this.letGoOfOpenProject();
-      } else if (this.db) {
+      // A change can be overtaken by a delete, hence looking.
+      if (type === "changed" && (await this.db?.get(id))) {
         // Reload the open project so this tab shows the other's edits.
-        const id = this.openId;
         this.openId = undefined;
         await this.switchTo(id);
+      } else if (this.openId === id) {
+        this.letGoOfOpenProject();
+        this.dispatchTypedEvent(
+          "openprojectdeleted",
+          new OpenProjectDeletedEvent()
+        );
       }
     })();
   };

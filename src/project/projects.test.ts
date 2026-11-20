@@ -40,16 +40,23 @@ beforeEach(() => {
   vi.spyOn(Date, "now").mockImplementation(() => now++);
 });
 
-const setup = async (dbAvailable = true) => {
-  const db = dbAvailable
-    ? await ProjectsDatabase.open(`projects-${Date.now()}-${counter++}`)
-    : undefined;
+/** A tab: its own file system and projects session over a database. */
+const openTab = (db: ProjectsDatabase | undefined) => {
   const storage = deferred<FSStorage | undefined>();
   const host = new DefaultHost(undefined, storage.promise);
   const fs = new FileSystem(logging, host, microPythonSource);
   const projects = new Projects(fs, logging, Promise.resolve(db), storage);
   return { db, fs, projects };
 };
+
+const setup = async (dbAvailable = true) =>
+  openTab(
+    dbAvailable
+      ? await ProjectsDatabase.open(`projects-${Date.now()}-${counter++}`)
+      : undefined
+  );
+
+const decode = (data: Uint8Array) => new TextDecoder().decode(data);
 
 const fileNames = (fs: FileSystem) => fs.project.files.map((f) => f.name);
 
@@ -192,6 +199,57 @@ describe("Projects", () => {
     expect((await fs.read(MAIN_FILE)).data).toEqual(
       new TextEncoder().encode("# two")
     );
+  });
+
+  describe("with the same project open in another tab", () => {
+    const twoTabs = async () => {
+      const a = await setup();
+      const b = openTab(a.db);
+      // No session storage here, so the second tab opens the most recent
+      // project: the first tab's.
+      for (const tab of [a, b]) {
+        await tab.projects.openCurrent();
+        await tab.fs.initialize();
+      }
+      expect(b.projects.currentId).toEqual(a.projects.currentId);
+      return { a, b, db: a.db!, id: a.projects.currentId! };
+    };
+
+    it("shows the other tab's edits", async () => {
+      const { a, b } = await twoTabs();
+      await a.fs.write(
+        MAIN_FILE,
+        "# from the other tab",
+        VersionAction.MAINTAIN
+      );
+      await vi.waitFor(async () =>
+        expect(decode((await b.fs.read(MAIN_FILE)).data)).toEqual(
+          "# from the other tab"
+        )
+      );
+    });
+
+    it("lets go of a project the other tab deletes and does not write it back", async () => {
+      const { a, b, db, id } = await twoTabs();
+      const errors: unknown[] = [];
+      b.projects.addEventListener("saveerror", (e: ProjectSaveErrorEvent) => {
+        errors.push(e.error);
+      });
+      const deleted = new Promise((resolve) =>
+        b.projects.addEventListener("openprojectdeleted", resolve)
+      );
+
+      await a.projects.delete([id]);
+      await deleted;
+      expect(b.projects.currentId).toBeUndefined();
+
+      // The editor may still be showing it.
+      await b.fs.write(MAIN_FILE, "# typed after", VersionAction.MAINTAIN);
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      expect(errors).toEqual([]);
+      expect(await db.get(id)).toBeUndefined();
+      expect(await db.files(id)).toEqual({});
+    });
   });
 
   it("without the database there is nothing to manage and the editor still works", async () => {
