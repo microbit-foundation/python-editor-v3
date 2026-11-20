@@ -25,7 +25,7 @@ import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
 import { openProjectsDatabase } from "./fs/current-project";
 import { createHost, IframeHost } from "./fs/host";
-import { PendingProjectLink } from "./fs/project-link";
+import { hasProjectLink, PendingProjectLink } from "./fs/project-link";
 import { FSStorage } from "./fs/storage";
 import { IframeModeProvider } from "./iframe-mode-hooks";
 import { Projects } from "./project/projects";
@@ -58,6 +58,15 @@ const device: MicrobitUSBConnection = isMockDeviceMode()
 // the editor route loads, so the pages need not pick one.
 const projectStorage = deferred<FSStorage>();
 const projectLink = new PendingProjectLink(window.location.href);
+if (!projectLink.pending && hasProjectLink(window.location.href)) {
+  // The link could not be read, so nothing will take it and remove it from
+  // the address as happens for one that can. Left there it would look like
+  // a link still to be opened: the home page sends those to the editor. This
+  // has to come before the router is created, as the router reads the
+  // address then.
+  const { pathname, search } = window.location;
+  window.history.replaceState(null, "", pathname + search);
+}
 const host = createHost(logging, projectLink, projectStorage.promise);
 const iframeMode = host instanceof IframeHost;
 const fs = new FileSystem(logging, host, fetchMicroPython);

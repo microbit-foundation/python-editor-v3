@@ -41,8 +41,37 @@ test.describe("routing", () => {
       await expect(app.page).toHaveURL(appUrlPattern("project"));
       await app.expectProjectName("Hearts");
       await app.expectEditorContainText("display.show(Image.HEART)");
+      // Or a reload would open it again as another project.
+      expect(new URL(app.page.url()).hash).toEqual("");
     });
   }
+
+  // A link that cannot be read has no project to open. It must not stay in
+  // the address, where it would keep sending the home page to the editor.
+  for (const [name, fragment] of [
+    ["#project:", "#project:notvalid"],
+    ["#import:", "#import:#project:notvalid"],
+  ]) {
+    test(`an unreadable ${name} link at the root is dropped`, async ({
+      app,
+      homePage,
+    }) => {
+      await app.page.goto(homeUrl({ fragment }));
+      await homePage.expectOnPage();
+      expect(new URL(app.page.url()).hash).toEqual("");
+    });
+  }
+
+  test("an unreadable #project: link at the editor is dropped, and Home works", async ({
+    app,
+    homePage,
+  }) => {
+    await app.goto({ fragment: "#project:notvalid" });
+    expect(new URL(app.page.url()).hash).toEqual("");
+
+    await app.goHome();
+    await homePage.expectOnPage();
+  });
 
   test("a new tab at the editor opens the most recent project", async ({
     app,

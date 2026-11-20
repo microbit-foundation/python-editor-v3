@@ -44,8 +44,9 @@ Still to try:
 
 - `react-router` 7, `createBrowserRouter`, one root layout route with `errorElement`, `urls.ts` builders as route paths, as ml-trainer. No project id in the URL; the tab's project is in `sessionStorage`.
 - Editor at `/project` with tabs at `/project/:tab/:slug`; the old `/:tab/:slug` paths redirect; unknown paths are the shared not-found page. Iframe mode has a single-route router with the editor at the root.
-- The editor route's loader chooses the project: the tab's, else migrated session storage, else the most recent, else a new one with the starter program. So `/project` in a fresh tab goes straight to code, which ml-trainer does not do; the editor is low friction today and some users bookmark it.
+- The editor route's loader chooses the project: the tab's (which a migrated session-storage project becomes), else the most recent, else a new one with the starter program. So `/project` in a fresh tab goes straight to code, which ml-trainer does not do; the editor is low friction today and some users bookmark it.
 - The editor's project is chosen when its route loads, not at boot, so the pages render without one.
+- A `#project:` link is removed from the address once it has become a project. One that cannot be read is removed at startup, before the router sees it, so it cannot be mistaken for a link still to be opened.
 
 ### Pages and sharing
 
