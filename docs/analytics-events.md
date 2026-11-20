@@ -10,12 +10,17 @@ at the end maps the previous UA-shaped events to their replacements.
 Set once on app boot. Auto-attach to every subsequent event for the same user,
 available as user-scoped breakdowns in GA4.
 
-| Name               | Values       | Set when | Notes                                                          |
-| ------------------ | ------------ | -------- | -------------------------------------------------------------- |
-| `webusb_available` | `yes` / `no` | App boot | From `"usb" in navigator`. Same name and values as ml-trainer. |
+| Name               | Values                                                               | Set when                                                     | Notes                                                                                                                                                                                                                                                                        |
+| ------------------ | -------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `webusb_available` | `yes` / `no`                                                         | App boot                                                     | From `"usb" in navigator`. Same name and values as ml-trainer.                                                                                                                                                                                                               |
+| `project_storage`  | `database` / `session_no_indexeddb` / `session_open_failed` / `host` | App boot, once the projects database has opened or failed to | Where the tab keeps its project. `database` is IndexedDB. The two `session_` values are the session-storage fallback: the browser has no IndexedDB, or it has but the database would not open. `host` is iframe controller mode, where the embedding page keeps the project. |
 
 Unlike ml-trainer there is no `webbluetooth_available`: the editor doesn't use
 Bluetooth.
+
+`project_storage` is there to show how many sessions really run without the
+projects database, and why, which decides whether the session-storage fallback
+is worth keeping.
 
 ## Device events
 

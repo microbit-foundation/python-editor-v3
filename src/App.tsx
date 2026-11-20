@@ -23,7 +23,10 @@ import SearchProvider from "./documentation/search/search-hooks";
 import { ActiveEditorProvider } from "./editor/active-editor-hooks";
 import { FileSystem } from "./fs/fs";
 import { FileSystemProvider } from "./fs/fs-hooks";
-import { openProjectsDatabase } from "./fs/current-project";
+import {
+  openProjectsDatabase,
+  reportProjectStorageMode,
+} from "./fs/current-project";
 import { createHost, IframeHost } from "./fs/host";
 import { parseProjectLink, PendingProjectLink } from "./fs/project-link";
 import { FSStorage } from "./fs/storage";
@@ -93,6 +96,10 @@ const App = () => {
       "webusb_available",
       "usb" in navigator ? "yes" : "no"
     );
+    if (iframeMode) {
+      // Otherwise reported when the projects database opens, or fails to.
+      reportProjectStorageMode(logging, "host");
+    }
     const statusListener = (event: ConnectionStatusChange) =>
       logDeviceStatusChange(logging, event);
     device.addEventListener("status", statusListener);
