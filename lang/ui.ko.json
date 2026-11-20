@@ -53,30 +53,6 @@
   "cancel-action": {
     "defaultMessage": "취소"
   },
-  "choose-main-add-file": {
-    "defaultMessage": "{name} 파일 추가"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "{name} 모듈 추가"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "{name} 파일 교체"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "{name} 모듈 교체"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "{source}에서 {target} 파일 추가"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "{source}에서 메인 코드 추가"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "{target} 파일을 {source}(으)로 교체"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "메인 코드를 {source}(으)로 교체"
-  },
   "clear": {
     "defaultMessage": "지우기"
   },
@@ -418,9 +394,6 @@
   },
   "project-header": {
     "defaultMessage": "프로젝트 머리글"
-  },
-  "project-name": {
-    "defaultMessage": "프로젝트 이름"
   },
   "project-name-not-empty": {
     "defaultMessage": "프로젝트 이름을 입력해야 합니다"

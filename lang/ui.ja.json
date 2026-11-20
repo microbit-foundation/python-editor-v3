@@ -53,30 +53,6 @@
   "cancel-action": {
     "defaultMessage": "キャンセル"
   },
-  "choose-main-add-file": {
-    "defaultMessage": "ファイル {name} を追加"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "モジュール {name} を追加"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "ファイル {name} を置き換え"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "モジュール {name} を置き換え"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "{source} からファイル {target} を追加"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "{source} からメインコードを追加"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "ファイル {target} を {source} に置き換え"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "メインコードを {source} に置き換え"
-  },
   "clear": {
     "defaultMessage": "クリア"
   },
@@ -421,9 +397,6 @@
   },
   "project-header": {
     "defaultMessage": "プロジェクトヘッダー"
-  },
-  "project-name": {
-    "defaultMessage": "プロジェクト名"
   },
   "project-name-not-empty": {
     "defaultMessage": "プロジェクト名は空にできません"
