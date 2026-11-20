@@ -66,7 +66,7 @@ MicroPython itself is only needed to build a hex file or flash, not to edit. If 
 Tabs tell each other about changes over a `BroadcastChannel`, naming the projects affected:
 
 - Every tab refreshes its list of projects.
-- A tab with a changed project open reloads it.
+- A tab with a changed project open reloads it, after first saving anything it has outstanding. If that cannot be saved, the tab keeps its own copy rather than lose the edit, and stays out of step until the project is next opened in it or the tab is reloaded.
 - A tab with a deleted project open stops writing it, and if the editor is showing goes to the home page with a message.
 
 ### Without IndexedDB, and embedded

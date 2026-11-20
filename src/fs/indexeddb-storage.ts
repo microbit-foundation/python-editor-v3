@@ -62,7 +62,7 @@ export class IndexedDBFSStorage implements FSStorage {
 
   /**
    * @param project The project's record as it is in the database now.
-   * @param onError Reports a failed flush; the changes in it are dropped.
+   * @param onError Reports a failed flush; its changes go with the next.
    * @param onChange Called after a successful flush, for cross-tab sync.
    */
   constructor(
