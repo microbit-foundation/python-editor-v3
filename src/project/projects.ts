@@ -167,6 +167,14 @@ export class Projects extends TypedEventTarget<EventMap> {
     return this.projectLink.pending;
   }
 
+  /**
+   * True while an edit to the open project has failed to save and has not
+   * been saved since, so that closing the tab would lose it.
+   */
+  get hasUnsavedChanges(): boolean {
+    return this.openStorage?.hasUnsavedChanges ?? false;
+  }
+
   /** The project the editor has open in this tab, if any. */
   get currentId(): string | undefined {
     return this.openId;
@@ -409,7 +417,13 @@ export class Projects extends TypedEventTarget<EventMap> {
   private handleSyncMessage = (event: MessageEvent<SyncMessage>) => {
     void (async () => {
       const { type, projectIds } = event.data;
-      await this.refresh();
+      try {
+        await this.refresh();
+      } catch (e) {
+        // The list is stale, but what the notice means for the open project
+        // still has to be acted on: it may have been deleted.
+        this.logging.error("Failed to refresh the project list", e);
+      }
       const id = this.openId;
       if (!id || !projectIds.includes(id)) {
         return;

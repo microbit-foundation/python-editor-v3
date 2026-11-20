@@ -120,6 +120,27 @@ describe("ProjectsDatabase", () => {
     expect(contents(await db.files("a"))).toEqual({ "main.py": [2] });
   });
 
+  it("leaves no unhandled rejection when a request in a transaction fails", async () => {
+    await db.create(meta("a", 1), {});
+    const unhandled: unknown[] = [];
+    const listener = (reason: unknown) => unhandled.push(reason);
+    process.on("unhandledRejection", listener);
+    // The next put fails as a request, as a put can when storage is full,
+    // rather than as a call: it adds a key that already exists.
+    const put = IDBObjectStore.prototype.put;
+    IDBObjectStore.prototype.put = function (this: IDBObjectStore, value) {
+      IDBObjectStore.prototype.put = put;
+      return this.add(value);
+    };
+
+    await expect(db.create(meta("a", 2), {})).rejects.toThrow();
+    await new Promise((resolve) => setTimeout(resolve, 20));
+
+    process.off("unhandledRejection", listener);
+    expect(unhandled).toEqual([]);
+    expect(await db.get("a")).toEqual(meta("a", 1));
+  });
+
   it("touch makes a project the most recent", async () => {
     await db.create(meta("a", 1), {});
     await db.create(meta("b", 2), {});

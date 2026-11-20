@@ -85,6 +85,18 @@ export const databaseName = (
     : `python-editor${base.replace(/\/$/, "")}`;
 };
 
+/**
+ * idb gives every transaction a promise of its completion, tx.done. A method
+ * that awaits a request and throws when it fails never reaches its own
+ * `await tx.done`, and the transaction's rejection would then be unhandled:
+ * one more error report for a failure the caller has already been given.
+ * This marks it handled. Awaiting tx.done still rejects.
+ */
+const handled = <T extends { done: Promise<void> }>(tx: T): T => {
+  tx.done.catch(() => {});
+  return tx;
+};
+
 export class ProjectsDatabase {
   private constructor(private db: IDBPDatabase<Schema>) {}
 
@@ -192,7 +204,7 @@ export class ProjectsDatabase {
     meta: ProjectMeta,
     files: Record<string, Uint8Array>
   ): Promise<void> {
-    const tx = this.db.transaction(stores, "readwrite");
+    const tx = handled(this.db.transaction(stores, "readwrite"));
     await tx.objectStore(PROJECTS).put(meta);
     const fileStore = tx.objectStore(FILES);
     for (const [name, data] of Object.entries(files)) {
@@ -209,7 +221,7 @@ export class ProjectsDatabase {
     id: string,
     changes: Partial<Omit<ProjectMeta, "id">>
   ): Promise<void> {
-    const tx = this.db.transaction(PROJECTS, "readwrite");
+    const tx = handled(this.db.transaction(PROJECTS, "readwrite"));
     const existing = await tx.store.get(id);
     if (!existing) {
       throw new Error(`No such project ${id}`);
@@ -295,7 +307,7 @@ export class ProjectsDatabase {
   }
 
   async delete(id: string): Promise<void> {
-    const tx = this.db.transaction(stores, "readwrite");
+    const tx = handled(this.db.transaction(stores, "readwrite"));
     await tx.objectStore(PROJECTS).delete(id);
     const fileStore = tx.objectStore(FILES);
     for (const key of await fileStore.index("projectId").getAllKeys(id)) {

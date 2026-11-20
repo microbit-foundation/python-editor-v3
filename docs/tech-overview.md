@@ -57,7 +57,7 @@ Edits are written through as they happen. There is no separate "save" action for
 - Writes are coalesced per file for 300ms, then flushed as one transaction. The project's timestamp is the time of the edit, so "last modified" does not depend on when the flush ran.
 - Pending writes are also flushed when the page is hidden or unloading. A transaction that waits on a read, or on its requests finishing, does not survive the page unloading. So a flush never reads before it writes, and one from a hidden or unloading page commits explicitly. This is why the storage holds the project's name and writes the whole project record each time, rather than reading the record and updating it.
 - A flush at any other time checks, in the same transaction, that the project still exists.
-- A failed flush is not retried. The in-memory copy still has the edit, the user sees a toast that stays until dismissed ("Browser storage full" when the quota is exceeded), and the error is logged once per session.
+- A failed flush is not retried. The in-memory copy still has the edit, the user sees a toast that stays until dismissed ("Browser storage full" when the quota is exceeded), and the error is logged once per session. Until the same files are next saved successfully, the user is warned before closing the tab.
 
 MicroPython itself is only needed to build a hex file or flash, not to edit. If it fails to load, projects still open and save, and loading is tried again the next time something needs it.
 
@@ -102,7 +102,7 @@ Some choices that are not obvious from the code:
 - **The editor opens straight to code.** `/project` in a new tab opens the most recent project rather than asking the user to pick one. The editor has always been quick to get into, and some users bookmark it.
 - **No project id in the URL.** The tab's project is kept in session storage instead. This may be revisited if projects are ever stored on a server.
 - **Each deployment has its own database.** The database name includes the base path, so deployments that share an origin, such as production and beta, keep separate projects.
-- **No warning before closing a tab.** The editor used to warn when a tab was closed with changes made since the last hex file was loaded or saved, because closing the tab lost them. With the database every edit is already stored, so there is nothing to warn about. The warning remains where there is no database.
+- **No warning before closing a tab.** The editor used to warn when a tab was closed with changes made since the last hex file was loaded or saved, because closing the tab lost them. With the database every edit is already stored, so there is nothing to warn about unless a save has failed. The warning remains where there is no database.
 - **Imports never overwrite silently.** With the database, a hex or an idea makes a new project rather than replacing the open one. Without it there is only one project, so the editor asks before replacing one that has been edited: in micro:bit classroom a student's dropped hex would otherwise replace the teacher's starter program without a word. Adding files that would overwrite existing ones asks first in every mode.
 - **A project changed in another tab is reloaded, not merged.** The last write wins.
 
