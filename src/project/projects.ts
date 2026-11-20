@@ -376,7 +376,9 @@ export class Projects extends TypedEventTarget<EventMap> {
       throw new NoSuchProjectError(id);
     }
     if (reloading && this.openStorage !== previous) {
-      // The user opened another project while this waited. Don't go back.
+      // What was open changed while this waited: the user opened another
+      // project, a "deleted" message let go of this one, or an overlapping
+      // reload got there first. This reload has been overtaken.
       return;
     }
     const primary = new InMemoryFSStorage(content.meta.name);
