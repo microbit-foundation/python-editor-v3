@@ -138,6 +138,30 @@ test.describe("storage write errors", () => {
       app.page.getByText("An unexpected error occurred")
     ).toBeHidden();
   });
+
+  test("warns before closing while an edit has not saved", async ({ app }) => {
+    await injectWriteError(app, "UnknownError", { every: true });
+    await app.typeInEditor("A change!");
+    await expect(
+      app.page.getByText("Failed to save your project to browser storage")
+    ).toBeVisible();
+
+    await app.closeAndExpectBeforeUnloadPrompt();
+  });
+
+  test("does not warn once a later save has succeeded", async ({ app }) => {
+    // Only the first save fails. typeInEditor's last keys are typed slowly
+    // enough to be saved again, successfully, after it.
+    await injectWriteError(app, "UnknownError");
+    await app.typeInEditor("A change!");
+    await expect(
+      app.page.getByText("Failed to save your project to browser storage")
+    ).toBeVisible();
+    // Past the storage's flush delay, so the last save has finished.
+    await app.page.waitForTimeout(600);
+
+    await app.closeWithoutBeforeUnloadPrompt();
+  });
 });
 
 /**
@@ -175,29 +199,5 @@ test.describe("storage read errors", () => {
     await homePage.expectOnPage();
     await homePage.cards.open("Untitled project");
     await app.expectEditorContainText("from microbit import");
-  });
-
-  test("warns before closing while an edit has not saved", async ({ app }) => {
-    await injectWriteError(app, "UnknownError", { every: true });
-    await app.typeInEditor("A change!");
-    await expect(
-      app.page.getByText("Failed to save your project to browser storage")
-    ).toBeVisible();
-
-    await app.closeAndExpectBeforeUnloadPrompt();
-  });
-
-  test("does not warn once a later save has succeeded", async ({ app }) => {
-    // Only the first save fails. typeInEditor's last keys are typed slowly
-    // enough to be saved again, successfully, after it.
-    await injectWriteError(app, "UnknownError");
-    await app.typeInEditor("A change!");
-    await expect(
-      app.page.getByText("Failed to save your project to browser storage")
-    ).toBeVisible();
-    // Past the storage's flush delay, so the last save has finished.
-    await app.page.waitForTimeout(600);
-
-    await app.closeWithoutBeforeUnloadPrompt();
   });
 });
