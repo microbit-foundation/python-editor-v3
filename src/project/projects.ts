@@ -326,12 +326,16 @@ export class Projects extends TypedEventTarget<EventMap> {
       if (!id || !projectIds.includes(id)) {
         return;
       }
-      // A change can be overtaken by a delete, hence looking.
+      // A "changed" message says nothing about now: the project may have
+      // been deleted since it was sent, with the "deleted" message still to
+      // come. Reloading a project that is gone would fail, so check first
+      // and treat a missing one as deleted.
       if (type === "changed" && (await this.db?.get(id))) {
         // Reload the open project so this tab shows the other's edits.
         this.openId = undefined;
         await this.switchTo(id);
       } else if (this.openId === id) {
+        // Unless the "deleted" message was handled while this one waited.
         this.letGoOfOpenProject();
         this.dispatchTypedEvent(
           "openprojectdeleted",
