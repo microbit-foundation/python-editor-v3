@@ -409,6 +409,23 @@ describe("Filesystem switchStorage", () => {
     expect(await asString(ufs.read(MAIN_FILE))).toEqual("# other main");
     expect((await ufs.statistics()).files).toEqual(2);
   });
+
+  it("switches after a failed initialisation, which a retry builds from the new storage", async () => {
+    let fail = true;
+    const ufs = new FileSystem(logging, host, async () => {
+      if (fail) {
+        fail = false;
+        throw new Error("Simulated MicroPython load failure");
+      }
+      return fsMicroPythonSource();
+    });
+    await ufs.initializeInBackground();
+
+    await ufs.switchStorage(await otherProject());
+
+    expect(ufs.project.name).toEqual("Other project");
+    expect((await ufs.statistics()).files).toEqual(2);
+  });
 });
 
 const asString = async (f: Promise<VersionedData>) =>

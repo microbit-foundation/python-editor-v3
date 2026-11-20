@@ -399,6 +399,45 @@ describe("Projects", () => {
     });
   });
 
+  it("switches project even if MicroPython failed to load", async () => {
+    const storage = deferred<FSStorage>();
+    let failLoad!: (e: Error) => void;
+    const loading = new Promise<never>((_, reject) => {
+      failLoad = reject;
+    });
+    let source: MicroPythonSource = () => loading;
+    const fs = new FileSystem(
+      logging,
+      new DefaultHost(undefined, storage.promise),
+      () => source()
+    );
+    const db = await ProjectsDatabase.open(`projects-${counter++}`);
+    const projects = new Projects(fs, logging, Promise.resolve(db), storage);
+    await projects.openCurrent();
+    const first = projects.currentId!;
+    await fs.initializeInBackground();
+    // The load fails while the switch waits for it.
+    const switchStorage = fs.switchStorage.bind(fs);
+    vi.spyOn(fs, "switchStorage").mockImplementationOnce((s) => {
+      const switching = switchStorage(s);
+      failLoad(new Error("Simulated MicroPython load failure"));
+      source = microPythonSource;
+      return switching;
+    });
+
+    const second = await projects.create("Second");
+    await fs.write(MAIN_FILE, "# typed in second", VersionAction.MAINTAIN);
+    await projects.rename(second, "Second");
+
+    expect(projects.currentId).toEqual(second);
+    expect(decode((await db.file(second, MAIN_FILE))!)).toEqual(
+      "# typed in second"
+    );
+    expect(decode((await db.file(first, MAIN_FILE))!)).not.toEqual(
+      "# typed in second"
+    );
+  });
+
   it("an error from the first project's storage leaves the database copy", async () => {
     const { db, fs, projects } = await setup();
     await db!.create(
