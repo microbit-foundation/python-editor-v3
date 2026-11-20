@@ -31,6 +31,8 @@ const defaultFlushDelayMs = 300;
 export class IndexedDBFSStorage implements FSStorage {
   private readonly projectId: string;
   private name: string | undefined;
+  // The name was set here and has not been flushed yet.
+  private nameUnsaved = false;
   private pendingWrites = new Map<string, Uint8Array | null>();
   // When the oldest pending change was made, or undefined with nothing to
   // flush: the project's "last modified" is the edit, not the flush, which
@@ -93,6 +95,18 @@ export class IndexedDBFSStorage implements FSStorage {
     this.pendingSince = undefined;
   }
 
+  /**
+   * Takes the project's name as another tab has saved it. A flush writes
+   * the name held here, so without this one that is still to come would
+   * undo the other tab's rename. A rename made here and not yet flushed is
+   * kept: it is the later of the two.
+   */
+  adoptName(name: string | undefined): void {
+    if (!this.nameUnsaved) {
+      this.name = name;
+    }
+  }
+
   private stopListening(): void {
     if (typeof document !== "undefined") {
       document.removeEventListener(
@@ -137,12 +151,14 @@ export class IndexedDBFSStorage implements FSStorage {
       this.pendingWrites.set(name, null);
     }
     this.name = undefined;
+    this.nameUnsaved = true;
     this.schedule();
     await this.flush();
   }
 
   async setProjectName(projectName: string | undefined): Promise<void> {
     this.name = projectName;
+    this.nameUnsaved = true;
     this.schedule();
   }
 
@@ -204,6 +220,7 @@ export class IndexedDBFSStorage implements FSStorage {
     }
     this.pendingWrites = new Map();
     this.pendingSince = undefined;
+    this.nameUnsaved = false;
     const saved = this.db
       .save(project, files, { urgent })
       .then(() => this.onChange())

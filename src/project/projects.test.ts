@@ -234,6 +234,19 @@ describe("Projects", () => {
       );
     });
 
+    it("keeps the other tab's rename when this one has edits still to save", async () => {
+      const { a, b, db, id } = await twoTabs();
+      await b.fs.write(MAIN_FILE, "# unsaved in b", VersionAction.MAINTAIN);
+      await a.projects.rename(id, "Renamed in A");
+
+      // Long enough for the reloads and flushes this sets off to finish.
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      expect((await db.get(id))?.name).toEqual("Renamed in A");
+      expect(a.fs.project.name).toEqual("Renamed in A");
+      expect(b.fs.project.name).toEqual("Renamed in A");
+      expect(decode((await db.file(id, MAIN_FILE))!)).toEqual("# unsaved in b");
+    });
+
     it("lets go of a project the other tab deletes and does not write it back", async () => {
       const { a, b, db, id } = await twoTabs();
       const errors: unknown[] = [];

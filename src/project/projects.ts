@@ -316,6 +316,12 @@ export class Projects extends TypedEventTarget<EventMap> {
       await primary.write(name, data);
     }
     const previous = this.openStorage;
+    if (this.openId === id) {
+      // Reloading the open project, for another tab's change. Edits here
+      // that the outgoing storage has still to flush must not take the
+      // project's name back to what it was before that change.
+      previous?.adoptName(content.meta.name);
+    }
     const indexed = new IndexedDBFSStorage(
       db,
       content.meta,

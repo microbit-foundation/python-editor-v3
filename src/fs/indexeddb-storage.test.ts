@@ -160,6 +160,18 @@ describe("IndexedDBFSStorage", () => {
     await failing.dispose();
   });
 
+  it("adopts a name saved elsewhere unless it has an unsaved rename", async () => {
+    await storage.write("main.py", new Uint8Array([1]));
+    storage.adoptName("Renamed elsewhere");
+    await storage.flush();
+    expect((await db.get(projectId))?.name).toEqual("Renamed elsewhere");
+
+    await storage.setProjectName("Renamed here");
+    storage.adoptName("Renamed elsewhere again");
+    await storage.flush();
+    expect((await db.get(projectId))?.name).toEqual("Renamed here");
+  });
+
   it("does not write back a project deleted elsewhere", async () => {
     await db.delete(projectId);
     await storage.write("main.py", new Uint8Array([1]));
