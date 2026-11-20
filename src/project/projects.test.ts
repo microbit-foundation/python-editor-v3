@@ -184,6 +184,81 @@ describe("Projects", () => {
     );
   });
 
+  describe("when a project fails to load", () => {
+    const error = new Error("Simulated read failure");
+    const helper = new TextEncoder().encode("# helper");
+
+    const withSavedProject = async () => {
+      const result = await setup();
+      await result.db!.create(
+        { id: "saved", name: "Saved", timestamp: 1 },
+        {
+          [MAIN_FILE]: new TextEncoder().encode("# saved"),
+          "helper.py": helper,
+        }
+      );
+      return result;
+    };
+
+    const expectSavedIntact = async (db: ProjectsDatabase) => {
+      expect((await db.get("saved"))?.name).toEqual("Saved");
+      expect(Object.keys(await db.files("saved")).sort()).toEqual([
+        "helper.py",
+        MAIN_FILE,
+      ]);
+    };
+
+    it("open rejects, writes nothing and keeps the open project", async () => {
+      const { db, fs, projects } = await withSavedProject();
+      const first = await projects.create("First");
+      await fs.initialize();
+      vi.spyOn(db!, "load").mockRejectedValueOnce(error);
+
+      await expect(projects.open("saved")).rejects.toBe(error);
+
+      await expectSavedIntact(db!);
+      expect((await db!.get("saved"))?.timestamp).toEqual(1);
+      expect(projects.currentId).toEqual(first);
+      expect(fs.project.name).toEqual("First");
+    });
+
+    it("openCurrent rejects, keeps the error for the page and can retry", async () => {
+      const { db, fs, projects } = await withSavedProject();
+      vi.spyOn(db!, "load").mockRejectedValueOnce(error);
+
+      await expect(projects.openCurrent()).rejects.toBe(error);
+      expect(projects.takeOpenFailure()).toBe(error);
+      expect(projects.takeOpenFailure()).toBeUndefined();
+      await expectSavedIntact(db!);
+
+      await projects.openCurrent();
+      await fs.initialize();
+      expect(projects.currentId).toEqual("saved");
+      expect(fileNames(fs)).toEqual([MAIN_FILE, "helper.py"]);
+    });
+
+    it("a reload for another tab's change keeps this tab's copy", async () => {
+      const { db, fs, projects } = await withSavedProject();
+      await projects.openCurrent();
+      await fs.initialize();
+      vi.spyOn(db!, "load").mockRejectedValueOnce(error);
+      const logged = vi
+        .spyOn(logging, "error")
+        .mockImplementation(() => undefined);
+
+      const otherTab = new BroadcastChannel("python-editor-projects");
+      otherTab.postMessage({ type: "changed", projectIds: ["saved"] });
+      otherTab.close();
+
+      await vi.waitFor(() =>
+        expect(logged).toHaveBeenCalledWith("Failed to reload project", error)
+      );
+      expect(projects.currentId).toEqual("saved");
+      expect(fileNames(fs)).toEqual([MAIN_FILE, "helper.py"]);
+      await expectSavedIntact(db!);
+    });
+  });
+
   it("without the database there is nothing to manage and the editor still works", async () => {
     const { fs, projects } = await setup(false);
     expect(await projects.isAvailable()).toEqual(false);

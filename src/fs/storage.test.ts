@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
+import { vi } from "vitest";
 import { ConsoleLogging } from "../deployment/default/logging";
 import { MockLogging } from "../logging/mock";
 import {
@@ -84,5 +85,25 @@ describe("SplitStrategyStorage", () => {
     await split.write("test3.py", new Uint8Array([1]));
     expect(await session.ls()).toEqual([]);
     expect(await memory.ls()).toEqual(["test1.py", "test2.py", "test3.py"]);
+  });
+
+  it("never clears a preloaded secondary", async () => {
+    const memory = new InMemoryFSStorage(projectName);
+    const record = new InMemoryFSStorage(projectName);
+    await record.write("test1.py", new Uint8Array([1]));
+    const clear = vi.spyOn(record, "clear");
+    vi.spyOn(record, "write").mockRejectedValue(new Error("Simulated"));
+
+    const log = new MockLogging();
+    const split = new SplitStrategyStorage(memory, record, log, {
+      preloaded: true,
+    });
+    await split.write("test2.py", new Uint8Array([2]));
+
+    expect(log.errors[0].message).toEqual(
+      "Abandoning secondary storage due to error"
+    );
+    expect(clear).not.toHaveBeenCalled();
+    expect(await record.ls()).toEqual(["test1.py"]);
   });
 });

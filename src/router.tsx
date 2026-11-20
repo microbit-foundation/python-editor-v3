@@ -117,8 +117,19 @@ export const createRouter = ({ projects }: RouterOptions) => {
                 action: createProjectAction(projects),
                 // The editor needs a project; choosing one is the only
                 // asynchronous step, the MicroPython load carries on behind.
+                // If the project fails to load, the home page reports it.
                 loader: async ({ request }) => {
-                  if (await projects.openCurrent()) {
+                  let fromLink: boolean;
+                  try {
+                    fromLink = await projects.openCurrent();
+                  } catch {
+                    // Drop any #project: link, already taken, or the home
+                    // page would send it straight back here.
+                    const { pathname, search } = window.location;
+                    window.history.replaceState(null, "", pathname + search);
+                    return redirect(createHomePageUrl());
+                  }
+                  if (fromLink) {
                     // A #project: link became a project, so drop the hash or
                     // a reload would import it again. Without the database
                     // the host takes the link and strips the hash itself.

@@ -18,7 +18,11 @@ import { FileSystem } from "../fs/fs";
 import { generateId } from "../fs/fs-util";
 import { IndexedDBFSStorage } from "../fs/indexeddb-storage";
 import { PendingMigration } from "../fs/migration";
-import { ProjectListEntry, ProjectsDatabase } from "../fs/projects-db";
+import {
+  ProjectContent,
+  ProjectListEntry,
+  ProjectsDatabase,
+} from "../fs/projects-db";
 import {
   FSStorage,
   InMemoryFSStorage,
@@ -74,6 +78,7 @@ export class Projects extends TypedEventTarget<EventMap> {
   private openId: string | undefined;
   private openStorage: IndexedDBFSStorage | undefined;
   private opening: Promise<boolean> | undefined;
+  private openFailure: unknown;
   private cachedList: ProjectListEntry[] = [];
   private saveErrorReported = false;
   private readonly channel: BroadcastChannel | undefined;
@@ -140,12 +145,32 @@ export class Projects extends TypedEventTarget<EventMap> {
    *
    * @returns True if a #project: link became a project, so the caller can
    * drop the hash from the URL.
+   * @throws If the project fails to load. The error is also kept for
+   * takeOpenFailure.
    */
   openCurrent(): Promise<boolean> {
-    this.opening ??= this.chooseAndOpen().finally(() => {
-      this.opening = undefined;
-    });
+    if (!this.opening) {
+      this.openFailure = undefined;
+      this.opening = this.chooseAndOpen()
+        .catch((error: unknown) => {
+          this.openFailure = error;
+          throw error;
+        })
+        .finally(() => {
+          this.opening = undefined;
+        });
+    }
     return this.opening;
+  }
+
+  /**
+   * Why the last openCurrent failed, if it did, for the page the editor
+   * redirects to to report. Cleared once taken or by the next openCurrent.
+   */
+  takeOpenFailure(): unknown {
+    const failure = this.openFailure;
+    this.openFailure = undefined;
+    return failure;
   }
 
   private async chooseAndOpen(): Promise<boolean> {
@@ -170,11 +195,8 @@ export class Projects extends TypedEventTarget<EventMap> {
 
   async open(id: string): Promise<void> {
     const db = await this.requireDb();
-    if (!(await db.get(id))) {
-      throw new Error(`No such project ${id}`);
-    }
-    await db.touch(id);
     await this.switchTo(id);
+    await db.touch(id);
   }
 
   async create(name: string): Promise<string> {
@@ -191,8 +213,9 @@ export class Projects extends TypedEventTarget<EventMap> {
   ): Promise<string> {
     const db = await this.requireDb();
     const id = generateId();
-    await db.create({ id, name, timestamp: Date.now() }, files);
-    await this.switchTo(id);
+    const meta = { id, name, timestamp: Date.now() };
+    await db.create(meta, files);
+    await this.switchTo(id, { meta, files });
     await this.changed([id]);
     return id;
   }
@@ -249,10 +272,22 @@ export class Projects extends TypedEventTarget<EventMap> {
 
   /**
    * Points the file system at a project. The first time this supplies the
-   * storage the host is waiting for; afterwards it switches.
+   * storage the host is waiting for; afterwards it switches. Loads the
+   * project before changing anything, so a failed read leaves all as it was.
+   *
+   * @param created A project's content when it was just created, to skip
+   * reading it back.
    */
-  private async switchTo(id: string): Promise<void> {
+  private async switchTo(id: string, created?: ProjectContent): Promise<void> {
     const db = await this.requireDb();
+    const content = created ?? (await db.load(id));
+    if (!content) {
+      throw new Error(`No such project ${id}`);
+    }
+    const primary = new InMemoryFSStorage(content.meta.name);
+    for (const [name, data] of Object.entries(content.files)) {
+      await primary.write(name, data);
+    }
     const previous = this.openStorage;
     const indexed = new IndexedDBFSStorage(
       db,
@@ -260,11 +295,9 @@ export class Projects extends TypedEventTarget<EventMap> {
       (e) => this.handleSaveError(e),
       () => this.channel?.postMessage({ type: "changed", projectIds: [id] })
     );
-    const storage = new SplitStrategyStorage(
-      new InMemoryFSStorage(undefined),
-      indexed,
-      this.logging
-    );
+    const storage = new SplitStrategyStorage(primary, indexed, this.logging, {
+      preloaded: true,
+    });
     this.openId = id;
     this.openStorage = indexed;
     setCurrentProjectId(this.session, id);
@@ -315,10 +348,17 @@ export class Projects extends TypedEventTarget<EventMap> {
       if (type === "deleted") {
         this.letGoOfOpenProject();
       } else if (this.db) {
-        // Reload the open project so this tab shows the other's edits.
+        // Reload the open project so this tab shows the other's edits. If
+        // that fails, carry on with this tab's copy.
         const id = this.openId;
         this.openId = undefined;
-        await this.switchTo(id);
+        try {
+          await this.switchTo(id);
+        } catch (e) {
+          // Unless the user opened another project meanwhile.
+          this.openId ??= id;
+          this.logging.error("Failed to reload project", e);
+        }
       }
     })();
   };

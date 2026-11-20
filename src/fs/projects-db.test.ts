@@ -125,4 +125,17 @@ describe("ProjectsDatabase", () => {
       name: "VersionError",
     });
   });
+
+  it("loads a project's metadata and files together", async () => {
+    const db = await ProjectsDatabase.open(uniqueName());
+    await db.create(meta("a", 1), { "main.py": bytes(1), "x.py": bytes(2) });
+    await db.create(meta("b", 2), { "main.py": bytes(3) });
+
+    const loaded = await db.load("a");
+
+    expect(loaded?.meta).toEqual(meta("a", 1));
+    expect(contents(loaded!.files)).toEqual({ "main.py": [1], "x.py": [2] });
+    expect(await db.load("missing")).toBeUndefined();
+    db.close();
+  });
 });

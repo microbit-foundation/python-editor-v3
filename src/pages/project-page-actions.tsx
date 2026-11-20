@@ -122,6 +122,18 @@ const useReportError = () => {
   );
 };
 
+/** Reports a project the editor failed to load before redirecting here. */
+export const useReportOpenFailure = () => {
+  const projects = useProjects();
+  const reportError = useReportError();
+  useEffect(() => {
+    const failure = projects.takeOpenFailure();
+    if (failure !== undefined) {
+      reportError(failure);
+    }
+  }, [projects, reportError]);
+};
+
 /** Runs a storage action, reporting failures as toasts. */
 const useAttempt = () => {
   const reportError = useReportError();

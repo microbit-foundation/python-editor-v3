@@ -199,7 +199,8 @@ export class SessionStorageFSStorage implements FSStorage {
  *
  * Writes to both.
  *
- * If write errors occur it clears primary and discontinues use.
+ * If the secondary errors it stops using it, clearing it first unless
+ * preloaded.
  */
 export class SplitStrategyStorage implements FSStorage {
   private initialized: Promise<unknown>;
@@ -208,15 +209,19 @@ export class SplitStrategyStorage implements FSStorage {
   /**
    * @param secondary The persistent copy, or a promise of one for storage
    * that takes time to open. Every operation waits for it.
+   * @param options.preloaded The primary already holds the secondary's
+   * content, so it isn't read back. The secondary is then the source of
+   * truth and is never cleared.
    */
   constructor(
     private primary: FSStorage,
     secondary: FSStorage | undefined | Promise<FSStorage | undefined>,
-    private log: Logging
+    private log: Logging,
+    private options: { preloaded?: boolean } = {}
   ) {
     this.initialized = Promise.resolve(secondary).then((resolved) => {
       this.secondary = resolved;
-      return resolved
+      return resolved && !options.preloaded
         ? this.secondaryErrorHandle(async () => {
             await initializeFromStorage(resolved, primary);
           })
@@ -287,14 +292,16 @@ export class SplitStrategyStorage implements FSStorage {
     try {
       await action(this.secondary);
     } catch (e1) {
-      try {
-        await this.secondary.clear();
-      } catch (e2) {
-        // Not much we can do.
-        this.log.error(
-          "Failed to clear secondary storage in error scenario",
-          e2
-        );
+      if (!this.options.preloaded) {
+        try {
+          await this.secondary.clear();
+        } catch (e2) {
+          // Not much we can do.
+          this.log.error(
+            "Failed to clear secondary storage in error scenario",
+            e2
+          );
+        }
       }
       // Avoid all future errors this session.
       this.log.error("Abandoning secondary storage due to error", e1);
