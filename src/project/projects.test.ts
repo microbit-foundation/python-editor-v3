@@ -172,7 +172,7 @@ describe("Projects", () => {
     await projects.openCurrent();
     await fs.initialize();
     const error = new DOMException("Simulated", "QuotaExceededError");
-    vi.spyOn(db!, "apply").mockRejectedValue(error);
+    vi.spyOn(db!, "save").mockRejectedValue(error);
     const logged = vi
       .spyOn(logging, "error")
       .mockImplementation(() => undefined);

@@ -170,9 +170,6 @@ export class Projects extends TypedEventTarget<EventMap> {
 
   async open(id: string): Promise<void> {
     const db = await this.requireDb();
-    if (!(await db.get(id))) {
-      throw new Error(`No such project ${id}`);
-    }
     await db.touch(id);
     await this.switchTo(id);
   }
@@ -204,7 +201,7 @@ export class Projects extends TypedEventTarget<EventMap> {
       await this.fs.setProjectName(name);
       await this.openStorage?.flush();
     } else {
-      await db.apply(id, { meta: { name, timestamp: Date.now() } });
+      await db.update(id, { name, timestamp: Date.now() });
     }
     await this.changed([id]);
   }
@@ -253,10 +250,14 @@ export class Projects extends TypedEventTarget<EventMap> {
    */
   private async switchTo(id: string): Promise<void> {
     const db = await this.requireDb();
+    const project = await db.get(id);
+    if (!project) {
+      throw new Error(`No such project ${id}`);
+    }
     const previous = this.openStorage;
     const indexed = new IndexedDBFSStorage(
       db,
-      id,
+      project,
       (e) => this.handleSaveError(e),
       () => this.channel?.postMessage({ type: "changed", projectIds: [id] })
     );

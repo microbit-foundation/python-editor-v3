@@ -42,9 +42,14 @@ test.describe("edits", () => {
     app,
   }) => {
     // Writes are coalesced for a few hundred milliseconds, so this relies on
-    // the pending ones being flushed as the page unloads.
-    await app.typeInEditor("A change!");
+    // the pending ones being flushed as the page unloads. The clock is held
+    // so the write cannot land by its timer first. It can only be held at a
+    // time the page has not reached, hence the margin.
+    await app.page.clock.install();
+    await app.page.clock.pauseAt(Date.now() + 1000);
+    await app.editorTextArea.fill("A change!");
     await app.page.reload();
+    await app.page.clock.resume();
 
     await app.expectEditorContainText(/A change/);
   });

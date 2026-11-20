@@ -34,7 +34,7 @@ describe("IndexedDBFSStorage", () => {
     changes = 0;
     storage = new IndexedDBFSStorage(
       db,
-      projectId,
+      { id: projectId, name: undefined, timestamp: 1 },
       (e) => errors.push(e),
       () => changes++,
       20
@@ -48,16 +48,16 @@ describe("IndexedDBFSStorage", () => {
   commonStorageTests(() => storage);
 
   it("coalesces writes into one transaction after the delay", async () => {
-    const apply = vi.spyOn(db, "apply");
+    const save = vi.spyOn(db, "save");
     await storage.write("main.py", new Uint8Array([1]));
     await storage.write("main.py", new Uint8Array([2]));
     await storage.write("other.py", new Uint8Array([3]));
     await storage.setProjectName("Renamed");
-    expect(apply).not.toHaveBeenCalled();
+    expect(save).not.toHaveBeenCalled();
 
     await new Promise((resolve) => setTimeout(resolve, 40));
 
-    expect(apply).toHaveBeenCalledTimes(1);
+    expect(save).toHaveBeenCalledTimes(1);
     expect(contents(await db.files(projectId))).toEqual({
       "main.py": [2],
       "other.py": [3],
@@ -66,11 +66,11 @@ describe("IndexedDBFSStorage", () => {
   });
 
   it("does not track the dirty flag", async () => {
-    const apply = vi.spyOn(db, "apply");
+    const save = vi.spyOn(db, "save");
     await storage.markDirty();
     await storage.flush();
     expect(await storage.isDirty()).toEqual(false);
-    expect(apply).not.toHaveBeenCalled();
+    expect(save).not.toHaveBeenCalled();
   });
 
   it("reports each successful flush for cross-tab sync", async () => {
@@ -93,24 +93,76 @@ describe("IndexedDBFSStorage", () => {
     expect((await db.get(projectId))?.timestamp).toBeGreaterThan(1);
   });
 
-  it("flushes when the page is hidden", async () => {
+  it("issues its writes at once when the page is hidden", async () => {
+    const save = vi.spyOn(db, "save");
     await storage.write("main.py", new Uint8Array([1]));
+    await storage.remove("old.py");
+    await storage.setProjectName("Renamed");
     Object.defineProperty(document, "visibilityState", {
       value: "hidden",
       configurable: true,
     });
     document.dispatchEvent(new Event("visibilitychange"));
-    // The flush is asynchronous; wait less than the scheduled delay.
-    await new Promise((resolve) => setTimeout(resolve, 5));
-    expect(contents(await db.files(projectId))).toEqual({ "main.py": [1] });
     Object.defineProperty(document, "visibilityState", {
       value: "visible",
       configurable: true,
     });
+    // Before the event handler returns: an unloading page gets no later
+    // chance.
+    expect(save).toHaveBeenCalledWith(
+      { id: projectId, name: "Renamed", timestamp: expect.any(Number) },
+      { writes: { "main.py": new Uint8Array([1]) }, deletes: ["old.py"] },
+      { urgent: true }
+    );
+
+    await storage.flush();
+    expect(contents(await db.files(projectId))).toEqual({ "main.py": [1] });
+    expect((await db.get(projectId))?.name).toEqual("Renamed");
+    expect(changes).toEqual(1);
+  });
+
+  it("flushes on pagehide whatever the visibility", async () => {
+    const save = vi.spyOn(db, "save");
+    await storage.write("main.py", new Uint8Array([1]));
+    window.dispatchEvent(new Event("pagehide"));
+    expect(save).toHaveBeenCalledTimes(1);
+
+    await storage.flush();
+    expect(contents(await db.files(projectId))).toEqual({ "main.py": [1] });
+  });
+
+  it("keeps the later of two flushes that overlap", async () => {
+    await storage.write("main.py", new Uint8Array([1]));
+    const first = storage.flush();
+    await storage.write("main.py", new Uint8Array([2]));
+    await storage.flush({ urgent: true });
+    await first;
+    expect(contents(await db.files(projectId))).toEqual({ "main.py": [2] });
+    expect(errors).toEqual([]);
+  });
+
+  it("does not write back a project deleted elsewhere", async () => {
+    await db.delete(projectId);
+    await storage.write("main.py", new Uint8Array([1]));
+    await storage.flush();
+    expect(errors).toHaveLength(1);
+    expect(await db.get(projectId)).toBeUndefined();
+    expect(contents(await db.files(projectId))).toEqual({});
+  });
+
+  it("writes nothing once abandoned", async () => {
+    const save = vi.spyOn(db, "save");
+    await storage.write("main.py", new Uint8Array([1]));
+    storage.abandon();
+    await storage.write("other.py", new Uint8Array([2]));
+    window.dispatchEvent(new Event("pagehide"));
+    await new Promise((resolve) => setTimeout(resolve, 40));
+    expect(save).not.toHaveBeenCalled();
+    expect(errors).toEqual([]);
   });
 
   it("reports a failed flush and drops those changes rather than throwing", async () => {
-    vi.spyOn(db, "apply").mockRejectedValueOnce(
+    vi.spyOn(db, "save").mockRejectedValueOnce(
       new DOMException("full", "QuotaExceededError")
     );
     await storage.write("main.py", new Uint8Array([1]));

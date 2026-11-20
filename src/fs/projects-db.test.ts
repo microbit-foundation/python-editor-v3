@@ -64,28 +64,50 @@ describe("ProjectsDatabase", () => {
     expect(await db.file("a", "nope.py")).toBeUndefined();
   });
 
-  it("applies metadata, writes and deletes together", async () => {
+  it("update changes the given fields of a project's record", async () => {
+    await db.create(meta("a", 1, "before"), { "main.py": bytes(1) });
+    await db.update("a", { name: "renamed" });
+    expect(await db.get("a")).toEqual(meta("a", 1, "renamed"));
+    await db.update("a", { timestamp: 5 });
+    expect(await db.get("a")).toEqual(meta("a", 5, "renamed"));
+  });
+
+  it("update refuses a project that does not exist", async () => {
+    await expect(db.update("missing", { name: "x" })).rejects.toThrow(
+      /No such project missing/
+    );
+  });
+
+  it("save writes the record and file changes together", async () => {
     await db.create(meta("a", 1), { "main.py": bytes(1), "old.py": bytes(9) });
-    await db.apply("a", {
-      meta: { name: "renamed", timestamp: 5 },
+    await db.save(meta("a", 5, "renamed"), {
       writes: { "main.py": bytes(2), "new.py": bytes(3) },
       deletes: ["old.py"],
     });
-    expect(await db.get("a")).toEqual({
-      id: "a",
-      name: "renamed",
-      timestamp: 5,
-    });
+    expect(await db.get("a")).toEqual(meta("a", 5, "renamed"));
     expect(contents(await db.files("a"))).toEqual({
       "main.py": [2],
       "new.py": [3],
     });
   });
 
-  it("refuses changes to a project that does not exist", async () => {
-    await expect(db.apply("missing", { meta: { name: "x" } })).rejects.toThrow(
-      /No such project missing/
+  it("save refuses a project that no longer exists and writes nothing", async () => {
+    await expect(
+      db.save(meta("gone", 1), { writes: { "main.py": bytes(1) }, deletes: [] })
+    ).rejects.toThrow(/No such project gone/);
+    expect(await db.get("gone")).toBeUndefined();
+    expect(contents(await db.files("gone"))).toEqual({});
+  });
+
+  it("an urgent save issues its writes without waiting to check", async () => {
+    await db.create(meta("a", 1), { "main.py": bytes(1) });
+    await db.save(
+      meta("a", 5),
+      { writes: { "main.py": bytes(2) }, deletes: [] },
+      { urgent: true }
     );
+    expect(await db.get("a")).toEqual(meta("a", 5));
+    expect(contents(await db.files("a"))).toEqual({ "main.py": [2] });
   });
 
   it("touch makes a project the most recent", async () => {
