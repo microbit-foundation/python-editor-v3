@@ -39,6 +39,10 @@
     "defaultMessage": "Add Python or other files to your project. A hex file opens as a new project.",
     "description": "Hover text for the add files button"
   },
+  "add-files-hover-replace": {
+    "defaultMessage": "Add Python or other files to your project. A hex file replaces all project files.",
+    "description": "Hover text for the add files button when the browser cannot keep more than one project, so opening a hex file replaces the open project"
+  },
   "added-change": {
     "defaultMessage": "Added file {changeName}",
     "description": "Change made to file"
