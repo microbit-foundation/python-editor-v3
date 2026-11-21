@@ -109,7 +109,7 @@ const SideBar = ({
         color: "gray.75",
       },
       {
-        id: "project" as const,
+        id: "files" as const,
         title: intl.formatMessage({ id: "files-tab" }),
         icon: VscFiles,
         contents: (

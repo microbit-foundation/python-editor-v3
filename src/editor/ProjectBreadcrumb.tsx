@@ -373,7 +373,7 @@ const FileCrumb = ({
   const handleTriggerFocus = useCallback(() => {
     if (manageFilesPending.current) {
       manageFilesPending.current = false;
-      showSidebarPanel("project");
+      showSidebarPanel("files");
     }
   }, [showSidebarPanel]);
   return (
