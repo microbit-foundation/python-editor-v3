@@ -6,6 +6,8 @@
 import { ErrorBoundary, UnexpectedErrorPage } from "@microbit/ui-patterns";
 import { useCallback } from "react";
 import { Outlet } from "react-router";
+import StorageVersionErrorPage from "./fs/StorageVersionErrorPage";
+import { useStorageVersionError } from "./fs/storage-status";
 import { useDeployment } from "./deployment";
 import { useLogging } from "./logging/logging-hooks";
 
@@ -20,6 +22,7 @@ const RootLayout = () => {
     (error: unknown) => logging.error("Uncaught render error", error),
     [logging]
   );
+  const storageVersionError = useStorageVersionError();
   return (
     <ErrorBoundary
       onError={handleError}
@@ -27,7 +30,7 @@ const RootLayout = () => {
         <UnexpectedErrorPage supportUrl={supportLink} reference={reference} />
       )}
     >
-      <Outlet />
+      {storageVersionError ? <StorageVersionErrorPage /> : <Outlet />}
     </ErrorBoundary>
   );
 };

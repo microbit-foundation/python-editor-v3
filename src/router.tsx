@@ -3,24 +3,158 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { createBrowserRouter } from "react-router";
+import { NotFoundPage } from "@microbit/ui-patterns";
+import {
+  createBrowserRouter,
+  Navigate,
+  redirect,
+  useParams,
+} from "react-router";
+import { baseUrl } from "./base";
+import HomePage from "./pages/HomePage";
+import { createProjectAction } from "./pages/project-page-actions";
+import ProjectsPage from "./pages/ProjectsPage";
+import { Projects } from "./project/projects";
 import RootLayout from "./RootLayout";
-import { basename, editorRoutePath } from "./urls";
+import { isTabName } from "./router-hooks";
+import {
+  basename,
+  createEditorUrl,
+  createHomePageUrl,
+  createProjectsPageUrl,
+  editorRoutePath,
+  iframeEditorRoutePath,
+  legacyEditorRoutePath,
+  routerPathFromUrl,
+} from "./urls";
+import OpenProjectDeletedRedirect from "./project/OpenProjectDeletedRedirect";
+import ProjectDropTarget from "./project/ProjectDropTarget";
 import Workbench from "./workbench/Workbench";
 
-export const createRouter = () =>
-  createBrowserRouter(
+/**
+ * The editor's pre-/project URLs: a known documentation tab redirects to
+ * the same tab under /project, anything else is not found.
+ */
+const LegacyEditorRedirect = () => {
+  const { tab, slug } = useParams<"tab" | "slug">();
+  if (!isTabName(tab)) {
+    return <NotFound />;
+  }
+  return (
+    <Navigate
+      to={createEditorUrl({ tab, slug: slug ? { id: slug } : undefined })}
+      replace
+    />
+  );
+};
+
+const NotFound = () => <NotFoundPage homeUrl={baseUrl} />;
+
+export interface RouterOptions {
+  /**
+   * The projects in this browser. Undefined in iframe controller mode, where
+   * the editor is the only page and stays at the root.
+   */
+  projects: Projects | undefined;
+}
+
+/**
+ * The pages need the project list and only make sense with the projects
+ * database; without it there is one implicit project and the editor is
+ * the whole app.
+ */
+const pagesLoader = async (projects: Projects) => {
+  if (!(await projects.isAvailable())) {
+    return redirect(createEditorUrl());
+  }
+  await projects.refresh();
+  return null;
+};
+
+/**
+ * A #project: link on a microbit.org page still points at the root, so
+ * the program it carries goes to the editor. Asked of the projects
+ * session, not read from the address: the address is the previous page's
+ * while a navigation here is under way.
+ */
+const homeLoader = (projects: Projects) => {
+  if (projects.hasPendingProjectLink) {
+    return redirect(createEditorUrl() + window.location.hash);
+  }
+  return pagesLoader(projects);
+};
+
+export const createRouter = ({ projects }: RouterOptions) => {
+  // Files dropped on the editor join the open project; the pages have their
+  // own targets, which make a new project.
+  const editor = (
+    <ProjectDropTarget>
+      <Workbench />
+    </ProjectDropTarget>
+  );
+  return createBrowserRouter(
     [
       {
         id: "root",
         path: "",
         element: <RootLayout />,
-        children: [
-          { path: editorRoutePath, element: <Workbench /> },
-          // Deeper paths are the editor with no tab selected, as before.
-          { path: "*", element: <Workbench /> },
-        ],
+        children: !projects
+          ? [
+              { path: iframeEditorRoutePath, element: editor },
+              // Deeper paths are the editor with no tab selected, as before.
+              { path: "*", element: editor },
+            ]
+          : [
+              {
+                path: createHomePageUrl(),
+                element: <HomePage />,
+                loader: () => homeLoader(projects),
+              },
+              {
+                path: createProjectsPageUrl(),
+                element: <ProjectsPage />,
+                loader: () => pagesLoader(projects),
+              },
+              {
+                path: editorRoutePath,
+                element: (
+                  <>
+                    {editor}
+                    <OpenProjectDeletedRedirect />
+                  </>
+                ),
+                action: createProjectAction(projects),
+                // The editor needs a project; choosing one is the only
+                // asynchronous step, the MicroPython load carries on behind.
+                // If the project fails to load, the home page reports it.
+                loader: async ({ request }) => {
+                  let fromLink: boolean;
+                  try {
+                    fromLink = await projects.openCurrent();
+                  } catch {
+                    // Any #project: link has been taken, so it has no
+                    // further use in the address.
+                    const { pathname, search } = window.location;
+                    window.history.replaceState(null, "", pathname + search);
+                    return redirect(createHomePageUrl());
+                  }
+                  if (fromLink) {
+                    // A #project: link became a project, so drop the hash or
+                    // a reload would import it again. Without the database
+                    // the host takes the link and strips the hash itself.
+                    return redirect(routerPathFromUrl(request.url));
+                  }
+                  return null;
+                },
+              },
+              {
+                path: legacyEditorRoutePath,
+                element: <LegacyEditorRedirect />,
+              },
+              { path: "*", element: <NotFound /> },
+            ],
       },
     ],
     { basename }
   );
+};

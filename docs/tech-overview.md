@@ -14,13 +14,103 @@ The project is bundled using [Vite](https://vitejs.dev/). The test runner is [Vi
 
 We use Prettier to format code. Please set this up to format before committing changes, ideally on save (there's [a VS Code plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)).
 
-The UI is split into different areas by the [workbench component](../src/workbench/Workbench.tsx). This component manages layout including expand/collapse of the sidebar and simulator and is a good starting point to navigate the codebase. The main areas are:
+The app has three pages: a home page, a projects page and the editor. See [Pages and routing](#pages-and-routing).
 
-1. The sidebar on the left, with Reference, Ideas, API and Project tabs as well as settings and help menus.
-2. The main editing area with the text editor for the current file, header with the project title and the project action bar with buttons for key interactions. When a micro:bit device is connected over WebUSB, the serial area appears between the text editor and the project actions.
+The editor's UI is split into different areas by the [workbench component](../src/workbench/Workbench.tsx). This component manages layout including expand/collapse of the sidebar and simulator and is a good starting point to navigate the codebase. The main areas are:
+
+1. The sidebar on the left, with Reference, Ideas, API and Files tabs as well as settings and help menus.
+2. The main editing area with the text editor for the current file, a breadcrumb with the project name and the open file, and the project action bar with buttons for key interactions. When a micro:bit device is connected over WebUSB, the serial area appears between the text editor and the project actions.
 3. The simulator on the right, with its own serial area and controls.
 
 The branding that you see on the [Foundation deployment](https://python.microbit.org/v/3) is not Open Source and is managed in a private GitHub project. This is swapped in via an alias for `theme-package` in the Vite config.
+
+## Pages and routing
+
+Routing uses [react-router](https://reactrouter.com/). The routes are set up in [router.tsx](../src/router.tsx) and the URLs are built in [urls.ts](../src/urls.ts).
+
+- The home page is at the app's root and the projects page at `/projects`. Both are in [src/pages](../src/pages) and are built from components in `@microbit/ui-patterns`, which micro:bit CreateAI also uses, so the two apps present projects the same way. Page composition, the banner and the resource cards are specific to this app.
+- The editor is at `/project`, with the sidebar's tab and position in the URL as `/project/:tab/:slug`. The editor used to be at the root, so its old `/:tab/:slug` URLs redirect.
+- There is no project id in the URL. Which project a tab has open is kept in session storage.
+- The editor route's loader chooses the project: the tab's current one, otherwise the most recently used, otherwise a new one with the starter program. The pages don't need a project, so they render without choosing one.
+
+The Foundation's website links to the editor with a program in the URL, as a `#project:` link. [project-link.ts](../src/fs/project-link.ts) reads it once at startup. It becomes a new project when the editor first opens (or replaces the single project where there is no database), and is then removed from the address so that a reload does not open it again. Such links point at the root, so the home page sends the user on to the editor while a link is still waiting to be opened. A link that cannot be read is dropped.
+
+When the editor is embedded in an iframe in controller mode, as micro:bit classroom does, the embedding page owns the project. The editor is then the only page, at the root, and there is no home or projects page.
+
+## Projects and storage
+
+Projects are stored in the browser, in IndexedDB, so a user can have several and come back to them. Nothing is stored on a server.
+
+The pieces:
+
+- [`ProjectsDatabase`](../src/fs/projects-db.ts) is the database, accessed with [idb](https://github.com/jakearchibald/idb). It has a `projects` store (id, name and a timestamp) and a `files` store keyed by project id and file name.
+- [`FileSystem`](../src/fs/fs.ts) is what the editor reads and writes. It keeps an in-memory working copy of the open project and the MicroPython file system used to build a hex file. Its storage sits behind the `FSStorage` interface in [storage.ts](../src/fs/storage.ts).
+- [`IndexedDBFSStorage`](../src/fs/indexeddb-storage.ts) is the `FSStorage` for one project in the database.
+- [`Projects`](../src/project/projects.ts) lists, creates, opens, renames, duplicates and deletes projects, and keeps the file system on the open one. UI components go through it and never touch the database.
+
+### Opening and saving
+
+Opening a project loads its record and all its files in one read, then switches the file system's storage. Loading first means a failed read leaves the previously open project as it was.
+
+Edits are written through as they happen. There is no separate "save" action for browser storage:
+
+- Writes are coalesced per file for 300ms, then flushed as one transaction. The project's timestamp is the time of the edit, so "last modified" does not depend on when the flush ran.
+- Pending writes are also flushed when the page is hidden or unloading. A transaction that waits on a read, or on its requests finishing, does not survive the page unloading. So a flush never reads before it writes, and one from a hidden or unloading page commits explicitly. This is why the storage holds the project's name and writes the whole project record each time, rather than reading the record and updating it.
+- A flush at any other time checks, in the same transaction, that the project still exists.
+- A failed flush is not retried on a timer, which against a full quota would never end. Its edits stay queued and go with the next flush, whatever causes it: a later edit, the page being hidden, or the project being switched. Meanwhile the user sees a toast that stays until dismissed ("Browser storage full" when the quota is exceeded), is warned before closing the tab, and the error is logged once per session.
+
+MicroPython itself is only needed to build a hex file or flash, not to edit. If it fails to load, projects still open and save, and loading is tried again the next time something needs it.
+
+### More than one tab
+
+Tabs tell each other about changes over a `BroadcastChannel`, naming the projects affected:
+
+- Every tab refreshes its list of projects.
+- A tab with a changed project open reloads it, after first saving anything it has outstanding. If that cannot be saved, the tab keeps its own copy rather than lose the edit, and stays out of step until the project is next opened in it or the tab is reloaded.
+- A tab with a deleted project open stops writing it, and if the editor is showing goes to the home page with a message.
+
+### Without IndexedDB, and embedded
+
+If IndexedDB is unavailable, for example in some private browsing modes, the editor falls back to how it worked before projects were stored: one project in session storage, lost when the tab closes. There is no project management, the pages redirect to the editor, and the user is warned before closing a tab with unsaved changes.
+
+In iframe controller mode the embedding page supplies and stores the project, and none of the above applies.
+
+A tab that was open on a version of the editor from before the database has its project in session storage. It is moved into the database once, at startup, and becomes that tab's current project.
+
+### Importing files
+
+A hex file is always a whole program. Other files are added to the open project from the editor, and make a new project from the pages. [project-import.tsx](../src/project/project-import.tsx) handles both.
+
+"Editor" below is the Files tab's Add files button or a drop on the editor.
+
+| Input                        | Iframe, editor                             | No IndexedDB, editor | Database, editor                                            | Database, home or projects page                             |
+| ---------------------------- | ------------------------------------------ | -------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
+| One hex                      | Replaces the project; asks first if edited | Same                 | New project named after the file; the editor switches to it | New project; the editor opens on it                         |
+| Hex with other files         | Error                                      | Same                 | Same                                                        | Same                                                        |
+| `.mpy`                       | Error                                      | Same                 | Same                                                        | Same                                                        |
+| One `.py` script             | Added under its own name                   | Same                 | Same                                                        | New project named after the script, which becomes `main.py` |
+| `main.py`                    | Replaces `main.py`; asks first             | Same                 | Same                                                        | New untitled project with that `main.py`                    |
+| Several files, or a module   | Added; asks before overwriting any         | Same                 | Same                                                        | New untitled project; starter `main.py` added if none       |
+| Idea from the Ideas tab      | Replaces the project; asks first if edited | Same                 | New project named after the idea                            | n/a                                                         |
+| `#project:` link at startup  | Ignored; the host owns the project         | Replaces the project | New project                                                 | n/a                                                         |
+| Host `importproject` message | Replaces the project                       | n/a                  | n/a                                                         | n/a                                                         |
+
+### Design decisions
+
+Some choices that are not obvious from the code:
+
+- **The editor opens straight to code.** `/project` in a new tab opens the most recent project rather than asking the user to pick one. The editor has always been quick to get into, and some users bookmark it.
+- **No project id in the URL.** The tab's project is kept in session storage instead. This may be revisited if projects are ever stored on a server.
+- **Each deployment has its own database.** The database name includes the base path, so deployments that share an origin, such as production and beta, keep separate projects.
+- **No warning before closing a tab.** The editor used to warn when a tab was closed with changes made since the last hex file was loaded or saved, because closing the tab lost them. With the database every edit is already stored, so there is nothing to warn about unless a save has failed. The warning remains where there is no database.
+- **Imports never overwrite silently.** With the database, a hex or an idea makes a new project rather than replacing the open one. Without it there is only one project, so the editor asks before replacing one that has been edited: in micro:bit classroom a student's dropped hex would otherwise replace the teacher's starter program without a word. Adding files that would overwrite existing ones asks first in every mode.
+- **A project changed in another tab is reloaded, not merged.** The last write wins.
+
+Known limits:
+
+- An edit may still be lost if the page unloads in the few milliseconds that an ordinary flush is mid-transaction.
+- Switching project waits for MicroPython if it is still loading, which is only noticeable on a slow first visit.
+- Browsers can evict stored data, for example when the device is short of space. Safari removes it for a site that has not been visited in seven days of browser use.
 
 ## Connecting to the micro:bit via WebUSB, flashing and hex files
 

@@ -47,38 +47,8 @@
   "back-action": {
     "defaultMessage": "뒤로"
   },
-  "back-to-main": {
-    "defaultMessage": "메인 코드로 돌아가기"
-  },
   "cancel-action": {
     "defaultMessage": "취소"
-  },
-  "change-files": {
-    "defaultMessage": "파일을 변경하시겠습니까?"
-  },
-  "choose-main-add-file": {
-    "defaultMessage": "{name} 파일 추가"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "{name} 모듈 추가"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "{name} 파일 교체"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "{name} 모듈 교체"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "{source}에서 {target} 파일 추가"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "{source}에서 메인 코드 추가"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "{target} 파일을 {source}(으)로 교체"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "메인 코드를 {source}(으)로 교체"
   },
   "clear": {
     "defaultMessage": "지우기"
@@ -100,9 +70,6 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "모든 파일을 hex 내 파일로 교체하시겠습니까?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "모든 파일을 기본 스타터 코드로 교체하시겠습니까?"
   },
   "confirm-replace-title": {
     "defaultMessage": "프로젝트 교체 확인"
@@ -199,9 +166,6 @@
   },
   "edit-name-project-hover": {
     "defaultMessage": "프로젝트의 이름을 편집합니다"
-  },
-  "edit-project-name-action": {
-    "defaultMessage": "프로젝트 이름 편집"
   },
   "failed-to-build-hex": {
     "defaultMessage": "hex 파일 빌딩 실패"
@@ -389,17 +353,8 @@
   "open-action": {
     "defaultMessage": "열기"
   },
-  "open-file-action": {
-    "defaultMessage": "열기…"
-  },
   "open-file-dropped": {
     "defaultMessage": "드롭될 때 파일 열기"
-  },
-  "open-hover": {
-    "defaultMessage": "Hex 또는 Python 파일을 열거나 다른 파일을 추가하세요"
-  },
-  "options": {
-    "defaultMessage": "옵션"
   },
   "parameter-help": {
     "defaultMessage": "매개변수 도움말"
@@ -437,17 +392,8 @@
   "project-header": {
     "defaultMessage": "프로젝트 머리글"
   },
-  "project-name": {
-    "defaultMessage": "프로젝트 이름"
-  },
   "project-name-not-empty": {
     "defaultMessage": "프로젝트 이름을 입력해야 합니다"
-  },
-  "project-tab": {
-    "defaultMessage": "프로젝트"
-  },
-  "project-tab-description": {
-    "defaultMessage": "프로젝트에서 파일을 확인하고, 생성하고, 추가하고 편집할 수 있습니다"
   },
   "python-powered": {
     "defaultMessage": "Python powered"
@@ -472,15 +418,6 @@
   },
   "replace-action-label": {
     "defaultMessage": "교체"
-  },
-  "reset-project-action": {
-    "defaultMessage": "프로젝트 초기화"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "프로젝트를 기본 스타터 코드로 초기화합니다."
-  },
-  "reset-project-hover": {
-    "defaultMessage": "프로젝트를 기본 스타터 코드로 초기화하고 작업한 내용을 삭제합니다"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {결과 없음} one {#개의 결과} other {#개의 결과}}"

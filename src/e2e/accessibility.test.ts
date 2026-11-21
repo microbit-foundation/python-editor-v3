@@ -83,7 +83,7 @@ test.describe("accessibility scans", () => {
   });
 
   test("create file dialog", async ({ app }) => {
-    await app.switchTab("Project");
+    await app.switchTab("Files");
     await app.page.getByRole("button", { name: "Create file" }).click();
     const name = app.page.getByLabel("Name*");
     await name.waitFor();
@@ -94,8 +94,14 @@ test.describe("accessibility scans", () => {
   });
 
   test("file actions menu", async ({ app }) => {
-    await app.switchTab("Project");
+    await app.switchTab("Files");
     await app.projectTab.openFileActionsMenu("main.py");
+    await app.expectNoNewAccessibilityViolations();
+  });
+
+  test("breadcrumb file menu", async ({ app }) => {
+    await app.page.getByRole("button", { name: /choose a file/ }).click();
+    await app.page.getByRole("menuitemradio").first().waitFor();
     await app.expectNoNewAccessibilityViolations();
   });
 

@@ -7,6 +7,7 @@ import {
   getIntelHexAppendedScript,
   microbitBoardId,
   MicropythonFsHex,
+  IntelHexWithId,
 } from "@microbit/microbit-fs";
 import { fromByteArray, toByteArray } from "base64-js";
 import { sortBy } from "../common/sort-util";
@@ -14,13 +15,16 @@ import { lineNumFromUint8Array } from "../common/text-util";
 import { FlashDataError, BoardVersion } from "@microbit/microbit-connection";
 import { Logging } from "../logging/logging";
 import { MicroPythonSource } from "../micropython/micropython";
-import { extractModuleData, generateId } from "./fs-util";
+import { extractModuleData, generateId, MAIN_FILE } from "./fs-util";
 import { Host } from "./host";
-import { PythonProject } from "./initial-project";
+import { defaultInitialProject, PythonProject } from "./initial-project";
 import { FSStorage } from "./storage";
 import { TypedEventTarget } from "../common/events";
 
 const commonFsSize = 20 * 1024;
+
+const bytesEqual = (a: Uint8Array, b: Uint8Array): boolean =>
+  a.length === b.length && a.every((byte, i) => byte === b[i]);
 
 export interface FileVersion {
   name: string;
@@ -151,7 +155,7 @@ class EventMap {
   "file_text_updated": TextEditEvent;
 }
 
-export const MAIN_FILE = "main.py";
+export { MAIN_FILE };
 
 export const isNameLengthValid = (filename: string): boolean =>
   // This length is enforced by the underlying FS so we check it in the UI ahead of time.
@@ -160,8 +164,9 @@ export const isNameLengthValid = (filename: string): boolean =>
 /**
  * The MicroPython file system adapted for convienient use from the UI.
  *
- * For now we store contents backed by session storage so they're only
- * persistent over a browser refresh or Chrome tab restore.
+ * Contents are held in memory and mirrored to the host's persistent storage:
+ * the current project in the IndexedDB projects database, or session storage where
+ * that is unavailable.
  *
  * We version files in a way that's designed to make UI updates simple.
  * If a UI action updates a file (e.g. load from disk) then we bump its version.
@@ -209,14 +214,15 @@ export class FileSystem extends TypedEventTarget<EventMap> {
   async initializeInBackground() {
     // It's been observed that this can be slow after the fetch on low-end devices,
     // so it might be good to move the FS work to a worker if we can't make it fast.
-    this.initialize().catch((_) => {
-      this.initializing = undefined;
+    this.initialize().catch(() => {
+      // Whatever next needs the file system tries again.
     });
   }
 
   /**
-   * We remember this so we can tell whether the user has edited
-   * the project since for stats generation.
+   * The project the host supplied, if it initialized one this session, so
+   * stats can tell whether the user has edited it. Projects from the
+   * projects database never come this way.
    */
   private cachedInitialProject: PythonProject | undefined;
 
@@ -226,31 +232,86 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     }
     if (!this.initializing) {
       this.initializing = (async () => {
-        this._dirty = await this.storage.isDirty();
-        if (await this.host.shouldReinitializeProject(this.storage)) {
-          // Do this ASAP to unblock the editor.
-          this.cachedInitialProject = await this.host.createInitialProject();
-          if (this.cachedInitialProject.projectName) {
-            await this.setProjectName(this.cachedInitialProject.projectName);
+        try {
+          this._dirty = await this.storage.isDirty();
+          if (await this.host.shouldReinitializeProject(this.storage)) {
+            // Do this ASAP to unblock the editor.
+            this.cachedInitialProject = await this.host.createInitialProject();
+            if (this.cachedInitialProject.projectName) {
+              await this.setProjectName(this.cachedInitialProject.projectName);
+            }
+            for (const key in this.cachedInitialProject.files) {
+              const content = toByteArray(this.cachedInitialProject.files[key]);
+              await this.write(key, content, VersionAction.INCREMENT);
+            }
+            this.host.notifyReady(this);
+          } else {
+            await this.notify();
           }
-          for (const key in this.cachedInitialProject.files) {
-            const content = toByteArray(this.cachedInitialProject.files[key]);
-            await this.write(key, content, VersionAction.INCREMENT);
-          }
-          this.host.notifyReady(this);
-        } else {
-          await this.notify();
-        }
 
-        const fs = await this.createInternalFileSystem();
-        await this.initializeFsFromStorage(fs);
-        this.fs = fs;
-        this.initializing = undefined;
+          const fs = await this.createInternalFileSystem();
+          await this.initializeFsFromStorage(fs);
+          this.fs = fs;
+        } finally {
+          // On failure too, or every later call would be handed this
+          // attempt's failure rather than trying again, for instance once
+          // the network is back.
+          this.initializing = undefined;
+        }
         await this.notify();
       })();
     }
     await this.initializing;
     return this.fs!;
+  }
+
+  /**
+   * Switch to a different backing storage, typically another project.
+   *
+   * The new storage is the record from here on: reads, writes and the hex
+   * file system all reflect it. Versions of files present in the new storage
+   * are bumped so editors showing a same-named file reload it.
+   */
+  async switchStorage(storage: FSStorage): Promise<void> {
+    // A failed initialisation is retried later, from the new storage.
+    await this.initializing?.catch(() => undefined);
+    this.project = { ...this.project, id: generateId() };
+    return this.adoptStorage(storage, await storage.ls());
+  }
+
+  /**
+   * Switch to storage holding a later copy of the open project, such as
+   * another tab has saved. Unlike switchStorage the project keeps its id and
+   * only files whose content differs are bumped, so the selected file and
+   * editors showing other files are left alone.
+   */
+  async reloadStorage(storage: FSStorage): Promise<void> {
+    await this.initializing?.catch(() => undefined);
+    const changed: string[] = [];
+    for (const name of await storage.ls()) {
+      const before = (await this.storage.exists(name))
+        ? await this.storage.read(name)
+        : undefined;
+      if (!before || !bytesEqual(before, await storage.read(name))) {
+        changed.push(name);
+      }
+    }
+    return this.adoptStorage(storage, changed);
+  }
+
+  private async adoptStorage(
+    storage: FSStorage,
+    changed: string[]
+  ): Promise<void> {
+    this.storage = storage;
+    this._dirty = await storage.isDirty();
+    if (this.fs) {
+      await this.initializeFsFromStorage(this.fs);
+    }
+    for (const name of changed) {
+      this.incrementFileVersion(name);
+    }
+    return this.notify();
   }
 
   /**
@@ -354,34 +415,50 @@ export class FileSystem extends TypedEventTarget<EventMap> {
   }
 
   async replaceWithMultipleFiles(project: PythonProject): Promise<void> {
-    const fs = await this.initialize();
-    fs.ls().forEach((f) => fs.remove(f));
-    for (const key in project.files) {
-      const content = toByteArray(project.files[key]);
-      fs.write(key, content);
-    }
-    await this.replaceCommon(project.projectName);
+    const files = Object.fromEntries(
+      Object.entries(project.files).map(([name, base64]) => [
+        name,
+        toByteArray(base64),
+      ])
+    );
+    await this.replaceWithFiles(project.projectName, files);
   }
 
-  async replaceWithHexContents(
-    projectName: string,
-    hex: string
+  /**
+   * Replace the project's files and name. For the single implicit project
+   * of the iframe and session-storage cases; with the projects database an
+   * import becomes a new project instead.
+   */
+  async replaceWithFiles(
+    projectName: string | undefined,
+    files: Record<string, Uint8Array>
   ): Promise<void> {
     const fs = await this.initialize();
+    fs.ls().forEach((f) => fs.remove(f));
+    for (const [name, content] of Object.entries(files)) {
+      fs.write(name, content);
+    }
+    await this.replaceCommon(projectName);
+  }
+
+  /**
+   * The files in a hex saved by the editor, or the script appended to a hex
+   * by older editors as main.py. Throws if there is neither.
+   *
+   * Uses a separate file system so the open project is untouched.
+   */
+  async filesFromHex(hex: string): Promise<Record<string, Uint8Array>> {
+    const fs = await this.createInternalFileSystem();
     try {
-      fs.importFilesFromHex(hex, {
-        overwrite: true,
-        formatFirst: true,
-      });
+      fs.importFilesFromHex(hex, { overwrite: true, formatFirst: true });
     } catch {
       const code = getIntelHexAppendedScript(hex);
       if (!code) {
         throw new Error("No appended code found in the hex file");
       }
-      fs.ls().forEach((f) => fs.remove(f));
-      fs.write(MAIN_FILE, code);
+      return { [MAIN_FILE]: new TextEncoder().encode(code) };
     }
-    await this.replaceCommon(projectName);
+    return Object.fromEntries(fs.ls().map((f) => [f, fs.readBytes(f)]));
   }
 
   async replaceCommon(projectName?: string): Promise<void> {
@@ -419,8 +496,9 @@ export class FileSystem extends TypedEventTarget<EventMap> {
       storageUsed: fs.getStorageUsed(),
       lines: lineNumFromUint8Array(currentMainFile),
       defaultMain:
-        this.cachedInitialProject?.files[MAIN_FILE] ===
-        fromByteArray(currentMainFile),
+        (this.cachedInitialProject ?? defaultInitialProject).files[
+          MAIN_FILE
+        ] === fromByteArray(currentMainFile),
       magicModules: numMagicModules,
     };
   }
@@ -507,9 +585,16 @@ export class FileSystem extends TypedEventTarget<EventMap> {
     }
   }
 
+  private microPython: Promise<IntelHexWithId[]> | undefined;
+
   private createInternalFileSystem = async () => {
-    const microPython = await this.microPythonSource();
-    return new MicropythonFsHex(microPython, {
+    // Fetched once for the open project and any hex imports; a failed fetch
+    // is forgotten so the next attempt retries it.
+    this.microPython ??= this.microPythonSource().catch((e) => {
+      this.microPython = undefined;
+      throw e;
+    });
+    return new MicropythonFsHex(await this.microPython, {
       maxFsSize: commonFsSize,
     });
   };

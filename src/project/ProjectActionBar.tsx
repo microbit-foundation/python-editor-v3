@@ -6,10 +6,9 @@
 import { useMediaQuery } from "@microbit/ui";
 import SendButton from "./SendButton";
 import SaveMenuButton from "./SaveMenuButton";
-import OpenButton from "./OpenButton";
 import { widthXl } from "../common/media-queries";
 import React from "react";
-import { HStack, styled } from "styled-system/jsx";
+import { styled } from "styled-system/jsx";
 import { SystemStyleObject } from "styled-system/types";
 
 interface ProjectActionBarProps {
@@ -38,11 +37,7 @@ const ProjectActionBar = ({
       css={cssProp}
     >
       <SendButton size={size} ref={ref} sendButtonRef={sendButtonRef} />
-      <HStack gap="2.5">
-        <SaveMenuButton size={size} />
-        {/* Min-width to avoid collapsing when out of space. Needs some work on responsiveness of the action bar. */}
-        <OpenButton mode="button" size={size} css={{ minW: "fit-content" }} />
-      </HStack>
+      <SaveMenuButton size={size} />
     </styled.section>
   );
 };

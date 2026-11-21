@@ -5,13 +5,14 @@
 import { fromByteArray } from "base64-js";
 import { MAIN_FILE } from "./fs";
 import { DefaultHost } from "./host";
+import { PendingProjectLink } from "./project-link";
 import { defaultInitialProject } from "./initial-project";
-import { testMigrationUrl } from "./migration-test-data";
+import { testProjectLink } from "./project-link-test-data";
 
 describe("DefaultHost", () => {
-  it("uses migration if available", async () => {
+  it("uses the project link if there is one", async () => {
     const project = await new DefaultHost(
-      testMigrationUrl
+      new PendingProjectLink(testProjectLink)
     ).createInitialProject();
     expect(project).toEqual({
       files: {
@@ -25,7 +26,7 @@ describe("DefaultHost", () => {
     });
   });
   it("otherwise uses defaults", async () => {
-    const project = await new DefaultHost("").createInitialProject();
+    const project = await new DefaultHost().createInitialProject();
     expect(project).toEqual(defaultInitialProject);
   });
 });

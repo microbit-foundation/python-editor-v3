@@ -47,38 +47,8 @@
   "back-action": {
     "defaultMessage": "Précédent"
   },
-  "back-to-main": {
-    "defaultMessage": "revenir au code principal"
-  },
   "cancel-action": {
     "defaultMessage": "Annuler"
-  },
-  "change-files": {
-    "defaultMessage": "Changer de fichiers ?"
-  },
-  "choose-main-add-file": {
-    "defaultMessage": "Ajouter le fichier {name}"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "Ajouter le module {name}"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "Remplacer le fichier {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "Remplacer le module {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "Ajouter le fichier {target} depuis {source}"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "Ajouter le code principal depuis {source}"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "Remplacer le fichier {target} par {source}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "Remplacer le code principal par {source}"
   },
   "clear": {
     "defaultMessage": "Effacer"
@@ -100,9 +70,6 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "Remplacer tous les fichiers par ceux de l’hex ?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "Remplacer tous les fichiers avec le code de départ par défaut ?"
   },
   "confirm-replace-title": {
     "defaultMessage": "Confirmer le remplacement du projet"
@@ -202,9 +169,6 @@
   },
   "edit-name-project-hover": {
     "defaultMessage": "Modifier le nom de votre projet"
-  },
-  "edit-project-name-action": {
-    "defaultMessage": "Modifier le nom du projet"
   },
   "failed-to-build-hex": {
     "defaultMessage": "Impossible de créer le fichier hex"
@@ -392,17 +356,8 @@
   "open-action": {
     "defaultMessage": "Ouvrir"
   },
-  "open-file-action": {
-    "defaultMessage": "Ouvrir…"
-  },
   "open-file-dropped": {
     "defaultMessage": "Ouvrir le fichier lorsqu’il est déposé"
-  },
-  "open-hover": {
-    "defaultMessage": "Ouvrir un fichier hex ou Python, ou ajouter d'autres fichiers"
-  },
-  "options": {
-    "defaultMessage": "Options"
   },
   "parameter-help": {
     "defaultMessage": "Aide aux paramètres"
@@ -446,17 +401,8 @@
   "project-header": {
     "defaultMessage": "En-tête de projet"
   },
-  "project-name": {
-    "defaultMessage": "Intitulé du projet"
-  },
   "project-name-not-empty": {
     "defaultMessage": "Le nom du projet ne peut pas être vide"
-  },
-  "project-tab": {
-    "defaultMessage": "Projet"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Visualiser, créer, ajouter et modifier les fichiers de votre projet"
   },
   "python-powered": {
     "defaultMessage": "Fonctionne avec Python"
@@ -481,15 +427,6 @@
   },
   "replace-action-label": {
     "defaultMessage": "Remplacer"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Réinitialiser le projet"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Le projet a été réinitialisé au code de départ par défaut"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Réinitialise le projet au code de départ par défaut, supprimant ainsi votre travail"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}"

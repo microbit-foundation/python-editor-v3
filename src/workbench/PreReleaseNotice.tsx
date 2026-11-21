@@ -5,10 +5,10 @@
  */
 import { Button, darkSurface, Text } from "@microbit/ui";
 import { useCallback, useEffect, useState } from "react";
-import { RiFeedbackFill, RiInformationFill } from "react-icons/ri";
+import { RiFeedbackFill } from "react-icons/ri";
 import { HStack, styled } from "styled-system/jsx";
 import { useStorage } from "../common/use-storage";
-import { useCookieConsent, useDeployment } from "../deployment";
+import { useCookieConsent } from "../deployment";
 import { flags } from "../flags";
 
 export type ReleaseNoticeState = "info" | "feedback" | "closed";
@@ -56,10 +56,6 @@ export const useReleaseDialogState = (): [
 };
 
 const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
-  const { welcomeVideoYouTubeId: hasInfoDialog } = useDeployment();
-  const openInfoDialog = useCallback(() => {
-    onDialogChange("info");
-  }, [onDialogChange]);
   const openFeedbackDialog = useCallback(() => {
     onDialogChange("feedback");
   }, [onDialogChange]);
@@ -80,17 +76,6 @@ const PreReleaseNotice = ({ onDialogChange }: PreReleaseNoticeProps) => {
         Beta release
       </Text>
       <HStack>
-        {hasInfoDialog && (
-          <Button
-            startIcon={<RiInformationFill />}
-            variant="link"
-            size="xs"
-            css={{ color: "white", p: "1", fontWeight: "semibold" }}
-            onPress={openInfoDialog}
-          >
-            More
-          </Button>
-        )}
         <Button
           startIcon={<RiFeedbackFill />}
           variant="link"

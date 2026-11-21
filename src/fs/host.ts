@@ -11,13 +11,8 @@ import {
   PythonProject,
   projectFilesToBase64,
 } from "./initial-project";
-import { parseMigrationFromUrl } from "./migration";
-import {
-  FSStorage,
-  InMemoryFSStorage,
-  SessionStorageFSStorage,
-  SplitStrategyStorage,
-} from "./storage";
+import { PendingProjectLink } from "./project-link";
+import { DeferredFSStorage, FSStorage, InMemoryFSStorage } from "./storage";
 
 const messages = {
   type: "pyeditor",
@@ -37,38 +32,44 @@ export interface Host {
 }
 
 export class DefaultHost implements Host {
-  constructor(private url: string = "") {}
+  /**
+   * @param projectLink The #project: link at boot, if the projects session
+   * has not already made a project of it.
+   * @param projectStorage The project's storage, once one is opened. Until
+   * then the file system waits. Without one the project stays in memory.
+   */
+  constructor(
+    private projectLink: PendingProjectLink = new PendingProjectLink(),
+    private projectStorage?: Promise<FSStorage>
+  ) {}
 
-  createStorage(logging: Logging): FSStorage {
-    return new SplitStrategyStorage(
-      new InMemoryFSStorage(undefined),
-      SessionStorageFSStorage.create(),
-      logging
-    );
+  createStorage(_logging: Logging): FSStorage {
+    return this.projectStorage
+      ? new DeferredFSStorage(this.projectStorage)
+      : new InMemoryFSStorage(undefined);
   }
 
   async shouldReinitializeProject(storage: FSStorage): Promise<boolean> {
-    const migration = parseMigrationFromUrl(this.url);
-    if (migration) {
-      return true;
-    }
-    return !(await storage.exists(MAIN_FILE));
+    // Waits for the project's storage, by which time the projects session
+    // has taken a #project: link if it is going to.
+    const hasMain = await storage.exists(MAIN_FILE);
+    return this.projectLink.pending || !hasMain;
   }
 
   async createInitialProject(): Promise<PythonProject> {
-    const migrationParseResult = parseMigrationFromUrl(this.url);
-    if (migrationParseResult) {
-      const { migration, postMigrationUrl } = migrationParseResult;
-      const project = {
+    const link = this.projectLink.take();
+    if (link) {
+      // The path may have changed since boot (the root redirects to the
+      // editor), so strip the hash from the current URL rather than using
+      // the parsed one.
+      const { pathname, search } = window.location;
+      window.history.replaceState(null, "", pathname + search);
+      return {
         files: projectFilesToBase64({
-          [MAIN_FILE]: migration.source,
+          [MAIN_FILE]: link.source,
         }),
-        projectName: migration.meta.name,
+        projectName: link.meta.name,
       };
-      // Remove the migration information from the URL so that a refresh
-      // will reload from storage not remigrate.
-      window.history.replaceState(null, "", postMigrationUrl);
-      return project;
     }
     return defaultInitialProject;
   }
@@ -147,12 +148,16 @@ export class IframeHost implements Host {
   }
 }
 
-export const createHost = (logging: Logging): Host => {
+export const createHost = (
+  logging: Logging,
+  projectLink: PendingProjectLink,
+  projectStorage: Promise<FSStorage>
+): Host => {
   const iframeHost = getControllerHost(logging);
   if (iframeHost) {
     return new IframeHost(iframeHost, window);
   }
-  return new DefaultHost(window.location.href);
+  return new DefaultHost(projectLink, projectStorage);
 };
 
 const getControllerHost = (logging: Logging): Window | undefined => {
