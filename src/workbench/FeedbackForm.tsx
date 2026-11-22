@@ -60,6 +60,9 @@ const FeedbackForm = ({
           height="620px"
           width="100%"
           scrolling="no"
+          // The form's controls show focus themselves. Firefox also rings
+          // the frame when the tab regains focus with a control focused.
+          style={{ outline: "none" }}
         />
       </ModalBody>
     </Modal>
