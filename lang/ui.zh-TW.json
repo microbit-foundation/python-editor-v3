@@ -20,6 +20,9 @@
   "accessibility": {
     "defaultMessage": "無障礙設定"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "無障礙設定"
+  },
   "added-change": {
     "defaultMessage": "已新增檔案 {changeName}"
   },
@@ -46,6 +49,9 @@
   },
   "back-action": {
     "defaultMessage": "返回"
+  },
+  "breadcrumb-label": {
+    "defaultMessage": "巡覽路徑"
   },
   "cancel-action": {
     "defaultMessage": "取消"
@@ -134,6 +140,9 @@
   "create-file-action": {
     "defaultMessage": "建立檔案"
   },
+  "create-project-action": {
+    "defaultMessage": "創造"
+  },
   "create-python": {
     "defaultMessage": "在本專案中建立新的 Python 檔案"
   },
@@ -197,6 +206,9 @@
   "file-name-whitespace": {
     "defaultMessage": "名稱不能包含空格"
   },
+  "files-tab": {
+    "defaultMessage": "檔案"
+  },
   "firmware-update-link": {
     "defaultMessage": "在連線至 micro:bit 前，您必須<link>更新您的韌體</link>。"
   },
@@ -230,6 +242,9 @@
   "help": {
     "defaultMessage": "幫助"
   },
+  "help-resources-row-title": {
+    "defaultMessage": "幫助"
+  },
   "help-support": {
     "defaultMessage": "說明與支援"
   },
@@ -245,11 +260,41 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "簡單"
   },
+  "home-action": {
+    "defaultMessage": "主頁"
+  },
+  "idea-activity-picker-title": {
+    "defaultMessage": "活動選擇器"
+  },
+  "idea-clap-lights-title": {
+    "defaultMessage": "拍手聲控燈"
+  },
+  "idea-dice-title": {
+    "defaultMessage": "骰子"
+  },
+  "idea-emotion-badge-title": {
+    "defaultMessage": "情感徽章"
+  },
+  "idea-frere-jacques-title": {
+    "defaultMessage": "賈克修士"
+  },
+  "idea-send-a-smile-title": {
+    "defaultMessage": "發送笑臉"
+  },
+  "ideas-moving-why-heading": {
+    "defaultMessage": "為什麼呢？"
+  },
+  "ideas-row-title": {
+    "defaultMessage": "靈感"
+  },
   "ideas-tab": {
     "defaultMessage": "靈感"
   },
   "ideas-tab-description": {
     "defaultMessage": "嘗試這些專案，進行修改並獲得靈感"
+  },
+  "import-file-action": {
+    "defaultMessage": "匯入"
   },
   "insert-code-action": {
     "defaultMessage": "插入程式碼"
@@ -257,17 +302,26 @@
   "language": {
     "defaultMessage": "語言"
   },
+  "learn-more-action": {
+    "defaultMessage": "瞭解詳情"
+  },
   "less-action": {
     "defaultMessage": "查看較少"
+  },
+  "level-advanced": {
+    "defaultMessage": "進階"
+  },
+  "level-beginner": {
+    "defaultMessage": "初學者"
+  },
+  "level-intermediate": {
+    "defaultMessage": "中等級數"
   },
   "load-error-makecode-info": {
     "defaultMessage": "此 HEX 檔案無法在 Python 編輯器中載入。Python 編輯器無法開啟使用 Microsoft MakeCode 建立的 HEX 檔案。"
   },
   "load-error-makecode-link": {
     "defaultMessage": "請造訪 <link>https://makecode.microbit.org/</link>，以使用此 HEX 檔案。"
-  },
-  "load-error-mixed": {
-    "defaultMessage": "HEX 檔案只能單獨載入，它能取代專案中的所有檔案。"
   },
   "load-error-mpy": {
     "defaultMessage": "這個版本的 Python 編輯器還不支援添加 .mpy 檔案。"
@@ -280,6 +334,45 @@
   },
   "loading": {
     "defaultMessage": "正在載入..."
+  },
+  "mici-project-indoor-outdoor-thermometer-description": {
+    "defaultMessage": "感測外面的溫度"
+  },
+  "mici-project-indoor-outdoor-thermometer-title": {
+    "defaultMessage": "室內-室外溫度計"
+  },
+  "mici-project-maxmin-temperature-logger-description": {
+    "defaultMessage": "儲存溫度讀數"
+  },
+  "mici-project-maxmin-temperature-logger-title": {
+    "defaultMessage": "最高-最低溫度記錄器"
+  },
+  "mici-project-sensitive-step-counter-description": {
+    "defaultMessage": "使用micro:bit製作自己的計步器"
+  },
+  "mici-project-sensitive-step-counter-title": {
+    "defaultMessage": "靈敏步數計數器"
+  },
+  "mici-project-teleporting-duck-description": {
+    "defaultMessage": "使用廣播將鴨子在micro:bits之間傳送"
+  },
+  "mici-project-teleporting-duck-title": {
+    "defaultMessage": "隱形鴨"
+  },
+  "mici-project-thermometer-description": {
+    "defaultMessage": "用您的micro:bit製作一個簡單的溫度計"
+  },
+  "mici-project-thermometer-title": {
+    "defaultMessage": "溫度計"
+  },
+  "mici-project-treasure-hunt-description": {
+    "defaultMessage": "多人無線電尋寶遊戲"
+  },
+  "mici-project-treasure-hunt-title": {
+    "defaultMessage": "尋寶遊戲"
+  },
+  "microbit-classroom-resource-title": {
+    "defaultMessage": "micro:bit 教室"
   },
   "microbit-hearts-alt": {
     "defaultMessage": "用 5 x 5 LED 網格的 micro:bit 開發板顯示一個心形"
@@ -314,6 +407,9 @@
   "multiple-files-title": {
     "defaultMessage": "警告：只下載了 main.py"
   },
+  "my-projects-row-title": {
+    "defaultMessage": "我的專案"
+  },
   "name-project": {
     "defaultMessage": "為您的專案命名"
   },
@@ -326,8 +422,14 @@
   "new-file-hint": {
     "defaultMessage": "我們將為您新增 <code>.py</code> 副檔名。"
   },
+  "new-project-action": {
+    "defaultMessage": "新專案"
+  },
   "next-action": {
     "defaultMessage": "下一個"
+  },
+  "no-projects": {
+    "defaultMessage": "沒有可顯示的專案"
   },
   "not-found-checklist-one": {
     "defaultMessage": "您的 <strong>micro:bit 是否已插入</strong>？您是否<link>遵循這些步驟</link>？"
@@ -395,6 +497,9 @@
   "project-name-not-empty": {
     "defaultMessage": "專案名稱不可為空白"
   },
+  "project-storage-tooltip": {
+    "defaultMessage": "您的資料會儲存在此裝置上的瀏覽器中。清除瀏覽器的 Cookie 或網站資料將會刪除這些資料。若您的裝置儲存空間不足，瀏覽器也可能會自動將其移除。"
+  },
   "python-powered": {
     "defaultMessage": "已啟動 Python"
   },
@@ -418,6 +523,9 @@
   },
   "replace-action-label": {
     "defaultMessage": "取代"
+  },
+  "resource-type-unit-of-work": {
+    "defaultMessage": "工作單位"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {沒有結果} one {# 個結果} other {# 個結果}}"
@@ -731,6 +839,9 @@
   "support": {
     "defaultMessage": "支援"
   },
+  "teacher-resources-row-title": {
+    "defaultMessage": "教師資源"
+  },
   "terms-of-use": {
     "defaultMessage": "網站使用條款"
   },
@@ -781,6 +892,9 @@
   },
   "user-guide": {
     "defaultMessage": "用戶指南 "
+  },
+  "view-all-projects": {
+    "defaultMessage": "檢視全部"
   },
   "visit-dot-org": {
     "defaultMessage": "造訪 microbit.org (在新索引標籤中開啟)"

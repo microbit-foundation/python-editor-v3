@@ -20,8 +20,23 @@
   "accessibility": {
     "defaultMessage": "crwdns364038:0crwdne364038:0"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "crwdns372308:0crwdne372308:0"
+  },
+  "add-files-action": {
+    "defaultMessage": "crwdns372310:0crwdne372310:0"
+  },
+  "add-files-hover": {
+    "defaultMessage": "crwdns372312:0crwdne372312:0"
+  },
+  "add-files-hover-replace": {
+    "defaultMessage": "crwdns372314:0crwdne372314:0"
+  },
   "added-change": {
     "defaultMessage": "crwdns331368:0{changeName}crwdne331368:0"
+  },
+  "all-projects-action": {
+    "defaultMessage": "crwdns372316:0crwdne372316:0"
   },
   "api-description": {
     "defaultMessage": "crwdns331370:0crwdne331370:0"
@@ -44,11 +59,23 @@
   "apidocs-methods": {
     "defaultMessage": "crwdns331382:0crwdne331382:0"
   },
+  "app-title": {
+    "defaultMessage": "crwdns372318:0crwdne372318:0"
+  },
   "back-action": {
     "defaultMessage": "crwdns331384:0crwdne331384:0"
   },
+  "breadcrumb-label": {
+    "defaultMessage": "crwdns372320:0crwdne372320:0"
+  },
   "cancel-action": {
     "defaultMessage": "crwdns331388:0crwdne331388:0"
+  },
+  "choose-file-menu": {
+    "defaultMessage": "crwdns372322:0{filename}crwdne372322:0"
+  },
+  "choose-file-tooltip": {
+    "defaultMessage": "crwdns372324:0crwdne372324:0"
   },
   "clear": {
     "defaultMessage": "crwdns331408:0crwdne331408:0"
@@ -70,6 +97,12 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "crwdns331420:0crwdne331420:0"
+  },
+  "confirm-replace-files-body": {
+    "defaultMessage": "crwdns372326:0count={count}crwdnd372326:0names={names}crwdnd372326:0names={names}crwdne372326:0"
+  },
+  "confirm-replace-files-title": {
+    "defaultMessage": "crwdns372328:0crwdne372328:0"
   },
   "confirm-replace-title": {
     "defaultMessage": "crwdns331424:0crwdne331424:0"
@@ -137,6 +170,9 @@
   "create-file-action": {
     "defaultMessage": "crwdns331462:0crwdne331462:0"
   },
+  "create-project-action": {
+    "defaultMessage": "crwdns372330:0crwdne372330:0"
+  },
   "create-python": {
     "defaultMessage": "crwdns331464:0crwdne331464:0"
   },
@@ -170,6 +206,12 @@
   "edit-name-project-hover": {
     "defaultMessage": "crwdns331484:0crwdne331484:0"
   },
+  "edit-project-name-crumb": {
+    "defaultMessage": "crwdns372332:0{name}crwdne372332:0"
+  },
+  "editor-title": {
+    "defaultMessage": "crwdns372334:0{projectName}crwdne372334:0"
+  },
   "failed-to-build-hex": {
     "defaultMessage": "crwdns331488:0crwdne331488:0"
   },
@@ -200,6 +242,12 @@
   "file-name-whitespace": {
     "defaultMessage": "crwdns331506:0crwdne331506:0"
   },
+  "files-tab": {
+    "defaultMessage": "crwdns372336:0crwdne372336:0"
+  },
+  "files-tab-description": {
+    "defaultMessage": "crwdns372338:0crwdne372338:0"
+  },
   "firmware-update-link": {
     "defaultMessage": "crwdns331508:0crwdne331508:0"
   },
@@ -208,6 +256,12 @@
   },
   "firmware-update-title": {
     "defaultMessage": "crwdns331512:0crwdne331512:0"
+  },
+  "first-lessons-with-python-resource-description": {
+    "defaultMessage": "crwdns372340:0crwdne372340:0"
+  },
+  "first-lessons-with-python-resource-title": {
+    "defaultMessage": "crwdns372342:0crwdne372342:0"
   },
   "flash-action": {
     "defaultMessage": "crwdns331514:0crwdne331514:0"
@@ -227,11 +281,17 @@
   "font-size": {
     "defaultMessage": "crwdns331524:0crwdne331524:0"
   },
+  "get-started-action": {
+    "defaultMessage": "crwdns372344:0crwdne372344:0"
+  },
   "guide-link": {
     "defaultMessage": "crwdns331526:0crwdne331526:0"
   },
   "help": {
     "defaultMessage": "crwdns331528:0crwdne331528:0"
+  },
+  "help-resources-row-title": {
+    "defaultMessage": "crwdns372346:0crwdne372346:0"
   },
   "help-support": {
     "defaultMessage": "crwdns331530:0crwdne331530:0"
@@ -248,20 +308,107 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "crwdns331540:0crwdne331540:0"
   },
+  "home-action": {
+    "defaultMessage": "crwdns372348:0crwdne372348:0"
+  },
+  "home-page-tooltip": {
+    "defaultMessage": "crwdns372350:0crwdne372350:0"
+  },
+  "homepage-banner-heading": {
+    "defaultMessage": "crwdns372352:0crwdne372352:0"
+  },
+  "homepage-banner-subtitle": {
+    "defaultMessage": "crwdns372354:0crwdne372354:0"
+  },
+  "idea-activity-picker-title": {
+    "defaultMessage": "crwdns372356:0crwdne372356:0"
+  },
+  "idea-clap-lights-title": {
+    "defaultMessage": "crwdns372358:0crwdne372358:0"
+  },
+  "idea-dice-title": {
+    "defaultMessage": "crwdns372360:0crwdne372360:0"
+  },
+  "idea-emotion-badge-title": {
+    "defaultMessage": "crwdns372362:0crwdne372362:0"
+  },
+  "idea-frere-jacques-title": {
+    "defaultMessage": "crwdns372364:0crwdne372364:0"
+  },
+  "idea-send-a-smile-title": {
+    "defaultMessage": "crwdns372366:0crwdne372366:0"
+  },
+  "idea-step-counter-title": {
+    "defaultMessage": "crwdns372368:0crwdne372368:0"
+  },
+  "ideas-moving-notice": {
+    "defaultMessage": "crwdns372370:0crwdne372370:0"
+  },
+  "ideas-moving-questions": {
+    "defaultMessage": "crwdns372372:0crwdne372372:0"
+  },
+  "ideas-moving-questions-heading": {
+    "defaultMessage": "crwdns372374:0crwdne372374:0"
+  },
+  "ideas-moving-title": {
+    "defaultMessage": "crwdns372376:0crwdne372376:0"
+  },
+  "ideas-moving-what": {
+    "defaultMessage": "crwdns372378:0crwdne372378:0"
+  },
+  "ideas-moving-what-heading": {
+    "defaultMessage": "crwdns372380:0crwdne372380:0"
+  },
+  "ideas-moving-when": {
+    "defaultMessage": "crwdns372382:0crwdne372382:0"
+  },
+  "ideas-moving-when-heading": {
+    "defaultMessage": "crwdns372384:0crwdne372384:0"
+  },
+  "ideas-moving-why": {
+    "defaultMessage": "crwdns372386:0crwdne372386:0"
+  },
+  "ideas-moving-why-heading": {
+    "defaultMessage": "crwdns372388:0crwdne372388:0"
+  },
+  "ideas-row-title": {
+    "defaultMessage": "crwdns372390:0crwdne372390:0"
+  },
   "ideas-tab": {
     "defaultMessage": "crwdns331542:0crwdne331542:0"
   },
   "ideas-tab-description": {
     "defaultMessage": "crwdns331544:0crwdne331544:0"
   },
+  "import-file-action": {
+    "defaultMessage": "crwdns372392:0crwdne372392:0"
+  },
   "insert-code-action": {
     "defaultMessage": "crwdns331546:0crwdne331546:0"
+  },
+  "introducing-python-course-resource-description": {
+    "defaultMessage": "crwdns372394:0crwdne372394:0"
+  },
+  "introducing-python-course-resource-title": {
+    "defaultMessage": "crwdns372396:0crwdne372396:0"
   },
   "language": {
     "defaultMessage": "crwdns331548:0crwdne331548:0"
   },
+  "learn-more-action": {
+    "defaultMessage": "crwdns372398:0crwdne372398:0"
+  },
   "less-action": {
     "defaultMessage": "crwdns331550:0crwdne331550:0"
+  },
+  "level-advanced": {
+    "defaultMessage": "crwdns372400:0crwdne372400:0"
+  },
+  "level-beginner": {
+    "defaultMessage": "crwdns372402:0crwdne372402:0"
+  },
+  "level-intermediate": {
+    "defaultMessage": "crwdns372404:0crwdne372404:0"
   },
   "load-error-makecode-info": {
     "defaultMessage": "crwdns331552:0crwdne331552:0"
@@ -270,7 +417,7 @@
     "defaultMessage": "crwdns331554:0crwdne331554:0"
   },
   "load-error-mixed": {
-    "defaultMessage": "crwdns331556:0crwdne331556:0"
+    "defaultMessage": "crwdns372406:0crwdne372406:0"
   },
   "load-error-mpy": {
     "defaultMessage": "crwdns331558:0crwdne331558:0"
@@ -284,8 +431,71 @@
   "loading": {
     "defaultMessage": "crwdns331564:0crwdne331564:0"
   },
+  "manage-project-files-action": {
+    "defaultMessage": "crwdns372408:0crwdne372408:0"
+  },
+  "mici-project-hot-potato-game-description": {
+    "defaultMessage": "crwdns372410:0crwdne372410:0"
+  },
+  "mici-project-hot-potato-game-title": {
+    "defaultMessage": "crwdns372412:0crwdne372412:0"
+  },
+  "mici-project-indoor-outdoor-thermometer-description": {
+    "defaultMessage": "crwdns372414:0crwdne372414:0"
+  },
+  "mici-project-indoor-outdoor-thermometer-title": {
+    "defaultMessage": "crwdns372416:0crwdne372416:0"
+  },
+  "mici-project-maxmin-temperature-logger-description": {
+    "defaultMessage": "crwdns372418:0crwdne372418:0"
+  },
+  "mici-project-maxmin-temperature-logger-title": {
+    "defaultMessage": "crwdns372420:0crwdne372420:0"
+  },
+  "mici-project-sensitive-step-counter-description": {
+    "defaultMessage": "crwdns372422:0crwdne372422:0"
+  },
+  "mici-project-sensitive-step-counter-title": {
+    "defaultMessage": "crwdns372424:0crwdne372424:0"
+  },
+  "mici-project-teleporting-duck-description": {
+    "defaultMessage": "crwdns372426:0crwdne372426:0"
+  },
+  "mici-project-teleporting-duck-title": {
+    "defaultMessage": "crwdns372428:0crwdne372428:0"
+  },
+  "mici-project-thermometer-description": {
+    "defaultMessage": "crwdns372430:0crwdne372430:0"
+  },
+  "mici-project-thermometer-title": {
+    "defaultMessage": "crwdns372432:0crwdne372432:0"
+  },
+  "mici-project-treasure-hunt-description": {
+    "defaultMessage": "crwdns372434:0crwdne372434:0"
+  },
+  "mici-project-treasure-hunt-title": {
+    "defaultMessage": "crwdns372436:0crwdne372436:0"
+  },
+  "mici-projects-row-subtitle": {
+    "defaultMessage": "crwdns372438:0crwdne372438:0"
+  },
+  "mici-projects-row-title": {
+    "defaultMessage": "crwdns372440:0crwdne372440:0"
+  },
+  "microbit-classroom-resource-description": {
+    "defaultMessage": "crwdns372442:0crwdne372442:0"
+  },
+  "microbit-classroom-resource-title": {
+    "defaultMessage": "crwdns372444:0crwdne372444:0"
+  },
   "microbit-hearts-alt": {
     "defaultMessage": "crwdns331566:0crwdne331566:0"
+  },
+  "microbit-labelling-worksheet-resource-description": {
+    "defaultMessage": "crwdns372446:0crwdne372446:0"
+  },
+  "microbit-labelling-worksheet-resource-title": {
+    "defaultMessage": "crwdns372448:0crwdne372448:0"
   },
   "micropython-documentation": {
     "defaultMessage": "crwdns331568:0crwdne331568:0"
@@ -317,6 +527,9 @@
   "multiple-files-title": {
     "defaultMessage": "crwdns331586:0crwdne331586:0"
   },
+  "my-projects-row-title": {
+    "defaultMessage": "crwdns372450:0crwdne372450:0"
+  },
   "name-project": {
     "defaultMessage": "crwdns331588:0crwdne331588:0"
   },
@@ -329,8 +542,14 @@
   "new-file-hint": {
     "defaultMessage": "crwdns331594:0crwdne331594:0"
   },
+  "new-project-action": {
+    "defaultMessage": "crwdns372452:0crwdne372452:0"
+  },
   "next-action": {
     "defaultMessage": "crwdns331596:0crwdne331596:0"
+  },
+  "no-projects": {
+    "defaultMessage": "crwdns372454:0crwdne372454:0"
   },
   "not-found-checklist-one": {
     "defaultMessage": "crwdns331598:0crwdne331598:0"
@@ -398,11 +617,35 @@
   "project-actions": {
     "defaultMessage": "crwdns331638:0crwdne331638:0"
   },
+  "project-deleted-elsewhere-description": {
+    "defaultMessage": "crwdns372456:0crwdne372456:0"
+  },
+  "project-deleted-elsewhere-title": {
+    "defaultMessage": "crwdns372458:0crwdne372458:0"
+  },
+  "project-files-heading": {
+    "defaultMessage": "crwdns372460:0crwdne372460:0"
+  },
   "project-header": {
     "defaultMessage": "crwdns331640:0crwdne331640:0"
   },
   "project-name-not-empty": {
     "defaultMessage": "crwdns331644:0crwdne331644:0"
+  },
+  "project-storage-tooltip": {
+    "defaultMessage": "crwdns372462:0crwdne372462:0"
+  },
+  "python-editor-poster-creativity-resource-description": {
+    "defaultMessage": "crwdns372464:0crwdne372464:0"
+  },
+  "python-editor-poster-creativity-resource-title": {
+    "defaultMessage": "crwdns372466:0crwdne372466:0"
+  },
+  "python-editor-poster-debugging-resource-description": {
+    "defaultMessage": "crwdns372468:0crwdne372468:0"
+  },
+  "python-editor-poster-debugging-resource-title": {
+    "defaultMessage": "crwdns372470:0crwdne372470:0"
   },
   "python-powered": {
     "defaultMessage": "crwdns331650:0crwdne331650:0"
@@ -427,6 +670,18 @@
   },
   "replace-action-label": {
     "defaultMessage": "crwdns331664:0crwdne331664:0"
+  },
+  "resource-type-classroom-resource": {
+    "defaultMessage": "crwdns372472:0crwdne372472:0"
+  },
+  "resource-type-professional-development": {
+    "defaultMessage": "crwdns372474:0crwdne372474:0"
+  },
+  "resource-type-teaching-tool": {
+    "defaultMessage": "crwdns372476:0crwdne372476:0"
+  },
+  "resource-type-unit-of-work": {
+    "defaultMessage": "crwdns372478:0crwdne372478:0"
   },
   "results-count": {
     "defaultMessage": "crwdns331672:0count={count}crwdne331672:0"
@@ -752,8 +1007,20 @@
   "start-coding-action": {
     "defaultMessage": "crwdns331744:0crwdne331744:0"
   },
+  "storage-error-other": {
+    "defaultMessage": "crwdns372480:0crwdne372480:0"
+  },
+  "storage-error-quota-description": {
+    "defaultMessage": "crwdns372482:0crwdne372482:0"
+  },
+  "storage-error-quota-title": {
+    "defaultMessage": "crwdns372484:0crwdne372484:0"
+  },
   "support": {
     "defaultMessage": "crwdns331746:0crwdne331746:0"
+  },
+  "teacher-resources-row-title": {
+    "defaultMessage": "crwdns372486:0crwdne372486:0"
   },
   "terms-of-use": {
     "defaultMessage": "crwdns331748:0crwdne331748:0"
@@ -785,6 +1052,9 @@
   "transfer-hex-title": {
     "defaultMessage": "crwdns331768:0crwdne331768:0"
   },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "crwdns372488:0crwdne372488:0"
+  },
   "try-again-action": {
     "defaultMessage": "crwdns331770:0crwdne331770:0"
   },
@@ -808,6 +1078,9 @@
   },
   "user-guide": {
     "defaultMessage": "crwdns364040:0crwdne364040:0"
+  },
+  "view-all-projects": {
+    "defaultMessage": "crwdns372490:0crwdne372490:0"
   },
   "visit-dot-org": {
     "defaultMessage": "crwdns331784:0crwdne331784:0"
@@ -847,6 +1120,24 @@
   },
   "welcome-video-alt": {
     "defaultMessage": "crwdns359872:0crwdne359872:0"
+  },
+  "whats-new-copy": {
+    "defaultMessage": "crwdns372492:0crwdne372492:0"
+  },
+  "whats-new-copy-heading": {
+    "defaultMessage": "crwdns372494:0crwdne372494:0"
+  },
+  "whats-new-home": {
+    "defaultMessage": "crwdns372496:0crwdne372496:0"
+  },
+  "whats-new-home-heading": {
+    "defaultMessage": "crwdns372498:0crwdne372498:0"
+  },
+  "whats-new-projects": {
+    "defaultMessage": "crwdns372500:0{viewAll}crwdne372500:0"
+  },
+  "whats-new-title": {
+    "defaultMessage": "crwdns372502:0crwdne372502:0"
   },
   "zoom-in-action": {
     "defaultMessage": "crwdns331810:0crwdne331810:0"

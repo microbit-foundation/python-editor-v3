@@ -20,6 +20,9 @@
   "accessibility": {
     "defaultMessage": "접근성"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "접근성"
+  },
   "added-change": {
     "defaultMessage": "{changeName} 파일 추가됨"
   },
@@ -46,6 +49,9 @@
   },
   "back-action": {
     "defaultMessage": "뒤로"
+  },
+  "breadcrumb-label": {
+    "defaultMessage": "이동경로"
   },
   "cancel-action": {
     "defaultMessage": "취소"
@@ -134,6 +140,9 @@
   "create-file-action": {
     "defaultMessage": "파일 생성"
   },
+  "create-project-action": {
+    "defaultMessage": "생성"
+  },
   "create-python": {
     "defaultMessage": "이 프로젝트 안에서 새로운 Python 파일 생성"
   },
@@ -197,6 +206,9 @@
   "file-name-whitespace": {
     "defaultMessage": "이름에 띄어쓰기를 포함할 수 없습니다"
   },
+  "files-tab": {
+    "defaultMessage": "파일"
+  },
   "firmware-update-link": {
     "defaultMessage": "이 micro:bit에 연결하기 전에 <link>펌웨어를 업데이트</link>해야 합니다."
   },
@@ -230,6 +242,9 @@
   "help": {
     "defaultMessage": "도움 및 지원"
   },
+  "help-resources-row-title": {
+    "defaultMessage": "도움 및 지원"
+  },
   "help-support": {
     "defaultMessage": "도움말 및 지원"
   },
@@ -245,11 +260,44 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "단순"
   },
+  "home-action": {
+    "defaultMessage": "처음으로"
+  },
+  "idea-activity-picker-title": {
+    "defaultMessage": "활동 선택기"
+  },
+  "idea-clap-lights-title": {
+    "defaultMessage": "소리로 불 켜기"
+  },
+  "idea-dice-title": {
+    "defaultMessage": "주사위"
+  },
+  "idea-emotion-badge-title": {
+    "defaultMessage": "기분 배지"
+  },
+  "idea-frere-jacques-title": {
+    "defaultMessage": "프레르 자크"
+  },
+  "idea-send-a-smile-title": {
+    "defaultMessage": "스마일 보내기"
+  },
+  "idea-step-counter-title": {
+    "defaultMessage": "만보기"
+  },
+  "ideas-moving-why-heading": {
+    "defaultMessage": "그 이유는 무엇인가요?"
+  },
+  "ideas-row-title": {
+    "defaultMessage": "아이디어들"
+  },
   "ideas-tab": {
     "defaultMessage": "아이디어들"
   },
   "ideas-tab-description": {
     "defaultMessage": "다양한 프로젝트를 체험해보고 수정하며 아이디어를 얻어보세요"
+  },
+  "import-file-action": {
+    "defaultMessage": "가져오기"
   },
   "insert-code-action": {
     "defaultMessage": "코드 삽입"
@@ -257,17 +305,26 @@
   "language": {
     "defaultMessage": "언어 선택"
   },
+  "learn-more-action": {
+    "defaultMessage": "더 살펴보기"
+  },
   "less-action": {
     "defaultMessage": "간단히 보기"
+  },
+  "level-advanced": {
+    "defaultMessage": "고급"
+  },
+  "level-beginner": {
+    "defaultMessage": "초급"
+  },
+  "level-intermediate": {
+    "defaultMessage": "중급"
   },
   "load-error-makecode-info": {
     "defaultMessage": "Python 편집기에 이 hex 파일을 로드할 수 없습니다. Python 편집기는 Microsoft MakeCode로 생성된 hex 파일을 열 수 없습니다."
   },
   "load-error-makecode-link": {
     "defaultMessage": "hex 파일을 사용하려면 <link>https://makecode.microbit.org/</link>를 방문하세요."
-  },
-  "load-error-mixed": {
-    "defaultMessage": "Hex 파일은 자체적으로 불러와야 합니다. 헥스 파일은 프로젝트의 모든 파일을 교체합니다."
   },
   "load-error-mpy": {
     "defaultMessage": "이 버전에서는 .mpy 파일 추가를 지원하지 않습니다."
@@ -280,6 +337,54 @@
   },
   "loading": {
     "defaultMessage": "불러오는 중..."
+  },
+  "mici-project-hot-potato-game-description": {
+    "defaultMessage": "micro:bit 를 이용해 '뜨거운 감자' 게임을 해보세요!"
+  },
+  "mici-project-hot-potato-game-title": {
+    "defaultMessage": "뜨거운 감자 게임"
+  },
+  "mici-project-indoor-outdoor-thermometer-description": {
+    "defaultMessage": "집 밖이 얼마나 따뜻한지 추운지 알아보세요."
+  },
+  "mici-project-indoor-outdoor-thermometer-title": {
+    "defaultMessage": "실내-실외 온도계"
+  },
+  "mici-project-maxmin-temperature-logger-description": {
+    "defaultMessage": "온도값 저장하기"
+  },
+  "mici-project-maxmin-temperature-logger-title": {
+    "defaultMessage": "최고-최저 온도 데이터 기록 및 수집 프로그램"
+  },
+  "mici-project-sensitive-step-counter-description": {
+    "defaultMessage": "micro:bit 를 사용해 자신만의 만보계를 만들어 보세요."
+  },
+  "mici-project-sensitive-step-counter-title": {
+    "defaultMessage": "정밀 만보계"
+  },
+  "mici-project-teleporting-duck-description": {
+    "defaultMessage": "무선 라디오를 사용해서 micro:bit 사이에서 오리 모양을 텔레포트시켜 보세요."
+  },
+  "mici-project-teleporting-duck-title": {
+    "defaultMessage": "오리 텔레포트 전송"
+  },
+  "mici-project-thermometer-description": {
+    "defaultMessage": "micro:bit 를 이용해 온도계를 만들어 보세요."
+  },
+  "mici-project-thermometer-title": {
+    "defaultMessage": "온도계"
+  },
+  "mici-project-treasure-hunt-description": {
+    "defaultMessage": "여러 사람이 함께 하는 보물찾기 게임"
+  },
+  "mici-project-treasure-hunt-title": {
+    "defaultMessage": "보물찾기"
+  },
+  "microbit-classroom-resource-description": {
+    "defaultMessage": "전체 수업 세션을 실행하고, 학생들과 코드를 쉽게 공유하고 진행 상황을 저장합니다."
+  },
+  "microbit-classroom-resource-title": {
+    "defaultMessage": "micro:bit 클래스룸"
   },
   "microbit-hearts-alt": {
     "defaultMessage": "5x5 LED 그리드로 하트를 표시하는 micro:bit"
@@ -314,6 +419,9 @@
   "multiple-files-title": {
     "defaultMessage": "경고: main.py만 다운로드됨"
   },
+  "my-projects-row-title": {
+    "defaultMessage": "내 프로젝트"
+  },
   "name-project": {
     "defaultMessage": "프로젝트 이름을 지정하세요"
   },
@@ -326,8 +434,14 @@
   "new-file-hint": {
     "defaultMessage": "프로그램이 <code>.py</code> 확장자를 추가합니다."
   },
+  "new-project-action": {
+    "defaultMessage": "새 프로젝트"
+  },
   "next-action": {
     "defaultMessage": "다음"
+  },
+  "no-projects": {
+    "defaultMessage": "표시할 프로젝트 없음"
   },
   "not-found-checklist-one": {
     "defaultMessage": " <strong>micro:bit이 연결되었나요</strong>? <link>다음 단계를 따르셨나요</link>?"
@@ -395,6 +509,9 @@
   "project-name-not-empty": {
     "defaultMessage": "프로젝트 이름을 입력해야 합니다"
   },
+  "project-storage-tooltip": {
+    "defaultMessage": "사용자의 데이터는 이 기기의 이 브라우저에 저장됩니다. 브라우저의 쿠키나 사이트 데이터를 삭제하면 해당 데이터도 함께 삭제됩니다. 기기의 저장 공간이 부족할 경우 브라우저에서 데이터가 자동으로 삭제될 수도 있습니다."
+  },
   "python-powered": {
     "defaultMessage": "Python powered"
   },
@@ -418,6 +535,9 @@
   },
   "replace-action-label": {
     "defaultMessage": "교체"
+  },
+  "resource-type-unit-of-work": {
+    "defaultMessage": "차시 수업자료"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {결과 없음} one {#개의 결과} other {#개의 결과}}"
@@ -731,6 +851,9 @@
   "support": {
     "defaultMessage": "지원"
   },
+  "teacher-resources-row-title": {
+    "defaultMessage": "교사용 자료"
+  },
   "terms-of-use": {
     "defaultMessage": "이용 약관"
   },
@@ -761,6 +884,9 @@
   "transfer-hex-title": {
     "defaultMessage": "저장된 hex 파일을 micro:bit으로 전송"
   },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "문제 해결"
+  },
   "try-again-action": {
     "defaultMessage": "다시 시도"
   },
@@ -781,6 +907,9 @@
   },
   "user-guide": {
     "defaultMessage": "사용자 가이드"
+  },
+  "view-all-projects": {
+    "defaultMessage": "전체 보기"
   },
   "visit-dot-org": {
     "defaultMessage": "microbit.org 방문(새 탭에서 열기)"

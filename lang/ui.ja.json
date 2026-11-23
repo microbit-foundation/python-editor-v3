@@ -20,6 +20,9 @@
   "accessibility": {
     "defaultMessage": "アクセシビリティ"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "アクセシビリティ"
+  },
   "added-change": {
     "defaultMessage": "ファイル {changeName} を追加しました"
   },
@@ -46,6 +49,9 @@
   },
   "back-action": {
     "defaultMessage": "戻る"
+  },
+  "breadcrumb-label": {
+    "defaultMessage": "パンくずリスト"
   },
   "cancel-action": {
     "defaultMessage": "キャンセル"
@@ -137,6 +143,9 @@
   "create-file-action": {
     "defaultMessage": "ファイルを作成"
   },
+  "create-project-action": {
+    "defaultMessage": "作る"
+  },
   "create-python": {
     "defaultMessage": "このプロジェクトに新しいPythonファイルを作成"
   },
@@ -200,6 +209,9 @@
   "file-name-whitespace": {
     "defaultMessage": "名前にスペースを含めることはできません"
   },
+  "files-tab": {
+    "defaultMessage": "ファイル"
+  },
   "firmware-update-link": {
     "defaultMessage": "このmicro:bitに接続するには、<link>ファームウェアを更新する</link>必要があります。"
   },
@@ -227,10 +239,16 @@
   "font-size": {
     "defaultMessage": "フォントサイズ"
   },
+  "get-started-action": {
+    "defaultMessage": "はじめよう"
+  },
   "guide-link": {
     "defaultMessage": "サポートについては、<link>Pythonエディターガイド</link>を参照してください"
   },
   "help": {
+    "defaultMessage": "ヘルプ"
+  },
+  "help-resources-row-title": {
     "defaultMessage": "ヘルプ"
   },
   "help-support": {
@@ -248,11 +266,44 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "簡易"
   },
+  "home-action": {
+    "defaultMessage": "ホーム"
+  },
+  "idea-activity-picker-title": {
+    "defaultMessage": "アクティビティピッカー"
+  },
+  "idea-clap-lights-title": {
+    "defaultMessage": "拍手でライト"
+  },
+  "idea-dice-title": {
+    "defaultMessage": "サイコロ"
+  },
+  "idea-emotion-badge-title": {
+    "defaultMessage": "感情バッジ"
+  },
+  "idea-frere-jacques-title": {
+    "defaultMessage": "グーチョキパーでなにつくろう"
+  },
+  "idea-send-a-smile-title": {
+    "defaultMessage": "スマイルを送ろう"
+  },
+  "idea-step-counter-title": {
+    "defaultMessage": "歩数計"
+  },
+  "ideas-moving-why-heading": {
+    "defaultMessage": "その理由は？"
+  },
+  "ideas-row-title": {
+    "defaultMessage": "アイデア"
+  },
   "ideas-tab": {
     "defaultMessage": "アイデア"
   },
   "ideas-tab-description": {
     "defaultMessage": "これらのプロジェクトを試し、修正し、インスピレーションを得ることができます。"
+  },
+  "import-file-action": {
+    "defaultMessage": "インポート"
   },
   "insert-code-action": {
     "defaultMessage": "コードを挿入"
@@ -260,17 +311,26 @@
   "language": {
     "defaultMessage": "言語"
   },
+  "learn-more-action": {
+    "defaultMessage": "さらに詳しく"
+  },
   "less-action": {
     "defaultMessage": "少なく表示"
+  },
+  "level-advanced": {
+    "defaultMessage": "上級"
+  },
+  "level-beginner": {
+    "defaultMessage": "初級"
+  },
+  "level-intermediate": {
+    "defaultMessage": "中級"
   },
   "load-error-makecode-info": {
     "defaultMessage": "このhexファイルはPythonエディターで読み込むことができません。PythonエディターはMicrosoft MakeCodeで作成したhexファイルを開くことができません。"
   },
   "load-error-makecode-link": {
     "defaultMessage": "この hex ファイルを使用するには、<link>https://makecode.microbit.org/</link>を参照してください。"
-  },
-  "load-error-mixed": {
-    "defaultMessage": "hex ファイルはそのまま読み込むことだけが可能で、プロジェクト内のすべてのファイルを置き換えます。"
   },
   "load-error-mpy": {
     "defaultMessage": "このバージョンのPythonエディターは現在.mpyファイルの追加をサポートしていません。"
@@ -283,6 +343,54 @@
   },
   "loading": {
     "defaultMessage": "読み込み中…"
+  },
+  "mici-project-hot-potato-game-description": {
+    "defaultMessage": "micro:bit を使って「ホットポテト」ゲームをしましょう！"
+  },
+  "mici-project-hot-potato-game-title": {
+    "defaultMessage": "ホットポテトゲーム"
+  },
+  "mici-project-indoor-outdoor-thermometer-description": {
+    "defaultMessage": "外がどれだけ暖かい/ 寒いかを検知します。"
+  },
+  "mici-project-indoor-outdoor-thermometer-title": {
+    "defaultMessage": "室内外温度計"
+  },
+  "mici-project-maxmin-temperature-logger-description": {
+    "defaultMessage": "温度測定値を保存します"
+  },
+  "mici-project-maxmin-temperature-logger-title": {
+    "defaultMessage": "最高最低温度ロガー"
+  },
+  "mici-project-sensitive-step-counter-description": {
+    "defaultMessage": "micro:bitで歩数計を作ってみましょう"
+  },
+  "mici-project-sensitive-step-counter-title": {
+    "defaultMessage": "高感度歩数計"
+  },
+  "mici-project-teleporting-duck-description": {
+    "defaultMessage": "無線を使ってmicro:bit間でアヒルをテレポートしましょう"
+  },
+  "mici-project-teleporting-duck-title": {
+    "defaultMessage": "テレポートするアヒル"
+  },
+  "mici-project-thermometer-description": {
+    "defaultMessage": "micro:bitで簡単な温度計を作りましょう"
+  },
+  "mici-project-thermometer-title": {
+    "defaultMessage": "温度計"
+  },
+  "mici-project-treasure-hunt-description": {
+    "defaultMessage": "マルチプレイヤーの無線宝探しゲーム"
+  },
+  "mici-project-treasure-hunt-title": {
+    "defaultMessage": "宝探し"
+  },
+  "microbit-classroom-resource-description": {
+    "defaultMessage": "クラス全体のセッションを実行し、生徒とプログラムを簡単に共有したり、進捗状況を保存したりできます。"
+  },
+  "microbit-classroom-resource-title": {
+    "defaultMessage": "micro:bitクラスルーム"
   },
   "microbit-hearts-alt": {
     "defaultMessage": "5×5のLEDグリッドにハートを表示するmicro:bitボード"
@@ -317,6 +425,9 @@
   "multiple-files-title": {
     "defaultMessage": "注意: main.pyのみダウンロードされました"
   },
+  "my-projects-row-title": {
+    "defaultMessage": "自分のプロジェクト"
+  },
   "name-project": {
     "defaultMessage": "プロジェクトに名前を付ける"
   },
@@ -329,8 +440,14 @@
   "new-file-hint": {
     "defaultMessage": "<code>.py</code>拡張子を追加します。"
   },
+  "new-project-action": {
+    "defaultMessage": "新しいプロジェクト"
+  },
   "next-action": {
     "defaultMessage": "次"
+  },
+  "no-projects": {
+    "defaultMessage": "表示するプロジェクトがありません"
   },
   "not-found-checklist-one": {
     "defaultMessage": "<strong>micro:bitは接続</strong>されていますか？<link>以下の手順</link>に従いましたか？"
@@ -398,6 +515,9 @@
   "project-name-not-empty": {
     "defaultMessage": "プロジェクト名は空にできません"
   },
+  "project-storage-tooltip": {
+    "defaultMessage": "データはこのデバイスのこのブラウザに保存されます。ブラウザのCookieやサイトのデータを消去すると、データも削除されます。デバイスのストレージ容量が少ない場合も、ブラウザによって自動的に削除される場合があります。"
+  },
   "python-powered": {
     "defaultMessage": "Python搭載"
   },
@@ -421,6 +541,9 @@
   },
   "replace-action-label": {
     "defaultMessage": "置換"
+  },
+  "resource-type-unit-of-work": {
+    "defaultMessage": "作業単位"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {結果なし} other {#件の結果}}"
@@ -740,6 +863,9 @@
   "support": {
     "defaultMessage": "サポート"
   },
+  "teacher-resources-row-title": {
+    "defaultMessage": "教育者用リソース"
+  },
   "terms-of-use": {
     "defaultMessage": "利用規約"
   },
@@ -770,6 +896,9 @@
   "transfer-hex-title": {
     "defaultMessage": "保存された hex ファイルをmicro:bitに転送する"
   },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "トラブルシューティング"
+  },
   "try-again-action": {
     "defaultMessage": "もう一度やり直す"
   },
@@ -790,6 +919,9 @@
   },
   "user-guide": {
     "defaultMessage": "ユーザーガイド"
+  },
+  "view-all-projects": {
+    "defaultMessage": "すべて表示"
   },
   "visit-dot-org": {
     "defaultMessage": "microbit.orgにアクセスします（新しいタブで開きます）"

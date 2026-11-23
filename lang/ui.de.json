@@ -20,6 +20,9 @@
   "accessibility": {
     "defaultMessage": "Barrierefreiheit"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "Barrierefreiheit"
+  },
   "added-change": {
     "defaultMessage": "Datei {changeName} hinzugefügt"
   },
@@ -46,6 +49,9 @@
   },
   "back-action": {
     "defaultMessage": "Zurück"
+  },
+  "breadcrumb-label": {
+    "defaultMessage": "Navigationspfad"
   },
   "cancel-action": {
     "defaultMessage": "Abbrechen"
@@ -137,6 +143,9 @@
   "create-file-action": {
     "defaultMessage": "Datei erstellen"
   },
+  "create-project-action": {
+    "defaultMessage": "Erstellen"
+  },
   "create-python": {
     "defaultMessage": "Neue Python-Datei in diesem Projekt erstellen"
   },
@@ -200,6 +209,9 @@
   "file-name-whitespace": {
     "defaultMessage": "Der Name darf keine Leerzeichen enthalten"
   },
+  "files-tab": {
+    "defaultMessage": "Dateien"
+  },
   "firmware-update-link": {
     "defaultMessage": "Du musst <link>deine Firmware aktualisieren</link>, bevor du dich mit diesem micro:bit verbinden kannst."
   },
@@ -227,10 +239,16 @@
   "font-size": {
     "defaultMessage": "Schriftgröße"
   },
+  "get-started-action": {
+    "defaultMessage": "Erste Schritte"
+  },
   "guide-link": {
     "defaultMessage": "Weitere Unterstützung findest du in der <link>Python Editor Anleitung</link>"
   },
   "help": {
+    "defaultMessage": "Hilfe"
+  },
+  "help-resources-row-title": {
     "defaultMessage": "Hilfe"
   },
   "help-support": {
@@ -248,6 +266,33 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "Einfach"
   },
+  "home-action": {
+    "defaultMessage": "Hauptseite"
+  },
+  "idea-activity-picker-title": {
+    "defaultMessage": "Aktivitäten Auswähler"
+  },
+  "idea-clap-lights-title": {
+    "defaultMessage": "Klatschlicht"
+  },
+  "idea-dice-title": {
+    "defaultMessage": "Würfel"
+  },
+  "idea-emotion-badge-title": {
+    "defaultMessage": "Gefühlsabzeichen"
+  },
+  "idea-frere-jacques-title": {
+    "defaultMessage": "Bruder Jakob"
+  },
+  "idea-send-a-smile-title": {
+    "defaultMessage": "Sende ein Lächeln"
+  },
+  "idea-step-counter-title": {
+    "defaultMessage": "Schrittzähler"
+  },
+  "ideas-row-title": {
+    "defaultMessage": "Ideen"
+  },
   "ideas-tab": {
     "defaultMessage": "Ideen"
   },
@@ -260,17 +305,26 @@
   "language": {
     "defaultMessage": "Sprache"
   },
+  "learn-more-action": {
+    "defaultMessage": "Erfahre mehr"
+  },
   "less-action": {
     "defaultMessage": "Weniger"
+  },
+  "level-advanced": {
+    "defaultMessage": "Fortgeschritten"
+  },
+  "level-beginner": {
+    "defaultMessage": "Anfänger"
+  },
+  "level-intermediate": {
+    "defaultMessage": "Mittel"
   },
   "load-error-makecode-info": {
     "defaultMessage": "Diese hex-Datei kann nicht in den Python-Editor geladen werden. Der Python-Editor kann keine hex-Dateien öffnen, die mit Microsoft MakeCode erstellt wurden."
   },
   "load-error-makecode-link": {
     "defaultMessage": "Bitte besuche <link>https://makecode.microbit.org/</link>, um diese hex-Datei zu verwenden."
-  },
-  "load-error-mixed": {
-    "defaultMessage": "Eine hex-Datei kann nur für sich allein geladen werden. Sie ersetzt alle Dateien im Projekt."
   },
   "load-error-mpy": {
     "defaultMessage": "Diese Version des Python-Editors unterstützt derzeit das Hinzufügen von .mpy-Dateien nicht."
@@ -283,6 +337,54 @@
   },
   "loading": {
     "defaultMessage": "Wird geladen..."
+  },
+  "mici-project-hot-potato-game-description": {
+    "defaultMessage": "Spiele „Heiße Kartoffel“ mit einem micro:bit!"
+  },
+  "mici-project-hot-potato-game-title": {
+    "defaultMessage": "Heiße Kartoffel"
+  },
+  "mici-project-indoor-outdoor-thermometer-description": {
+    "defaultMessage": "Miss, wie warm oder kalt es draussen ist."
+  },
+  "mici-project-indoor-outdoor-thermometer-title": {
+    "defaultMessage": "Innen-Außen-Thermometer"
+  },
+  "mici-project-maxmin-temperature-logger-description": {
+    "defaultMessage": "Temperaturmessungen speichern"
+  },
+  "mici-project-maxmin-temperature-logger-title": {
+    "defaultMessage": "Logger für die max- min Temperatur"
+  },
+  "mici-project-sensitive-step-counter-description": {
+    "defaultMessage": "Erstelle deinen eigenen Schrittzähler mit einem micro:bit"
+  },
+  "mici-project-sensitive-step-counter-title": {
+    "defaultMessage": "Sensitiver Schrittzähler"
+  },
+  "mici-project-teleporting-duck-description": {
+    "defaultMessage": "Teleportiere eine Ente zwischen micro:bits mit der Radiofunktion"
+  },
+  "mici-project-teleporting-duck-title": {
+    "defaultMessage": "Teleportierende Ente"
+  },
+  "mici-project-thermometer-description": {
+    "defaultMessage": "Stelle ein einfaches Thermometer mit deinem micro:bit her"
+  },
+  "mici-project-thermometer-title": {
+    "defaultMessage": "Thermometer"
+  },
+  "mici-project-treasure-hunt-description": {
+    "defaultMessage": "Mehrspieler-Radio-Schnitzeljagd Spiel"
+  },
+  "mici-project-treasure-hunt-title": {
+    "defaultMessage": "Schatzsuche"
+  },
+  "microbit-classroom-resource-description": {
+    "defaultMessage": "Führen Sie ganze Klassensitzungen durch, teilen Sie einfach Code mit den Schülern und speichern Sie den Fortschritt"
+  },
+  "microbit-classroom-resource-title": {
+    "defaultMessage": "micro:bit Klassenzimmer"
   },
   "microbit-hearts-alt": {
     "defaultMessage": "micro:bit-Platine mit dem 5 x 5 LED-Gitter, das ein Herz zeigt"
@@ -421,6 +523,9 @@
   },
   "replace-action-label": {
     "defaultMessage": "Ersetzen"
+  },
+  "resource-type-unit-of-work": {
+    "defaultMessage": "Arbeitseinheit"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Keine Ergebnisse} one {# Ergebnis} other {# Ergebnisse}}"
@@ -734,6 +839,9 @@
   "support": {
     "defaultMessage": "Support"
   },
+  "teacher-resources-row-title": {
+    "defaultMessage": "Lehrer-Ressourcen"
+  },
   "terms-of-use": {
     "defaultMessage": "Nutzungsbedingungen"
   },
@@ -763,6 +871,9 @@
   },
   "transfer-hex-title": {
     "defaultMessage": "Gespeicherte Hex-Datei an micro:bit übertragen"
+  },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "Problembehandlung"
   },
   "try-again-action": {
     "defaultMessage": "Erneut versuchen"

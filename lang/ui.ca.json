@@ -20,6 +20,9 @@
   "accessibility": {
     "defaultMessage": "Accessibilitat"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "Accessibilitat"
+  },
   "added-change": {
     "defaultMessage": "S'ha afegit el fitxer {changeName}"
   },
@@ -46,6 +49,9 @@
   },
   "back-action": {
     "defaultMessage": "Enrera"
+  },
+  "breadcrumb-label": {
+    "defaultMessage": "Rastres de navegació"
   },
   "cancel-action": {
     "defaultMessage": "Cancel·lar"
@@ -137,6 +143,9 @@
   "create-file-action": {
     "defaultMessage": "Crea un fitxer"
   },
+  "create-project-action": {
+    "defaultMessage": "Crea"
+  },
   "create-python": {
     "defaultMessage": "Crea un nou fitxer Python en aquest projecte"
   },
@@ -227,10 +236,16 @@
   "font-size": {
     "defaultMessage": "Mida de la font"
   },
+  "get-started-action": {
+    "defaultMessage": "Comencem"
+  },
   "guide-link": {
     "defaultMessage": "Per obtenir més suport, consulta la <link>guia de l'Editor de Python</link>"
   },
   "help": {
+    "defaultMessage": "Ajuda"
+  },
+  "help-resources-row-title": {
     "defaultMessage": "Ajuda"
   },
   "help-support": {
@@ -248,11 +263,44 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "Senzill"
   },
+  "home-action": {
+    "defaultMessage": "Inici"
+  },
+  "idea-activity-picker-title": {
+    "defaultMessage": "Selector d'activitat"
+  },
+  "idea-clap-lights-title": {
+    "defaultMessage": "Aplaudeix els llums"
+  },
+  "idea-dice-title": {
+    "defaultMessage": "Dau"
+  },
+  "idea-emotion-badge-title": {
+    "defaultMessage": "Emoticones"
+  },
+  "idea-frere-jacques-title": {
+    "defaultMessage": "Germà Jaume (Frère Jacques)"
+  },
+  "idea-send-a-smile-title": {
+    "defaultMessage": "Envia un somriure"
+  },
+  "idea-step-counter-title": {
+    "defaultMessage": "Comptador de passes"
+  },
+  "ideas-moving-why-heading": {
+    "defaultMessage": "Per què?"
+  },
+  "ideas-row-title": {
+    "defaultMessage": "Idees"
+  },
   "ideas-tab": {
     "defaultMessage": "Idees"
   },
   "ideas-tab-description": {
     "defaultMessage": "Prova aquests projectes, modifica'ls i inspira't"
+  },
+  "import-file-action": {
+    "defaultMessage": "Importa"
   },
   "insert-code-action": {
     "defaultMessage": "Insereix codi"
@@ -260,17 +308,26 @@
   "language": {
     "defaultMessage": "Idioma"
   },
+  "learn-more-action": {
+    "defaultMessage": "Aprèn-ne més"
+  },
   "less-action": {
     "defaultMessage": "Menys"
+  },
+  "level-advanced": {
+    "defaultMessage": "Expert"
+  },
+  "level-beginner": {
+    "defaultMessage": "Novell"
+  },
+  "level-intermediate": {
+    "defaultMessage": "Intermedi"
   },
   "load-error-makecode-info": {
     "defaultMessage": "Aquest fitxer hexadecimal no es pot carregar a l'Editor de Python. L'Editor Python no pot obrir fitxers hexadecimals creats amb Microsoft MakeCode."
   },
   "load-error-makecode-link": {
     "defaultMessage": "Visita <link>https://makecode.microbit.org/</link> per utilitzar aquest fitxer hexadecimal."
-  },
-  "load-error-mixed": {
-    "defaultMessage": "Un fitxer hexadecimal només es pot carregar sol. Substitueix tots els fitxers del projecte."
   },
   "load-error-mpy": {
     "defaultMessage": "Aquesta versió de l'Editor de Python actualment no admet l'addició de fitxers .mpy."
@@ -283,6 +340,54 @@
   },
   "loading": {
     "defaultMessage": "S'està carregant…"
+  },
+  "mici-project-hot-potato-game-description": {
+    "defaultMessage": "Juga a 'la patata calenta' amb una micro:bit!"
+  },
+  "mici-project-hot-potato-game-title": {
+    "defaultMessage": "Joc de la patata calenta"
+  },
+  "mici-project-indoor-outdoor-thermometer-description": {
+    "defaultMessage": "Sent el calor o el fred que fa fora"
+  },
+  "mici-project-indoor-outdoor-thermometer-title": {
+    "defaultMessage": "Termòmetre interior-exterior"
+  },
+  "mici-project-maxmin-temperature-logger-description": {
+    "defaultMessage": "Emmagatzema les lectures de temperatura"
+  },
+  "mici-project-maxmin-temperature-logger-title": {
+    "defaultMessage": "Registrador de temperatura màxima mínima"
+  },
+  "mici-project-sensitive-step-counter-description": {
+    "defaultMessage": "Fes el teu propi comptador de passes amb la micro:bit"
+  },
+  "mici-project-sensitive-step-counter-title": {
+    "defaultMessage": "Comptador de passes sensible"
+  },
+  "mici-project-teleporting-duck-description": {
+    "defaultMessage": "Teletransporta un ànec entre dos micro:bits fent servir la ràdio"
+  },
+  "mici-project-teleporting-duck-title": {
+    "defaultMessage": "L'ànec teletransportador"
+  },
+  "mici-project-thermometer-description": {
+    "defaultMessage": "Fes un termòmetre senzill amb la teva micro:bit"
+  },
+  "mici-project-thermometer-title": {
+    "defaultMessage": "termòmetre"
+  },
+  "mici-project-treasure-hunt-description": {
+    "defaultMessage": "Cerca del tresor multi-jugador"
+  },
+  "mici-project-treasure-hunt-title": {
+    "defaultMessage": "Caça del tresor"
+  },
+  "microbit-classroom-resource-description": {
+    "defaultMessage": "Executa sessions de classe sencera, comparteix programes fàcilment amb els estudiants i desa el progrés"
+  },
+  "microbit-classroom-resource-title": {
+    "defaultMessage": "aula de micro:bit"
   },
   "microbit-hearts-alt": {
     "defaultMessage": "placa micro:bit amb la graella LED de 5 per 5 que mostra un cor"
@@ -317,6 +422,9 @@
   "multiple-files-title": {
     "defaultMessage": "Avís: només s'ha descarregat main.py"
   },
+  "my-projects-row-title": {
+    "defaultMessage": "Els meus projectes"
+  },
   "name-project": {
     "defaultMessage": "Anomena el teu projecte"
   },
@@ -329,8 +437,14 @@
   "new-file-hint": {
     "defaultMessage": "T'afegirem l'extensió <code>.py</code>."
   },
+  "new-project-action": {
+    "defaultMessage": "Nou projecte"
+  },
   "next-action": {
     "defaultMessage": "Següent"
+  },
+  "no-projects": {
+    "defaultMessage": "No hi ha cap projecte per mostrar"
   },
   "not-found-checklist-one": {
     "defaultMessage": "La teva <strong>micro:bit està connectada</strong>? Has  <link>seguit aquests passos</link>?"
@@ -404,6 +518,9 @@
   "project-name-not-empty": {
     "defaultMessage": "El nom del projecte no pot estar buit"
   },
+  "project-storage-tooltip": {
+    "defaultMessage": "Les teves dades es guarden en aquest navegador en aquest dispositiu. Si esborres les galetes del teu navegador o les dades del lloc, s'eliminarà. El teu navegador també pot eliminar-lo automàticament si el teu dispositiu té poc emmagatzematge."
+  },
   "python-powered": {
     "defaultMessage": "Fet amb Python"
   },
@@ -427,6 +544,9 @@
   },
   "replace-action-label": {
     "defaultMessage": "Substitueix"
+  },
+  "resource-type-unit-of-work": {
+    "defaultMessage": "Unitat de treball"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Sense resultats} one {# resultat} other {# resultats}}"
@@ -752,8 +872,20 @@
   "start-coding-action": {
     "defaultMessage": "Comença a codificar"
   },
+  "storage-error-other": {
+    "defaultMessage": "No s'ha pogut desar el projecte a l'emmagatzematge del navegador"
+  },
+  "storage-error-quota-description": {
+    "defaultMessage": "És possible que l'edició del projecte no es pugui desar."
+  },
+  "storage-error-quota-title": {
+    "defaultMessage": "La memòria del navegador és plena"
+  },
   "support": {
     "defaultMessage": "Suport"
+  },
+  "teacher-resources-row-title": {
+    "defaultMessage": "Recursos del professor"
   },
   "terms-of-use": {
     "defaultMessage": "Condicions d'ús"
@@ -785,6 +917,9 @@
   "transfer-hex-title": {
     "defaultMessage": "Transfereix el fitxer hexadecimal desat a la micro:bit"
   },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "Resolució de problemes"
+  },
   "try-again-action": {
     "defaultMessage": "Torna-ho a provar"
   },
@@ -808,6 +943,9 @@
   },
   "user-guide": {
     "defaultMessage": "Guia de l'usuari"
+  },
+  "view-all-projects": {
+    "defaultMessage": "Veure-ho tot"
   },
   "visit-dot-org": {
     "defaultMessage": "visita microbit.org (s'obre en una pestanya nova)"
