@@ -10,6 +10,7 @@ import { HStack, styled } from "styled-system/jsx";
 import { useStorage } from "../common/use-storage";
 import { useCookieConsent } from "../deployment";
 import { flags } from "../flags";
+import { wasWhatsNewShownThisPageLoad } from "../pages/WhatsNewDialog";
 
 export type ReleaseNoticeState = "info" | "feedback" | "closed";
 
@@ -46,6 +47,7 @@ export const useReleaseDialogState = (): [
     if (
       cookieConsent &&
       !flags.noWelcome &&
+      !wasWhatsNewShownThisPageLoad() &&
       storedNotice.version < currentVersion
     ) {
       setReleaseDialog("info");

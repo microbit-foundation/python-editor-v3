@@ -34,6 +34,7 @@ import ActionCard from "./ActionCard";
 import DefaultPageLayout from "./DefaultPageLayout";
 import IdeaDialog from "./IdeaDialog";
 import ProjectIcon from "./ProjectIcon";
+import WhatsNewDialog, { useWhatsNewDialog } from "./WhatsNewDialog";
 import HomepageBanner from "./HomepageBanner";
 import HomepageFooter from "./HomepageFooter";
 import {
@@ -73,8 +74,10 @@ const HomePage = () => {
   );
   useReportCreateProjectFailure();
   useReportOpenFailure();
+  const [whatsNewOpen, closeWhatsNew] = useWhatsNewDialog();
   return (
     <DefaultPageLayout>
+      <WhatsNewDialog isOpen={whatsNewOpen} onClose={closeWhatsNew} />
       {selectedIdea && (
         <IdeaDialog
           {...selectedIdea}

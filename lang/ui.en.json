@@ -375,6 +375,10 @@
     "defaultMessage": "Font size",
     "description": "Font size option text"
   },
+  "get-started-action": {
+    "defaultMessage": "Get started",
+    "description": "Button that closes the what's new dialog on the home page"
+  },
   "guide-link": {
     "defaultMessage": "For more support, see the <link>Python Editor guide</link>",
     "description": "Text with an external link to support/help content"
@@ -1489,6 +1493,30 @@
   "welcome-video-alt": {
     "defaultMessage": "video introducing the Python Editor",
     "description": "iframe title for the welcome video"
+  },
+  "whats-new-copy": {
+    "defaultMessage": "Saving a HEX file to your computer is the most reliable way to keep a copy of your project.",
+    "description": "Body of the keep a copy point in the what's new dialog shown on the home page"
+  },
+  "whats-new-copy-heading": {
+    "defaultMessage": "Keep a copy",
+    "description": "Heading of the point in the what's new dialog advising users to save a HEX file"
+  },
+  "whats-new-home": {
+    "defaultMessage": "Your projects, ideas and help, all in one place.",
+    "description": "Body of the home page point in the what's new dialog shown on the home page"
+  },
+  "whats-new-home-heading": {
+    "defaultMessage": "A new Home page",
+    "description": "Heading of the point in the what's new dialog introducing the home page"
+  },
+  "whats-new-projects": {
+    "defaultMessage": "Your projects now stay in this browser between visits. Select \"{viewAll}\" to find, rename and delete them.",
+    "description": "Body of the My projects point in the what's new dialog. {viewAll} is the link label on the home page's My projects row (\"View all\")"
+  },
+  "whats-new-title": {
+    "defaultMessage": "What's new in the Python Editor",
+    "description": "Title of the dialog shown once on the home page explaining the home page and saved projects"
   },
   "zoom-in-action": {
     "defaultMessage": "Zoom in",
