@@ -20,6 +20,9 @@
   "accessibility": {
     "defaultMessage": "Toegankelijkheid"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "Toegankelijkheid"
+  },
   "added-change": {
     "defaultMessage": "Toegevoegd bestand {changeName}"
   },
@@ -46,6 +49,9 @@
   },
   "back-action": {
     "defaultMessage": "Terug"
+  },
+  "breadcrumb-label": {
+    "defaultMessage": "Kruimelspoor"
   },
   "cancel-action": {
     "defaultMessage": "Annuleren"
@@ -137,6 +143,9 @@
   "create-file-action": {
     "defaultMessage": "Bestand aanmaken"
   },
+  "create-project-action": {
+    "defaultMessage": "Maak"
+  },
   "create-python": {
     "defaultMessage": "Maak een nieuw Python bestand aan in dit project"
   },
@@ -227,10 +236,16 @@
   "font-size": {
     "defaultMessage": "Lettertype grootte"
   },
+  "get-started-action": {
+    "defaultMessage": "Hoe te beginnen"
+  },
   "guide-link": {
     "defaultMessage": "Voor meer ondersteuning, zie de <link>Python Editor gids</link>"
   },
   "help": {
+    "defaultMessage": "Help"
+  },
+  "help-resources-row-title": {
     "defaultMessage": "Help"
   },
   "help-support": {
@@ -248,11 +263,44 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "Eenvoudig"
   },
+  "home-action": {
+    "defaultMessage": "Startpagina"
+  },
+  "idea-activity-picker-title": {
+    "defaultMessage": "Activiteit kiezer"
+  },
+  "idea-clap-lights-title": {
+    "defaultMessage": "Klap lichten"
+  },
+  "idea-dice-title": {
+    "defaultMessage": "Dobbelsteen"
+  },
+  "idea-emotion-badge-title": {
+    "defaultMessage": "Emotie badge"
+  },
+  "idea-frere-jacques-title": {
+    "defaultMessage": "Broeder Jakob"
+  },
+  "idea-send-a-smile-title": {
+    "defaultMessage": "Stuur een glimlach"
+  },
+  "idea-step-counter-title": {
+    "defaultMessage": "Stappenteller"
+  },
+  "ideas-moving-why-heading": {
+    "defaultMessage": "Waarom?"
+  },
+  "ideas-row-title": {
+    "defaultMessage": "Ideeën"
+  },
   "ideas-tab": {
     "defaultMessage": "Ideeën"
   },
   "ideas-tab-description": {
     "defaultMessage": "Probeer deze projecten uit, verander ze en laat je inspireren"
+  },
+  "import-file-action": {
+    "defaultMessage": "Importeren"
   },
   "insert-code-action": {
     "defaultMessage": "Code invoegen"
@@ -260,17 +308,26 @@
   "language": {
     "defaultMessage": "Taal"
   },
+  "learn-more-action": {
+    "defaultMessage": "Meer informatie"
+  },
   "less-action": {
     "defaultMessage": "Minder"
+  },
+  "level-advanced": {
+    "defaultMessage": "Gevorderd"
+  },
+  "level-beginner": {
+    "defaultMessage": "Beginner"
+  },
+  "level-intermediate": {
+    "defaultMessage": "Gevorderd"
   },
   "load-error-makecode-info": {
     "defaultMessage": "Dit hexadecimale bestand kan niet in de Python Editor geladen worden. De Python Editor kan geen hex-bestanden openen die gemaakt zijn met Microsoft MakeCode."
   },
   "load-error-makecode-link": {
     "defaultMessage": "Bezoek <link>https://makecode.microbit.org/</link> om dit hex-bestand te gebruiken."
-  },
-  "load-error-mixed": {
-    "defaultMessage": "Een hex bestand maar een keer tegelijk worden geladen. Alle bestanden in het project worden vervangen."
   },
   "load-error-mpy": {
     "defaultMessage": "Deze versie van de Python Editor ondersteunt momenteel geen .mpy bestanden."
@@ -283,6 +340,54 @@
   },
   "loading": {
     "defaultMessage": "Laden…"
+  },
+  "mici-project-hot-potato-game-description": {
+    "defaultMessage": "Speel 'hete aardappel' met de micro:bit!"
+  },
+  "mici-project-hot-potato-game-title": {
+    "defaultMessage": "Hete aardappel spel"
+  },
+  "mici-project-indoor-outdoor-thermometer-description": {
+    "defaultMessage": "Meet hoe warm of koud het buiten is"
+  },
+  "mici-project-indoor-outdoor-thermometer-title": {
+    "defaultMessage": "Binnen-buiten thermometer"
+  },
+  "mici-project-maxmin-temperature-logger-description": {
+    "defaultMessage": "Temperatuurmetingen opslaan"
+  },
+  "mici-project-maxmin-temperature-logger-title": {
+    "defaultMessage": "Max. min temperatuurlogger"
+  },
+  "mici-project-sensitive-step-counter-description": {
+    "defaultMessage": "Maak je eigen stappenteller met een micro:bit"
+  },
+  "mici-project-sensitive-step-counter-title": {
+    "defaultMessage": "Gevoelige stappenteller"
+  },
+  "mici-project-teleporting-duck-description": {
+    "defaultMessage": "Teleporteer een eend tussen micro:bits met behulp van radio"
+  },
+  "mici-project-teleporting-duck-title": {
+    "defaultMessage": "Teleporterende eend"
+  },
+  "mici-project-thermometer-description": {
+    "defaultMessage": "Maak een eenvoudige thermometer met je micro:bit"
+  },
+  "mici-project-thermometer-title": {
+    "defaultMessage": "Thermometer"
+  },
+  "mici-project-treasure-hunt-description": {
+    "defaultMessage": "Multi-player radio schatkist jacht"
+  },
+  "mici-project-treasure-hunt-title": {
+    "defaultMessage": "Schattenjacht"
+  },
+  "microbit-classroom-resource-description": {
+    "defaultMessage": "Voer klassikale sessies uit, deel eenvoudig code met leerlingen en sla de voortgang op"
+  },
+  "microbit-classroom-resource-title": {
+    "defaultMessage": "micro:bit classroom"
   },
   "microbit-hearts-alt": {
     "defaultMessage": "micro:bit bord met het 5 bij 5 LED raster dat een hart toont"
@@ -317,6 +422,9 @@
   "multiple-files-title": {
     "defaultMessage": "Waarschuwing: Alleen main.py gedownload"
   },
+  "my-projects-row-title": {
+    "defaultMessage": "Mijn projecten"
+  },
   "name-project": {
     "defaultMessage": "Geef een naam aan je project"
   },
@@ -329,8 +437,14 @@
   "new-file-hint": {
     "defaultMessage": "We zullen de <code>.py</code> extensie voor je toevoegen."
   },
+  "new-project-action": {
+    "defaultMessage": "Nieuw project"
+  },
   "next-action": {
     "defaultMessage": "Volgende"
+  },
+  "no-projects": {
+    "defaultMessage": "Geen projecten om te tonen"
   },
   "not-found-checklist-one": {
     "defaultMessage": "Is je <strong>micro:bit aangesloten</strong>? Heb je <link>deze stappen gevolgd</link>?"
@@ -404,6 +518,9 @@
   "project-name-not-empty": {
     "defaultMessage": "De projectnaam kan niet leeg zijn"
   },
+  "project-storage-tooltip": {
+    "defaultMessage": "Jouw gegevens worden opgeslagen in deze browser op dit apparaat. Het wissen van je browsercookies of sitegegevens zal deze verwijderen. Het kan ook automatisch worden verwijderd door je browser als jouw apparaat weinig opslagruimte heeft."
+  },
   "python-powered": {
     "defaultMessage": "Python actief"
   },
@@ -427,6 +544,9 @@
   },
   "replace-action-label": {
     "defaultMessage": "Vervangen"
+  },
+  "resource-type-unit-of-work": {
+    "defaultMessage": "Eenheid van het werk"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0{# results} one{# result} other{# results}}"
@@ -752,8 +872,20 @@
   "start-coding-action": {
     "defaultMessage": "Start codering"
   },
+  "storage-error-other": {
+    "defaultMessage": "Opslaan van project naar opslag van je browser is mislukt"
+  },
+  "storage-error-quota-description": {
+    "defaultMessage": "Je projectwijziging is mogelijk niet opgeslagen."
+  },
+  "storage-error-quota-title": {
+    "defaultMessage": "Browseropslag is vol"
+  },
   "support": {
     "defaultMessage": "Ondersteuning"
+  },
+  "teacher-resources-row-title": {
+    "defaultMessage": "Middelen voor onderwijzers"
   },
   "terms-of-use": {
     "defaultMessage": "Gebruiksvoorwaarden"
@@ -785,6 +917,9 @@
   "transfer-hex-title": {
     "defaultMessage": "Zet het opgeslagen hex-bestand over naar micro:bit"
   },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "Probleemoplossing"
+  },
   "try-again-action": {
     "defaultMessage": "Probeer het opnieuw"
   },
@@ -808,6 +943,9 @@
   },
   "user-guide": {
     "defaultMessage": "Gebruikershandleiding"
+  },
+  "view-all-projects": {
+    "defaultMessage": "Alles weergeven"
   },
   "visit-dot-org": {
     "defaultMessage": "bezoek microbit.org (opent in een nieuw tabblad)"

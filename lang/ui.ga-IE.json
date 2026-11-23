@@ -20,6 +20,9 @@
   "accessibility": {
     "defaultMessage": "Inrochtaineacht"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "Inrochtaineacht"
+  },
   "added-change": {
     "defaultMessage": "Cuireadh comhad leis {changeName}"
   },
@@ -46,6 +49,9 @@
   },
   "back-action": {
     "defaultMessage": "Ar ais"
+  },
+  "breadcrumb-label": {
+    "defaultMessage": "Grabhróg aráin"
   },
   "cancel-action": {
     "defaultMessage": "Cealaigh"
@@ -137,6 +143,9 @@
   "create-file-action": {
     "defaultMessage": "Cruthaigh comhad"
   },
+  "create-project-action": {
+    "defaultMessage": "Cruthaigh"
+  },
   "create-python": {
     "defaultMessage": "Cruthaigh comhad nua Python sa tionscadal seo"
   },
@@ -200,6 +209,9 @@
   "file-name-whitespace": {
     "defaultMessage": "Ní féidir spásanna a bheith san ainm"
   },
+  "files-tab": {
+    "defaultMessage": "Comhaid"
+  },
   "firmware-update-link": {
     "defaultMessage": "Ní mór duit <link>do dochtearraí a nuashonrú</link> sular féidir leat ceangal leis an micro:bit seo."
   },
@@ -227,10 +239,16 @@
   "font-size": {
     "defaultMessage": "Méid an chló"
   },
+  "get-started-action": {
+    "defaultMessage": "Tosaigh"
+  },
   "guide-link": {
     "defaultMessage": "Le haghaidh tuilleadh tacaíochta, féach an <link>treoir Eagarthóir Python</link>"
   },
   "help": {
+    "defaultMessage": "Cabhair"
+  },
+  "help-resources-row-title": {
     "defaultMessage": "Cabhair"
   },
   "help-support": {
@@ -248,11 +266,44 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "Simplí"
   },
+  "home-action": {
+    "defaultMessage": "Baile"
+  },
+  "idea-activity-picker-title": {
+    "defaultMessage": "Roghnóir gníomhaíochta"
+  },
+  "idea-clap-lights-title": {
+    "defaultMessage": "Soilse bualadh bos"
+  },
+  "idea-dice-title": {
+    "defaultMessage": "Dísle"
+  },
+  "idea-emotion-badge-title": {
+    "defaultMessage": "Suaitheantas mothúcháin"
+  },
+  "idea-frere-jacques-title": {
+    "defaultMessage": "Frère Jacques"
+  },
+  "idea-send-a-smile-title": {
+    "defaultMessage": "Seol gáire"
+  },
+  "idea-step-counter-title": {
+    "defaultMessage": "Comhaireamh céimeanna"
+  },
+  "ideas-moving-why-heading": {
+    "defaultMessage": "Cén fáth?"
+  },
+  "ideas-row-title": {
+    "defaultMessage": "Smaointe"
+  },
   "ideas-tab": {
     "defaultMessage": "Smaointe"
   },
   "ideas-tab-description": {
     "defaultMessage": "Bain triail as na tionscadail seo, athraigh iad agus spreag iad"
+  },
+  "import-file-action": {
+    "defaultMessage": "Iompórtáil"
   },
   "insert-code-action": {
     "defaultMessage": "Ionsáigh cód"
@@ -260,17 +311,26 @@
   "language": {
     "defaultMessage": "Teanga"
   },
+  "learn-more-action": {
+    "defaultMessage": "Tuilleadh eolais"
+  },
   "less-action": {
     "defaultMessage": "Níos lú"
+  },
+  "level-advanced": {
+    "defaultMessage": "Ardleibhéal"
+  },
+  "level-beginner": {
+    "defaultMessage": "Tosaitheoir"
+  },
+  "level-intermediate": {
+    "defaultMessage": "Idirmheánach"
   },
   "load-error-makecode-info": {
     "defaultMessage": "Ní féidir an comhad heicsidheachúlach seo a luchtú in Eagarthóir Python. Ní féidir leis an Eagarthóir Python comhaid heicsidheachúlacha a cruthaíodh le Microsoft MakeCode a oscailt."
   },
   "load-error-makecode-link": {
     "defaultMessage": "Tabhair cuairt ar <link>https://makecode.microbit.org/</link> chun an comhad heicsidheachúlach seo a úsáid."
-  },
-  "load-error-mixed": {
-    "defaultMessage": "Ní féidir comhad heicsidheachúlach a luchtú as a stuaim féin. Tagann sé in ionad gach comhad sa tionscadal."
   },
   "load-error-mpy": {
     "defaultMessage": "Ní thacaíonn an leagan seo den Eagarthóir Python le comhaid .mpy a chur leis faoi láthair."
@@ -283,6 +343,54 @@
   },
   "loading": {
     "defaultMessage": "Ag lódáil…"
+  },
+  "mici-project-hot-potato-game-description": {
+    "defaultMessage": "Seinn ‘práta te’ ag baint úsáide as micro:bit!"
+  },
+  "mici-project-hot-potato-game-title": {
+    "defaultMessage": "Cluiche prátaí te"
+  },
+  "mici-project-indoor-outdoor-thermometer-description": {
+    "defaultMessage": "A bhrath chomh fuar nó te agus atá sé taobh amuigh"
+  },
+  "mici-project-indoor-outdoor-thermometer-title": {
+    "defaultMessage": "Teirmiméadar laistigh-lasmuigh"
+  },
+  "mici-project-maxmin-temperature-logger-description": {
+    "defaultMessage": "Léamha teochta a stóráil"
+  },
+  "mici-project-maxmin-temperature-logger-title": {
+    "defaultMessage": "Logálaí teochta uasta-íosmhéide"
+  },
+  "mici-project-sensitive-step-counter-description": {
+    "defaultMessage": "Cruthaigh d'áiritheoir céimeanna féin le micro:bit"
+  },
+  "mici-project-sensitive-step-counter-title": {
+    "defaultMessage": "Áiritheoir íogair céimeanna "
+  },
+  "mici-project-teleporting-duck-description": {
+    "defaultMessage": "Teileapórtáil lacha idir micro:bit ag úsáid raidió"
+  },
+  "mici-project-teleporting-duck-title": {
+    "defaultMessage": "Lacha teileapórtála"
+  },
+  "mici-project-thermometer-description": {
+    "defaultMessage": "Déan teirmiméadar simplí le do micro:bit"
+  },
+  "mici-project-thermometer-title": {
+    "defaultMessage": "Teirmiméadar"
+  },
+  "mici-project-treasure-hunt-description": {
+    "defaultMessage": "Cluiche tóraíocht taisce ilimreoirí ar raidió "
+  },
+  "mici-project-treasure-hunt-title": {
+    "defaultMessage": "Tóraíocht taisce"
+  },
+  "microbit-classroom-resource-description": {
+    "defaultMessage": "Seisiúin ranga iomlána a reáchtáil, cód a roinnt go héasca leis na daltaí agus dul chun cinn a shábháil"
+  },
+  "microbit-classroom-resource-title": {
+    "defaultMessage": "seomra ranga micro:bit"
   },
   "microbit-hearts-alt": {
     "defaultMessage": "micro:bit leis an eangach 5 faoi 5 LED ag taispeáint croí"
@@ -317,6 +425,9 @@
   "multiple-files-title": {
     "defaultMessage": "Rabhadh: Ní íoslódálfar ach main.py"
   },
+  "my-projects-row-title": {
+    "defaultMessage": "Mo thionscadail"
+  },
   "name-project": {
     "defaultMessage": "Ainmnigh do thionscadal"
   },
@@ -329,8 +440,14 @@
   "new-file-hint": {
     "defaultMessage": "Cuirfimid an síneadh <code>.py</code> ar do shon."
   },
+  "new-project-action": {
+    "defaultMessage": "Tionscadal nua"
+  },
   "next-action": {
     "defaultMessage": "Ar Aghaidh"
+  },
+  "no-projects": {
+    "defaultMessage": "Gan aon tionscadail le taispeáint"
   },
   "not-found-checklist-one": {
     "defaultMessage": "An bhfuil do <strong>micro:bit plugáilte isteach</strong>? Ar <link>lean tú na céimeanna seo</link>?"
@@ -404,6 +521,9 @@
   "project-name-not-empty": {
     "defaultMessage": "Ní féidir ainm an tionscadail a fholmhú"
   },
+  "project-storage-tooltip": {
+    "defaultMessage": "Tá do shonraí sábháilte sa bhrabhsálaí seo ar an ngléas seo. Scriosfar iad má ghlanann tú fianáin nó sonraí suímh do bhrabhsálaí. Féadfaidh do bhrabhsálaí iad a bhaint go huathoibríoch freisin má tá easpa stórais ar do ghléas."
+  },
   "python-powered": {
     "defaultMessage": "Python faoi thiomáint"
   },
@@ -427,6 +547,9 @@
   },
   "replace-action-label": {
     "defaultMessage": "Ionadaigh"
+  },
+  "resource-type-unit-of-work": {
+    "defaultMessage": "Aonad oibre"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Gan torthaí} one {# toradh} two {# thoradh} few {# torthaí} many {# torthaí} other {# torthaí}}\n"
@@ -752,8 +875,20 @@
   "start-coding-action": {
     "defaultMessage": "Tosaigh códú"
   },
+  "storage-error-other": {
+    "defaultMessage": "Theip ar do thionscadal a shábháil i stóras an bhrabhsálaí"
+  },
+  "storage-error-quota-description": {
+    "defaultMessage": "B’fhéidir nach sábhálfar d’eagarthóireacht tionscadail."
+  },
+  "storage-error-quota-title": {
+    "defaultMessage": "Stóras brabhsálaí lán"
+  },
   "support": {
     "defaultMessage": "Tacaíocht"
+  },
+  "teacher-resources-row-title": {
+    "defaultMessage": "Acmhainní múinteoirí"
   },
   "terms-of-use": {
     "defaultMessage": "Téarmaí úsáide"
@@ -785,6 +920,9 @@
   "transfer-hex-title": {
     "defaultMessage": "Aistrigh comhad heicsidheachúlach sábháilte go micro:bit"
   },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "Fabhtcheartú"
+  },
   "try-again-action": {
     "defaultMessage": "Bain triail as arís"
   },
@@ -808,6 +946,9 @@
   },
   "user-guide": {
     "defaultMessage": "Treoir d'úsáideoirí"
+  },
+  "view-all-projects": {
+    "defaultMessage": "Féach ar gach rud"
   },
   "visit-dot-org": {
     "defaultMessage": "tabhair cuairt ar microbit.org (osclaítear i gcluaisín nua)"

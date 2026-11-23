@@ -20,6 +20,9 @@
   "accessibility": {
     "defaultMessage": "Accesibilidad"
   },
+  "accessibility-resource-title": {
+    "defaultMessage": "Accesibilidad"
+  },
   "added-change": {
     "defaultMessage": "Archivo {changeName} añadido"
   },
@@ -46,6 +49,9 @@
   },
   "back-action": {
     "defaultMessage": "Volver"
+  },
+  "breadcrumb-label": {
+    "defaultMessage": "Breadcrumb"
   },
   "cancel-action": {
     "defaultMessage": "Cancelar"
@@ -137,6 +143,9 @@
   "create-file-action": {
     "defaultMessage": "Crear archivo"
   },
+  "create-project-action": {
+    "defaultMessage": "Crea"
+  },
   "create-python": {
     "defaultMessage": "Crear un nuevo archivo Python en este proyecto"
   },
@@ -200,6 +209,9 @@
   "file-name-whitespace": {
     "defaultMessage": "El nombre no puede incluir espacios"
   },
+  "files-tab": {
+    "defaultMessage": "Archivos"
+  },
   "firmware-update-link": {
     "defaultMessage": "Debes <link>actualizar el firmware</link> para poder conectar a este micro:bit."
   },
@@ -227,10 +239,16 @@
   "font-size": {
     "defaultMessage": "Tamaño de fuente"
   },
+  "get-started-action": {
+    "defaultMessage": "Empieza"
+  },
   "guide-link": {
     "defaultMessage": "Para obtener más ayuda, consulta la <link>guía del Editor de Python</link>"
   },
   "help": {
+    "defaultMessage": "Ayuda"
+  },
+  "help-resources-row-title": {
     "defaultMessage": "Ayuda"
   },
   "help-support": {
@@ -248,11 +266,44 @@
   "highlight-code-structure-simple": {
     "defaultMessage": "Simple"
   },
+  "home-action": {
+    "defaultMessage": "Inicio"
+  },
+  "idea-activity-picker-title": {
+    "defaultMessage": "Selector de actividades"
+  },
+  "idea-clap-lights-title": {
+    "defaultMessage": "Luces de aplauso"
+  },
+  "idea-dice-title": {
+    "defaultMessage": "Dado"
+  },
+  "idea-emotion-badge-title": {
+    "defaultMessage": "Insignia de emoción"
+  },
+  "idea-frere-jacques-title": {
+    "defaultMessage": "Frère Jacques"
+  },
+  "idea-send-a-smile-title": {
+    "defaultMessage": "Enviar una sonrisa"
+  },
+  "idea-step-counter-title": {
+    "defaultMessage": "Podómetro"
+  },
+  "ideas-moving-why-heading": {
+    "defaultMessage": "¿Por qué?"
+  },
+  "ideas-row-title": {
+    "defaultMessage": "Ideas"
+  },
   "ideas-tab": {
     "defaultMessage": "Ideas"
   },
   "ideas-tab-description": {
     "defaultMessage": "Prueba estos proyectos y modifícalos para inspirarte"
+  },
+  "import-file-action": {
+    "defaultMessage": "Importar"
   },
   "insert-code-action": {
     "defaultMessage": "Insertar código"
@@ -260,17 +311,26 @@
   "language": {
     "defaultMessage": "Idioma"
   },
+  "learn-more-action": {
+    "defaultMessage": "Aprende más"
+  },
   "less-action": {
     "defaultMessage": "menos"
+  },
+  "level-advanced": {
+    "defaultMessage": "Avanzado"
+  },
+  "level-beginner": {
+    "defaultMessage": "Principiante"
+  },
+  "level-intermediate": {
+    "defaultMessage": "Intermedio"
   },
   "load-error-makecode-info": {
     "defaultMessage": "Este archivo HEX no se puede cargar en el Editor de Python. El Editor de Python no puede abrir archivos hexadecimales creados con Microsoft MakeCode."
   },
   "load-error-makecode-link": {
     "defaultMessage": "Visita <link>https://makecode.microbit.org/</link> para usar este archivo HEX."
-  },
-  "load-error-mixed": {
-    "defaultMessage": "Un archivo HEX únicamente puede cargarse solo. Sustituirá a todos los archivos del proyecto."
   },
   "load-error-mpy": {
     "defaultMessage": "Esta versión del Editor de Python no permite actualmente añadir archivos .mpy."
@@ -283,6 +343,54 @@
   },
   "loading": {
     "defaultMessage": "Cargando…"
+  },
+  "mici-project-hot-potato-game-description": {
+    "defaultMessage": "¡Juega a la ‘patata caliente’ con un micro:bit!"
+  },
+  "mici-project-hot-potato-game-title": {
+    "defaultMessage": "Juego de la patata caliente"
+  },
+  "mici-project-indoor-outdoor-thermometer-description": {
+    "defaultMessage": "Mide cuánto calor o frío hace en el exterior\n"
+  },
+  "mici-project-indoor-outdoor-thermometer-title": {
+    "defaultMessage": "Termómetro interior-exterior"
+  },
+  "mici-project-maxmin-temperature-logger-description": {
+    "defaultMessage": "Almacenar lecturas de temperatura"
+  },
+  "mici-project-maxmin-temperature-logger-title": {
+    "defaultMessage": "Registrador de temperatura máx-mín"
+  },
+  "mici-project-sensitive-step-counter-description": {
+    "defaultMessage": "Haz tu propio contador de pasos con un micro:bit"
+  },
+  "mici-project-sensitive-step-counter-title": {
+    "defaultMessage": "Contador de pasos sensible"
+  },
+  "mici-project-teleporting-duck-description": {
+    "defaultMessage": "Teletransporta un pato entre dos micro:bit usando la radio"
+  },
+  "mici-project-teleporting-duck-title": {
+    "defaultMessage": "Pato escapista"
+  },
+  "mici-project-thermometer-description": {
+    "defaultMessage": "Haz un sencillo termómetro con tu micro:bit"
+  },
+  "mici-project-thermometer-title": {
+    "defaultMessage": "Termómetro"
+  },
+  "mici-project-treasure-hunt-description": {
+    "defaultMessage": "Búsqueda del tesoro multijugador"
+  },
+  "mici-project-treasure-hunt-title": {
+    "defaultMessage": "Búsqueda del tesoro"
+  },
+  "microbit-classroom-resource-description": {
+    "defaultMessage": "Ejecuta sesiones completas de clase, comparte fácilmente el código con los estudiantes y guarda el progreso"
+  },
+  "microbit-classroom-resource-title": {
+    "defaultMessage": "micro:bit classroom"
   },
   "microbit-hearts-alt": {
     "defaultMessage": "Placa micro:bit con la cuadrícula LED de 5 por 5 que muestra un corazón"
@@ -317,6 +425,9 @@
   "multiple-files-title": {
     "defaultMessage": "Aviso: solo se ha descargado main.py"
   },
+  "my-projects-row-title": {
+    "defaultMessage": "Mis proyectos"
+  },
   "name-project": {
     "defaultMessage": "Pon un nombre al proyecto"
   },
@@ -329,8 +440,14 @@
   "new-file-hint": {
     "defaultMessage": "Se añadirá la extensión <code>.py</code>."
   },
+  "new-project-action": {
+    "defaultMessage": "Nuevo proyecto"
+  },
   "next-action": {
     "defaultMessage": "Siguiente"
+  },
+  "no-projects": {
+    "defaultMessage": "No hay proyectos que mostrar"
   },
   "not-found-checklist-one": {
     "defaultMessage": "¿Está el <strong>micro:bit conectado</strong>? ¿Has <link>seguido estos pasos</link>?"
@@ -404,6 +521,9 @@
   "project-name-not-empty": {
     "defaultMessage": "El nombre del proyecto no puede estar en blanco"
   },
+  "project-storage-tooltip": {
+    "defaultMessage": "Tus datos se guardan en el navegador de este dispositivo. Si borras las cookies o los datos del sitio web de tu navegador, se eliminarán. También es posible que tu navegador los elimine automáticamente si tu dispositivo tiene poco espacio de almacenamiento."
+  },
   "python-powered": {
     "defaultMessage": "Funciona con Python"
   },
@@ -427,6 +547,9 @@
   },
   "replace-action-label": {
     "defaultMessage": "Sustituir"
+  },
+  "resource-type-unit-of-work": {
+    "defaultMessage": "Unidad de trabajo"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Ningún resultado} one {# resultado} other {# resultados}}"
@@ -752,8 +875,20 @@
   "start-coding-action": {
     "defaultMessage": "Empezar a programar"
   },
+  "storage-error-other": {
+    "defaultMessage": "No se ha podido guardar el proyecto en el almacenamiento del navegador"
+  },
+  "storage-error-quota-description": {
+    "defaultMessage": "Es posible que los cambios realizados en tu proyecto no se hayan guardado."
+  },
+  "storage-error-quota-title": {
+    "defaultMessage": "El almacenamiento del navegador está lleno"
+  },
   "support": {
     "defaultMessage": "Ayuda Técnica"
+  },
+  "teacher-resources-row-title": {
+    "defaultMessage": "Recursos para profesores"
   },
   "terms-of-use": {
     "defaultMessage": "Términos de uso"
@@ -785,6 +920,9 @@
   "transfer-hex-title": {
     "defaultMessage": "Transferir archivo HEX guardado a micro:bit"
   },
+  "troubleshooting-resource-title": {
+    "defaultMessage": "Resolución de problemas"
+  },
   "try-again-action": {
     "defaultMessage": "Inténtalo de nuevo"
   },
@@ -808,6 +946,9 @@
   },
   "user-guide": {
     "defaultMessage": "Guía de usuario"
+  },
+  "view-all-projects": {
+    "defaultMessage": "Ver todo"
   },
   "visit-dot-org": {
     "defaultMessage": "visitar microbit.org (abre en una nueva pestaña)"
