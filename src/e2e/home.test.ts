@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { expect } from "@playwright/test";
-import { appUrlPattern } from "./app.js";
+import { appUrlPattern, homeUrl } from "./app.js";
 import { test } from "./app-test-fixtures.js";
 import { modalDialog } from "./home-page.js";
 
@@ -30,6 +30,22 @@ test.describe("home page", () => {
       ).toBeVisible();
     }
     await homePage.expectNoNewAccessibilityViolations();
+  });
+
+  test("shows what's new once", async ({ homePage }) => {
+    // Not homePage.goto(): the dialog repeats the heading it waits for.
+    await homePage.page.goto(homeUrl({ welcome: true }));
+    const dialog = modalDialog(homePage.page);
+    await expect(
+      dialog.getByRole("heading", { name: "What's new in the Python Editor" })
+    ).toBeVisible();
+    await homePage.expectNoNewAccessibilityViolations();
+    await dialog.getByRole("button", { name: "Get started" }).click();
+    await expect(dialog).toBeHidden();
+
+    await homePage.page.reload();
+    await homePage.expectOnPage();
+    await expect(dialog).toBeHidden();
   });
 
   test("creates a project and opens it in the editor", async ({

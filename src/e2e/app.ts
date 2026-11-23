@@ -36,6 +36,8 @@ export interface UrlOptions {
   language?: string;
   /** Iframe controller mode, as embedded by classroom. */
   controller?: boolean;
+  /** Show the dialogs that greet a browser on its first visit. */
+  welcome?: boolean;
 }
 
 interface SaveOptions {
@@ -848,7 +850,7 @@ export const appUrlPattern = (path: string = ""): RegExp => {
 export const appUrl = (path: string, options: UrlOptions = {}): string => {
   const flags = new Set<string>([
     "none",
-    "noWelcome",
+    ...(options.welcome ? [] : ["noWelcome"]),
     ...(options.flags ?? []),
   ]);
   const params: Array<[string, string]> = Array.from(flags).map((f) => [
