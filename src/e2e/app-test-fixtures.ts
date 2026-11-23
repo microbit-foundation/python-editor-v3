@@ -14,16 +14,19 @@ type Options = {
   noIndexedDB: boolean;
   /** Open the editor before the test. Off for tests that embed it. */
   autoGoto: boolean;
+  /** Show the dialogs that greet a browser on its first visit. */
+  welcome: boolean;
 };
 
 export const test = base.extend<MyFixtures & Options>({
   noIndexedDB: [false, { option: true }],
   autoGoto: [true, { option: true }],
+  welcome: [false, { option: true }],
   // On the context rather than the app fixture: the compliance notice is a
   // modal dialog that hides the page from the accessibility tree, so a test
   // that only drives the pages needs the cookie just as much as one that
   // drives the editor.
-  context: async ({ context, noIndexedDB }, use) => {
+  context: async ({ context, noIndexedDB, welcome }, use) => {
     await context.grantPermissions(["clipboard-read", "clipboard-write"]);
     await context.addCookies([
       {
@@ -45,6 +48,13 @@ export const test = base.extend<MyFixtures & Options>({
         url: baseUrl,
       },
     ]);
+    if (!welcome) {
+      // In storage rather than the URL's flag params, which in-app links
+      // drop, so a reload after following one still has it.
+      await context.addInitScript(() => {
+        localStorage.setItem("flags", "noWelcome");
+      });
+    }
     if (noIndexedDB) {
       await context.addInitScript(() => {
         // The getter lives on the prototype so an own property is needed.
