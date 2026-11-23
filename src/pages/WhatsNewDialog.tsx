@@ -15,7 +15,7 @@ import {
 } from "@microbit/ui";
 import { ReactNode, useEffect, useState } from "react";
 import { IconType } from "react-icons";
-import { RiDownload2Line, RiFolderOpenLine, RiHome4Line } from "react-icons/ri";
+import { RiDownload2Line, RiFolderOpenLine, RiHome2Line } from "react-icons/ri";
 import { FormattedMessage, useIntl } from "react-intl";
 import { HStack, Stack } from "styled-system/jsx";
 import { useStorage } from "../common/use-storage";
@@ -74,7 +74,7 @@ const WhatsNewDialog = ({ isOpen, onClose }: WhatsNewDialogProps) => {
       <ModalBody>
         <Stack gap="5">
           <Point
-            icon={RiHome4Line}
+            icon={RiHome2Line}
             heading={<FormattedMessage id="whats-new-home-heading" />}
           >
             <FormattedMessage id="whats-new-home" />
