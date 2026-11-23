@@ -1,0 +1,199 @@
+/**
+ * (c) 2026, Micro:bit Educational Foundation and contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+import "fake-indexeddb/auto";
+import { openDB } from "idb";
+import {
+  databaseName,
+  NoSuchProjectError,
+  ProjectMeta,
+  ProjectsDatabase,
+} from "./projects-db";
+
+let counter = 0;
+const uniqueName = () => `test-${Date.now()}-${counter++}`;
+
+const meta = (id: string, timestamp: number, name = id): ProjectMeta => ({
+  id,
+  name,
+  timestamp,
+});
+const bytes = (...values: number[]) => new Uint8Array(values);
+// Typed arrays read back through fake-indexeddb under jsdom belong to another
+// realm, so compare contents rather than objects.
+const contents = (files: Record<string, Uint8Array>) =>
+  Object.fromEntries(
+    Object.entries(files).map(([name, data]) => [name, Array.from(data)])
+  );
+
+describe("databaseName", () => {
+  it("is namespaced by the base path so production and beta stay apart", () => {
+    expect(databaseName("local", "/")).toEqual("python-editor");
+    expect(databaseName("PRODUCTION", "/v/3/")).toEqual("python-editor/v/3");
+    expect(databaseName("STAGING", "/v/beta/")).toEqual("python-editor/v/beta");
+  });
+
+  it("is shared by every review build", () => {
+    expect(databaseName("REVIEW", "/some-branch/")).toEqual(
+      "python-editor-review"
+    );
+    expect(databaseName("REVIEW", "/another/")).toEqual("python-editor-review");
+  });
+});
+
+describe("ProjectsDatabase", () => {
+  let db: ProjectsDatabase;
+  beforeEach(async () => {
+    db = await ProjectsDatabase.open(uniqueName());
+  });
+  afterEach(() => db.close());
+
+  it("starts empty", async () => {
+    expect(await db.list()).toEqual([]);
+    expect(await db.mostRecent()).toBeUndefined();
+  });
+
+  it("creates projects with files and lists them most recent first", async () => {
+    await db.create(meta("a", 1), { "main.py": bytes(1) });
+    await db.create(meta("b", 2), { "main.py": bytes(2), "x.py": bytes(3) });
+    expect((await db.list()).map((p) => p.id)).toEqual(["b", "a"]);
+    expect(await db.mostRecent()).toEqual(meta("b", 2));
+    expect(contents(await db.files("b"))).toEqual({
+      "main.py": [2],
+      "x.py": [3],
+    });
+    expect(await db.fileNames("a")).toEqual(["main.py"]);
+    expect(Array.from((await db.file("a", "main.py"))!)).toEqual([1]);
+    expect(await db.file("a", "nope.py")).toBeUndefined();
+  });
+
+  it("update changes the given fields of a project's record", async () => {
+    await db.create(meta("a", 1, "before"), { "main.py": bytes(1) });
+    await db.update("a", { name: "renamed" });
+    expect(await db.get("a")).toEqual(meta("a", 1, "renamed"));
+    await db.update("a", { timestamp: 5 });
+    expect(await db.get("a")).toEqual(meta("a", 5, "renamed"));
+  });
+
+  it("update refuses a project that does not exist", async () => {
+    await expect(db.update("missing", { name: "x" })).rejects.toThrow(
+      /No such project missing/
+    );
+  });
+
+  it("save writes the record and file changes together", async () => {
+    await db.create(meta("a", 1), { "main.py": bytes(1), "old.py": bytes(9) });
+    await db.save(meta("a", 5, "renamed"), {
+      writes: { "main.py": bytes(2), "new.py": bytes(3) },
+      deletes: ["old.py"],
+    });
+    expect(await db.get("a")).toEqual(meta("a", 5, "renamed"));
+    expect(contents(await db.files("a"))).toEqual({
+      "main.py": [2],
+      "new.py": [3],
+    });
+  });
+
+  it("save refuses a project that no longer exists and writes nothing", async () => {
+    await expect(
+      db.save(meta("gone", 1), { writes: { "main.py": bytes(1) }, deletes: [] })
+    ).rejects.toBeInstanceOf(NoSuchProjectError);
+    expect(await db.get("gone")).toBeUndefined();
+    expect(contents(await db.files("gone"))).toEqual({});
+  });
+
+  it("save rejects rather than throws when the connection has closed", async () => {
+    await db.create(meta("a", 1), {});
+    db.close();
+    let result: Promise<void> | undefined;
+    expect(() => {
+      result = db.save(meta("a", 2), { writes: {}, deletes: [] });
+    }).not.toThrow();
+    await expect(result).rejects.toThrow();
+  });
+
+  it("an urgent save issues its writes without waiting to check", async () => {
+    await db.create(meta("a", 1), { "main.py": bytes(1) });
+    await db.save(
+      meta("a", 5),
+      { writes: { "main.py": bytes(2) }, deletes: [] },
+      { urgent: true }
+    );
+    expect(await db.get("a")).toEqual(meta("a", 5));
+    expect(contents(await db.files("a"))).toEqual({ "main.py": [2] });
+  });
+
+  it("leaves no unhandled rejection when a request in a transaction fails", async () => {
+    await db.create(meta("a", 1), {});
+    const unhandled: unknown[] = [];
+    const listener = (reason: unknown) => unhandled.push(reason);
+    process.on("unhandledRejection", listener);
+    // The next put fails as a request, as a put can when storage is full,
+    // rather than as a call: it adds a key that already exists.
+    const put = IDBObjectStore.prototype.put;
+    IDBObjectStore.prototype.put = function (this: IDBObjectStore, value) {
+      IDBObjectStore.prototype.put = put;
+      return this.add(value);
+    };
+
+    await expect(db.create(meta("a", 2), {})).rejects.toThrow();
+    await new Promise((resolve) => setTimeout(resolve, 20));
+
+    process.off("unhandledRejection", listener);
+    expect(unhandled).toEqual([]);
+    expect(await db.get("a")).toEqual(meta("a", 1));
+  });
+
+  it("touch makes a project the most recent", async () => {
+    await db.create(meta("a", 1), {});
+    await db.create(meta("b", 2), {});
+    await db.touch("a", 3);
+    expect((await db.mostRecent())?.id).toEqual("a");
+  });
+
+  it("duplicates a project's files under new metadata", async () => {
+    await db.create(meta("a", 1), { "main.py": bytes(1) });
+    await db.duplicate("a", meta("b", 2, "copy"));
+    expect(await db.get("b")).toEqual(meta("b", 2, "copy"));
+    expect(contents(await db.files("b"))).toEqual({ "main.py": [1] });
+  });
+
+  it("deletes a project and its files", async () => {
+    await db.create(meta("a", 1), { "main.py": bytes(1), "x.py": bytes(2) });
+    await db.create(meta("b", 2), { "main.py": bytes(3) });
+    await db.delete("a");
+    expect((await db.list()).map((p) => p.id)).toEqual(["b"]);
+    expect(contents(await db.files("a"))).toEqual({});
+    expect(contents(await db.files("b"))).toEqual({ "main.py": [3] });
+  });
+
+  it("rejects a database created by an incompatible version", async () => {
+    const name = uniqueName();
+    // Same version number, different stores: what a future schema change
+    // that forgot to bump the version would look like from an old build.
+    const other = await openDB(name, 1, {
+      upgrade(db) {
+        db.createObjectStore("something-else");
+      },
+    });
+    other.close();
+    await expect(ProjectsDatabase.open(name)).rejects.toMatchObject({
+      name: "VersionError",
+    });
+  });
+
+  it("loads a project's metadata and files together", async () => {
+    const db = await ProjectsDatabase.open(uniqueName());
+    await db.create(meta("a", 1), { "main.py": bytes(1), "x.py": bytes(2) });
+    await db.create(meta("b", 2), { "main.py": bytes(3) });
+
+    const loaded = await db.load("a");
+
+    expect(loaded?.meta).toEqual(meta("a", 1));
+    expect(contents(loaded!.files)).toEqual({ "main.py": [1], "x.py": [2] });
+    expect(await db.load("missing")).toBeUndefined();
+    db.close();
+  });
+});

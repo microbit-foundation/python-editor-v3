@@ -47,38 +47,8 @@
   "back-action": {
     "defaultMessage": "Voltar"
   },
-  "back-to-main": {
-    "defaultMessage": "voltar ao código principal"
-  },
   "cancel-action": {
     "defaultMessage": "Cancelar"
-  },
-  "change-files": {
-    "defaultMessage": "Alterar arquivos?"
-  },
-  "choose-main-add-file": {
-    "defaultMessage": "Adicionar arquivo {name}"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "Adicionar módulo {name}"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "Substituir arquivo {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "Substituir módulo {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "Adicionar arquivo {target} de {source}"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "Adicionar código principal de {source}"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "Substituir arquivo {target} por {source}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "Substituir código principal por {source}"
   },
   "clear": {
     "defaultMessage": "Limpar"
@@ -100,9 +70,6 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "Substituir todos os arquivos pelos contidos no hex?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "Substituir todos os arquivos pelo código inicial padrão?"
   },
   "confirm-replace-title": {
     "defaultMessage": "Confirmar substituição do projeto"
@@ -202,9 +169,6 @@
   },
   "edit-name-project-hover": {
     "defaultMessage": "Edite o nome do seu projeto"
-  },
-  "edit-project-name-action": {
-    "defaultMessage": "Editar nome do projeto"
   },
   "failed-to-build-hex": {
     "defaultMessage": "Falha ao construir o arquivo hexadecimal"
@@ -392,17 +356,8 @@
   "open-action": {
     "defaultMessage": "Abrir"
   },
-  "open-file-action": {
-    "defaultMessage": "Abrir…"
-  },
   "open-file-dropped": {
     "defaultMessage": "Abrir arquivo ao soltá-lo"
-  },
-  "open-hover": {
-    "defaultMessage": "Abra um arquivo hex ou Python ou adicione outros arquivos\n"
-  },
-  "options": {
-    "defaultMessage": "Opções"
   },
   "parameter-help": {
     "defaultMessage": "Ajuda sobre parâmetros"
@@ -440,17 +395,8 @@
   "project-header": {
     "defaultMessage": "Cabeçalho do projeto"
   },
-  "project-name": {
-    "defaultMessage": "Nome do projeto"
-  },
   "project-name-not-empty": {
     "defaultMessage": "O nome do projeto não pode estar vazio"
-  },
-  "project-tab": {
-    "defaultMessage": "Projeto"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Visualize, crie, adicione e edite os arquivos no seu projeto"
   },
   "python-powered": {
     "defaultMessage": "Desenvolvido com Python"
@@ -475,15 +421,6 @@
   },
   "replace-action-label": {
     "defaultMessage": "Substituir"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Redefinir projeto"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Projeto redefinido para o código inicial padrão"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Redefine o projeto para o código inicial padrão, descartando seu trabalho"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Nenhum resultado} one {# resultado} other {# resultados}}"

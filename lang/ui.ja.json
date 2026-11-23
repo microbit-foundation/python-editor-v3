@@ -47,38 +47,8 @@
   "back-action": {
     "defaultMessage": "戻る"
   },
-  "back-to-main": {
-    "defaultMessage": "メインコードに戻る"
-  },
   "cancel-action": {
     "defaultMessage": "キャンセル"
-  },
-  "change-files": {
-    "defaultMessage": "ファイルを変更しますか？"
-  },
-  "choose-main-add-file": {
-    "defaultMessage": "ファイル {name} を追加"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "モジュール {name} を追加"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "ファイル {name} を置き換え"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "モジュール {name} を置き換え"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "{source} からファイル {target} を追加"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "{source} からメインコードを追加"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "ファイル {target} を {source} に置き換え"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "メインコードを {source} に置き換え"
   },
   "clear": {
     "defaultMessage": "クリア"
@@ -100,9 +70,6 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "すべてのファイルを hex に置き換えますか？"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "すべてのファイルをデフォルトのスターターコードに置き換えますか？"
   },
   "confirm-replace-title": {
     "defaultMessage": "プロジェクトの置き換えを確認"
@@ -202,9 +169,6 @@
   },
   "edit-name-project-hover": {
     "defaultMessage": "プロジェクトの名前を編集"
-  },
-  "edit-project-name-action": {
-    "defaultMessage": "プロジェクト名を編集"
   },
   "failed-to-build-hex": {
     "defaultMessage": "hex ファイルのビルドに失敗しました"
@@ -392,17 +356,8 @@
   "open-action": {
     "defaultMessage": "開く"
   },
-  "open-file-action": {
-    "defaultMessage": "開く…"
-  },
   "open-file-dropped": {
     "defaultMessage": "ドロップ時にファイルを開く"
-  },
-  "open-hover": {
-    "defaultMessage": "hex ファイルまたは Python ファイルを開くか、他のファイルを追加する"
-  },
-  "options": {
-    "defaultMessage": "オプション"
   },
   "parameter-help": {
     "defaultMessage": "パラメータのヘルプ"
@@ -440,17 +395,8 @@
   "project-header": {
     "defaultMessage": "プロジェクトヘッダー"
   },
-  "project-name": {
-    "defaultMessage": "プロジェクト名"
-  },
   "project-name-not-empty": {
     "defaultMessage": "プロジェクト名は空にできません"
-  },
-  "project-tab": {
-    "defaultMessage": "プロジェクト"
-  },
-  "project-tab-description": {
-    "defaultMessage": "プロジェクト内のファイルの表示、作成、追加、編集"
   },
   "python-powered": {
     "defaultMessage": "Python搭載"
@@ -475,15 +421,6 @@
   },
   "replace-action-label": {
     "defaultMessage": "置換"
-  },
-  "reset-project-action": {
-    "defaultMessage": "プロジェクトをリセット"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "プロジェクトがデフォルトのスターターコードにリセットされました"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "プロジェクトをデフォルトのスターターコードにリセットし、作業を破棄します"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {結果なし} other {#件の結果}}"

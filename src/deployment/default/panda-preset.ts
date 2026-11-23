@@ -78,8 +78,8 @@ export const appPreset = definePreset({
       semanticTokens: {
         colors: {
           // Sidebar chrome: Container `sidebar-header` bg + the Tabs `sidebar`
-          // variant. OSS is flat black; the private preset uses brand colours /
-          // a gradient (see the private panda-preset).
+          // variant. OSS is flat black; the private preset uses brand colours
+          // (see the private panda-preset).
           sidebarHeaderBg: { value: "black" },
           sidebarTablistBg: { value: "black" },
           sidebarTabSelectedText: { value: "black" },
@@ -122,6 +122,14 @@ export const appPreset = definePreset({
           },
         },
       },
+    },
+  },
+  conditions: {
+    extend: {
+      // Short screens (e.g. 1366x768 Chromebooks); reduces card heights and
+      // spacing in the home page projects row. Matches ml-trainer so the
+      // cards are the same size.
+      shortHeight: "@media (max-height: 800px)",
     },
   },
 });

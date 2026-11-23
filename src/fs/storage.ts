@@ -23,8 +23,10 @@ export interface FSStorage {
   projectName(): Promise<string | undefined>;
   clear(): Promise<void>;
   /**
-   * We persist the dirty flag so that we know whether the user
-   * had previously made changes after a restore from storage.
+   * Whether the user has changed the project since the last hex save, used
+   * to warn before their work is lost. Storage that lives no longer than the
+   * tab persists it so the warning survives a reload; storage that outlives
+   * the tab has nothing to warn about and always reports false.
    */
   markDirty(): Promise<void>;
   clearDirty(): Promise<void>;
@@ -169,6 +171,18 @@ export class SessionStorageFSStorage implements FSStorage {
     this.storage.clear();
   }
 
+  /**
+   * Removes the file system's keys and nothing else: session storage also
+   * holds session settings.
+   */
+  async removeAll(): Promise<void> {
+    for (const key of Object.keys(this.storage)) {
+      if (key.startsWith(fsFilesPrefix) || key.startsWith(fsMetadataPrefix)) {
+        this.storage.removeItem(key);
+      }
+    }
+  }
+
   async markDirty(): Promise<void> {
     this.storage.setItem(dirtyKey, "true");
   }
@@ -181,25 +195,80 @@ export class SessionStorageFSStorage implements FSStorage {
 }
 
 /**
+ * Storage that arrives later. Every operation waits for it and then goes
+ * straight through, so its errors reach the caller untouched.
+ */
+export class DeferredFSStorage implements FSStorage {
+  constructor(private storage: Promise<FSStorage>) {}
+
+  async ls() {
+    return (await this.storage).ls();
+  }
+  async exists(filename: string) {
+    return (await this.storage).exists(filename);
+  }
+  async read(filename: string) {
+    return (await this.storage).read(filename);
+  }
+  async write(filename: string, content: Uint8Array) {
+    return (await this.storage).write(filename, content);
+  }
+  async remove(filename: string) {
+    return (await this.storage).remove(filename);
+  }
+  async setProjectName(projectName: string | undefined) {
+    return (await this.storage).setProjectName(projectName);
+  }
+  async projectName() {
+    return (await this.storage).projectName();
+  }
+  async clear() {
+    return (await this.storage).clear();
+  }
+  async markDirty() {
+    return (await this.storage).markDirty();
+  }
+  async clearDirty() {
+    return (await this.storage).clearDirty();
+  }
+  async isDirty() {
+    return (await this.storage).isDirty();
+  }
+}
+
+/**
  * Reads from primary.
  *
  * Writes to both.
  *
- * If write errors occur it clears primary and discontinues use.
+ * If the secondary errors it stops using it, clearing it first unless
+ * preloaded.
  */
 export class SplitStrategyStorage implements FSStorage {
   private initialized: Promise<unknown>;
+  private secondary: FSStorage | undefined;
 
+  /**
+   * @param secondary The persistent copy, or a promise of one for storage
+   * that takes time to open. Every operation waits for it.
+   * @param options.preloaded The primary already holds the secondary's
+   * content, so it isn't read back. The secondary is then the source of
+   * truth and is never cleared.
+   */
   constructor(
     private primary: FSStorage,
-    private secondary: FSStorage | undefined,
-    private log: Logging
+    secondary: FSStorage | undefined | Promise<FSStorage | undefined>,
+    private log: Logging,
+    private options: { preloaded?: boolean } = {}
   ) {
-    this.initialized = secondary
-      ? this.secondaryErrorHandle(async () => {
-          await initializeFromStorage(secondary, primary);
-        })
-      : Promise.resolve();
+    this.initialized = Promise.resolve(secondary).then((resolved) => {
+      this.secondary = resolved;
+      return resolved && !options.preloaded
+        ? this.secondaryErrorHandle(async () => {
+            await initializeFromStorage(resolved, primary);
+          })
+        : undefined;
+    });
   }
 
   async ls() {
@@ -265,14 +334,16 @@ export class SplitStrategyStorage implements FSStorage {
     try {
       await action(this.secondary);
     } catch (e1) {
-      try {
-        await this.secondary.clear();
-      } catch (e2) {
-        // Not much we can do.
-        this.log.error(
-          "Failed to clear secondary storage in error scenario",
-          e2
-        );
+      if (!this.options.preloaded) {
+        try {
+          await this.secondary.clear();
+        } catch (e2) {
+          // Not much we can do.
+          this.log.error(
+            "Failed to clear secondary storage in error scenario",
+            e2
+          );
+        }
       }
       // Avoid all future errors this session.
       this.log.error("Abandoning secondary storage due to error", e1);

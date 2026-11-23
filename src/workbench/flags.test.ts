@@ -3,61 +3,93 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { flagsForParams } from "../flags";
+import { FlagMetadata, flagsForParams } from "../flags";
+
+/**
+ * Test-only flag metadata so these tests cover the resolution rules
+ * rather than the current defaults for real flags.
+ */
+type TestFlag = "onInReview" | "onInProduction" | "alwaysOff";
+const testFlags: FlagMetadata<TestFlag>[] = [
+  { name: "onInReview", defaultOnStages: ["local", "REVIEW"] },
+  { name: "onInProduction", defaultOnStages: ["PRODUCTION"] },
+  { name: "alwaysOff", defaultOnStages: [] },
+];
+
+const resolve = (
+  stage: Parameters<typeof flagsForParams>[0],
+  params: [string, string][]
+) => flagsForParams(stage, new URLSearchParams(params), testFlags);
 
 describe("flags", () => {
-  it("enables opt-in flags for REVIEW stage", () => {
-    const params = new URLSearchParams([]);
-
-    const flags = flagsForParams("REVIEW", params);
-    expect(flags.noWelcome).toEqual(true);
-    expect(flags.dndDebug).toEqual(false);
+  it("uses stage defaults when nothing is specified", () => {
+    expect(resolve("REVIEW", [])).toEqual({
+      onInReview: true,
+      onInProduction: false,
+      alwaysOff: false,
+    });
+    expect(resolve("PRODUCTION", [])).toEqual({
+      onInReview: false,
+      onInProduction: true,
+      alwaysOff: false,
+    });
   });
 
-  it("only enables PWA in production", () => {
-    const params = new URLSearchParams([]);
-
-    const flags = flagsForParams("PRODUCTION", params);
-
-    expect(flags.pwa).toBe(true);
-    const { pwa, ...filteredFlags } = flags;
-
-    expect(Object.values(filteredFlags).every((x) => !x)).toEqual(true);
+  it("enables a specific flag on top of the stage defaults", () => {
+    expect(resolve("PRODUCTION", [["flag", "alwaysOff"]])).toEqual({
+      onInReview: false,
+      onInProduction: true,
+      alwaysOff: true,
+    });
   });
 
-  it("enable specific flag", () => {
-    const params = new URLSearchParams([["flag", "noWelcome"]]);
+  it("enables everything with *", () => {
+    expect(resolve("PRODUCTION", [["flag", "*"]])).toEqual({
+      onInReview: true,
+      onInProduction: true,
+      alwaysOff: true,
+    });
+  });
 
-    const flags = flagsForParams("PRODUCTION", params);
+  it("disables everything with none", () => {
+    expect(resolve("REVIEW", [["flag", "none"]])).toEqual({
+      onInReview: false,
+      onInProduction: false,
+      alwaysOff: false,
+    });
+  });
 
+  it("combines none with specific enabled flags", () => {
     expect(
-      Object.entries(flags).every(
-        ([flag, status]) => (flag === "noWelcome" || flag === "pwa") === status
-      )
-    ).toEqual(true);
+      resolve("REVIEW", [
+        ["flag", "none"],
+        ["flag", "alwaysOff"],
+      ])
+    ).toEqual({
+      onInReview: false,
+      onInProduction: false,
+      alwaysOff: true,
+    });
   });
 
-  it("enable everything", () => {
-    const params = new URLSearchParams([["flag", "*"]]);
-    const flags = flagsForParams("PRODUCTION", params);
-    expect(Object.values(flags).every((x) => x)).toEqual(true);
+  it("ignores unknown flags", () => {
+    expect(resolve("PRODUCTION", [["flag", "doesNotExist"]])).toEqual({
+      onInReview: false,
+      onInProduction: true,
+      alwaysOff: false,
+    });
   });
 
-  it("enable nothing", () => {
-    const params = new URLSearchParams([["flag", "none"]]);
-    const flags = flagsForParams("REVIEW", params);
-    expect(Object.values(flags).every((x) => !x)).toEqual(true);
-  });
+  describe("local storage", () => {
+    afterEach(() => localStorage.removeItem("flags"));
 
-  it("can combine none with specific enabled flags in REVIEW", () => {
-    const params = new URLSearchParams([
-      ["flag", "none"],
-      ["flag", "noWelcome"],
-    ]);
-
-    const flags = flagsForParams("REVIEW", params);
-
-    expect(flags.dndDebug).toBe(false);
-    expect(flags.noWelcome).toBe(true);
+    it("enables comma-separated flags from local storage", () => {
+      localStorage.setItem("flags", "alwaysOff, onInReview");
+      expect(resolve("PRODUCTION", [])).toEqual({
+        onInReview: true,
+        onInProduction: true,
+        alwaysOff: true,
+      });
+    });
   });
 });

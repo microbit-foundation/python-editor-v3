@@ -3,8 +3,17 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { usePrevious } from "@microbit/ui";
-import { ReactNode, useCallback, useEffect, useMemo, useRef } from "react";
+import { darkSurface, usePrevious } from "@microbit/ui";
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from "react";
+import { flushSync } from "react-dom";
 import { TabList, TabPanel, TabPanels, Tabs } from "react-aria-components";
 import { IconType } from "react-icons";
 import { RiLightbulbFlashLine } from "react-icons/ri";
@@ -26,6 +35,7 @@ import HelpMenu from "./HelpMenu";
 import PreReleaseNotice, { useReleaseDialogState } from "./PreReleaseNotice";
 import ReleaseDialogs from "./ReleaseDialogs";
 import SideBarHeader from "./SideBarHeader";
+import { ShowSidebarPanel } from "./sidebar-hooks";
 import SideBarTab from "./SideBarTab";
 
 export const cornerSize = 32;
@@ -50,6 +60,11 @@ interface SideBarProps {
   onSidebarCollapse: () => void;
   "aria-label"?: string;
   css?: SystemStyleObject;
+  ref?: React.Ref<SideBarHandle>;
+}
+
+export interface SideBarHandle {
+  showPanel: ShowSidebarPanel;
 }
 
 /**
@@ -65,6 +80,7 @@ const SideBar = ({
   onSidebarCollapse,
   onSidebarExpand,
   css: cssProp,
+  ref,
   ...props
 }: SideBarProps) => {
   const intl = useIntl();
@@ -91,11 +107,10 @@ const SideBar = ({
         icon: PythonLogo as IconType,
         contents: <ApiArea />,
         color: "gray.75",
-        mb: "auto",
       },
       {
-        id: "project" as const,
-        title: intl.formatMessage({ id: "project-tab" }),
+        id: "files" as const,
+        title: intl.formatMessage({ id: "files-tab" }),
         icon: VscFiles,
         contents: (
           <ProjectArea
@@ -104,6 +119,7 @@ const SideBar = ({
           />
         ),
         color: "gray.50",
+        mb: "auto",
       },
     ];
     return result;
@@ -120,7 +136,9 @@ const SideBar = ({
     );
     (activePanel as HTMLElement | null)?.focus();
   };
-  useEffect(() => {
+  // Before paint, so opening the editor on a tab (e.g. an idea from the home
+  // page) doesn't first show the default tab.
+  useLayoutEffect(() => {
     // Initialize from the router state. Start-up and navigation.
     const tabIndex = panes.findIndex((p) => p.id === tab);
     if (tabIndex !== -1) {
@@ -131,6 +149,23 @@ const SideBar = ({
       }
     }
   }, [onSidebarExpand, panes, onTabIndexChange, tab, slug, focus]);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      showPanel: (id) => {
+        // Synchronously, so the panel can take focus now. The URL follows.
+        // eslint-disable-next-line @eslint-react/dom-no-flush-sync
+        flushSync(() => {
+          onTabIndexChange(panes.findIndex((p) => p.id === id));
+          onSidebarExpand();
+        });
+        setPanelFocus();
+        setParams({ tab: id });
+      },
+    }),
+    [onSidebarExpand, onTabIndexChange, panes, setParams]
+  );
 
   const previouslyShown = usePrevious(shown);
   useEffect(() => {
@@ -228,9 +263,8 @@ const SideBar = ({
         <Flex direction="column" background="sidebarTablistBg">
           <Box flex="1" maxHeight="8.9rem" minHeight="8"></Box>
           <TabList
-            // Flexes so the API tab's mb:auto pushes the project tab (and
-            // the menus below the list) to the bottom, as in the old
-            // single-column tablist.
+            // Flexes so the Files tab's mb:auto pushes the menus below the
+            // list to the bottom.
             className={css({
               display: "flex",
               flexDirection: "column",
@@ -247,7 +281,7 @@ const SideBar = ({
               />
             ))}
           </TabList>
-          <VStack mt="4" mb="1" gap="0.5" color="white">
+          <VStack {...darkSurface} mt="4" mb="1" gap="0.5" color="white">
             <SettingsMenu size="lg" />
             <HelpMenu size="lg" />
           </VStack>

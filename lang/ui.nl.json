@@ -47,38 +47,8 @@
   "back-action": {
     "defaultMessage": "Terug"
   },
-  "back-to-main": {
-    "defaultMessage": "terug naar de hoofdcode"
-  },
   "cancel-action": {
     "defaultMessage": "Annuleren"
-  },
-  "change-files": {
-    "defaultMessage": "Bestanden wijzigen?"
-  },
-  "choose-main-add-file": {
-    "defaultMessage": "Voeg bestand {name} toe"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "Module {name} toevoegen"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "Vervang bestand {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "Vervang module {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "Bestand {target} van {source} toevoegen"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "Voeg hoofdcode toe van {source}"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "Vervang bestand {target} door {source}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "Vervang hoofdcode door {source}"
   },
   "clear": {
     "defaultMessage": "Verwijderen"
@@ -100,9 +70,6 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "Alle bestanden vervangen door bestanden in de hex?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "Alle bestanden vervangen door de standaard startcode?"
   },
   "confirm-replace-title": {
     "defaultMessage": "Vervanging bevestigen"
@@ -202,9 +169,6 @@
   },
   "edit-name-project-hover": {
     "defaultMessage": "Wijzig de naam van je project"
-  },
-  "edit-project-name-action": {
-    "defaultMessage": "Project naam bewerken"
   },
   "failed-to-build-hex": {
     "defaultMessage": "Het maken van het hex bestand is mislukt"
@@ -392,17 +356,8 @@
   "open-action": {
     "defaultMessage": "Open"
   },
-  "open-file-action": {
-    "defaultMessage": "Open…"
-  },
   "open-file-dropped": {
     "defaultMessage": "Open bestand wanneer gedropt"
-  },
-  "open-hover": {
-    "defaultMessage": "Open een hex of Python bestand of voeg andere bestanden toe"
-  },
-  "options": {
-    "defaultMessage": "Opties"
   },
   "parameter-help": {
     "defaultMessage": "Hulp parameter"
@@ -446,17 +401,8 @@
   "project-header": {
     "defaultMessage": "Project koptekst"
   },
-  "project-name": {
-    "defaultMessage": "Projectnaam"
-  },
   "project-name-not-empty": {
     "defaultMessage": "De projectnaam kan niet leeg zijn"
-  },
-  "project-tab": {
-    "defaultMessage": "Project"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Bekijk, aanmaken, toevoegen en bewerken van de bestanden in je project"
   },
   "python-powered": {
     "defaultMessage": "Python actief"
@@ -481,15 +427,6 @@
   },
   "replace-action-label": {
     "defaultMessage": "Vervangen"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Reset project"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Project opnieuw instellen op de standaard startcode"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Reset het project naar de standaard start code, waarmee je jouw werk weggooit"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0{# results} one{# result} other{# results}}"

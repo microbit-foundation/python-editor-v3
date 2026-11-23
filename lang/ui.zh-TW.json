@@ -47,38 +47,8 @@
   "back-action": {
     "defaultMessage": "返回"
   },
-  "back-to-main": {
-    "defaultMessage": "返回主程式碼"
-  },
   "cancel-action": {
     "defaultMessage": "取消"
-  },
-  "change-files": {
-    "defaultMessage": "是否要變更檔案？"
-  },
-  "choose-main-add-file": {
-    "defaultMessage": "新增檔案 {name}"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "新增模組 {name}"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "取代檔案 {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "取代模組 {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "從 {source} 新增檔案 {target}"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "從 {source} 新增主程式碼"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "用 {source} 取代檔案 {target}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "用 {source} 取代主程式碼"
   },
   "clear": {
     "defaultMessage": "清除"
@@ -100,9 +70,6 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "是否要用 hex 取代所有檔案？"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "是否要用預設起始程式碼來取代所有檔案？"
   },
   "confirm-replace-title": {
     "defaultMessage": "確認取代專案"
@@ -199,9 +166,6 @@
   },
   "edit-name-project-hover": {
     "defaultMessage": "編輯您的專案名稱"
-  },
-  "edit-project-name-action": {
-    "defaultMessage": "編輯專案名稱"
   },
   "failed-to-build-hex": {
     "defaultMessage": "無法組建 HEX 檔案"
@@ -389,17 +353,8 @@
   "open-action": {
     "defaultMessage": "開啟"
   },
-  "open-file-action": {
-    "defaultMessage": "開啟..."
-  },
   "open-file-dropped": {
     "defaultMessage": "放置時開啟檔案"
-  },
-  "open-hover": {
-    "defaultMessage": "開啟 Hex 或 Python 檔案，或是新增其他檔案"
-  },
-  "options": {
-    "defaultMessage": "選項"
   },
   "parameter-help": {
     "defaultMessage": "參數說明"
@@ -437,17 +392,8 @@
   "project-header": {
     "defaultMessage": "專案標頭"
   },
-  "project-name": {
-    "defaultMessage": "專案名稱"
-  },
   "project-name-not-empty": {
     "defaultMessage": "專案名稱不可為空白"
-  },
-  "project-tab": {
-    "defaultMessage": "專案"
-  },
-  "project-tab-description": {
-    "defaultMessage": "檢視、建立、新增和編輯專案中的檔案"
   },
   "python-powered": {
     "defaultMessage": "已啟動 Python"
@@ -472,15 +418,6 @@
   },
   "replace-action-label": {
     "defaultMessage": "取代"
-  },
-  "reset-project-action": {
-    "defaultMessage": "重設專案"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "專案重設為預設起始程式碼"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "將專案重設為預設起始程式碼，放棄您的工作"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {沒有結果} one {# 個結果} other {# 個結果}}"

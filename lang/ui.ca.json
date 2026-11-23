@@ -47,38 +47,8 @@
   "back-action": {
     "defaultMessage": "Enrera"
   },
-  "back-to-main": {
-    "defaultMessage": "tornar al codi principal"
-  },
   "cancel-action": {
     "defaultMessage": "Cancel·lar"
-  },
-  "change-files": {
-    "defaultMessage": "Canviar fitxers?"
-  },
-  "choose-main-add-file": {
-    "defaultMessage": "Afegeix el fitxer {name}"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "Afegeix el mòdul {name}"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "Substitueix el fitxer {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "Substitueix el mòdul {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "Afegeix el fitxer {target} des de {source} "
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "Afegeix el programa principal de {source}"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "Substitueix el fitxer {target} per {source}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "Substitueix el programa principal per {source}"
   },
   "clear": {
     "defaultMessage": "Esborra"
@@ -100,9 +70,6 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "Substitueix tots els fitxers amb els de l'hexadecimal?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "Vols substituir tots els fitxers pel programa d'inici per defecte?"
   },
   "confirm-replace-title": {
     "defaultMessage": "Confirma la substitució del projecte"
@@ -202,9 +169,6 @@
   },
   "edit-name-project-hover": {
     "defaultMessage": "Edita el nom del teu projecte"
-  },
-  "edit-project-name-action": {
-    "defaultMessage": "Edita el nom del projecte"
   },
   "failed-to-build-hex": {
     "defaultMessage": "No s'ha pogut crear el fitxer hexadecimal"
@@ -392,17 +356,8 @@
   "open-action": {
     "defaultMessage": "Obert"
   },
-  "open-file-action": {
-    "defaultMessage": "Obert"
-  },
   "open-file-dropped": {
     "defaultMessage": "Obre el fitxer quan es deixa anar"
-  },
-  "open-hover": {
-    "defaultMessage": "Obre un fitxer hexadecimal o Python o afegeix altres fitxers"
-  },
-  "options": {
-    "defaultMessage": "Opcions"
   },
   "parameter-help": {
     "defaultMessage": "Ajuda dels paràmetres"
@@ -446,17 +401,8 @@
   "project-header": {
     "defaultMessage": "Capçalera del projecte"
   },
-  "project-name": {
-    "defaultMessage": "Nom del projecte"
-  },
   "project-name-not-empty": {
     "defaultMessage": "El nom del projecte no pot estar buit"
-  },
-  "project-tab": {
-    "defaultMessage": "Projecte"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Visualitza, crea, afegeix i edita els fitxers del teu projecte"
   },
   "python-powered": {
     "defaultMessage": "Fet amb Python"
@@ -481,15 +427,6 @@
   },
   "replace-action-label": {
     "defaultMessage": "Substitueix"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Restableix el projecte"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Restableix el projecte al programa d'inici predeterminat"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Restableix el projecte al programa inicial predeterminat, descartant el teu treball"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Sense resultats} one {# resultat} other {# resultats}}"

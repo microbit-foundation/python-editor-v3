@@ -47,38 +47,8 @@
   "back-action": {
     "defaultMessage": "Zurück"
   },
-  "back-to-main": {
-    "defaultMessage": "zurück zum Hauptcode"
-  },
   "cancel-action": {
     "defaultMessage": "Abbrechen"
-  },
-  "change-files": {
-    "defaultMessage": "Dateien ändern?"
-  },
-  "choose-main-add-file": {
-    "defaultMessage": "Datei {name} hinzufügen?"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "Modul {name} hinzufügen"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "Datei {name} ersetzen"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "Modul {name} ersetzen"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "Datei {target} aus {source} hinzufügen"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "Hauptcode aus {source} hinzufügen"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "Datei {target} durch {source} ersetzen"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "Hauptcode durch {source} ersetzen"
   },
   "clear": {
     "defaultMessage": "Löschen"
@@ -100,9 +70,6 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "Alle Dateien durch die in der HEX-Datei ersetzen?"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "Alle Dateien durch den Standard-Startcode ersetzen?"
   },
   "confirm-replace-title": {
     "defaultMessage": "Zurücksetzen bestätigen"
@@ -202,9 +169,6 @@
   },
   "edit-name-project-hover": {
     "defaultMessage": "Bearbeite den Namen deines Projekts"
-  },
-  "edit-project-name-action": {
-    "defaultMessage": "Projektname bearbeiten"
   },
   "failed-to-build-hex": {
     "defaultMessage": "Erstellen der hex-Datei fehlgeschlagen"
@@ -392,17 +356,8 @@
   "open-action": {
     "defaultMessage": "Öffnen"
   },
-  "open-file-action": {
-    "defaultMessage": "Öffnen …"
-  },
   "open-file-dropped": {
     "defaultMessage": "Datei nach Ablegen öffnen"
-  },
-  "open-hover": {
-    "defaultMessage": "Eine HEX- oder Python-Datei öffnen oder andere Dateien hinzufügen."
-  },
-  "options": {
-    "defaultMessage": "Optionen"
   },
   "parameter-help": {
     "defaultMessage": "Parameter-Hilfe"
@@ -440,17 +395,8 @@
   "project-header": {
     "defaultMessage": "Projekt-Kopfzeile"
   },
-  "project-name": {
-    "defaultMessage": "Projektname"
-  },
   "project-name-not-empty": {
     "defaultMessage": "Der Projektname darf nicht leer sein"
-  },
-  "project-tab": {
-    "defaultMessage": "Projekt"
-  },
-  "project-tab-description": {
-    "defaultMessage": "Anzeigen, Erstellen, Hinzufügen und Bearbeiten der Dateien in deinem Projekt"
   },
   "python-powered": {
     "defaultMessage": "Python betrieben"
@@ -475,15 +421,6 @@
   },
   "replace-action-label": {
     "defaultMessage": "Ersetzen"
-  },
-  "reset-project-action": {
-    "defaultMessage": "Projekt zurücksetzen"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "Projekt auf den Standard-Startcode zurückgesetzt"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "Setzt das Projekt auf den Standard-Startcode zurück und verwirft deine Arbeit"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {Keine Ergebnisse} one {# Ergebnis} other {# Ergebnisse}}"

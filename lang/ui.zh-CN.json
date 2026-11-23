@@ -47,38 +47,8 @@
   "back-action": {
     "defaultMessage": "返回"
   },
-  "back-to-main": {
-    "defaultMessage": "返回主代码"
-  },
   "cancel-action": {
     "defaultMessage": "取消"
-  },
-  "change-files": {
-    "defaultMessage": "更改文件？"
-  },
-  "choose-main-add-file": {
-    "defaultMessage": "添加文件 {name}"
-  },
-  "choose-main-add-module": {
-    "defaultMessage": "添加模块 {name}"
-  },
-  "choose-main-replace-file": {
-    "defaultMessage": "替换文件 {name}"
-  },
-  "choose-main-replace-module": {
-    "defaultMessage": "替换模块 {name}"
-  },
-  "choose-main-source-add-file": {
-    "defaultMessage": "从 {source} 添加文件 {target}"
-  },
-  "choose-main-source-add-main-code": {
-    "defaultMessage": "从 {source} 添加主代码"
-  },
-  "choose-main-source-replace-file": {
-    "defaultMessage": "将文件 {target} 替换为 {source}"
-  },
-  "choose-main-source-replace-main-code": {
-    "defaultMessage": "用 {source} 替换主代码"
   },
   "clear": {
     "defaultMessage": "清除"
@@ -100,9 +70,6 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "将所有文件替换成 hex 文件？"
-  },
-  "confirm-replace-reset": {
-    "defaultMessage": "用默认启动代码替换所有文件？"
   },
   "confirm-replace-title": {
     "defaultMessage": "确认替换项目"
@@ -202,9 +169,6 @@
   },
   "edit-name-project-hover": {
     "defaultMessage": "编辑您项目的名称"
-  },
-  "edit-project-name-action": {
-    "defaultMessage": "编辑项目名称"
   },
   "failed-to-build-hex": {
     "defaultMessage": "无法创建 hex 文件"
@@ -392,17 +356,8 @@
   "open-action": {
     "defaultMessage": "打开"
   },
-  "open-file-action": {
-    "defaultMessage": "打开…"
-  },
   "open-file-dropped": {
     "defaultMessage": "放下时打开文件"
-  },
-  "open-hover": {
-    "defaultMessage": "打开一 份 hex 或 Python 文件，或添加其他文件"
-  },
-  "options": {
-    "defaultMessage": "选项"
   },
   "parameter-help": {
     "defaultMessage": "参数帮助"
@@ -440,17 +395,8 @@
   "project-header": {
     "defaultMessage": "项目标题"
   },
-  "project-name": {
-    "defaultMessage": "项目名称"
-  },
   "project-name-not-empty": {
     "defaultMessage": "项目名称不能为空"
-  },
-  "project-tab": {
-    "defaultMessage": "项目"
-  },
-  "project-tab-description": {
-    "defaultMessage": "查看、创建、添加和编辑您项目中的文件"
   },
   "python-powered": {
     "defaultMessage": "Python 驱动"
@@ -475,15 +421,6 @@
   },
   "replace-action-label": {
     "defaultMessage": "替换"
-  },
-  "reset-project-action": {
-    "defaultMessage": "重置项目"
-  },
-  "reset-project-feedback": {
-    "defaultMessage": "项目重置为默认启动代码"
-  },
-  "reset-project-hover": {
-    "defaultMessage": "将项目重置为默认启动代码，放弃您的工作"
   },
   "results-count": {
     "defaultMessage": "{count, plural, =0 {No results} other {# results}}"
