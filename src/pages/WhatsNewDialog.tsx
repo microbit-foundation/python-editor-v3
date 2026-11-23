@@ -32,14 +32,6 @@ interface WhatsNewStorage {
 const isWhatsNewStorage = (v: unknown): v is WhatsNewStorage =>
   typeof v === "object" && Number.isInteger((v as any).version);
 
-let shownThisPageLoad = false;
-
-/**
- * Lets the editor hold back its welcome video so a new user is not given
- * two dialogs in their first few minutes.
- */
-export const wasWhatsNewShownThisPageLoad = (): boolean => shownThisPageLoad;
-
 /**
  * Shown once per browser after cookie consent, to new users as well as
  * returning ones: on shared school machines the change is new to the teacher
@@ -61,7 +53,6 @@ export const useWhatsNewDialog = (): [boolean, () => void] => {
     if (cookieConsent && !flags.noWelcome && stored.version < currentVersion) {
       setIsOpen(true);
       setStored({ version: currentVersion });
-      shownThisPageLoad = true;
     }
   }, [cookieConsent, stored, setStored]);
   return [isOpen, () => setIsOpen(false)];
