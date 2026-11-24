@@ -27,10 +27,10 @@
     "defaultMessage": "Dodaj pliki..."
   },
   "add-files-hover": {
-    "defaultMessage": "Dodaj pliki Python lub inne do swojego projektu. Plik hex otwiera się jako nowy projekt."
+    "defaultMessage": "Dodaj pliki Pythona lub inne do swojego projektu. Plik w formacie hex otwiera się jako nowy projekt."
   },
   "add-files-hover-replace": {
-    "defaultMessage": "Dodaj pliki Python lub inne do swojego projektu. Plik hex zastępuje wszystkie pliki projektu."
+    "defaultMessage": "Dodaj pliki Python lub inne do swojego projektu. Plik w firmacie hex zastępuje wszystkie pliki projektu."
   },
   "added-change": {
     "defaultMessage": "Dodany plik {changeName}"
@@ -97,6 +97,9 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "Zastąpić wszystkie pliki tymi z hex?"
+  },
+  "confirm-replace-files-body": {
+    "defaultMessage": "{count, plural, one {{names} jest już w tym projekcie i zostanie zastąpiony.} few {Te pliki są już w tym projekcie i zostaną zastąpione: {names}} many {Te pliki są już w tym projekcie i zostaną zastąpione: {names}} other {Te pliki są już w tym projekcie i zostaną zastąpione: {names}}}"
   },
   "confirm-replace-files-title": {
     "defaultMessage": "Zastąpić istniejące pliki?"
@@ -242,6 +245,9 @@
   "files-tab": {
     "defaultMessage": "Pliki"
   },
+  "files-tab-description": {
+    "defaultMessage": "Dodaj moduły Python, aby wspierać akcesoria micro:bita lub organizować większe projekty"
+  },
   "firmware-update-link": {
     "defaultMessage": "Zanim będziesz mógł połączyć się z tym micro:bitem, musisz <link>zaktualizować oprogramowanie sprzętowe</link>."
   },
@@ -250,6 +256,12 @@
   },
   "firmware-update-title": {
     "defaultMessage": "Wymagana jest aktualizacja oprogramowania firmowego"
+  },
+  "first-lessons-with-python-resource-description": {
+    "defaultMessage": "Przejdź z bloków do kodowania tekstowego z sześcioma znanymi projektami"
+  },
+  "first-lessons-with-python-resource-title": {
+    "defaultMessage": "Pierwsze lekcje z Pythonem i micro:bitem"
   },
   "flash-action": {
     "defaultMessage": "Zainstaluj"
@@ -305,6 +317,9 @@
   "homepage-banner-heading": {
     "defaultMessage": "Python dla BBC micro:bit"
   },
+  "homepage-banner-subtitle": {
+    "defaultMessage": "Oficjalne narzędzie do programowania tekstowego dla micro:bita"
+  },
   "idea-activity-picker-title": {
     "defaultMessage": "Wybór aktywności"
   },
@@ -326,17 +341,32 @@
   "idea-step-counter-title": {
     "defaultMessage": "Licznik kroków"
   },
+  "ideas-moving-notice": {
+    "defaultMessage": "Pomysły są przenoszone na stronę główną. <link>Dowiedz się więcej</link>"
+  },
+  "ideas-moving-questions": {
+    "defaultMessage": "Skontaktuj się z nami przez naszą <link>stronę wsparcia</link>."
+  },
   "ideas-moving-questions-heading": {
     "defaultMessage": "Masz jeszcze pytania?"
   },
   "ideas-moving-title": {
     "defaultMessage": "Pomysły są przenoszone na stronę główną"
   },
+  "ideas-moving-what": {
+    "defaultMessage": "Pomysły są teraz również na stronie głównej. Kiedy tworzysz projekt z pomysłu tam, edytor otwiera się z tym pomysłem na pasku bocznym. Później usuniemy opcję przeglądania pomysłów na pasku."
+  },
   "ideas-moving-what-heading": {
     "defaultMessage": "Co się zmienia?"
   },
+  "ideas-moving-when": {
+    "defaultMessage": "Możliwości przeglądania pomysłów usuniemy z paska bocznego w połowie 2027."
+  },
   "ideas-moving-when-heading": {
     "defaultMessage": "Kiedy?"
+  },
+  "ideas-moving-why": {
+    "defaultMessage": "Pomysły łatwo przeglądać na stronie głównej. Wybranie pomysłu pokazuje podgląd zanim zaczniesz; a strona główna zawiera również inne zasoby i aktywności."
   },
   "ideas-moving-why-heading": {
     "defaultMessage": "Dlaczego?"
@@ -355,6 +385,12 @@
   },
   "insert-code-action": {
     "defaultMessage": "Wstaw kod"
+  },
+  "introducing-python-course-resource-description": {
+    "defaultMessage": "Przedstawiamy nasz edytor Pythona, który pomaga uczniom pisać kod dla BBC micro:bit. Wyróżnimy wszystkie wspaniałe właściwości naszego edytora, które wspierają Ciebie i Twoich uczniów w pomyślnym kodowaniu micro:bita za pomocą Pythona."
+  },
+  "introducing-python-course-resource-title": {
+    "defaultMessage": "Wprowadzając Python i micro:bit (15 minut)"
   },
   "language": {
     "defaultMessage": "Język"
@@ -380,6 +416,9 @@
   "load-error-makecode-link": {
     "defaultMessage": "Aby skorzystać z tego pliku hex, odwiedź stronę <link>https://makecode.microbit.org/</link>."
   },
+  "load-error-mixed": {
+    "defaultMessage": "Plik w formacie hex można importować wyłącznie jako samodzielny plik."
+  },
   "load-error-mpy": {
     "defaultMessage": "Ta wersja edytora Python obecnie nie obsługuje dodawania plików .mpy."
   },
@@ -391,6 +430,9 @@
   },
   "loading": {
     "defaultMessage": "Ładowanie…"
+  },
+  "manage-project-files-action": {
+    "defaultMessage": "Zarządzaj plikami projektu"
   },
   "mici-project-hot-potato-game-description": {
     "defaultMessage": "Zagraj w „gorący ziemniak” używając micro:bita!"
@@ -434,6 +476,9 @@
   "mici-project-treasure-hunt-title": {
     "defaultMessage": "Poszukiwanie skarbów"
   },
+  "mici-projects-row-subtitle": {
+    "defaultMessage": "Szybkie projekty w Pythonie, które pomogą Ci w jak największym stopniu wykorzystać funkcje micro:bita — baw się dobrze!"
+  },
   "mici-projects-row-title": {
     "defaultMessage": "Make it: koduj swoje projekty"
   },
@@ -448,6 +493,9 @@
   },
   "microbit-labelling-worksheet-resource-description": {
     "defaultMessage": "Oznacz właściwości micro:bita na tej karcie roboczej"
+  },
+  "microbit-labelling-worksheet-resource-title": {
+    "defaultMessage": "arkusz z opisami elementów micro:bita"
   },
   "micropython-documentation": {
     "defaultMessage": "Dokumentacja MicroPythona"
@@ -569,6 +617,9 @@
   "project-actions": {
     "defaultMessage": "Działania w projekcie"
   },
+  "project-deleted-elsewhere-description": {
+    "defaultMessage": "Projekt, który otworzyłeś został usunięty w innej karcie lub oknie."
+  },
   "project-deleted-elsewhere-title": {
     "defaultMessage": "Projekt usunięty"
   },
@@ -583,6 +634,18 @@
   },
   "project-storage-tooltip": {
     "defaultMessage": "Twoje dane są zapisane w tej przeglądarce na tym urządzeniu. Czyszczenie plików cookie przeglądarki lub danych witryny usunie je. Mogą również zostać automatycznie usunięte przez przeglądarkę, jeśli urządzenie ma mało pamięci."
+  },
+  "python-editor-poster-creativity-resource-description": {
+    "defaultMessage": "Wykorzystuj pomysły, kod referencyjny i symulatora, aby być kreatywnym"
+  },
+  "python-editor-poster-creativity-resource-title": {
+    "defaultMessage": "Plakat dotyczący kreatywności w Pythonie"
+  },
+  "python-editor-poster-debugging-resource-description": {
+    "defaultMessage": "Wykrywaj błędy i unikaj błędów typograficznych podczas kodowania"
+  },
+  "python-editor-poster-debugging-resource-title": {
+    "defaultMessage": "Plakat dotyczący debugowania w Pythonie"
   },
   "python-powered": {
     "defaultMessage": "Obsługiwany przez Python"
@@ -1059,7 +1122,7 @@
     "defaultMessage": "film wprowadzający edytor Pythona"
   },
   "whats-new-copy": {
-    "defaultMessage": "Zapisanie pliku HEX na komputerze to najpewniejszy sposób na zachowanie kopii Twojego projektu."
+    "defaultMessage": "Zapisanie pliku w formacie HEX na komputerze to najpewniejszy sposób na zachowanie kopii Twojego projektu."
   },
   "whats-new-copy-heading": {
     "defaultMessage": "Zachowaj kopię"
