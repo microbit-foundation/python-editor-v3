@@ -23,8 +23,20 @@
   "accessibility-resource-title": {
     "defaultMessage": "アクセシビリティ"
   },
+  "add-files-action": {
+    "defaultMessage": "ファイルを追加…"
+  },
+  "add-files-hover": {
+    "defaultMessage": "プロジェクトに Python などのファイルを追加します。hexファイルについては新しいプロジェクトとして開きます。"
+  },
+  "add-files-hover-replace": {
+    "defaultMessage": "プロジェクトに Python などのファイルを追加します。hexファイルについてはすべてのプロジェクトファイルを置き換えます。"
+  },
   "added-change": {
     "defaultMessage": "ファイル {changeName} を追加しました"
+  },
+  "all-projects-action": {
+    "defaultMessage": "すべてのプロジェクト"
   },
   "api-description": {
     "defaultMessage": "使用方法と例については、<link>リファレンス</link>を参照してください"
@@ -47,6 +59,9 @@
   "apidocs-methods": {
     "defaultMessage": "メソッド"
   },
+  "app-title": {
+    "defaultMessage": "micro:bit Python エディター"
+  },
   "back-action": {
     "defaultMessage": "戻る"
   },
@@ -55,6 +70,12 @@
   },
   "cancel-action": {
     "defaultMessage": "キャンセル"
+  },
+  "choose-file-menu": {
+    "defaultMessage": "{filename}, ファイルを選択"
+  },
+  "choose-file-tooltip": {
+    "defaultMessage": "ファイルを選択"
   },
   "clear": {
     "defaultMessage": "クリア"
@@ -76,6 +97,9 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "すべてのファイルを hex に置き換えますか？"
+  },
+  "confirm-replace-files-title": {
+    "defaultMessage": "既存のファイルを置き換えますか？"
   },
   "confirm-replace-title": {
     "defaultMessage": "プロジェクトの置き換えを確認"
@@ -178,6 +202,12 @@
   },
   "edit-name-project-hover": {
     "defaultMessage": "プロジェクトの名前を編集"
+  },
+  "edit-project-name-crumb": {
+    "defaultMessage": "{name}, プロジェクト名を編集"
+  },
+  "editor-title": {
+    "defaultMessage": "{projectName} – micro:bit Python エディター"
   },
   "failed-to-build-hex": {
     "defaultMessage": "hex ファイルのビルドに失敗しました"

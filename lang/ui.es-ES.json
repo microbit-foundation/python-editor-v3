@@ -23,8 +23,20 @@
   "accessibility-resource-title": {
     "defaultMessage": "Accesibilidad"
   },
+  "add-files-action": {
+    "defaultMessage": "Añadir archivos…"
+  },
+  "add-files-hover": {
+    "defaultMessage": "Añade archivos Python u otros archivos a tu proyecto. Un archivo hex se abre como un nuevo proyecto."
+  },
+  "add-files-hover-replace": {
+    "defaultMessage": "Añade archivos Python u otros archivos a tu proyecto. Un archivo hex sustituye a todos los archivos del proyecto."
+  },
   "added-change": {
     "defaultMessage": "Archivo {changeName} añadido"
+  },
+  "all-projects-action": {
+    "defaultMessage": "Todos los proyectos"
   },
   "api-description": {
     "defaultMessage": "Para uso y ejemplos, consulta <link>Referencia</link>"
@@ -47,6 +59,9 @@
   "apidocs-methods": {
     "defaultMessage": "Métodos"
   },
+  "app-title": {
+    "defaultMessage": "Editor de Python para micro:bit"
+  },
   "back-action": {
     "defaultMessage": "Volver"
   },
@@ -55,6 +70,12 @@
   },
   "cancel-action": {
     "defaultMessage": "Cancelar"
+  },
+  "choose-file-menu": {
+    "defaultMessage": "{filename}, elige un archivo"
+  },
+  "choose-file-tooltip": {
+    "defaultMessage": "Elige un archivo"
   },
   "clear": {
     "defaultMessage": "Borrar"
@@ -76,6 +97,12 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "¿Sustituir todos los archivos por los del HEX?"
+  },
+  "confirm-replace-files-body": {
+    "defaultMessage": "{count, plural, one {{names} ya está incluido en este proyecto y será reemplazado.} other {Estos archivos ya están en este proyecto y serán reemplazados: {names}}}"
+  },
+  "confirm-replace-files-title": {
+    "defaultMessage": "¿Desea reemplazar los archivos existentes?"
   },
   "confirm-replace-title": {
     "defaultMessage": "¿Sustituir proyecto?"
@@ -179,6 +206,12 @@
   "edit-name-project-hover": {
     "defaultMessage": "Edita el nombre del proyecto"
   },
+  "edit-project-name-crumb": {
+    "defaultMessage": "{name}, editar nombre del proyecto"
+  },
+  "editor-title": {
+    "defaultMessage": "{projectName} – Editor de Python para micro:bit"
+  },
   "failed-to-build-hex": {
     "defaultMessage": "No se ha podido generar el archivo HEX"
   },
@@ -212,6 +245,9 @@
   "files-tab": {
     "defaultMessage": "Archivos"
   },
+  "files-tab-description": {
+    "defaultMessage": "Añade módulos de Python para dar soporte a los accesorios de micro:bit u organizar proyectos más grandes"
+  },
   "firmware-update-link": {
     "defaultMessage": "Debes <link>actualizar el firmware</link> para poder conectar a este micro:bit."
   },
@@ -220,6 +256,12 @@
   },
   "firmware-update-title": {
     "defaultMessage": "Es necesario actualizar el firmware"
+  },
+  "first-lessons-with-python-resource-description": {
+    "defaultMessage": "Pasa de la programación por bloques a la programación basada en texto con seis proyectos que te resultarán familiares"
+  },
+  "first-lessons-with-python-resource-title": {
+    "defaultMessage": "Primeras lecciones con Python y el micro:bit"
   },
   "flash-action": {
     "defaultMessage": "Flashear"
@@ -269,6 +311,15 @@
   "home-action": {
     "defaultMessage": "Inicio"
   },
+  "home-page-tooltip": {
+    "defaultMessage": "Ir a la página de inicio"
+  },
+  "homepage-banner-heading": {
+    "defaultMessage": "Python para el BBC micro:bit"
+  },
+  "homepage-banner-subtitle": {
+    "defaultMessage": "La herramienta oficial de programación basada en texto para micro:bit"
+  },
   "idea-activity-picker-title": {
     "defaultMessage": "Selector de actividades"
   },
@@ -290,6 +341,33 @@
   "idea-step-counter-title": {
     "defaultMessage": "Podómetro"
   },
+  "ideas-moving-notice": {
+    "defaultMessage": "Las ideas se están trasladando a la página de inicio. <link>Más información</link>"
+  },
+  "ideas-moving-questions": {
+    "defaultMessage": "Ponte en contacto con nosotros a través de nuestro <link>sitio de asistencia</link>."
+  },
+  "ideas-moving-questions-heading": {
+    "defaultMessage": "¿Todavía tienes dudas?"
+  },
+  "ideas-moving-title": {
+    "defaultMessage": "Las ideas se están trasladando a la página de inicio"
+  },
+  "ideas-moving-what": {
+    "defaultMessage": "Las ideas ahora también aparecen en la página de inicio. Cuando creas un proyecto a partir de una idea que aparece allí, el editor se abre con esa idea en la barra lateral. Más adelante, eliminaremos la opción de explorar ideas desde la barra lateral."
+  },
+  "ideas-moving-what-heading": {
+    "defaultMessage": "¿Qué está cambiando?"
+  },
+  "ideas-moving-when": {
+    "defaultMessage": "A mediados de 2027 eliminaremos la opción de explorar ideas desde la barra lateral."
+  },
+  "ideas-moving-when-heading": {
+    "defaultMessage": "¿Cuándo?"
+  },
+  "ideas-moving-why": {
+    "defaultMessage": "En la página de inicio es más fácil explorar las ideas. Al seleccionar una idea, se muestra una vista previa antes de empezar, y la página de inicio también incluye otros recursos y actividades."
+  },
   "ideas-moving-why-heading": {
     "defaultMessage": "¿Por qué?"
   },
@@ -307,6 +385,12 @@
   },
   "insert-code-action": {
     "defaultMessage": "Insertar código"
+  },
+  "introducing-python-course-resource-description": {
+    "defaultMessage": "Te presentamos nuestro editor de Python, que ayuda a los alumnos a escribir código para el BBC micro:bit. Destacaremos todas las fantásticas funciones de nuestro editor que os ayudarán a ti y a tus alumnos a programar el micro:bit con éxito utilizando Python."
+  },
+  "introducing-python-course-resource-title": {
+    "defaultMessage": "Introducción a Python y al micro:bit (15 minutos)"
   },
   "language": {
     "defaultMessage": "Idioma"
@@ -332,6 +416,9 @@
   "load-error-makecode-link": {
     "defaultMessage": "Visita <link>https://makecode.microbit.org/</link> para usar este archivo HEX."
   },
+  "load-error-mixed": {
+    "defaultMessage": "Un archivo hex solo se puede importar por sí solo."
+  },
   "load-error-mpy": {
     "defaultMessage": "Esta versión del Editor de Python no permite actualmente añadir archivos .mpy."
   },
@@ -343,6 +430,9 @@
   },
   "loading": {
     "defaultMessage": "Cargando…"
+  },
+  "manage-project-files-action": {
+    "defaultMessage": "Gestionar archivos de proyecto"
   },
   "mici-project-hot-potato-game-description": {
     "defaultMessage": "¡Juega a la ‘patata caliente’ con un micro:bit!"
@@ -386,6 +476,12 @@
   "mici-project-treasure-hunt-title": {
     "defaultMessage": "Búsqueda del tesoro"
   },
+  "mici-projects-row-subtitle": {
+    "defaultMessage": "Proyectos rápidos en Python para ayudarte a sacar el máximo partido a las funciones del micro:bit… ¡y a divertirte!"
+  },
+  "mici-projects-row-title": {
+    "defaultMessage": "Proyectos «Make it: code it»"
+  },
   "microbit-classroom-resource-description": {
     "defaultMessage": "Ejecuta sesiones completas de clase, comparte fácilmente el código con los estudiantes y guarda el progreso"
   },
@@ -394,6 +490,12 @@
   },
   "microbit-hearts-alt": {
     "defaultMessage": "Placa micro:bit con la cuadrícula LED de 5 por 5 que muestra un corazón"
+  },
+  "microbit-labelling-worksheet-resource-description": {
+    "defaultMessage": "Identifica las características del micro:bit en esta ficha de trabajo"
+  },
+  "microbit-labelling-worksheet-resource-title": {
+    "defaultMessage": "Ficha de trabajo sobre el etiquetado del micro:bit"
   },
   "micropython-documentation": {
     "defaultMessage": "Documentación de MicroPython"
@@ -515,6 +617,15 @@
   "project-actions": {
     "defaultMessage": "Acciones del proyecto"
   },
+  "project-deleted-elsewhere-description": {
+    "defaultMessage": "El proyecto que tenías abierto se ha eliminado en otra pestaña o ventana."
+  },
+  "project-deleted-elsewhere-title": {
+    "defaultMessage": "Proyecto eliminado"
+  },
+  "project-files-heading": {
+    "defaultMessage": "Archivos del proyecto"
+  },
   "project-header": {
     "defaultMessage": "Cabecera del proyecto"
   },
@@ -523,6 +634,18 @@
   },
   "project-storage-tooltip": {
     "defaultMessage": "Tus datos se guardan en el navegador de este dispositivo. Si borras las cookies o los datos del sitio web de tu navegador, se eliminarán. También es posible que tu navegador los elimine automáticamente si tu dispositivo tiene poco espacio de almacenamiento."
+  },
+  "python-editor-poster-creativity-resource-description": {
+    "defaultMessage": "Utiliza las ideas, el código de referencia y el simulador para dar rienda suelta a tu creatividad"
+  },
+  "python-editor-poster-creativity-resource-title": {
+    "defaultMessage": "Cartel sobre la creatividad en Python"
+  },
+  "python-editor-poster-debugging-resource-description": {
+    "defaultMessage": "Detecta errores y evita cometer errores tipográficos mientras programas"
+  },
+  "python-editor-poster-debugging-resource-title": {
+    "defaultMessage": "Póster sobre la depuración en Python"
   },
   "python-powered": {
     "defaultMessage": "Funciona con Python"
@@ -547,6 +670,15 @@
   },
   "replace-action-label": {
     "defaultMessage": "Sustituir"
+  },
+  "resource-type-classroom-resource": {
+    "defaultMessage": "Recurso didáctico"
+  },
+  "resource-type-professional-development": {
+    "defaultMessage": "Desarrollo profesional"
+  },
+  "resource-type-teaching-tool": {
+    "defaultMessage": "Herramienta didáctica"
   },
   "resource-type-unit-of-work": {
     "defaultMessage": "Unidad de trabajo"
@@ -988,6 +1120,24 @@
   },
   "welcome-video-alt": {
     "defaultMessage": "vídeo de introducción al editor de Python"
+  },
+  "whats-new-copy": {
+    "defaultMessage": "Guardar un archivo HEX en tu ordenador es la forma más fiable de conservar una copia de tu proyecto."
+  },
+  "whats-new-copy-heading": {
+    "defaultMessage": "Guarda una copia"
+  },
+  "whats-new-home": {
+    "defaultMessage": "Tus proyectos, ideas y ayuda, todo en un mismo sitio."
+  },
+  "whats-new-home-heading": {
+    "defaultMessage": "Una nueva página de inicio"
+  },
+  "whats-new-projects": {
+    "defaultMessage": "Ahora tus proyectos se guardan en este navegador entre una visita y otra. Selecciona «{viewAll}» para buscarlos, cambiarles el nombre y eliminarlos."
+  },
+  "whats-new-title": {
+    "defaultMessage": "Novedades del editor de Python"
   },
   "zoom-in-action": {
     "defaultMessage": "Aumentar zoom"
