@@ -46,7 +46,7 @@ jobs:
       - run: npm run ci
       - name: Run Playwright tests
         timeout-minutes: 10
-        uses: docker://mcr.microsoft.com/playwright:v1.65.0-noble
+        uses: docker://mcr.microsoft.com/playwright:v1.65.1-noble
         with:
           args: npx playwright test
       - name: Store reports
