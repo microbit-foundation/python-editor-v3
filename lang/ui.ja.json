@@ -242,6 +242,9 @@
   "files-tab": {
     "defaultMessage": "ファイル"
   },
+  "files-tab-description": {
+    "defaultMessage": "micro:bitアクセサリーをサポートしたり、より大きなプロジェクトを導入するためにPythonモジュールを追加します"
+  },
   "firmware-update-link": {
     "defaultMessage": "このmicro:bitに接続するには、<link>ファームウェアを更新する</link>必要があります。"
   },
@@ -250,6 +253,12 @@
   },
   "firmware-update-title": {
     "defaultMessage": "ファームウェアの更新が必要です"
+  },
+  "first-lessons-with-python-resource-description": {
+    "defaultMessage": "6つのおなじみのプロジェクトでブロックからテキストベースのコーディングに移行"
+  },
+  "first-lessons-with-python-resource-title": {
+    "defaultMessage": "Pythonとmicro:bitの最初のレッスン"
   },
   "flash-action": {
     "defaultMessage": "書き込み"
@@ -299,6 +308,15 @@
   "home-action": {
     "defaultMessage": "ホーム"
   },
+  "home-page-tooltip": {
+    "defaultMessage": "ホームページに移動"
+  },
+  "homepage-banner-heading": {
+    "defaultMessage": "BBC micro:bit 用のPython"
+  },
+  "homepage-banner-subtitle": {
+    "defaultMessage": "micro:bitの公式テキストベースのコーディングツール"
+  },
   "idea-activity-picker-title": {
     "defaultMessage": "アクティビティピッカー"
   },
@@ -320,6 +338,9 @@
   "idea-step-counter-title": {
     "defaultMessage": "歩数計"
   },
+  "ideas-moving-what-heading": {
+    "defaultMessage": "何が変わったか?"
+  },
   "ideas-moving-why-heading": {
     "defaultMessage": "その理由は？"
   },
@@ -337,6 +358,12 @@
   },
   "insert-code-action": {
     "defaultMessage": "コードを挿入"
+  },
+  "introducing-python-course-resource-description": {
+    "defaultMessage": "BBC micro:bit用のコードを学習者が書くのに役立つPythonエディターを紹介します。 Pythonを使ってmicro:bitを正しくプログラムするために、あなたとあなたの学習者をサポートするすべての素晴らしい機能をこのエディターで紹介します。"
+  },
+  "introducing-python-course-resource-title": {
+    "defaultMessage": "Pythonとmicro:bitについての紹介 (15分)"
   },
   "language": {
     "defaultMessage": "言語"
@@ -362,6 +389,9 @@
   "load-error-makecode-link": {
     "defaultMessage": "この hex ファイルを使用するには、<link>https://makecode.microbit.org/</link>を参照してください。"
   },
+  "load-error-mixed": {
+    "defaultMessage": "hexファイルは単体でのみインポートできます。"
+  },
   "load-error-mpy": {
     "defaultMessage": "このバージョンのPythonエディターは現在.mpyファイルの追加をサポートしていません。"
   },
@@ -373,6 +403,9 @@
   },
   "loading": {
     "defaultMessage": "読み込み中…"
+  },
+  "manage-project-files-action": {
+    "defaultMessage": "プロジェクトファイルの管理"
   },
   "mici-project-hot-potato-game-description": {
     "defaultMessage": "micro:bit を使って「ホットポテト」ゲームをしましょう！"
@@ -415,6 +448,9 @@
   },
   "mici-project-treasure-hunt-title": {
     "defaultMessage": "宝探し"
+  },
+  "mici-projects-row-title": {
+    "defaultMessage": "Make it: code it プロジェクト"
   },
   "microbit-classroom-resource-description": {
     "defaultMessage": "クラス全体のセッションを実行し、生徒とプログラムを簡単に共有したり、進捗状況を保存したりできます。"
@@ -538,6 +574,15 @@
   },
   "project-actions": {
     "defaultMessage": "プロジェクトアクション"
+  },
+  "project-deleted-elsewhere-description": {
+    "defaultMessage": "開いていたプロジェクトは、別のタブまたはウィンドウで削除されました。"
+  },
+  "project-deleted-elsewhere-title": {
+    "defaultMessage": "プロジェクトの削除"
+  },
+  "project-files-heading": {
+    "defaultMessage": "プロジェクトファイル"
   },
   "project-header": {
     "defaultMessage": "プロジェクトヘッダー"
@@ -890,6 +935,9 @@
   "start-coding-action": {
     "defaultMessage": "プログラミングを開始"
   },
+  "storage-error-quota-title": {
+    "defaultMessage": "ブラウザのストレージがいっぱいです"
+  },
   "support": {
     "defaultMessage": "サポート"
   },
@@ -991,6 +1039,15 @@
   },
   "welcome-video-alt": {
     "defaultMessage": "Pythonエディターを紹介する動画"
+  },
+  "whats-new-copy-heading": {
+    "defaultMessage": "コピーの保持"
+  },
+  "whats-new-home-heading": {
+    "defaultMessage": "新しいホームページ"
+  },
+  "whats-new-title": {
+    "defaultMessage": "Pythonエディターの新機能"
   },
   "zoom-in-action": {
     "defaultMessage": "拡大"

@@ -23,8 +23,20 @@
   "accessibility-resource-title": {
     "defaultMessage": "Inrochtaineacht"
   },
+  "add-files-action": {
+    "defaultMessage": "Cuir comhaid leis…"
+  },
+  "add-files-hover": {
+    "defaultMessage": "Cuir comhaid Python nó comhaid eile le do thionscadal. Osclaítear comhad heics mar thionscadal nua."
+  },
+  "add-files-hover-replace": {
+    "defaultMessage": "Cuir comhaid Python nó comhaid eile le do thionscadal. Cuireann comhad heics in áit gach comhad sa tionscadal."
+  },
   "added-change": {
     "defaultMessage": "Cuireadh comhad leis {changeName}"
+  },
+  "all-projects-action": {
+    "defaultMessage": "Gach tionscadal"
   },
   "api-description": {
     "defaultMessage": "Le haghaidh úsáide agus samplaí, féach <link>Tagairt</link>"
@@ -47,6 +59,9 @@
   "apidocs-methods": {
     "defaultMessage": "Modhanna"
   },
+  "app-title": {
+    "defaultMessage": "Eagarthóir Python micro:bit"
+  },
   "back-action": {
     "defaultMessage": "Ar ais"
   },
@@ -55,6 +70,12 @@
   },
   "cancel-action": {
     "defaultMessage": "Cealaigh"
+  },
+  "choose-file-menu": {
+    "defaultMessage": "{filename}, roghnaigh comhad"
+  },
+  "choose-file-tooltip": {
+    "defaultMessage": "Roghnaigh comhad"
   },
   "clear": {
     "defaultMessage": "Glan"
@@ -76,6 +97,12 @@
   },
   "confirm-replace-body": {
     "defaultMessage": "Cuir iad siúd sa heics in ionad gach comhad?"
+  },
+  "confirm-replace-files-body": {
+    "defaultMessage": "{count, plural, one {{names} sa tionscadal seo cheana féin agus cuirfear ceann eile ina áit.} two {Tá na comhaid seo sa tionscadal seo cheana féin agus cuirfear cinn eile ina n-áit: {names}} few {Tá na comhaid seo sa tionscadal seo cheana féin agus cuirfear cinn eile ina n-áit: {names}} many {Tá na comhaid seo sa tionscadal seo cheana féin agus cuirfear cinn eile ina n-áit: {names}} other {Tá na comhaid seo sa tionscadal seo cheana féin agus cuirfear cinn eile ina n-áit: {names}}}"
+  },
+  "confirm-replace-files-title": {
+    "defaultMessage": "Comhaid atá ann cheana a athsholáthar?"
   },
   "confirm-replace-title": {
     "defaultMessage": "Deimhnigh ionadaigh an tionscadal"
@@ -179,6 +206,12 @@
   "edit-name-project-hover": {
     "defaultMessage": "Cuir ainm do thionscadail in eagar"
   },
+  "edit-project-name-crumb": {
+    "defaultMessage": "{name}, cuir ainm an tionscadail in eagar"
+  },
+  "editor-title": {
+    "defaultMessage": "{projectName} – Eagarthóir Python do micro:bit"
+  },
   "failed-to-build-hex": {
     "defaultMessage": "Theip ar an gcomhad heicsidheachúlach a thógáil"
   },
@@ -212,6 +245,9 @@
   "files-tab": {
     "defaultMessage": "Comhaid"
   },
+  "files-tab-description": {
+    "defaultMessage": "Cuir modúil Python leis chun tacú le gabhálais micro:bit nó chun tionscadail níos mó a eagrú"
+  },
   "firmware-update-link": {
     "defaultMessage": "Ní mór duit <link>do dochtearraí a nuashonrú</link> sular féidir leat ceangal leis an micro:bit seo."
   },
@@ -220,6 +256,12 @@
   },
   "firmware-update-title": {
     "defaultMessage": "Nuashonrú dochtearraí ag teastáil"
+  },
+  "first-lessons-with-python-resource-description": {
+    "defaultMessage": "Bog ó bhloic go códú téacsbhunaithe le sé thionscadal a bhfuil cur amach agat orthu"
+  },
+  "first-lessons-with-python-resource-title": {
+    "defaultMessage": "Céad cheachtanna le Python agus an micro:bit"
   },
   "flash-action": {
     "defaultMessage": "Splanc"
@@ -269,6 +311,15 @@
   "home-action": {
     "defaultMessage": "Baile"
   },
+  "home-page-tooltip": {
+    "defaultMessage": "Téigh chuig an leathanach baile"
+  },
+  "homepage-banner-heading": {
+    "defaultMessage": "Python don BBC micro:bit"
+  },
+  "homepage-banner-subtitle": {
+    "defaultMessage": "An uirlis chódaithe oifigiúil téacsbhunaithe do micro:bit"
+  },
   "idea-activity-picker-title": {
     "defaultMessage": "Roghnóir gníomhaíochta"
   },
@@ -290,6 +341,33 @@
   "idea-step-counter-title": {
     "defaultMessage": "Comhaireamh céimeanna"
   },
+  "ideas-moving-notice": {
+    "defaultMessage": "Tá smaointe á n-aistriú chuig an leathanach Baile. <link>Tuilleadh eolais</link>"
+  },
+  "ideas-moving-questions": {
+    "defaultMessage": "Déan teagmháil linn trínár <link>suíomh tacaíochta</link>."
+  },
+  "ideas-moving-questions-heading": {
+    "defaultMessage": "An bhfuil ceisteanna agat fós?"
+  },
+  "ideas-moving-title": {
+    "defaultMessage": "Tá smaointe á n-aistriú chuig an leathanach Baile"
+  },
+  "ideas-moving-what": {
+    "defaultMessage": "Tá smaointe le fáil ar an leathanach Baile anois freisin. Nuair a chruthaíonn tú tionscadal bunaithe ar smaoineamh ansin, osclaítear an t-eagarthóir agus an smaoineamh sin le feiceáil sa bharra taoibh. Níos déanaí, bainfimid an rogha chun brabhsáil trí smaointe ón mbarra taoibh."
+  },
+  "ideas-moving-what-heading": {
+    "defaultMessage": "Cad atá ag athrú?"
+  },
+  "ideas-moving-when": {
+    "defaultMessage": "Bainfimid an rogha chun smaointe a bhrabhsáil ón mbarra taoibh i lár na bliana 2027."
+  },
+  "ideas-moving-when-heading": {
+    "defaultMessage": "Cathain?"
+  },
+  "ideas-moving-why": {
+    "defaultMessage": "Tá sé níos éasca brabhsáil trí smaointe ar an leathanach Baile. Má roghnaíonn tú smaoineamh, feicfidh tú réamhamharc air sula dtosaíonn tú, agus tá acmhainní agus gníomhaíochtaí eile ar an leathanach Baile chomh maith."
+  },
   "ideas-moving-why-heading": {
     "defaultMessage": "Cén fáth?"
   },
@@ -307,6 +385,12 @@
   },
   "insert-code-action": {
     "defaultMessage": "Ionsáigh cód"
+  },
+  "introducing-python-course-resource-description": {
+    "defaultMessage": "Cuirimid ár nEagarthóir Python i láthair, a chabhraíonn le foghlaimeoirí cód a scríobh don BBC micro:bit. Leagfaimid béim ar na gnéithe iontacha uile san eagarthóir, a thugann tacaíocht duit féin agus do do chuid foghlaimeoirí chun cód a scríobh don micro:bit go rathúil le Python."
+  },
+  "introducing-python-course-resource-title": {
+    "defaultMessage": "Ag tabhairt isteach Python agus an micro:bit (15 nóiméad)"
   },
   "language": {
     "defaultMessage": "Teanga"
@@ -332,6 +416,9 @@
   "load-error-makecode-link": {
     "defaultMessage": "Tabhair cuairt ar <link>https://makecode.microbit.org/</link> chun an comhad heicsidheachúlach seo a úsáid."
   },
+  "load-error-mixed": {
+    "defaultMessage": "Ní féidir comhad heics a iompórtáil ach ina aonar."
+  },
   "load-error-mpy": {
     "defaultMessage": "Ní thacaíonn an leagan seo den Eagarthóir Python le comhaid .mpy a chur leis faoi láthair."
   },
@@ -343,6 +430,9 @@
   },
   "loading": {
     "defaultMessage": "Ag lódáil…"
+  },
+  "manage-project-files-action": {
+    "defaultMessage": "Bainistigh comhaid tionscadail"
   },
   "mici-project-hot-potato-game-description": {
     "defaultMessage": "Seinn ‘práta te’ ag baint úsáide as micro:bit!"
@@ -386,6 +476,12 @@
   "mici-project-treasure-hunt-title": {
     "defaultMessage": "Tóraíocht taisce"
   },
+  "mici-projects-row-subtitle": {
+    "defaultMessage": "Tionscadail thapa Python chun cabhrú leat an leas is fearr a bhaint as gnéithe an micro:bit — agus spraoi a bheith agat!"
+  },
+  "mici-projects-row-title": {
+    "defaultMessage": "Déan é: tionscadail chódaithe"
+  },
   "microbit-classroom-resource-description": {
     "defaultMessage": "Seisiúin ranga iomlána a reáchtáil, cód a roinnt go héasca leis na daltaí agus dul chun cinn a shábháil"
   },
@@ -394,6 +490,12 @@
   },
   "microbit-hearts-alt": {
     "defaultMessage": "micro:bit leis an eangach 5 faoi 5 LED ag taispeáint croí"
+  },
+  "microbit-labelling-worksheet-resource-description": {
+    "defaultMessage": "Lipéadaigh gnéithe an micro:bit ar an mbileog oibre seo"
+  },
+  "microbit-labelling-worksheet-resource-title": {
+    "defaultMessage": "Bileog oibre lipéadaithe micro:bit"
   },
   "micropython-documentation": {
     "defaultMessage": "Doiciméadú MicroPython"
@@ -515,6 +617,15 @@
   "project-actions": {
     "defaultMessage": "Gníomhartha tionscadail"
   },
+  "project-deleted-elsewhere-description": {
+    "defaultMessage": "Scriosadh an tionscadal a raibh tú tar éis é a oscailt i gcluaisín nó i bhfuinneog eile."
+  },
+  "project-deleted-elsewhere-title": {
+    "defaultMessage": "Tionscadal scriosta"
+  },
+  "project-files-heading": {
+    "defaultMessage": "Comhaid tionscadail"
+  },
   "project-header": {
     "defaultMessage": "Ceanntásc an tionscadail"
   },
@@ -523,6 +634,18 @@
   },
   "project-storage-tooltip": {
     "defaultMessage": "Tá do shonraí sábháilte sa bhrabhsálaí seo ar an ngléas seo. Scriosfar iad má ghlanann tú fianáin nó sonraí suímh do bhrabhsálaí. Féadfaidh do bhrabhsálaí iad a bhaint go huathoibríoch freisin má tá easpa stórais ar do ghléas."
+  },
+  "python-editor-poster-creativity-resource-description": {
+    "defaultMessage": "Bain úsáid as smaointe, cód tagartha agus an insamhlóir chun a bheith cruthaitheach"
+  },
+  "python-editor-poster-creativity-resource-title": {
+    "defaultMessage": "Póstaeir chruthaitheachta Python"
+  },
+  "python-editor-poster-debugging-resource-description": {
+    "defaultMessage": "Aimsigh earráidí agus seachain botúin chlóscríofa agus tú ag códú"
+  },
+  "python-editor-poster-debugging-resource-title": {
+    "defaultMessage": "Póstaeir dífhabhtaithe Python"
   },
   "python-powered": {
     "defaultMessage": "Python faoi thiomáint"
@@ -547,6 +670,15 @@
   },
   "replace-action-label": {
     "defaultMessage": "Ionadaigh"
+  },
+  "resource-type-classroom-resource": {
+    "defaultMessage": "Acmhainn ranga"
+  },
+  "resource-type-professional-development": {
+    "defaultMessage": "Forbairt ghairmiúil"
+  },
+  "resource-type-teaching-tool": {
+    "defaultMessage": "Uirlis teagaisc"
   },
   "resource-type-unit-of-work": {
     "defaultMessage": "Aonad oibre"
@@ -988,6 +1120,24 @@
   },
   "welcome-video-alt": {
     "defaultMessage": "físeán ag tabhairt isteach Eagarthóir Python"
+  },
+  "whats-new-copy": {
+    "defaultMessage": "Is é comhad HEX a shábháil ar do ríomhaire an bealach is iontaofa chun cóip de do thionscadal a choinneáil."
+  },
+  "whats-new-copy-heading": {
+    "defaultMessage": "Coinnigh cóip"
+  },
+  "whats-new-home": {
+    "defaultMessage": "Do thionscadail, do chuid smaointe agus do chabhair, ar fad in aon áit amháin."
+  },
+  "whats-new-home-heading": {
+    "defaultMessage": "Leathanach baile nua"
+  },
+  "whats-new-projects": {
+    "defaultMessage": "Fanann do thionscadail sa bhrabhsálaí seo anois idir cuairteanna. Roghnaigh \"{viewAll}\" chun iad a aimsiú, a athainmniú agus a scriosadh."
+  },
+  "whats-new-title": {
+    "defaultMessage": "Cad atá nua san Eagarthóir Python"
   },
   "zoom-in-action": {
     "defaultMessage": "Zúmáil isteach"
