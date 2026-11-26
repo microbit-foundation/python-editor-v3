@@ -209,6 +209,9 @@
   "edit-project-name-crumb": {
     "defaultMessage": "{name}, bewerk projectnaam"
   },
+  "editor-title": {
+    "defaultMessage": "{projectName} – micro:bit Python Bewerker"
+  },
   "failed-to-build-hex": {
     "defaultMessage": "Het maken van het hex bestand is mislukt"
   },
@@ -242,6 +245,9 @@
   "files-tab": {
     "defaultMessage": "Bestanden"
   },
+  "files-tab-description": {
+    "defaultMessage": "Voeg Python-modules toe om micro:bit-accessoires te ondersteunen of organiseer grotere projecten"
+  },
   "firmware-update-link": {
     "defaultMessage": "Je moet <link>firmware updaten</link> voordat je verbinding kan maken met deze micro:bit."
   },
@@ -250,6 +256,9 @@
   },
   "firmware-update-title": {
     "defaultMessage": "Firmware update vereist"
+  },
+  "first-lessons-with-python-resource-description": {
+    "defaultMessage": "Verplaats van blocks naar tekst-gebaseerde codering met zes vertrouwde projecten"
   },
   "first-lessons-with-python-resource-title": {
     "defaultMessage": "Eerste lessen met Python en de micro:bit"
@@ -334,6 +343,30 @@
   },
   "ideas-moving-notice": {
     "defaultMessage": "Ideeën verplaatsen naar de startpagina. <link>Meer leren</link>"
+  },
+  "ideas-moving-questions": {
+    "defaultMessage": "Neem contact op met onze <link>ondersteuningssite</link>."
+  },
+  "ideas-moving-questions-heading": {
+    "defaultMessage": "Heeft u nog vragen?"
+  },
+  "ideas-moving-title": {
+    "defaultMessage": "Ideeën worden verplaatsen naar de startpagina"
+  },
+  "ideas-moving-what": {
+    "defaultMessage": "Ideeën staan nu ook op de startpagina. Wanneer je een project maakt vanuit een idee daar, opent de bewerker met dat idee in de zijbalk. Later zullen we de optie om te bladeren in de ideeën uit de zijbalk verwijderen."
+  },
+  "ideas-moving-what-heading": {
+    "defaultMessage": "Wat verandert er?"
+  },
+  "ideas-moving-when": {
+    "defaultMessage": "We zullen de optie om te bladeren in ideeën vanuit de zijbalk in midden 2027 verwijderen."
+  },
+  "ideas-moving-when-heading": {
+    "defaultMessage": "Wanneer?"
+  },
+  "ideas-moving-why": {
+    "defaultMessage": "Ideeën zijn makkelijker te bladeren op de Homepagina. Als je een idee selecteert, krijg je een voorbeeld te zien voordat je begint, en de Startpagina heeft ook andere bronnen en activiteiten."
   },
   "ideas-moving-why-heading": {
     "defaultMessage": "Waarom?"
