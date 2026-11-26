@@ -328,8 +328,8 @@
     "description": "Files tab button text. Tab shows the files in the project."
   },
   "files-tab-description": {
-    "defaultMessage": "Add Python modules to support micro:bit accessories or organise larger projects",
-    "description": "Files tab description text. Tab shows the files in the project."
+    "defaultMessage": "The main.py file is where your program starts. Add Python modules to support micro:bit accessories or organise larger projects.",
+    "description": "Files tab description text. Tab shows the files in the project. Keep \"main.py\" untranslated as it is the file name."
   },
   "firmware-update-link": {
     "defaultMessage": "You must <link>update your firmware</link> before you can connect to this micro:bit.",
