@@ -242,9 +242,6 @@
   "files-tab": {
     "defaultMessage": "ファイル"
   },
-  "files-tab-description": {
-    "defaultMessage": "micro:bitアクセサリーをサポートしたり、より大きなプロジェクトを導入するためにPythonモジュールを追加します"
-  },
   "firmware-update-link": {
     "defaultMessage": "このmicro:bitに接続するには、<link>ファームウェアを更新する</link>必要があります。"
   },

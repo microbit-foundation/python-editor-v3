@@ -246,7 +246,7 @@
     "defaultMessage": "Pliki"
   },
   "files-tab-description": {
-    "defaultMessage": "Dodaj moduły Python, aby wspierać akcesoria micro:bita lub organizować większe projekty"
+    "defaultMessage": "Plik main.py jest miejscem, w którym zaczyna się Twój program. Dodaj moduły Pythona, aby wspierać akcesoria micro:bita lub organizować większe projekty."
   },
   "firmware-update-link": {
     "defaultMessage": "Zanim będziesz mógł połączyć się z tym micro:bitem, musisz <link>zaktualizować oprogramowanie sprzętowe</link>."
