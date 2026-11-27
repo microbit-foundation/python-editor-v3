@@ -245,9 +245,6 @@
   "files-tab": {
     "defaultMessage": "Comhaid"
   },
-  "files-tab-description": {
-    "defaultMessage": "Cuir modúil Python leis chun tacú le gabhálais micro:bit nó chun tionscadail níos mó a eagrú"
-  },
   "firmware-update-link": {
     "defaultMessage": "Ní mór duit <link>do dochtearraí a nuashonrú</link> sular féidir leat ceangal leis an micro:bit seo."
   },

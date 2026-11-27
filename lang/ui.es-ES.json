@@ -246,7 +246,7 @@
     "defaultMessage": "Archivos"
   },
   "files-tab-description": {
-    "defaultMessage": "Añade módulos de Python para dar soporte a los accesorios de micro:bit u organizar proyectos más grandes"
+    "defaultMessage": "El archivo main.py es donde comienza tu programa. Agrega módulos de Python para dar soporte a los accesorios de micro:bit u organizar proyectos más grandes."
   },
   "firmware-update-link": {
     "defaultMessage": "Debes <link>actualizar el firmware</link> para poder conectar a este micro:bit."

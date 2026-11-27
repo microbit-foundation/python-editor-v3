@@ -245,9 +245,6 @@
   "files-tab": {
     "defaultMessage": "Bestanden"
   },
-  "files-tab-description": {
-    "defaultMessage": "Voeg Python-modules toe om micro:bit-accessoires te ondersteunen of organiseer grotere projecten"
-  },
   "firmware-update-link": {
     "defaultMessage": "Je moet <link>firmware updaten</link> voordat je verbinding kan maken met deze micro:bit."
   },
